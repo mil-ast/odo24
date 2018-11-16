@@ -1,0 +1,13 @@
+#content {
+    position:absolute;
+    top:58px;
+    left:0px;
+    bottom:0px;
+    grid-template-columns: 300px 400px 400px;
+}
+#selected_avto {
+    top:30px;
+}
+.empty_records {
+    padding:0px 0px 20px 30px;
+}

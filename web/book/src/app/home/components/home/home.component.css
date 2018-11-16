@@ -1,0 +1,103 @@
+@import "../../../../../node_modules/material-design-icons/iconfont/material-icons.css";
+
+:host {
+    display:grid;
+    position:relative;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    font-size:14px;
+    min-height:700px;
+    grid-template-rows: 1fr 60px;
+}
+.header {
+    display: block;
+    width: 100%;
+    height: 405px;
+    position: relative;
+    color: #fff;
+    background:
+        radial-gradient(#000 15%, transparent 16%) 0 0,
+        radial-gradient(#000 15%, transparent 16%) 8px 8px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-color:#213453;
+    background-size:15px 15px;
+    box-shadow: 0px 12px 30px rgba(33,52,83,0.8);
+}
+.logo__transparent {
+    position: absolute;
+    display:inline-block;
+    top:40px;
+    left:40px;
+    width:98px;
+    height:18px;
+    background: url("/assets/images/logo_transparent.png") no-repeat;
+}
+.header__b-title {
+    position:absolute;
+    width:700px;
+    top:120px;
+    left:50%;
+    margin-left:-350px;
+    text-align:center;
+}
+.header__title {
+    font-size:3em;
+    margin:0px;
+    padding:0px;
+    font-weight: normal;
+}
+
+.b_center {
+    position: absolute;
+    left:50%;
+    margin-left:-240px;
+    top:300px;
+    width:400px;
+    padding:40px;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.2);
+    background-color: #fff;
+}
+.b_center h3 {
+    font-weight: normal;
+    font-size:2em;
+    margin:0px 0px 40px 0px;
+    padding:0px;
+    position: relative;
+}
+.b_center h3 span {
+    padding:6px 0px 6px 40px;
+}
+.b_center h3 .mat-icon {
+    font-size:1.2em;
+    position: absolute;
+    top:0px;
+    left:0px;
+}
+#incorrect {
+    float: right;
+    color: #d34a12;
+    position: relative;
+}
+#incorrect .mat-icon {
+    position:absolute;
+    top: 6px;
+    left:0px;
+}
+.error__message {
+    display: inline-block;
+    padding:10px 0px 0px 30px;
+}
+
+footer {
+    position: relative;
+    background-color: #e98e69;
+    color:#ac6a50;
+    text-align: center;
+}
+footer .year {
+    display: inline-block;
+    padding-top:22px;
+}

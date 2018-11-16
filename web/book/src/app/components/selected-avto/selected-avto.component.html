@@ -1,0 +1,5 @@
+<img class="avatar__selected" decoding="async" *ngIf="model.avatar; else noPhoto" src="/api/images/medium/{{model.avto_id}}.jpg?t={{ model.avatar_time_cache }}" />
+<div class="avto__odo" *ngIf="model.odo > 0">Пробег {{ model.odo|number }} км</div>
+<ng-template #noPhoto>
+    <img class="avatar__selected avatar__selected__empty" decoding="async" src="/assets/images/no_photo.png" alt="Нет фото" />
+</ng-template>

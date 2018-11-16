@@ -1,0 +1,35 @@
+:host {
+    position:relative;
+    font-size: 0.96em;
+    color:#1f1f1f;
+}
+a.menu {
+    top:39px;
+}
+div.start {
+    grid-column: 1 / 3;
+    grid-row: 1;
+}
+div.end {
+    grid-column: 2 / 3;
+    grid-row: 1;
+}
+div.comment {
+    grid-column: 1 / 4;
+    grid-row: 2;
+    margin-top:10px;
+    white-space: pre-wrap;
+}
+
+span.title {
+    display:block;
+    font-size:14px;
+    color:#727272;
+    padding-bottom:10px;
+}
+span.value {
+    padding: 4px;
+    background-color: #f0f0f0;
+    width: 120px;
+    display: inline-block;
+}

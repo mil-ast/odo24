@@ -1,0 +1,43 @@
+.groups {
+    list-style: none;
+    margin:0px;
+    padding:0px;
+}
+
+.group_row {
+    border-top: 1px #e6e6e6 solid;
+    display:grid;
+    grid-template-columns: 1fr 40px;
+}
+
+.group_row a {
+    padding:20px 0px;
+    color:#333;
+    display:block;
+}
+.group_row a:hover {
+    color:#000;
+}
+.group_row__checked a {
+    color:#e98e69;
+}
+
+.group_row__count {
+    display:inline-block;
+    text-align: center;
+}
+.group_row__count i {
+    display:inline-block;
+    width:34px;
+    padding:4px 0px;
+    font-size:12px;
+    background-color: #eee;
+    border-radius: 10px;
+    margin-top:17px;
+    font-style: normal;
+}
+
+.group_row__checked .group_row__count i {
+    background-color: #e98e69;
+    color:#fff;
+}

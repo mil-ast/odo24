@@ -1,0 +1,29 @@
+<div>
+	<header class="header">
+		<a href="/" class="logo__transparent"></a>
+		<div class="header__b-title">
+			<h1 class="header__title">Своевременное обслуживание<br>автомобиля &mdash; легко!</h1>
+		</div>
+	</header>
+	<div class="b_center">
+		<h3><mat-icon>fingerprint</mat-icon><span>Авторизация</span></h3>
+		<form (submit)="SubmitLogin()">
+			<mat-form-field class="full_width">
+				<input [(ngModel)]="login" matInput placeholder="Логин" type="text" name="login" required />
+			</mat-form-field>
+			<mat-form-field class="full_width">
+				<input [(ngModel)]="password" matInput placeholder="Пароль" type="password" name="password" required />
+			</mat-form-field>
+			<div>
+				<button [disabled]="login=='' || password==''" mat-raised-button color="primary">ВОЙТИ</button>
+				<div id="incorrect" *ngIf="isIncorrect">
+					<mat-icon>error_outline</mat-icon>
+					<span class="error__message">Неправильный логин или пароль!</span>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<footer>
+	<span class="year">2018 Odometr.Online</span>
+</footer>

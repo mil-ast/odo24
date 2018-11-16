@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Добавить новую запись</h2>
+<mat-dialog-content>
+    <form [formGroup]="formCreateService" action="#" method="POST" (submit)="Submit()">
+        <div class="grid">
+            <mat-form-field class="full_width">
+                <input matInput autocomplete="off" required formControlName="odo" type="number" name="name" placeholder="Пробег" />
+                <mat-hint align="start"><strong>километров</strong></mat-hint>
+                <mat-error *ngIf="formCreateService.controls.odo.invalid">Должно быть целое положительное число</mat-error>
+            </mat-form-field>
+            <mat-form-field class="full_width">
+                <input matInput autocomplete="off" formControlName="next_odo" type="number" name="next_odo" placeholder="Следующий пробег" />
+                <mat-hint align="start"><strong>километров</strong></mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="grid">
+            <mat-form-field class="full_width">
+                <input class="full_width" formControlName="date" required matInput [matDatepicker]="date" placeholder="Дата обслуживания" />
+                <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                <mat-datepicker startView="year" #date></mat-datepicker>
+                <mat-error *ngIf="formCreateService.controls.date.invalid">Обязательно к заполнению</mat-error>
+            </mat-form-field>
+            <mat-form-field class="full_width">
+                <input matInput autocomplete="off" formControlName="price" type="number" name="price" placeholder="Стоимость обслуживания" />
+                <mat-hint align="start"><strong>рублей</strong></mat-hint>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="full_width">
+                <textarea formControlName="comment" #comment matInput placeholder="Примечание"></textarea>
+                <mat-hint align="start">Описание работ / материалов</mat-hint>
+                <mat-hint align="end">{{comment.value.length}} / 256</mat-hint>
+                <mat-error *ngIf="formCreateService.controls.comment.invalid">Не более 256 символов!</mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button [disabled]="formCreateService.invalid || formCreateService.disabled" mat-raised-button color="primary" (click)="Submit()">Добавить</button>
+    <button mat-button mat-dialog-close [mat-dialog-close]="null">Отмена</button>
+</mat-dialog-actions>

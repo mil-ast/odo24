@@ -1,0 +1,27 @@
+.services-list {
+    list-style: none;
+    margin:0px;
+    padding:0px;
+}
+
+.service_row {
+    display: grid;
+    grid-template-columns: 120px 120px 1fr;
+    grid-gap:10px;
+    border-top: 1px solid #e6e6e6;
+    position: relative;
+    height: 20px;
+    padding: 22px 10px 22px 0px;
+}
+.service_row__odo span:first-child {
+    font-size: 18px;
+    padding-right:4px;
+}
+
+.service_row__date span {
+    padding: 6px 10px;
+    background-color: #f0f0f0;
+    font-size: 14px;
+    position: relative;
+    top: 2px;
+}

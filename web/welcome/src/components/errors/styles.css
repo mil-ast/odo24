@@ -1,0 +1,10 @@
+.messageError {
+    color:#d02727;
+    padding:6px 0px 6px 30px;
+    position:relative;
+}
+.messageError .material-icons {
+    position:absolute;
+    top:1px;
+    left:0px;
+}

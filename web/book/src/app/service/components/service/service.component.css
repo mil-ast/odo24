@@ -1,0 +1,57 @@
+:host {
+    display:block;
+    border-top:1px #e6e6e6 solid;
+}
+
+:host > div {
+    position: relative;
+    height: 20px;
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: 140px 180px 1fr 40px;
+    padding: 22px 10px 22px 30px;
+}
+
+a.menu {
+    top:12px;
+    right:0px;
+}
+
+div.odo > span:first-child {
+    font-size:18px;
+    padding-right:4px;
+}
+div.odo > .prev {
+    padding: 2px 10px;
+    line-height: 16px;
+    font-size: 12px;
+    position: absolute;
+    bottom: -10px;
+    z-index: 2;
+    left: 30px;
+    background-color: #f1f1f1;
+    color: #757575;
+}
+
+div.odo > span:last-child {
+    color:#b3b3b3;
+}
+
+div.date > span {
+    padding:6px 10px;
+    background-color: #f0f0f0;
+    font-size:14px;
+    position: relative;
+    top: 2px;
+}
+
+div.comment {
+    font-size:14px;
+    white-space: pre-wrap;
+}
+
+.update_service {
+    right: 0px;
+    top: -10px;
+    min-width: 400px;
+}

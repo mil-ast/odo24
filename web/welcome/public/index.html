@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>ODO &mdash; сервисная книжка автомобиля онлайн</title>
+  <base href="/">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#db805c"/>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+</head>
+  <body>
+    <div id="header">
+        <a id="logo" href="/"></a>
+        <a id="goto_auth" href="/book/">
+            <i class="material-icons">account_circle</i>
+            <span>Авторизация</span>
+        </a>
+        <div class="header__title">
+            <h1>Сервисная книжка автомобиля онлайн!</h1>
+        </div>
+        <div id="auth">
+            <div class="form-block">
+                <h3 class="form-block__title">
+                    <i class="material-icons">fingerprint</i>
+                    <span>Регистрация</span>
+                </h3>
+                <div id="register_steps"></div>
+            </div>
+        </div>
+    </div>
+    <div id="promo">
+        <div class="promo__row">
+            <article class="promo__article">
+                <h3 class="promo__article__title">
+                    <i class="material-icons">wifi</i>
+                    <span>Сервисная книжка онлайн</span>
+                </h3>
+                <p class="promo__descript">Вся история обслуживания Вашего авто находится в &laquo;облаке&raquo; и не стоит опасаться, что она потеряется или закончится</p>
+            </article>
+            <article class="promo__article">
+                <h3 class="promo__article__title">
+                    <i class="material-icons">date_range</i>
+                    <span>Планирование обслуживания</span>
+                </h3>
+                <p class="promo__descript">Вы всегда можете узнать, сколько осталось до следующего обслуживания авто, а так же всегда видеть интервал между заменами</p>
+            </article>
+            <article class="promo__article">
+                <h3 class="promo__article__title">
+                    <i class="material-icons">bookmark_border</i>
+                    <span>Важные напоминания</span>
+                </h3>
+                <p class="promo__descript">Теперь можно настроить напоминания о дате завершения действия страховки или ВУ, а так же добавлять примечания по проделанным работам</p>
+            </article>
+            <article class="promo__article">
+                <h3 class="promo__article__title">
+                    <i class="material-icons">credit_card</i>
+                    <span>Сервис бесплатный</span>
+                </h3>
+                <p class="promo__descript">Данной электронной сервисной книжкой можно пользоваться абсолютно бесплатно и здень нет посторонней рекламы</p>
+            </article>
+        </div>
+    </div>
+    <footer>
+        <span class="footer_date">2018 Odometr.Online</span>
+    </footer>
+    <template id="tpl_form_email">
+        <form id="auth_form" action="#" method="POST">
+            <div class="form__row">
+                <input autofocus tabindex="1" class="form__input" type="text" name="login" required placeholder="E-mail" />
+            </div>
+            <div class="form__row form__row_grid">
+                <input  tabindex="2" class="form__input" type="password" name="password" required placeholder="Новый пароль" />
+                <input  tabindex="3" class="form__input" type="password" name="password2" required placeholder="Пароль ещё раз" />
+            </div>
+            <div class="form__row form__row_grid">
+                <button tabindex="4" class="form__button" class="">Дальше</button>
+                <div>
+                    <span class="step">
+                        <span>Шаг</span>
+                        <span>1</span>
+                        <span>из 2</span>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </template>
+    <template id="tpl_form_confirm_email">
+        <form id="auth_form_confirm" action="#" method="POST">
+            <div class="form__row">
+                <p class="description">
+                    На <b id="conform_email"></b> был отправлен код подтверждения.<br>
+                    Введите его в поле ниже для заврешения регистрации.
+                </p>
+            </div>
+            <div class="form__row">
+                <input autofocus tabindex="1" class="form__input" type="number" name="code" required placeholder="Код подтверждения" />
+            </div>
+            <div class="form__row form__row_grid">
+                <button tabindex="2" class="form__button" class="">Завершить</button>
+                <div>
+                    <a id="button_prev" class="button-back" href="#"><i class="material-icons">keyboard_arrow_left</i><span>Назад</span></a>
+                    <span class="step">
+                        <span>Шаг</span>
+                        <span>2</span>
+                        <span>из 2</span>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </template>
+    <template id="tpl_messages">
+        <div id="msg_login_is_busy">Такой логин уже существует!</div>
+    </template>
+  </body>
+</html>

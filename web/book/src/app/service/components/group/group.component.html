@@ -1,0 +1,13 @@
+<a class="item" [class.user]="model.own==='USER'" href="#" (click)="ClickSelectGroup()">
+    <span>{{ model.name }}</span>
+    <span class="count">{{ model.services.length }}</span>
+</a>
+<a *ngIf="model.own === 'USER'" mat-icon-button [matMenuTriggerFor]="menu" class="menu"></a>
+<mat-menu #menu="matMenu">
+	<a mat-menu-item class="update" (click)="ShowFormUpdateGroup()">
+		<span>Изменить</span>
+	</a>
+	<a mat-menu-item class="delete" (click)="ClickDelete()">
+		<span>Удалить</span>
+	</a>
+</mat-menu>

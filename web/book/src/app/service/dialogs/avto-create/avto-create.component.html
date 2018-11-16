@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Добавить новое авто</h2>
+<mat-dialog-content>
+    <form action="#" [formGroup]="formCreateAvto">
+        <mat-form-field class="full_width">
+            <input matInput placeholder="Название авто" maxlength="255" required autocomplete="off" formControlName="name" type="text" name="name">
+            <mat-error *ngIf="formCreateAvto.controls.name.invalid"></mat-error>
+            <mat-hint align="end">{{formCreateAvto.controls.name.value?.length || 0}}/255</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="full_width">
+            <input matInput placeholder="Текущий пробег" min="255" autocomplete="off" formControlName="odo" type="number" name="odo">
+            <mat-error *ngIf="formCreateAvto.controls.odo.invalid"></mat-error>
+            <mat-hint align="end">километров</mat-hint>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button [disabled]="formCreateAvto.invalid || formCreateAvto.disabled" mat-raised-button color="primary" (click)="Submit()">Добавить</button>
+    <button mat-button mat-dialog-close [mat-dialog-close]="null">Отмена</button>
+</mat-dialog-actions>

@@ -1,0 +1,18 @@
+{
+	"app" : {
+		"server_addr" : "127.0.0.1:8000",
+		"imageMagick" : "convert",
+		"smtp_host" : "smtp.gmail.com",
+		"smtp_port" : 587,
+		"smtp_from" : "odometer.online@gmail.com",
+		"smtp_password" : "Dhfuytghjqltn1"
+	},
+	"db" : {
+		"driver_name" : "mysql",
+		"name" : "car_reminder",
+		"data_source" : "root:123321@tcp(127.0.0.1:3306)",
+		"max_idle_conns" : 100,
+		"max_open_conns" : 50,
+		"timeout" : "90s"
+	}
+}

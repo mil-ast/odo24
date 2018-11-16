@@ -1,0 +1,17 @@
+.avatar__selected {
+    position:absolute;
+    left:28px;
+    top:0px;
+    border:1px transparent solid;
+}
+.avatar__selected__empty {
+    border-color: #e6e6e6;
+}
+
+.avto__odo {
+    position:absolute;
+    right:32px;
+    bottom:32px;
+    font-size:0.8em;
+    color:#5a5a5a;
+}
