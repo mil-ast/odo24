@@ -176,7 +176,8 @@ func Profile_login(w http.ResponseWriter, r *http.Request) {
 
 		err := json.Unmarshal(buf.Bytes(), &profile)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		// auth
@@ -187,7 +188,8 @@ func Profile_login(w http.ResponseWriter, r *http.Request) {
 
 			data, err := json.Marshal(profile)
 			if err != nil {
-				panic(err)
+				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+				return
 			}
 
 			w.Write(data)
@@ -198,7 +200,8 @@ func Profile_login(w http.ResponseWriter, r *http.Request) {
 			case "incorrect login", "user is not exists", "incorrect password":
 				w.WriteHeader(403)
 			default:
-				panic(err)
+				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+				return
 			}
 		}
 	default:

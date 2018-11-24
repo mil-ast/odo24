@@ -10,7 +10,8 @@ import (
 	"runtime"
 	"sto/server/config"
 	"sto/server/handlers"
-	"sto/server/reminder"
+
+	//"sto/server/reminder"
 	"syscall"
 	"time"
 
@@ -35,6 +36,21 @@ func main() {
 		return
 	}
 
+	/*psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+	    "password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+		db, err := sql.Open("postgres", psqlInfo)
+		if err != nil {
+			panic(err)
+		}
+		defer db.Close()
+
+
+
+
+		return*/
+
 	log.Println("Start...")
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
@@ -42,6 +58,7 @@ func main() {
 	options := config.GetInstance()
 	options.App.Version = VERSION
 
+	log.Print("Create DB connection... ")
 	_, err := db.CreateConnection(db.Options{
 		DriverName:     options.Db.Driver_name,
 		DataSourceName: options.Db.Data_source,
@@ -53,9 +70,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("OK!")
 
 	// запуск сервиса напоминаний
-	go reminder.Start()
+	// go reminder.Start()
 
 	// актуальность сессии
 	sessions.SetMaxLifeTime(time.Minute * 20)
@@ -67,16 +85,16 @@ func main() {
 	http.HandleFunc("/api/profile/logout", handlers.Profile_logout)
 	http.HandleFunc("/api/profile", handlers.Profile)
 	// авто
-	http.HandleFunc("/api/avto", handlers.Avto)
-	http.HandleFunc("/api/avto/public/", handlers.AvtoPublic)
+	//http.HandleFunc("/api/avto", handlers.Avto)
+	//http.HandleFunc("/api/avto/public/", handlers.AvtoPublic)
 	// группы
-	http.HandleFunc("/api/groups", handlers.Groups)
-	http.HandleFunc("/api/groups/public/", handlers.GroupsPublic)
+	//http.HandleFunc("/api/groups", handlers.Groups)
+	//http.HandleFunc("/api/groups/public/", handlers.GroupsPublic)
 	// сервисы
-	http.HandleFunc("/api/services", handlers.Services)
-	http.HandleFunc("/api/services/public/", handlers.ServicesPublic)
+	//http.HandleFunc("/api/services", handlers.Services)
+	//http.HandleFunc("/api/services/public/", handlers.ServicesPublic)
 	// напоминания
-	http.HandleFunc("/api/reminding", handlers.Reminding)
+	//http.HandleFunc("/api/reminding", handlers.Reminding)
 	// фото авто
 	http.HandleFunc("/api/images/", handlers.Images)
 

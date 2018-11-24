@@ -8,9 +8,9 @@
 		"smtp_password" : "Dhfuytghjqltn1"
 	},
 	"db" : {
-		"driver_name" : "mysql",
-		"name" : "car_reminder",
-		"data_source" : "root:123321@tcp(127.0.0.1:3306)",
+		"driver_name" : "postgres",
+		"name" : "cars",
+		"data_source" : "host=217.150.78.39 port=5432 user=postgreadmin password=Dhfuytghjqltn1 dbname=postgres sslmode=disable",
 		"max_idle_conns" : 100,
 		"max_open_conns" : 50,
 		"timeout" : "90s"

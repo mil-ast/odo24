@@ -1,9 +1,7 @@
 package models
 
 import (
-	"bytes"
 	"crypto/sha256"
-	"database/sql"
 	"errors"
 	"fmt"
 	"log"
@@ -33,51 +31,34 @@ type Profile struct {
 /*
 	авторизация
 */
-func (this *Profile) Auth() error {
-	if this.Password == "" {
+func (p *Profile) Auth() error {
+	if p.Password == "" {
 		return errors.New("no password is set")
 	}
-	if this.Login == "" {
+	if p.Login == "" {
 		return errors.New("login is not specified")
 	}
-
-	h := sha256.New()
-	h.Write([]byte(this.Password))
-	byte_hash := h.Sum(nil)
-
-	// очищаем пароль
-	this.Password = ""
 
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err
 	}
 
-	var query_sql string = "SELECT `user_id`,`password_hash`,`phone`,`time_zone` FROM `users` WHERE `login`=?"
-	row := conn.QueryRow(query_sql, this.Login)
+	sqlQuery := "select * from cars.getprofile($1, $2::bytea);"
+	row := conn.QueryRow(sqlQuery, p.Login, p.Password)
+	err = row.Scan(&p.Login, &p.User_id)
 
-	var query_hash []byte
-	var null_phone sql.NullInt64
+	// очистим пароль чтобы не возвращать на клиент
+	p.Password = ""
 
-	err = row.Scan(&this.User_id, &query_hash, &null_phone, &this.Time_zone)
 	if err != nil {
+		log.Println(err)
 		return errors.New("incorrect login")
 	}
 
-	if this.User_id == 0 {
+	if p.User_id == 0 {
 		return errors.New("user is not exists")
 	}
-
-	if bytes.Compare(query_hash, byte_hash) != 0 {
-		return errors.New("incorrect password")
-	}
-
-	if null_phone.Int64 != 0 {
-		this.Phone = uint64(null_phone.Int64)
-	}
-
-	query_sql = "UPDATE `users` SET `last accessed`=? WHERE `user_id`=?"
-	go conn.Exec(query_sql, time.Now().Format("2006-01-02"), this.User_id)
 
 	return nil
 }
