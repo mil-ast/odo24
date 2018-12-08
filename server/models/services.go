@@ -40,18 +40,18 @@ func (l Services_list) Get() ([]Service, error) {
 	}
 
 	var sql_where_field string
-	var query_id uint64
+	var queryID uint64
 
 	if l.User_id > 0 {
 		sql_where_field = "user_id"
-		query_id = l.User_id
+		queryID = l.User_id
 	} else {
 		sql_where_field = "avto_id"
-		query_id = l.Avto_id
+		queryID = l.Avto_id
 	}
 
-	query_sql := "SELECT `service_id`,`avto_id`,`group_id`,`odo`,`next_odo`,`date`,`comment`,`price` FROM `services` WHERE `%s`=?"
-	rows, err := conn.Query(fmt.Sprintf(query_sql, sql_where_field), query_id)
+	querySQL := "SELECT service_id,avto_id,group_id,odo,next_odo,date,comment,price FROM services WHERE %s=$1"
+	rows, err := conn.Query(fmt.Sprintf(querySQL, sql_where_field), queryID)
 	if err != nil {
 		return nil, err
 	}

@@ -36,8 +36,8 @@ func (l Avto_list) Get() ([]Avto, error) {
 		return nil, err
 	}
 
-	query_sql := "SELECT `avto_id`,`name`,`odo`,`avatar` FROM `avto` WHERE `user_id`=?"
-	rows, err := conn.Query(query_sql, l.User_id)
+	querySQL := "SELECT avto_id,name,odo,avatar FROM cars.avto WHERE user_id=$1"
+	rows, err := conn.Query(querySQL, l.User_id)
 	if err != nil {
 		log.Println(err)
 		return nil, err

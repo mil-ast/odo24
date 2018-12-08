@@ -3,7 +3,6 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
-	"log"
 	"net/http"
 	"sto/server/models"
 
@@ -14,13 +13,6 @@ import (
 	подтверждение почты
 */
 func ProfileConfirmEmail(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	profile := models.Profile{}
 
 	var buf bytes.Buffer
@@ -28,7 +20,8 @@ func ProfileConfirmEmail(w http.ResponseWriter, r *http.Request) {
 
 	err := json.Unmarshal(buf.Bytes(), &profile)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	err = profile.ConfirmEmail()
@@ -38,7 +31,8 @@ func ProfileConfirmEmail(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, http.StatusText(409), 409)
 			return
 		default:
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 	}
 
@@ -49,13 +43,6 @@ func ProfileConfirmEmail(w http.ResponseWriter, r *http.Request) {
 	регистрация
 */
 func Profile_register(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 	profile := models.Profile{}
@@ -65,12 +52,14 @@ func Profile_register(w http.ResponseWriter, r *http.Request) {
 
 	err := json.Unmarshal(buf.Bytes(), &profile)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	err = profile.Register()
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	// сразу авторизовываем
@@ -80,7 +69,8 @@ func Profile_register(w http.ResponseWriter, r *http.Request) {
 
 	data, err := json.Marshal(profile)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	w.WriteHeader(201)
@@ -91,13 +81,6 @@ func Profile_register(w http.ResponseWriter, r *http.Request) {
 	текущий профиль пользователя
 **/
 func Profile(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	ses := sessions.Get(w, r)
 
 	if !ses.GetBool("auth") {
@@ -111,7 +94,8 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		data, err := json.Marshal(ses.Get("profile").(models.Profile))
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		w.Write(data)
@@ -123,7 +107,8 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 		var empty_profile map[string]interface{} = make(map[string]interface{})
 		err := json.Unmarshal(buf.Bytes(), &empty_profile)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		var password string
@@ -136,14 +121,16 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 
 		err = profile.Save(password)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		ses.Set("profile", profile)
 
 		data, err := json.Marshal(profile)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		w.WriteHeader(202)
@@ -157,13 +144,6 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 	авторизация
 **/
 func Profile_login(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println("Login", err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	ses := sessions.Get(w, r)
 
@@ -213,13 +193,6 @@ func Profile_login(w http.ResponseWriter, r *http.Request) {
 	выход из профиля
 **/
 func Profile_logout(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println("Logout", err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	ses := sessions.Get(w, r)
 
 	sessions.Delete(w, r)

@@ -1,16 +1,8 @@
 package handlers
 
-import (
-	"encoding/json"
-	"log"
-	"net/http"
-	"sto/server/models"
-	"strconv"
-)
-
 /**
 	публичные группы
-**/
+
 func GroupsPublic(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		if err := recover(); err != nil {
@@ -43,3 +35,4 @@ func GroupsPublic(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(data)
 }
+**/

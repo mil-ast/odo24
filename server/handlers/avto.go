@@ -15,13 +15,6 @@ import (
 	авто текущего пользователя
 **/
 func Avto(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	ses := sessions.Get(w, r)
 
 	if !ses.GetBool("auth") {
@@ -39,12 +32,14 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 		list, err := listAvto.Get()
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		data, err := json.Marshal(list)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.Write(data)
@@ -56,19 +51,22 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 		err := json.Unmarshal(buf.Bytes(), &avto)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		avto.User_id = profile.User_id
 
 		err = avto.Create()
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		data, err := json.Marshal(avto)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.WriteHeader(201)
@@ -85,12 +83,14 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 		avto_id, err := strconv.ParseUint(form_avto_id, 10, 64)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		odo, err := strconv.ParseUint(form_odo, 10, 32)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		avto := models.Avto{
@@ -106,7 +106,8 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 			err = avto.FileUpload(file, handler)
 			if err != nil {
-				panic(err)
+				log.Println(err)
+				http.Error(w, http.StatusText(500), 500)
 			}
 
 			avto.Avatar = true
@@ -114,12 +115,14 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 		err = avto.Update()
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		data, err := json.Marshal(avto)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.WriteHeader(202)
@@ -133,7 +136,8 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 		avto_id, err := strconv.ParseUint(get_avto_id, 10, 64)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		avto := models.Avto{
@@ -143,7 +147,8 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 		err = avto.Delete()
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.WriteHeader(204)

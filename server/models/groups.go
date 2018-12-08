@@ -1,7 +1,6 @@
 package models
 
 import (
-	"errors"
 	"log"
 
 	"github.com/mil-ast/db"
@@ -11,7 +10,7 @@ type Group struct {
 	Group_id uint64 `json:"group_id"`
 	Name     string `json:"name"`
 	Order    uint16 `json:"order"`
-	Own      string `json:"own"`
+	Global   bool   `json:"global"`
 	User_id  uint64 `json:"user_id,omitempty"`
 }
 
@@ -29,7 +28,7 @@ func (l Groups_list) Get() ([]Group, error) {
 		return nil, err
 	}
 
-	query_sql := "SELECT `group_id`,`name`,`order`,`own` FROM `groups` WHERE `user_id` IN ('0', ?)"
+	query_sql := "SELECT group_id,name,sort,global FROM cars.groups WHERE user_id IN ('0',$1)"
 	rows, err := conn.Query(query_sql, l.User_id)
 	if err != nil {
 		log.Println(err)
@@ -39,19 +38,19 @@ func (l Groups_list) Get() ([]Group, error) {
 	var (
 		group_id uint64
 		name     string
-		order    uint16
-		own      string
+		sort     uint16
+		global   bool
 	)
 	var responce []Group
 
 	for rows.Next() {
-		rows.Scan(&group_id, &name, &order, &own)
+		rows.Scan(&group_id, &name, &sort, &global)
 
 		responce = append(responce, Group{
 			Group_id: group_id,
 			Name:     name,
-			Order:    order,
-			Own:      own,
+			Order:    sort,
+			Global:   global,
 		})
 	}
 	rows.Close()
@@ -66,7 +65,7 @@ func (l Groups_list) Get() ([]Group, error) {
 
 /*
 	получить открытый список пользователя
-*/
+
 func (l Groups_list) GetPublic(avto_id uint64) ([]Group, error) {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -111,7 +110,7 @@ func (l Groups_list) GetPublic(avto_id uint64) ([]Group, error) {
 
 	return responce, nil
 }
-
+*/
 /*
 	создание группы
 */
@@ -123,22 +122,22 @@ func (g *Group) Create() error {
 	}
 
 	g.Order = 10
-	g.Own = "USER"
+	g.Global = false
 
-	query_sql := "INSERT INTO `groups` SET `user_id`=?,`name`=?,`order`=?,`own`=?"
-	result, err := conn.Exec(query_sql, g.User_id, g.Name, g.Order, g.Own)
+	querySQL := "cars.creategroup($1,$2)"
+	result, err := conn.Exec(querySQL, g.User_id, g.Name)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 
-	last_id, err := result.LastInsertId()
+	lastID, err := result.LastInsertId()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 
-	g.Group_id = uint64(last_id)
+	g.Group_id = uint64(lastID)
 
 	return nil
 }
@@ -153,14 +152,8 @@ func (g *Group) Update() error {
 		return err
 	}
 
-	err = g.checkOwn()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	query_sql := "UPDATE `groups` SET `name`=? WHERE `group_id`=?"
-	_, err = conn.Exec(query_sql, g.Name, g.Group_id)
+	querySQL := "cars.updategroup($1,$2,$3)"
+	_, err = conn.Exec(querySQL, g.Group_id, g.User_id, g.Name)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -179,63 +172,11 @@ func (g *Group) Delete() error {
 		return err
 	}
 
-	err = g.checkOwn()
+	querySQL := "cars.deletegroup($1,$2)"
+	_, err = conn.Exec(querySQL, g.Group_id, g.User_id)
 	if err != nil {
 		log.Println(err)
 		return err
-	}
-
-	tx, err := conn.Begin()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	query_sql := "DELETE FROM `services` WHERE `group_id`=?"
-	_, err = tx.Exec(query_sql, g.Group_id)
-	if err != nil {
-		log.Println(err)
-		tx.Rollback()
-		return err
-	}
-
-	query_sql = "DELETE FROM `groups` WHERE `group_id`=?"
-	_, err = tx.Exec(query_sql, g.Group_id)
-	if err != nil {
-		log.Println(err)
-		tx.Rollback()
-		return err
-	}
-
-	err = tx.Commit()
-	if err != nil {
-		log.Println(err)
-		tx.Rollback()
-		return err
-	}
-
-	return nil
-}
-
-func (g Group) checkOwn() error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
-
-	query_sql := "SELECT `group_id`,`user_id` FROM `groups` WHERE `group_id`=?"
-	row := conn.QueryRow(query_sql, g.Group_id)
-
-	var group_id, user_id uint64
-
-	row.Scan(&group_id, &user_id)
-	if group_id == 0 {
-		return errors.New("not found")
-	}
-
-	if g.User_id != user_id {
-		log.Println("not the owner")
-		return errors.New("not the owner")
 	}
 
 	return nil
