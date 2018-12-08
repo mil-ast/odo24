@@ -1,6 +1,7 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs/Rx';
 
 import { AvtoService } from '../../../_services/avto.service';
 import { GroupsService } from '../../services/groups.service';
@@ -41,7 +42,7 @@ export class MainComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		Observable.forkJoin(
+		observableForkJoin(
 			this.avtoService.Get(),
 			this.groupsService.Get(),
 			this.servicesService.Get()

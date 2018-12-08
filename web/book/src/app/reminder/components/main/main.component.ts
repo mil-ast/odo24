@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable, forkJoin } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { AvtoService } from '../../../_services/avto.service';
 import { ReminderService } from '../../services/reminders.service';
@@ -34,7 +34,7 @@ export class MainComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		Observable.forkJoin(
+		forkJoin(
 			this.avtoService.Get(),
 			this.reminderService.Get()
 		).subscribe((res: any[]) => {
