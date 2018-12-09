@@ -9,9 +9,9 @@ import { Reminder } from '../../classes/reminder';
 import { DialogReminderCreateComponent } from '../../dialogs/reminder-create/reminder-create.component';
 
 @Component({
-	selector: 'app-main',
-	templateUrl: './main.component.html',
-	styleUrls: [
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrls: [
 		'../../../_css/list_avto.css',
 		'../../../_css/columns.css',
         '../../css/list.css',
@@ -24,7 +24,7 @@ export class MainComponent implements OnInit {
 	drivers_license: Reminder[] = [];
 
 	selected_avto: Avto = null;
-	isSync: boolean = true;
+	isSync = true;
 
 	constructor(
 		public dialog: MatDialog,
@@ -48,10 +48,10 @@ export class MainComponent implements OnInit {
 				return;
 			}
 
-			let selected_vato_id: number = 0;
+			let selected_vato_id = 0;
 			const storage_avto_id: string = localStorage.getItem('avto_id');
 			if (storage_avto_id !== null) {
-				selected_vato_id = parseInt(storage_avto_id)|0;
+				selected_vato_id = parseInt(storage_avto_id, 10)|0;
 			}
 
 			for (let i = 0; i < avto.length; i++) {

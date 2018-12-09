@@ -18,8 +18,8 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 	ses := sessions.Get(w, r)
 
 	if !ses.GetBool("auth") {
-		//http.Error(w, http.StatusText(403), 403)
-		//return
+		http.Error(w, http.StatusText(403), 403)
+		return
 	}
 
 	profile := ses.Get("profile").(models.Profile)

@@ -15,13 +15,6 @@ import (
 	группы
 **/
 func Groups(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	ses := sessions.Get(w, r)
 
 	if !ses.GetBool("auth") {
@@ -33,18 +26,20 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		list_groups := models.Groups_list{
+		listGroups := models.Groups_list{
 			User_id: profile.User_id,
 		}
 
-		list, err := list_groups.Get()
+		list, err := listGroups.Get()
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		data, err := json.Marshal(list)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.Write(data)
@@ -56,19 +51,22 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 
 		err := json.Unmarshal(buf.Bytes(), &group)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		group.User_id = profile.User_id
 
 		err = group.Create()
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		data, err := json.Marshal(group)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.WriteHeader(201)
@@ -81,7 +79,8 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 
 		err := json.Unmarshal(buf.Bytes(), &group)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		group.User_id = profile.User_id
@@ -96,13 +95,15 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, http.StatusText(403), 403)
 				return
 			default:
-				panic(err)
+				log.Println(err)
+				http.Error(w, http.StatusText(500), 500)
 			}
 		}
 
 		data, err := json.Marshal(group)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.WriteHeader(202)
@@ -116,7 +117,8 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 
 		group_id, err := strconv.ParseUint(get_group_id, 10, 64)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		group := models.Group{
@@ -134,7 +136,8 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, http.StatusText(403), 403)
 				return
 			default:
-				panic(err)
+				log.Println(err)
+				http.Error(w, http.StatusText(500), 500)
 			}
 		}
 

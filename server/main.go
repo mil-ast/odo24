@@ -73,10 +73,10 @@ func main() {
 	http.HandleFunc("/api/avto", handlers.Avto)
 	//http.HandleFunc("/api/avto/public/", handlers.AvtoPublic)
 	// группы
-	//http.HandleFunc("/api/groups", handlers.Groups)
+	http.HandleFunc("/api/groups", handlers.Groups)
 	//http.HandleFunc("/api/groups/public/", handlers.GroupsPublic)
 	// сервисы
-	//http.HandleFunc("/api/services", handlers.Services)
+	http.HandleFunc("/api/services", handlers.Services)
 	//http.HandleFunc("/api/services/public/", handlers.ServicesPublic)
 	// напоминания
 	//http.HandleFunc("/api/reminding", handlers.Reminding)

@@ -11,7 +11,7 @@ import {
     HttpHandler,
     HttpRequest
 } from '@angular/common/http';
-    
+
 @Injectable()
 export class HTTPRequestsInterceptor implements HttpInterceptor {
     constructor(

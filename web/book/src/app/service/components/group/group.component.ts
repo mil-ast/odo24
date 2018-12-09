@@ -11,51 +11,51 @@ import { DialogGroupUpdateComponent } from '../../dialogs/group-update/group-upd
   styleUrls: ['../../../_css/list_styles.css', './group.component.css']
 })
 export class GroupComponent {
-	@Input() model: Group;
-	@Output() selectGroupEvent: EventEmitter<Group> = new EventEmitter();
-	@Output() deleteGroupEvent: EventEmitter<Group> = new EventEmitter();
+  @Input() model: Group;
+  @Output() selectGroupEvent: EventEmitter<Group> = new EventEmitter();
+  @Output() deleteGroupEvent: EventEmitter<Group> = new EventEmitter();
 
-	constructor(
-		public dialogAvtoUpdate: MatDialog,
-		private serviceGroup: GroupsService,
-	) {}
+  constructor(
+    public dialogAvtoUpdate: MatDialog,
+    private serviceGroup: GroupsService,
+  ) { }
 
-	ClickSelectGroup() {
-		this.selectGroupEvent.emit(this.model);
-		return false;
-	}
+  ClickSelectGroup() {
+    this.selectGroupEvent.emit(this.model);
+    return false;
+  }
 
-	ShowFormUpdateGroup() {
-        const dialogRef = this.dialogAvtoUpdate.open(DialogGroupUpdateComponent, {
-            width: '400px',
-            position: {
-                top: '200px',
-                left: '300px',
-            },
-            data: this.model
-        });
+  ShowFormUpdateGroup() {
+    const dialogRef = this.dialogAvtoUpdate.open(DialogGroupUpdateComponent, {
+      width: '400px',
+      position: {
+        top: '200px',
+        left: '300px',
+      },
+      data: this.model
+    });
 
-        dialogRef.afterClosed().subscribe((result: Group) => {});
-		
-		return false;
-	}
+    dialogRef.afterClosed().subscribe((result: Group) => { });
 
-	/* удалить группу */
-	ClickDelete() {
-		if (!confirm('Удалить группу и все её записи?')) {
-			return false;
-		}
+    return false;
+  }
 
-		const req = this.serviceGroup.Delete(this.model.group_id);
-		req.subscribe(() => {
-			// очистим сервисы
-			this.model.services = [];
-			// удалим из списка
-			this.deleteGroupEvent.emit(this.model);
-		}, (err) => {
-			console.error(err);
-		});
+  /* удалить группу */
+  ClickDelete() {
+    if (!confirm('Удалить группу и все её записи?')) {
+      return false;
+    }
 
-		return false;
-	}
+    const req = this.serviceGroup.Delete(this.model.group_id);
+    req.subscribe(() => {
+      // очистим сервисы
+      this.model.services = [];
+      // удалим из списка
+      this.deleteGroupEvent.emit(this.model);
+    }, (err) => {
+      console.error(err);
+    });
+
+    return false;
+  }
 }

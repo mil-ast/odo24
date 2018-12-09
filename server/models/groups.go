@@ -28,7 +28,7 @@ func (l Groups_list) Get() ([]Group, error) {
 		return nil, err
 	}
 
-	query_sql := "SELECT group_id,name,sort,global FROM cars.groups WHERE user_id IN ('0',$1)"
+	query_sql := `SELECT group_id, "name", sort, "global" FROM cars."groups" WHERE user_id IN ('0',$1)`
 	rows, err := conn.Query(query_sql, l.User_id)
 	if err != nil {
 		log.Println(err)

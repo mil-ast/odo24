@@ -50,7 +50,7 @@ func (l Services_list) Get() ([]Service, error) {
 		queryID = l.Avto_id
 	}
 
-	querySQL := "SELECT service_id,avto_id,group_id,odo,next_odo,date,comment,price FROM services WHERE %s=$1"
+	querySQL := `SELECT service_id,avto_id,group_id, odo,next_odo,"date","comment",price FROM cars.services WHERE %s=$1`
 	rows, err := conn.Query(fmt.Sprintf(querySQL, sql_where_field), queryID)
 	if err != nil {
 		return nil, err
