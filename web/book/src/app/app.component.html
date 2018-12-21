@@ -6,7 +6,7 @@
 	</nav>
 	<div id="profile">
 		<a href="#" (click)="ShowProfile(true)">{{ profile_login }}</a>
-		<div *ngIf="is_profile" id="profile_menu">
+		<div *ngIf="isProfile" id="profile_menu">
             <div class="form">
                 <h1>Изменить пароль</h1>
                 <form action="#" method="PUT" (submit)="SubmitUpdateFrofile()" (reset)="ShowProfile(false)">

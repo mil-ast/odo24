@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     profile_login: string = null;
     password = '';
     password2 = '';
-    is_profile = false;
+    isProfile = false;
 
     ngOnInit() {
         this.profileService.profile$.pipe(
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
         скрыть/показать профиль
     */
     ShowProfile(event) {
-        this.is_profile = event;
+        this.isProfile = event;
         return false;
     }
 
