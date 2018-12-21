@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
+import { first } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
@@ -16,18 +16,17 @@ export class AppComponent implements OnInit {
     ) { }
 
     profile_login: string = null;
-    password: string = '';
-    password2: string = '';
-    is_profile: boolean = false;
+    password = '';
+    password2 = '';
+    is_profile = false;
 
     ngOnInit() {
-        // проверяем регистрацию
-        this.profileService.sync();
-
-        // подписка на профиль
-        this.profileService.GetProfile().subscribe((profile: Profile) => {
-            if (profile !== null) {
-                this.profile_login = profile.login || null;
+        this.profileService.profile$.pipe(
+            first()
+        ).subscribe((p: Profile) => {
+            console.log(p);
+            if (p !== null) {
+                this.profile_login = p.login;
             } else {
                 this.profile_login = null;
             }
@@ -35,7 +34,7 @@ export class AppComponent implements OnInit {
     }
 
     SubmitUpdateFrofile() {
-        if (this.password.length < 5 || this.password != this.password2) {
+        if (this.password.length < 5 || this.password !== this.password2) {
             return false;
         }
 
@@ -60,17 +59,17 @@ export class AppComponent implements OnInit {
         return false;
     }
 
-	/*
-		скрыть/показать профиль
-	*/
+    /*
+        скрыть/показать профиль
+    */
     ShowProfile(event) {
         this.is_profile = event;
         return false;
     }
 
-	/*
-		выход
-	*/
+    /*
+        выход
+    */
     ClickLogout() {
         this.profileService.Logout();
         return false;

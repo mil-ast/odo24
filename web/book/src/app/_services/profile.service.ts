@@ -14,11 +14,14 @@ export class ProfileService {
     private url_profile = '/api/profile';
 
     private profile: BehaviorSubject<Profile> = new BehaviorSubject<Profile>(null);
+    profile$: Observable<Profile>;
 
     constructor(
         private router: Router,
         private http: HttpClient
-    ) { }
+    ) {
+        this.profile$ = this.profile.asObservable();
+    }
 
     isAuthorized(): Observable<boolean> {
         const localIsAuth = sessionStorage.getItem('isauth');
