@@ -26,8 +26,8 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		listAvto := models.Avto_list{
-			User_id: profile.User_id,
+		listAvto := models.AvtoList{
+			UserID: profile.User_id,
 		}
 
 		list, err := listAvto.Get()
@@ -55,7 +55,7 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, http.StatusText(500), 500)
 		}
 
-		avto.User_id = profile.User_id
+		avto.UserID = profile.User_id
 
 		err = avto.Create()
 		if err != nil {
@@ -94,10 +94,10 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 		}
 
 		avto := models.Avto{
-			Avto_id: avto_id,
-			Name:    form_name,
-			Odo:     uint32(odo),
-			User_id: profile.User_id,
+			AvtoID: avto_id,
+			Name:   form_name,
+			Odo:    uint32(odo),
+			UserID: profile.User_id,
 		}
 
 		file, handler, err := r.FormFile("file")
@@ -141,8 +141,8 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 		}
 
 		avto := models.Avto{
-			Avto_id: avto_id,
-			User_id: profile.User_id,
+			AvtoID: avto_id,
+			UserID: profile.User_id,
 		}
 
 		err = avto.Delete()

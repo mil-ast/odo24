@@ -134,7 +134,7 @@ func (s *Service) Create() error {
 
 	// если новый пробег больше, чем у текущего авто, обновим
 	avto := Avto{
-		Avto_id: s.Avto_id,
+		AvtoID: s.Avto_id,
 	}
 
 	err = avto.SetODO(s.Odo)
