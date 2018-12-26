@@ -7,7 +7,7 @@
 	</header>
 	<div class="b_center">
 		<h3><mat-icon>fingerprint</mat-icon><span>Авторизация</span></h3>
-		<form (submit)="SubmitLogin()">
+		<form (ngSubmit)="submitLogin()">
 			<mat-form-field class="full_width">
 				<input [(ngModel)]="login" matInput placeholder="Логин" type="text" name="login" required />
 			</mat-form-field>

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-
 import { Profile } from '../_classes/profile';
 import { map, catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ProfileService {
@@ -17,14 +16,15 @@ export class ProfileService {
     profile$: Observable<Profile>;
 
     constructor(
+        private http: HttpClient,
         private router: Router,
-        private http: HttpClient
     ) {
         this.profile$ = this.profile.asObservable();
     }
 
     isAuthorized(): Observable<boolean> {
         const localIsAuth = sessionStorage.getItem('isauth');
+        console.log(localIsAuth);
         if (!localIsAuth) {
             return of(false);
         }
@@ -32,9 +32,8 @@ export class ProfileService {
         return this.http.get(this.url_profile).pipe(
             map((res: any) => {
                 const profile = new Profile(res);
-                this.profile.next(profile);
-                sessionStorage.setItem('isauth', '1');
 
+                sessionStorage.setItem('isauth', '1');
                 return true;
             }, catchError(() => {
                 sessionStorage.removeItem('isauth');
@@ -44,27 +43,22 @@ export class ProfileService {
         );
     }
 
-    GetProfile() {
-        return this.profile;
-    }
-
     sync() {
         this.http.get(this.url_profile).subscribe((res: any) => {
             this.loginOk(new Profile(res));
         });
     }
 
-    Login(login: string, password: string) {
+    login(login: string, password: string) {
         const req = this.http.post(this.url_login, { login: login, password: password });
         req.subscribe((responce: any) => {
             const profile: Profile = new Profile(responce);
 
-            localStorage.setItem('auth', profile.login);
+            sessionStorage.setItem('isauth', '1');
             this.profile.next(profile);
-
             this.router.navigate(['/service']);
         }, () => {
-            this.Exit();
+            this.exit();
         });
     }
 
@@ -73,7 +67,7 @@ export class ProfileService {
         req.subscribe(() => { }, (err) => {
             console.error(err);
         }, () => {
-            this.Exit();
+            this.exit();
         });
     }
 
@@ -99,24 +93,13 @@ export class ProfileService {
         return;
     }
 
-    CheckAuth(): boolean {
-        if (localStorage.getItem('auth') !== null) {
-            return true;
-        } else {
-            return this.profile.getValue() !== null;
-        }
-    }
-
-    Exit() {
-        localStorage.removeItem('auth');
+    exit() {
+        sessionStorage.removeItem('isauth');
         this.profile.next(null);
-        this.router.navigate(['/']);
     }
 
     private loginOk(profile: Profile) {
-        localStorage.setItem('auth', profile.login);
+        sessionStorage.setItem('isauth', '1');
         this.profile.next(profile);
-
-        this.router.navigate(['/service']);
     }
 }

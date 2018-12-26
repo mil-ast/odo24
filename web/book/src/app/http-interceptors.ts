@@ -21,7 +21,7 @@ export class HTTPRequestsInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(tap(() => { }, err => {
       switch (err.status) {
         case 401: case 403:
-          this.profileService.Exit();
+          this.profileService.exit();
       }
     }));
   }

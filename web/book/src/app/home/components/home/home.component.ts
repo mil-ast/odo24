@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from '../../../_services/profile.service';
+import { first } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,21 +10,22 @@ import { ProfileService } from '../../../_services/profile.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-    login: string = '';
-    password: string = '';
-    isIncorrect: boolean = false;
-    isFormRegister: boolean = false;
+    login = '';
+    password = '';
+    isIncorrect = false;
+    isFormRegister = false;
 
     public formRegister: FormGroup;
 
     constructor(
         private fb: FormBuilder,
+        private router: Router,
         private profileService: ProfileService
     ) {
-		this.formRegister = this.fb.group({
-			login: ['', [Validators.required, Validators.email]],
-			password: ['', [Validators.minLength(3) ]],
-		});
+        this.formRegister = this.fb.group({
+            login: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.minLength(3) ]],
+        });
     }
 
     ngOnInit() {
@@ -39,9 +42,19 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    SubmitLogin() {
-        this.profileService.Login(this.login, this.password);
-        return false;
+    submitLogin() {
+        if (!this.login || !this.password) {
+            return;
+        }
+
+        /*this.profileService.profile$.subscribe((res) => {
+            console.log(res);
+            if (res !== null) {
+                this.router.navigate(['/service']);
+            }
+        });*/
+
+        this.profileService.login(this.login, this.password);
     }
 
     ToggleFormRegister(event: boolean) {
