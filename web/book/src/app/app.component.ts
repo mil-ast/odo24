@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { first } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -16,20 +17,20 @@ export class AppComponent implements OnInit {
     ) { }
 
     profile_login: string = null;
+    profile: Observable<Profile>;
     password = '';
     password2 = '';
     isProfile = false;
 
     ngOnInit() {
-        this.profileService.profile$.pipe(
-            first()
-        ).subscribe((p: Profile) => {
-            console.log(p);
+        this.profileService.profile$.subscribe((p: Profile) => {
             if (p !== null) {
                 this.profile_login = p.login;
             } else {
                 this.profile_login = null;
             }
+        }, () => {
+            this.profile_login = null;
         });
     }
 
@@ -43,7 +44,7 @@ export class AppComponent implements OnInit {
             this.password = '';
             this.password2 = '';
 
-            this.ShowProfile(false);
+            this.showProfile(false);
 
             this.snackBar.open('Пароль успешно изменён!', 'OK', {
                 duration: 5000,
@@ -62,7 +63,7 @@ export class AppComponent implements OnInit {
     /*
         скрыть/показать профиль
     */
-    ShowProfile(event) {
+    showProfile(event: boolean) {
         this.isProfile = event;
         return false;
     }
@@ -70,7 +71,7 @@ export class AppComponent implements OnInit {
     /*
         выход
     */
-    ClickLogout() {
+    clickLogout() {
         this.profileService.Logout();
         return false;
     }

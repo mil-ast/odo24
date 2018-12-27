@@ -5,11 +5,11 @@
 		<a routerLink="/remind" routerLinkActive="selected">Уведомления</a>
 	</nav>
 	<div id="profile">
-		<a href="#" (click)="ShowProfile(true)">{{ profile_login }}</a>
+		<a href="#" (click)="showProfile(true)">{{ profile_login }}</a>
 		<div *ngIf="isProfile" id="profile_menu">
             <div class="form">
                 <h1>Изменить пароль</h1>
-                <form action="#" method="PUT" (submit)="SubmitUpdateFrofile()" (reset)="ShowProfile(false)">
+                <form action="#" method="PUT" (submit)="SubmitUpdateFrofile()" (reset)="showProfile(false)">
                     <div>
                         <mat-form-field class="full_width">
                             <input required matInput placeholder="Новый пароль"autocomplete="off" [(ngModel)]="password" type="password" name="password">
@@ -30,6 +30,6 @@
             </div>
 		</div>
 	</div>
-	<a id="logout" href="/logout" (click)="ClickLogout()">Выход</a>
+	<a id="logout" href="/logout" (click)="clickLogout()">Выход</a>
 </header>
 <router-outlet></router-outlet>
