@@ -50,7 +50,7 @@ func (l Services_list) Get() ([]Service, error) {
 		queryID = l.Avto_id
 	}
 
-	querySQL := `SELECT service_id,avto_id,group_id, odo,next_odo,"date","comment",price FROM cars.services WHERE %s=$1`
+	querySQL := `SELECT service_id,avto_id,group_id, odo,next_odo,"date","comment",price::numeric FROM cars.services WHERE %s=$1`
 	rows, err := conn.Query(fmt.Sprintf(querySQL, sql_where_field), queryID)
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (l Services_list) Get() ([]Service, error) {
 		next_odo   sql.NullInt64
 		date       string
 		comment    sql.NullString
-		price      sql.NullInt64
+		price      sql.NullFloat64
 	)
 
 	var responce []Service
@@ -81,7 +81,7 @@ func (l Services_list) Get() ([]Service, error) {
 			Next_odo:   uint32(next_odo.Int64),
 			Date:       date,
 			Comment:    comment.String,
-			Price:      uint32(price.Int64),
+			Price:      uint32(price.Float64),
 		})
 	}
 	rows.Close()
