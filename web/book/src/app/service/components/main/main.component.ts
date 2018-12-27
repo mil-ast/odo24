@@ -7,7 +7,7 @@ import { AvtoService } from '../../../_services/avto.service';
 import { GroupsService } from '../../services/groups.service';
 import { ServicesService } from '../../services/services.service';
 
-import { Avto } from '../../../_classes/avto';
+import { Avto, AvtoStruct } from '../../../_classes/avto';
 import { Group } from '../../classes/group';
 import { Service } from '../../classes/service';
 
@@ -43,7 +43,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     forkJoin(
-      this.avtoService.Get(),
+      this.avtoService.get(),
       this.groupsService.Get(),
       this.servicesService.Get()
     ).subscribe((res: any) => {
@@ -63,15 +63,15 @@ export class MainComponent implements OnInit {
         // показать форму добавления авто
         this.ShowFormCreateAvto();
       } else {
-        for (let i = 0; i < avto.length; i++) {
-          const item_avto: Avto = new Avto(avto[i].avto_id, avto[i].name, avto[i].odo, !!avto[i].avatar);
+        this.avto = avto.map((a: AvtoStruct) => {
+          const item_avto: Avto = new Avto(a.avto_id, a.name, a.odo, a.avatar);
 
-          if (item_avto.avto_id === selected_vato_id) {
+          if (a.avto_id === selected_vato_id) {
             this.selectAvto(item_avto);
           }
 
-          this.avto.push(item_avto);
-        }
+          return item_avto;
+        });
 
         if (!this.selected_avto) {
           this.selectAvto(this.avto[0]);
