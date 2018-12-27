@@ -4,9 +4,9 @@
   "private": true,
   "dependencies": {
     "html-webpack-plugin": "^3.2.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-scripts": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -21,8 +21,8 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "css-loader": "^1.0.0",
-    "webpack": "^4.16.1"
+    "css-loader": "^2.1.0",
+    "webpack": "^4.28.2"
   },
   "babel": {
     "presets": [
