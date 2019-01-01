@@ -62,15 +62,6 @@ export class AppComponent implements OnInit {
     return false;
   }
 
-<<<<<<< HEAD
-    /*
-        скрыть/показать профиль
-    */
-    showProfile(event: boolean) {
-        this.isProfile = event;
-        return false;
-    }
-
     /*
         выход
     */
@@ -79,13 +70,4 @@ export class AppComponent implements OnInit {
         this.profileService.logout();
         return false;
     }
-=======
-  /*
-      выход
-  */
-  clickLogout() {
-    this.profileService.Logout();
-    return false;
-  }
->>>>>>> 5a3002466dbe48ce374247b7e6d95d64d8236bcc
 }
