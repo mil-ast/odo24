@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --live-reload false --proxy-config proxy.json",
+    "start": "ng serve --live-reload true --proxy-config proxy.json",
     "build": "ng build --prod --base-href /book/",
     "test": "ng test",
     "lint": "ng lint",

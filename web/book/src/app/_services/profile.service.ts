@@ -62,7 +62,7 @@ export class ProfileService {
         });
     }
 
-    Logout() {
+    logout() {
         const req = this.http.get(this.url_logout);
         req.subscribe(() => { }, (err) => {
             console.error(err);
@@ -96,6 +96,7 @@ export class ProfileService {
     exit() {
         sessionStorage.removeItem('isauth');
         this.profile.next(null);
+        this.router.navigate(['/']);
     }
 
     private loginOk(profile: Profile) {

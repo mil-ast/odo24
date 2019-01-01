@@ -72,7 +72,8 @@ export class AppComponent implements OnInit {
         выход
     */
     clickLogout() {
-        this.profileService.Logout();
+        this.profile_login = null;
+        this.profileService.logout();
         return false;
     }
 }
