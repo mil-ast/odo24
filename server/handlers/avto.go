@@ -128,20 +128,20 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(202)
 		w.Write(data)
 	case "DELETE":
-		get_avto_id := r.URL.Query().Get("avto_id")
-		if get_avto_id == "" {
+		getAvtoID := r.URL.Query().Get("avto_id")
+		if getAvtoID == "" {
 			http.Error(w, http.StatusText(400), 400)
 			return
 		}
 
-		avto_id, err := strconv.ParseUint(get_avto_id, 10, 64)
+		avtoID, err := strconv.ParseUint(getAvtoID, 10, 64)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
 		}
 
 		avto := models.Avto{
-			AvtoID: avto_id,
+			AvtoID: avtoID,
 			UserID: profile.User_id,
 		}
 

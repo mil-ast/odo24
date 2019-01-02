@@ -62,12 +62,12 @@ export class AppComponent implements OnInit {
     return false;
   }
 
-    /*
-        выход
-    */
-    clickLogout() {
-        this.profile_login = null;
-        this.profileService.logout();
-        return false;
-    }
+  /*
+      выход
+  */
+  clickLogout() {
+    this.profile_login = null;
+    this.profileService.logout();
+    return false;
+  }
 }

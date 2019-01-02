@@ -104,13 +104,13 @@ func (s *Service) Create() error {
 	}
 
 	var (
-		next_odo sql.NullInt64
-		comment  sql.NullString
-		price    sql.NullInt64
+		nextODO sql.NullInt64
+		comment sql.NullString
+		price   sql.NullInt64
 	)
 
 	if s.Next_odo > 0 {
-		next_odo.Scan(s.Next_odo)
+		nextODO.Scan(s.Next_odo)
 	}
 	if s.Comment != "" {
 		comment.Scan(s.Comment)
@@ -119,30 +119,14 @@ func (s *Service) Create() error {
 		price.Scan(s.Price)
 	}
 
-	query_sql := "INSERT INTO `services` SET `avto_id`=?,`user_id`=?,`group_id`=?,`odo`=?,`next_odo`=?,`date`=?,`comment`=?,`price`=?"
-	result, err := conn.Exec(query_sql, s.Avto_id, s.User_id, s.Group_id, s.Odo, next_odo, s.Date, comment, price)
-	if err != nil {
+	querySQL := "select service_id from cars.createservice($1,$2,$3,$4,$5,$6::date,$7,$8::money)"
+	row := conn.QueryRow(querySQL, s.Avto_id, s.User_id, s.Group_id, s.Odo, nextODO, s.Date, comment, price)
+
+	err = row.Scan(&s.Service_id)
+	if err != nil && err != sql.ErrNoRows {
 		log.Println(err)
 		return err
 	}
-
-	last_id, err := result.LastInsertId()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	// если новый пробег больше, чем у текущего авто, обновим
-	avto := Avto{
-		AvtoID: s.Avto_id,
-	}
-
-	err = avto.SetODO(s.Odo)
-	if err != nil {
-		log.Println(err)
-	}
-
-	s.Service_id = uint64(last_id)
 
 	return nil
 }
@@ -157,31 +141,14 @@ func (s Service) Update() error {
 		return err
 	}
 
-	query_sql := "SELECT `service_id`,`user_id` FROM `services` WHERE `service_id`=?"
 	var (
-		service_id uint64
-		user_id    uint64
-	)
-
-	row := conn.QueryRow(query_sql, s.Service_id)
-	row.Scan(&service_id, &user_id)
-	if service_id == 0 {
-		return errors.New("not found")
-	}
-
-	if s.User_id != user_id {
-		log.Println("not the owner")
-		return errors.New("not the owner")
-	}
-
-	var (
-		next_odo sql.NullInt64
-		comment  sql.NullString
-		price    sql.NullInt64
+		nextODO sql.NullInt64
+		comment sql.NullString
+		price   sql.NullInt64
 	)
 
 	if s.Next_odo > 0 {
-		next_odo.Scan(s.Next_odo)
+		nextODO.Scan(s.Next_odo)
 	}
 	if s.Comment != "" {
 		comment.Scan(s.Comment)
@@ -190,8 +157,8 @@ func (s Service) Update() error {
 		price.Scan(s.Price)
 	}
 
-	query_sql = "UPDATE `services` SET `odo`=?,`next_odo`=?,`date`=?,`comment`=?,`price`=? WHERE `service_id`=?"
-	_, err = conn.Exec(query_sql, s.Odo, next_odo, s.Date, comment, price, s.Service_id)
+	querySQL := "SELECT * from cars.updateservice($1,$2,$3,$4,$5::date,$6,$7::money)"
+	_, err = conn.Exec(querySQL, s.Service_id, s.User_id, s.Odo, nextODO, s.Date, comment, price)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -210,26 +177,8 @@ func (s Service) Delete() error {
 		return err
 	}
 
-	query_sql := "SELECT `service_id`,`user_id` FROM `services` WHERE `service_id`=?"
-	var (
-		service_id uint64
-		user_id    uint64
-	)
-
-	row := conn.QueryRow(query_sql, s.Service_id)
-	row.Scan(&service_id, &user_id)
-	if service_id == 0 {
-		return errors.New("not found")
-	}
-
-	if s.User_id != user_id {
-		log.Println("not the owner")
-		log.Printf("not the owner: service_id:%d, user_id:%d \r\n", s.Service_id, s.User_id)
-		return errors.New("not the owner")
-	}
-
-	query_sql = "DELETE FROM `services` WHERE `service_id`=?"
-	_, err = conn.Exec(query_sql, s.Service_id)
+	querySQL := "select * from cars.deleteservice($1,$2)"
+	_, err = conn.Exec(querySQL, s.Service_id, s.User_id)
 	if err != nil {
 		log.Println(err)
 		return err

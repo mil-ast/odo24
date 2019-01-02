@@ -10,53 +10,53 @@ import { DialogAvtoUpdateComponent } from '../../dialogs/avto-update/avto-update
   selector: 'app-avto',
   templateUrl: './avto.component.html',
   styleUrls: [
-	  '../../../_css/list_styles.css',
-	  '../../../_css/avto_item.css',
-	  './avto.component.css'
-	]
+    '../../../_css/list_styles.css',
+    '../../../_css/avto_item.css',
+    './avto.component.css'
+  ]
 })
 export class AvtoComponent {
-	@Input() model: Avto;
-	@Input() selected: boolean;
-	@Output() eventSelectAvto: EventEmitter<Avto> = new EventEmitter();
-	@Output() eventDeleteAvto: EventEmitter<Avto> = new EventEmitter();
+  @Input() model: Avto;
+  @Input() selected: boolean;
+  @Output() eventSelectAvto: EventEmitter<Avto> = new EventEmitter();
+  @Output() eventDeleteAvto: EventEmitter<Avto> = new EventEmitter();
 
-	constructor(
-		public dialogAvtoUpdate: MatDialog,
-		private avtoService: AvtoService,
-	) { }
+  constructor(
+    public dialogAvtoUpdate: MatDialog,
+    private avtoService: AvtoService,
+  ) { }
 
-	ClickSelectAvto() {
-		this.eventSelectAvto.emit(this.model);
-		return false;
-	}
+  ClickSelectAvto() {
+    this.eventSelectAvto.emit(this.model);
+    return false;
+  }
 
-	ShowFormUpdateAvto() {
-        const dialogRef = this.dialogAvtoUpdate.open(DialogAvtoUpdateComponent, {
-            width: '400px',
-            position: {
-                top: '20px',
-                left: '20px',
-            },
-            data: this.model
-        });
+  ShowFormUpdateAvto() {
+    const dialogRef = this.dialogAvtoUpdate.open(DialogAvtoUpdateComponent, {
+      width: '400px',
+      position: {
+        top: '20px',
+        left: '20px',
+      },
+      data: this.model
+    });
 
-        dialogRef.afterClosed().subscribe((result: Avto) => { });
-		
-		return false;
-	}
+    dialogRef.afterClosed().subscribe((result: Avto) => { });
 
-	ClickDelete() {
-		if (!confirm('Удалить авто и все её записи?')) {
-			return false;
-		}
+    return false;
+  }
 
-		const req = this.avtoService.Delete(this.model.avto_id);
-		req.subscribe(() => {
-			this.eventDeleteAvto.emit(this.model);
-		}, (err) => {
-			console.error(err);
-		});
-		return false;
-	}
+  ClickDelete() {
+    if (!confirm('Удалить авто и все её записи?')) {
+      return false;
+    }
+
+    const req = this.avtoService.Delete(this.model.avto_id);
+    req.subscribe(() => {
+      this.eventDeleteAvto.emit(this.model);
+    }, (err) => {
+      console.error(err);
+    });
+    return false;
+  }
 }

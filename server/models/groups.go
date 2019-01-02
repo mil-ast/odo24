@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"log"
 
 	"github.com/mil-ast/db"
@@ -28,26 +29,26 @@ func (l Groups_list) Get() ([]Group, error) {
 		return nil, err
 	}
 
-	query_sql := `SELECT group_id, "name", sort, "global" FROM cars."groups" WHERE user_id IN ('0',$1)`
-	rows, err := conn.Query(query_sql, l.User_id)
+	querySQL := `SELECT group_id, "name", sort, "global" FROM cars."groups" WHERE user_id IN ('0',$1)`
+	rows, err := conn.Query(querySQL, l.User_id)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
 	var (
-		group_id uint64
-		name     string
-		sort     uint16
-		global   bool
+		groupID uint64
+		name    string
+		sort    uint16
+		global  bool
 	)
 	var responce []Group
 
 	for rows.Next() {
-		rows.Scan(&group_id, &name, &sort, &global)
+		rows.Scan(&groupID, &name, &sort, &global)
 
 		responce = append(responce, Group{
-			Group_id: group_id,
+			Group_id: groupID,
 			Name:     name,
 			Order:    sort,
 			Global:   global,
@@ -121,23 +122,16 @@ func (g *Group) Create() error {
 		return err
 	}
 
-	g.Order = 10
 	g.Global = false
 
-	querySQL := "cars.creategroup($1,$2)"
-	result, err := conn.Exec(querySQL, g.User_id, g.Name)
-	if err != nil {
+	querySQL := "select group_id,name,sort from cars.creategroup($1,$2)"
+	row := conn.QueryRow(querySQL, g.User_id, g.Name)
+
+	err = row.Scan(&g.Group_id, &g.Name, &g.Order)
+	if err != nil && err != sql.ErrNoRows {
 		log.Println(err)
 		return err
 	}
-
-	lastID, err := result.LastInsertId()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	g.Group_id = uint64(lastID)
 
 	return nil
 }
@@ -152,7 +146,7 @@ func (g *Group) Update() error {
 		return err
 	}
 
-	querySQL := "cars.updategroup($1,$2,$3)"
+	querySQL := "select * from cars.updategroup($1,$2,$3)"
 	_, err = conn.Exec(querySQL, g.Group_id, g.User_id, g.Name)
 	if err != nil {
 		log.Println(err)
@@ -172,7 +166,7 @@ func (g *Group) Delete() error {
 		return err
 	}
 
-	querySQL := "cars.deletegroup($1,$2)"
+	querySQL := "select * from cars.deletegroup($1,$2)"
 	_, err = conn.Exec(querySQL, g.Group_id, g.User_id)
 	if err != nil {
 		log.Println(err)

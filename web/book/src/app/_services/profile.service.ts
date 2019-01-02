@@ -24,16 +24,14 @@ export class ProfileService {
 
     isAuthorized(): Observable<boolean> {
         const localIsAuth = sessionStorage.getItem('isauth');
-        console.log(localIsAuth);
         if (!localIsAuth) {
             return of(false);
         }
 
         return this.http.get(this.url_profile).pipe(
             map((res: any) => {
-                const profile = new Profile(res);
-
                 sessionStorage.setItem('isauth', '1');
+                this.profile.next(new Profile(res));
                 return true;
             }, catchError(() => {
                 sessionStorage.removeItem('isauth');
