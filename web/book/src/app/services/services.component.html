@@ -1,0 +1,31 @@
+<mat-spinner class="spinner" *ngIf="isSync"></mat-spinner>
+<div id="content" *ngIf="avtoList.length > 0 && !isSync; else emptyBody">
+	<div class="column avto__list">
+		<div class="column__content">
+			<div class="column__title">
+				<a href="#" (click)="ShowFormCreateAvto()" class="column_title_icon create" title="Добавить авто"></a>
+				<h2><span>Мои авто</span></h2>
+			</div>
+			<div *ngIf="selectedAvto !== null" id="selected_avto">
+				<app-selected-avto [model]="selectedAvto"></app-selected-avto>
+			</div>
+			<ul>
+				<li *ngFor="let a of avto">
+					ff
+				</li>
+			</ul>
+		</div>
+  </div>
+</div>
+
+<ng-template #emptyBody>
+	<div id="empty_avto" *ngIf="!isSync">
+		<h2>Начало работы!</h2>
+		<div>
+			<p>Для продолжения необходимо добавить авто!</p>
+		</div>
+		<div>
+			<button mat-raised-button color="primary" (click)="ShowFormCreateAvto()"><i class="icon">&#xe145;</i> Добавить</button>
+		</div>
+	</div>
+</ng-template>

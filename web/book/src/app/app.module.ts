@@ -8,8 +8,7 @@ import { AuthGuard } from './auth.guard';
 import { httpInterceptorProviders } from './http-interceptors';
 // модули
 import { AppRoutingModule } from './app.routing';
-import { ServiceModule } from './service/service.module';
-import { ReminderModule } from './reminder/reminder.module';
+import { ServiceModule } from './services/service.module';
 import { HomeModule } from './home/home.module';
 
 // сервисы
@@ -37,6 +36,7 @@ export const DATE_FORMATS = {
 
 import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -48,14 +48,13 @@ registerLocaleData(localeRu, 'ru');
     MatInputModule,
     MatButtonModule,
     MatProgressBarModule,
-
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    SelectedAvtoModule,
     ServiceModule,
-    ReminderModule,
     HomeModule,
   ],
   providers: [
@@ -66,7 +65,9 @@ registerLocaleData(localeRu, 'ru');
     {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
   ],
-  exports : [ ],
+  exports : [
+    SelectedAvtoModule,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
