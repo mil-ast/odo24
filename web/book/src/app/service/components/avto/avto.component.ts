@@ -26,7 +26,7 @@ export class AvtoComponent {
     private avtoService: AvtoService,
   ) { }
 
-  ClickSelectAvto() {
+  clickSelectAvto() {
     this.eventSelectAvto.emit(this.model);
     return false;
   }

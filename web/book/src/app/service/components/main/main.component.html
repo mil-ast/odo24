@@ -11,7 +11,7 @@
 			</div>
 			<ul>
 				<li *ngFor="let a of avto">
-					<app-avto [model]="a" [selected]="selected_avto?.avto_id === a.avto_id" [ngClass]="{'selected' : selected_avto?.avto_id === a.avto_id}" (eventSelectAvto)="ClickSelectAvto($event)" (eventDeleteAvto)="RemoveAvto($event)"></app-avto>
+					<app-avto [model]="a" [selected]="selected_avto?.avto_id === a.avto_id" [ngClass]="{'selected' : selected_avto?.avto_id === a.avto_id}" (eventSelectAvto)="clickSelectAvto($event)" (eventDeleteAvto)="RemoveAvto($event)"></app-avto>
 				</li>
 			</ul>
 		</div>

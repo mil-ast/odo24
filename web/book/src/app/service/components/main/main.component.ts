@@ -119,7 +119,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  ClickSelectAvto(avto: Avto) {
+  clickSelectAvto(avto: Avto) {
     if (avto === null) {
       this.selected_avto = null;
       this.avtoService.ResetSelected();

@@ -1,4 +1,4 @@
-<a class="avto_item" href="#" (click)="ClickSelectAvto()">
+<a class="avto_item" href="#" (click)="clickSelectAvto()">
 	<span class="image_small" [class.no_photo]="!model.avatar">
 		<img decoding="async" *ngIf="model.avatar; else noPhotoSmall" src="/api/images/small/{{model.avto_id}}.jpg?t={{model.avatar_time_cache}}" />
 		<ng-template #noPhotoSmall>
