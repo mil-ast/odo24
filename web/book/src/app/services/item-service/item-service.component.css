@@ -1,0 +1,16 @@
+.item {
+    display: grid;
+    grid-template-columns: 140px 180px 1fr 40px;
+}
+
+div.odo > span:first-child {
+    font-size: 18px;
+    padding-right: 4px;
+}
+div.date > span {
+    padding: 6px 10px;
+    background-color: #f0f0f0;
+    font-size: 14px;
+    position: relative;
+    top: 2px;
+}

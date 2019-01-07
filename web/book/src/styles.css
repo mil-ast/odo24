@@ -153,6 +153,11 @@ a.menu:hover {
     text-decoration: none;
     transition: .2s;
 }
+.column__title > a.column_title_icon:hover {
+    color:#85acd0;
+    border-color: #85acd0;
+}
+
 .column__title > a.column_title_icon.create::before {
     content: "\e145";
 }

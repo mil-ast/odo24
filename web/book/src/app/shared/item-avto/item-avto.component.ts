@@ -5,7 +5,10 @@ import { AvtoService } from 'src/app/_services/avto.service';
 @Component({
   selector: 'app-item-avto',
   templateUrl: './item-avto.component.html',
-  styleUrls: ['./item-avto.component.css']
+  styleUrls: [
+    '../../_css/item_list.css',
+    './item-avto.component.css',
+  ]
 })
 export class ItemAvtoComponent implements OnInit {
   @Input() model: AvtoStruct;

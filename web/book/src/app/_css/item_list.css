@@ -1,0 +1,32 @@
+:host {
+    position: relative;
+    display:block;
+}
+.item {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    height: 65px;
+    padding: 25px 30px;
+    border-top: 1px #e6e6e6 solid;
+    color: #333;
+}
+a.item {
+    text-decoration: none;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+a.item:hover {
+    color:#000;
+}
+
+a.item.selected {
+    color:#e98e69;
+    cursor:default;
+}
+
+a.item:hover,
+a.item.selected {
+    background-color: #f7f7f7;
+}
