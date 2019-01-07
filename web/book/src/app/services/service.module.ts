@@ -4,6 +4,7 @@ import { ServicesComponent } from './services.component';
 import { MatSnackBarModule, MatProgressSpinnerModule } from '@angular/material';
 import { AvtoService } from '../_services/avto.service';
 import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module';
+import { ItemAvtoModule } from '../shared/item-avto/item-avto.module';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module
   imports: [
     CommonModule,
     SelectedAvtoModule,
+    ItemAvtoModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
   ],

@@ -6,13 +6,13 @@
 }
 .avatar__selected {
     position:absolute;
-    left:0px;
+    left:30px;
     top:0px;
 }
 
 .avto__odo {
     position:absolute;
-    right:32px;
+    right:40px;
     bottom:32px;
     font-size:0.8em;
     color:#5a5a5a;

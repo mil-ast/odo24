@@ -1,0 +1,38 @@
+:host {
+    display: block;
+    border-bottom: 1px solid #e6e6e6;
+}
+a.item {
+    display: grid;
+    cursor: pointer;
+    grid-template-columns: 80px 1fr;
+    padding:0px 4px 0px 30px;
+    align-items: center;
+    height:70px;
+}
+a.item.selected, a.item:hover {
+    background-color: #f7f7f7;
+}
+
+a.item span {
+    color: #01579b;
+}
+a.item:hover span {
+    text-decoration: underline;
+    color:#333;
+}
+
+a.item.selected {
+    cursor: default;
+}
+a.item.selected span {
+    color: #e98e69;
+    text-decoration: none;
+}
+
+a.item img {
+    border:1px transparent solid;
+}
+a.item.no-photo img {
+    border-color: #eee;
+}

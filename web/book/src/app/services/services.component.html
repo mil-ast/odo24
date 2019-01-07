@@ -4,14 +4,14 @@
 		<div class="column__content">
 			<div class="column__title">
 				<a href="#" (click)="ShowFormCreateAvto()" class="column_title_icon create" title="Добавить авто"></a>
-				<h2><span>Мои авто</span></h2>
+				<h2 class="mat-h2"><span>Мои авто</span></h2>
 			</div>
 			<div *ngIf="selectedAvto !== null" id="selected_avto">
 				<app-selected-avto [model]="selectedAvto"></app-selected-avto>
 			</div>
 			<ul>
-				<li *ngFor="let a of avto">
-					ff
+				<li *ngFor="let a of avtoList">
+					<app-item-avto [model]="a"></app-item-avto>
 				</li>
 			</ul>
 		</div>

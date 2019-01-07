@@ -136,6 +136,8 @@ a.menu:hover {
 .column__title {
     display: grid;
     grid-template-columns: 50px 1fr;
+    margin-bottom: 20px;
+    padding: 0px 10px 0px 30px;
 }
 
 .column__title > a.column_title_icon {
@@ -155,6 +157,10 @@ a.menu:hover {
     content: "\e145";
 }
 
+.column__title > h2 {
+    margin:8px 0px 0px 10px;
+}
+
 #content {
     width:100%;
     height:100%;
@@ -162,7 +168,7 @@ a.menu:hover {
 }
 
 .column {
-    padding:20px;
+    padding:20px 0px;
     box-sizing: border-box;
 }
 .column.avto__list {

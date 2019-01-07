@@ -36,4 +36,8 @@ export class AvtoService {
   resetSelected(): void {
     this.selectedAvto.next(null);
   }
+
+  isSelected(avto: AvtoStruct): boolean {
+    return this.selectedAvto.getValue() === avto;
+  }
 }
