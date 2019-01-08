@@ -31,9 +31,11 @@ export class ServicesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
       this.selectedAvto = avto;
+      this.loadServices();
     });
     this.groupListener = this.groupService.selected.subscribe((group: GroupStruct) => {
       this.selectedGroup = group;
+      this.loadServices();
     });
 
     this.avtoService.get().subscribe((list: AvtoStruct[]) => {
@@ -51,14 +53,21 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.groupService.setSelected(this.groupList[0]);
       }
     });
-
-    this.serviceService.get().subscribe((list: ServiceStruct[]) => {
-      this.serviceList = list || [];
-    });
   }
 
   ngOnDestroy() {
     this.avtoListener.unsubscribe();
     this.groupListener.unsubscribe();
+  }
+
+  private loadServices() {
+    this.serviceList = [];
+    if (!this.selectedAvto || !this.selectedGroup) {
+      return;
+    }
+
+    this.serviceService.get(this.selectedAvto.avto_id, this.selectedGroup.group_id).subscribe((list: ServiceStruct[]) => {
+      this.serviceList = list || [];
+    });
   }
 }

@@ -12,6 +12,7 @@ type Group struct {
 	Name     string `json:"name"`
 	Order    uint16 `json:"order"`
 	Global   bool   `json:"global"`
+	Cnt      uint16 `json:"cnt"`
 	User_id  uint64 `json:"user_id,omitempty"`
 }
 
@@ -29,7 +30,11 @@ func (l Groups_list) Get() ([]Group, error) {
 		return nil, err
 	}
 
-	querySQL := `SELECT group_id, "name", sort, "global" FROM cars."groups" WHERE user_id IN ('0',$1)`
+	querySQL := `select "groups".group_id,"groups"."name","groups".sort,"groups"."global",count(cars.services.service_id) as cnt ` +
+		`from cars."groups" ` +
+		`left join cars.services on cars.services.group_id=cars."groups".group_id ` +
+		`where cars."groups".user_id in (0,$1) ` +
+		`group by cars."groups".group_id;`
 	rows, err := conn.Query(querySQL, l.User_id)
 	if err != nil {
 		log.Println(err)
@@ -40,18 +45,20 @@ func (l Groups_list) Get() ([]Group, error) {
 		groupID uint64
 		name    string
 		sort    uint16
+		cnt     uint16
 		global  bool
 	)
 	var responce []Group
 
 	for rows.Next() {
-		rows.Scan(&groupID, &name, &sort, &global)
+		rows.Scan(&groupID, &name, &sort, &global, &cnt)
 
 		responce = append(responce, Group{
 			Group_id: groupID,
 			Name:     name,
 			Order:    sort,
 			Global:   global,
+			Cnt:      cnt,
 		})
 	}
 	rows.Close()

@@ -121,7 +121,7 @@ a.mat-icon-button {
     display: grid;
     grid-template-columns: 50px 1fr;
     margin-bottom: 20px;
-    padding: 0px 10px 0px 30px;
+    padding: 20px 10px 0px 30px;
 }
 
 .column__title > a.column_title_icon {
@@ -158,8 +158,9 @@ a.mat-icon-button {
 
 .column__content {
     display: grid;
-    grid-template-rows: 70px 1fr;
+    grid-template-rows: 90px 1fr;
     height: 100%;
+    border-right: 1px #e6e6e6 solid;
 }
 .overflow {
     overflow: auto;
@@ -174,7 +175,6 @@ a.mat-icon-button {
 }
 
 .column {
-    padding:20px 0px;
     box-sizing: border-box;
 }
 .column.avto__list {

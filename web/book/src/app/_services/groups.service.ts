@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 export interface GroupStruct {
     group_id: number;
     name: string;
     order: number;
     global: boolean;
+    cnt: number;
 }
 
 @Injectable()
@@ -21,7 +23,23 @@ export class GroupService {
   ) { }
 
   get(): Observable<GroupStruct[]> {
-    return this.http.get<GroupStruct[]>(this.url);
+    return this.http.get<GroupStruct[]>(this.url).pipe(tap((data: GroupStruct[]) => {
+      const list = data || [];
+      return list.sort((a: GroupStruct, b: GroupStruct) => {
+        /*if (a.global && !a.global) {
+          return -1;
+        } else if (!a.global && a.global) {
+          return 1;
+        }*/
+
+        if (a.order > b.order) {
+          return 1;
+        } else if (a.order < b.order) {
+          return -1;
+        }
+        return 0;
+      });
+    }));
   }
 
   create(data: GroupStruct) {

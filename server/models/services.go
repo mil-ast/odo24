@@ -3,7 +3,6 @@ package models
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/mil-ast/db"
@@ -22,8 +21,9 @@ type Service struct {
 }
 
 type Services_list struct {
-	User_id uint64
-	Avto_id uint64
+	User_id  uint64
+	Group_id uint64
+	Avto_id  uint64
 }
 
 /*
@@ -39,19 +39,8 @@ func (l Services_list) Get() ([]Service, error) {
 		return nil, errors.New("empty data")
 	}
 
-	var sql_where_field string
-	var queryID uint64
-
-	if l.User_id > 0 {
-		sql_where_field = "user_id"
-		queryID = l.User_id
-	} else {
-		sql_where_field = "avto_id"
-		queryID = l.Avto_id
-	}
-
-	querySQL := `SELECT service_id,avto_id,group_id, odo,next_odo,"date","comment",price::numeric FROM cars.services WHERE %s=$1`
-	rows, err := conn.Query(fmt.Sprintf(querySQL, sql_where_field), queryID)
+	querySQL := `SELECT service_id,avto_id,group_id, odo,next_odo,"date","comment",price::numeric FROM cars.services WHERE avto_id=$1 and group_id=$2 and user_id=$3`
+	rows, err := conn.Query(querySQL, l.Avto_id, l.Group_id, l.User_id)
 	if err != nil {
 		return nil, err
 	}

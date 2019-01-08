@@ -26,8 +26,34 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
+		getAvtoId := r.URL.Query().Get("avto_id")
+		if getAvtoId == "" {
+			http.Error(w, http.StatusText(400), 400)
+			return
+		}
+
+		getGroupId := r.URL.Query().Get("group_id")
+		if getGroupId == "" {
+			http.Error(w, http.StatusText(400), 400)
+			return
+		}
+
+		avtoID, err := strconv.ParseUint(getAvtoId, 10, 64)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
+		}
+
+		groupID, err := strconv.ParseUint(getGroupId, 10, 64)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
+		}
+
 		listServices := models.Services_list{
-			User_id: profile.User_id,
+			Avto_id:  avtoID,
+			Group_id: groupID,
+			User_id:  profile.User_id,
 		}
 
 		list, err := listServices.Get()

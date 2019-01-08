@@ -15,6 +15,7 @@ a.item {
     text-decoration: none;
     cursor: pointer;
     transition: 200ms;
+    color: #3b70d0;
 }
 
 a.item:hover {
