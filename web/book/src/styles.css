@@ -112,26 +112,10 @@ a.mat-icon-button {
     background-color: inherit;
 }
 
-/* a.menu {
-    display:none;
-    position:absolute;
-    z-index: 2;
-    top:30px;
-    right:10px;
-    font-family:icon;
-    font-size:24px;
-    color:#777;
-    text-decoration: none;
+#content {
+    width:100%;
+    height:100%;
 }
-a.menu::before {
-    content:"\e5d2";
-}
-:hover > a.menu, :hover > div > a.menu {
-    display:inline;
-}
-a.menu:hover {
-    color:#38608c;
-} */
 
 .column__title {
     display: grid;
@@ -170,6 +154,23 @@ a.menu:hover {
     width:100%;
     height:100%;
     display: grid;
+}
+
+.column__content {
+    display: grid;
+    grid-template-rows: 70px 1fr;
+    height: 100%;
+}
+.overflow {
+    overflow: auto;
+    position:relative;
+}
+.overflow > .scroll {
+    position: absolute;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    width:100%;
 }
 
 .column {

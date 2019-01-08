@@ -6,14 +6,18 @@
 				<a href="#" (click)="ShowFormCreateAvto()" class="column_title_icon create" title="Добавить авто"></a>
 				<h2 class="mat-h2"><span>Мои авто</span></h2>
 			</div>
-			<div *ngIf="selectedAvto !== null" id="selected_avto">
-				<app-selected-avto [model]="selectedAvto"></app-selected-avto>
+			<div class="overflow">
+				<div class="scroll">
+					<div *ngIf="selectedAvto !== null" id="selected_avto">
+						<app-selected-avto [model]="selectedAvto"></app-selected-avto>
+					</div>
+					<ul>
+						<li *ngFor="let a of avtoList">
+							<app-item-avto [model]="a"></app-item-avto>
+						</li>
+					</ul>
+				</div>
 			</div>
-			<ul>
-				<li *ngFor="let a of avtoList">
-					<app-item-avto [model]="a"></app-item-avto>
-				</li>
-			</ul>
 		</div>
   </div>
   <div class="column groups__list">
@@ -22,24 +26,28 @@
 				<a href="#" class="column_title_icon create" title="Добавить группу"></a>
 				<h2 class="mat-h2"><span>Группы</span></h2>
 			</div>
-			<ul>
-				<li *ngFor="let g of groupList">
-					<app-item-group [model]="g"></app-item-group>
-				</li>
-			</ul>
+			<div class="overflow">
+				<ul class="scroll">
+					<li *ngFor="let g of groupList">
+						<app-item-group [model]="g"></app-item-group>
+					</li>
+				</ul>
+			</div>
 		</div>
   </div>
   <div class="column service__list">
 		<div class="column__content">
 			<div class="column__title">
 				<a href="#" class="column_title_icon create" title="Добавить сервис"></a>
-				<h2 class="mat-h2"><span>{{selectedGroup.name}}</span></h2>
+				<h2 class="mat-h2"><span>{{selectedGroup?.name}}</span></h2>
 			</div>
-			<ul>
-				<li *ngFor="let s of serviceList">
-					<app-item-service [model]="s"></app-item-service>
-				</li>
-			</ul>
+			<div class="overflow">
+				<ul class="scroll">
+					<li *ngFor="let s of serviceList">
+						<app-item-service [model]="s"></app-item-service>
+					</li>
+				</ul>
+			</div>
 		</div>
   </div>
 </div>
