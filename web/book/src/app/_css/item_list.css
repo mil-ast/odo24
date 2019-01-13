@@ -7,7 +7,6 @@
     display: block;
     box-sizing: border-box;
     height: 65px;
-    padding: 25px 30px;
     border-top: 1px #e6e6e6 solid;
     color: #333;
 }
@@ -16,6 +15,7 @@ a.item {
     cursor: pointer;
     transition: 200ms;
     color: #3b70d0;
+    padding:25px 0px 0px 30px;
 }
 
 a.item:hover {

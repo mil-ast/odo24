@@ -3,7 +3,7 @@
 	<div class="column avto__list">
 		<div class="column__content">
 			<div class="column__title">
-				<a href="#" (click)="ShowFormCreateAvto()" class="column_title_icon create" title="Добавить авто"></a>
+				<a href="#" (click)="clickShowFormCreateAvto($event)" class="column_title_icon create" title="Добавить авто"></a>
 				<h2 class="mat-h2"><span>Мои авто</span></h2>
 			</div>
 			<div class="overflow">
@@ -59,7 +59,7 @@
 			<p>Для продолжения необходимо добавить авто!</p>
 		</div>
 		<div>
-			<button mat-raised-button color="primary" (click)="ShowFormCreateAvto()"><i class="icon">&#xe145;</i> Добавить</button>
+			<button mat-raised-button color="primary" (click)="clickShowFormCreateAvto($event)"><i class="icon">&#xe145;</i> Добавить</button>
 		</div>
 	</div>
 </ng-template>

@@ -1,14 +1,18 @@
 a.item {
-    display: grid;
-    cursor: pointer;
-    grid-template-columns: 80px 1fr;
-    padding:0px 4px 0px 30px;
-    align-items: center;
-    height:70px;
+    position: relative;
+    padding-left:70px;
 }
+
 a.item img {
     border:1px transparent solid;
+    position: absolute;
+    top:1px;
+    left:1px;
 }
-a.item.no-photo img {
-    border-color: #eee;
+
+.menu {
+    position: absolute;
+    top:12px;
+    right:10px;
+    z-index:2;
 }

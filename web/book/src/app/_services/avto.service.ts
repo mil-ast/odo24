@@ -27,12 +27,12 @@ export class AvtoService {
     }));
   }
 
-  create(data: AvtoStruct) {
-    return this.http.post(this.url, data);
+  create(data: AvtoStruct): Observable<AvtoStruct> {
+    return this.http.post<AvtoStruct>(this.url, data);
   }
 
-  update(data: FormData) {
-    return this.http.put(this.url, data);
+  update(data: FormData): Observable<AvtoStruct> {
+    return this.http.put<AvtoStruct>(this.url, data);
   }
 
   delete(id: number) {

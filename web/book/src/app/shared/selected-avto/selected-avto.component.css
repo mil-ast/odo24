@@ -17,3 +17,10 @@
     font-size:0.8em;
     color:#5a5a5a;
 }
+
+img {
+    border:1px transparent solid;
+}
+img.avatar__selected__empty {
+    border-color:#eee;
+}

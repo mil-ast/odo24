@@ -1,8 +1,10 @@
 export interface AvtoStruct {
-    avto_id: number;
+    avto_id?: number;
+    user_id?: number;
     name: string;
     odo: number;
-    avatar: boolean;
+    avatar?: boolean;
+    public?: boolean;
 }
 
 export class Avto {

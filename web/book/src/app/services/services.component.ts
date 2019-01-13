@@ -4,6 +4,8 @@ import { AvtoStruct } from '../_classes/avto';
 import { Subscription } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
+import { MatDialog } from '@angular/material';
+import { DialogCreateAvtoComponent } from './dialogs/dialog-create-avto/dialog-create-avto.component';
 
 @Component({
   selector: 'app-services',
@@ -26,6 +28,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     private avtoService: AvtoService,
     private groupService: GroupService,
     private serviceService: ServiceService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -58,6 +61,19 @@ export class ServicesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.avtoListener.unsubscribe();
     this.groupListener.unsubscribe();
+  }
+
+  clickShowFormCreateAvto(event: MouseEvent) {
+    event.preventDefault();
+    const dialog = this.dialog.open(DialogCreateAvtoComponent, {
+      autoFocus: true,
+      width: '500px',
+    });
+
+    dialog.afterClosed().subscribe((avto: AvtoStruct) => {
+      this.avtoList.push(avto);
+      this.avtoService.setSelected(avto);
+    });
   }
 
   private loadServices() {
