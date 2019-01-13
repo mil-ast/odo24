@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AvtoStruct } from 'src/app/_classes/avto';
 import { AvtoService } from 'src/app/_services/avto.service';
 import { MatDialog } from '@angular/material';
 import { DialogUpdateAvtoComponent } from 'src/app/services/dialogs/dialog-update-avto/dialog-update-avto.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-item-avto',
@@ -14,6 +15,7 @@ import { DialogUpdateAvtoComponent } from 'src/app/services/dialogs/dialog-updat
 })
 export class ItemAvtoComponent {
   @Input() model: AvtoStruct;
+  @Output() eventDelete: EventEmitter<AvtoStruct> = new EventEmitter();
   constructor(
     private dialog: MatDialog,
     private avtoService: AvtoService
@@ -37,9 +39,28 @@ export class ItemAvtoComponent {
   }
 
   clickEdit() {
-    const dialog = this.dialog.open(DialogUpdateAvtoComponent, {
+    this.dialog.open(DialogUpdateAvtoComponent, {
       data: this.model,
       width: '500px'
+    });
+  }
+
+  clickDelete() {
+    const dialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Удалить авто?',
+        message: 'Удалить авто и всю историю по ней? Восстановление будет невозможным!',
+        type: 'warn'
+      },
+    });
+    dialog.afterClosed().subscribe((ok: boolean) => {
+      if (!ok) {
+        return;
+      }
+
+      this.avtoService.delete(this.model.avto_id).subscribe(() => {
+        this.eventDelete.emit(this.model);
+      });
     });
   }
 }

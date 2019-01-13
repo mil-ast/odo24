@@ -15,4 +15,8 @@ a.item img {
     top:12px;
     right:10px;
     z-index:2;
+    display: none;
+}
+:host:hover .menu {
+    display: block;
 }

@@ -76,6 +76,18 @@ export class ServicesComponent implements OnInit, OnDestroy {
     });
   }
 
+  onAvtoDelete(avto: AvtoStruct) {
+    const index = this.avtoList.indexOf(avto);
+    if (index !== -1) {
+      this.avtoList.splice(index, 1);
+      if (this.avtoList.length > 0) {
+        this.avtoService.setSelected(this.avtoList[0]);
+      } else {
+        this.avtoService.setSelected(null);
+      }
+    }
+  }
+
   private loadServices() {
     this.serviceList = [];
     if (!this.selectedAvto || !this.selectedGroup) {

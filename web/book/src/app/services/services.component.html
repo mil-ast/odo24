@@ -13,7 +13,7 @@
 					</div>
 					<ul>
 						<li *ngFor="let a of avtoList">
-							<app-item-avto [model]="a"></app-item-avto>
+							<app-item-avto [model]="a" (eventDelete)="onAvtoDelete($event)"></app-item-avto>
 						</li>
 					</ul>
 				</div>

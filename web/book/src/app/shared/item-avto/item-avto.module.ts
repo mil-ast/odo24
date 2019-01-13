@@ -12,11 +12,13 @@ import {
 } from '@angular/material';
 import { DialogUpdateAvtoComponent } from 'src/app/services/dialogs/dialog-update-avto/dialog-update-avto.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
     ItemAvtoComponent,
     DialogUpdateAvtoComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   entryComponents: [
     DialogUpdateAvtoComponent,
+    ConfirmationDialogComponent,
   ]
 })
 export class ItemAvtoModule { }
