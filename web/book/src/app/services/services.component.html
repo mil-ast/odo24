@@ -23,13 +23,13 @@
   <div class="column groups__list">
 		<div class="column__content">
 			<div class="column__title">
-				<a href="#" class="column_title_icon create" title="Добавить группу"></a>
+				<a href="#" class="column_title_icon create" title="Добавить группу" (click)="clickShowFormCreateGroup($event)"></a>
 				<h2 class="mat-h2"><span>Группы</span></h2>
 			</div>
 			<div class="overflow">
 				<ul class="scroll">
 					<li *ngFor="let g of groupList">
-						<app-item-group [model]="g"></app-item-group>
+						<app-item-group [model]="g" (eventDelete)="onGroupDelete($event)"></app-item-group>
 					</li>
 				</ul>
 			</div>

@@ -6,6 +6,7 @@ import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog } from '@angular/material';
 import { DialogCreateAvtoComponent } from './dialogs/dialog-create-avto/dialog-create-avto.component';
+import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
 
 @Component({
   selector: 'app-services',
@@ -71,8 +72,24 @@ export class ServicesComponent implements OnInit, OnDestroy {
     });
 
     dialog.afterClosed().subscribe((avto: AvtoStruct) => {
-      this.avtoList.push(avto);
-      this.avtoService.setSelected(avto);
+      if (avto) {
+        this.avtoList.push(avto);
+        this.avtoService.setSelected(avto);
+      }
+    });
+  }
+
+  clickShowFormCreateGroup(event: MouseEvent) {
+    event.preventDefault();
+    const dialog = this.dialog.open(DialogCreateGroupComponent, {
+      width: '500px',
+    });
+
+    dialog.afterClosed().subscribe((group: GroupStruct) => {
+      if (group) {
+        this.groupList.push(group);
+        this.groupService.setSelected(group);
+      }
     });
   }
 
@@ -84,6 +101,18 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.avtoService.setSelected(this.avtoList[0]);
       } else {
         this.avtoService.setSelected(null);
+      }
+    }
+  }
+
+  onGroupDelete(group: GroupStruct) {
+    const index = this.groupList.indexOf(group);
+    if (index !== -1) {
+      this.groupList.splice(index, 1);
+      if (this.groupList.length > 0) {
+        this.groupService.setSelected(this.groupList[0]);
+      } else {
+        this.groupService.setSelected(null);
       }
     }
   }

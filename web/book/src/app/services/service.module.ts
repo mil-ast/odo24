@@ -11,6 +11,8 @@ import { ItemServiceComponent } from './item-service/item-service.component';
 import { ServiceService } from '../_services/service.service';
 import { DialogCreateAvtoComponent } from './dialogs/dialog-create-avto/dialog-create-avto.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
+import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog-update-group.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ItemServiceComponent,
     DialogCreateAvtoComponent,
     DialogCreateAvtoComponent,
+    DialogCreateGroupComponent,
+    DialogUpdateGroupComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +45,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   entryComponents: [
     DialogCreateAvtoComponent,
+    DialogCreateGroupComponent,
+    DialogUpdateGroupComponent,
   ]
 })
 export class ServiceModule {}

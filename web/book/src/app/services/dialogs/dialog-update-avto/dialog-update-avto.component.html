@@ -1,4 +1,4 @@
-<h2 at-dialog-title>Добавить авто</h2>
+<h2 at-dialog-title>Редактировать авто</h2>
 <mat-dialog-content>
   <form id="form" [formGroup]="form" (ngSubmit)="submit()">
     <div>
@@ -33,6 +33,6 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button form="form" type="submit" color="primary" [disabled]="form.invalid || form.disabled" mat-raised-button>Добавить</button>
+  <button form="form" type="submit" color="primary" [disabled]="form.invalid || form.disabled" mat-raised-button>Сохранить</button>
   <button mat-button mat-dialog-close>Отмена</button>
 </mat-dialog-actions>

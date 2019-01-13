@@ -4,11 +4,11 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 export interface GroupStruct {
-    group_id: number;
+    group_id?: number;
     name: string;
-    order: number;
-    global: boolean;
-    cnt: number;
+    order?: number;
+    global?: boolean;
+    cnt?: number;
 }
 
 @Injectable()
@@ -46,7 +46,7 @@ export class GroupService {
     return this.http.post(this.url, data);
   }
 
-  update(data: FormData) {
+  update(data: GroupStruct) {
     return this.http.put(this.url, data);
   }
 
