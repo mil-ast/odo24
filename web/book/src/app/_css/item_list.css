@@ -9,13 +9,13 @@
     height: 65px;
     border-top: 1px #e6e6e6 solid;
     color: #333;
+    padding:25px 0px 0px 30px;
 }
 a.item {
     text-decoration: none;
     cursor: pointer;
     transition: 200ms;
     color: #3b70d0;
-    padding:25px 0px 0px 30px;
 }
 
 a.item:hover {

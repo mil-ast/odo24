@@ -7,6 +7,7 @@ import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog } from '@angular/material';
 import { DialogCreateAvtoComponent } from './dialogs/dialog-create-avto/dialog-create-avto.component';
 import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
+import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 
 @Component({
   selector: 'app-services',
@@ -89,6 +90,19 @@ export class ServicesComponent implements OnInit, OnDestroy {
       if (group) {
         this.groupList.push(group);
         this.groupService.setSelected(group);
+      }
+    });
+  }
+
+  clickShowFormCreateService(event: MouseEvent) {
+    event.preventDefault();
+    const dialog = this.dialog.open(DialogCreateServiceComponent, {
+      width: '600px',
+    });
+
+    dialog.afterClosed().subscribe((service: ServiceStruct) => {
+      if (service) {
+        this.serviceList.unshift(service);
       }
     });
   }

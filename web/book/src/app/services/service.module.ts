@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ServicesComponent } from './services.component';
-import { MatSnackBarModule, MatProgressSpinnerModule, MatDialogModule, MatButtonModule, MatInputModule, MatIconModule, MatMenuModule } from '@angular/material';
+import { MatSnackBarModule, MatProgressSpinnerModule, MatDialogModule, MatButtonModule, MatInputModule, MatIconModule, MatMenuModule, MatDatepickerModule } from '@angular/material';
 import { AvtoService } from '../_services/avto.service';
 import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module';
 import { ItemAvtoModule } from '../shared/item-avto/item-avto.module';
@@ -13,6 +13,7 @@ import { DialogCreateAvtoComponent } from './dialogs/dialog-create-avto/dialog-c
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
 import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog-update-group.component';
+import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog
     DialogCreateAvtoComponent,
     DialogCreateGroupComponent,
     DialogUpdateGroupComponent,
+    DialogCreateServiceComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +37,7 @@ import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog
     MatInputModule,
     MatIconModule,
     MatMenuModule,
+    MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
   ],
@@ -47,6 +50,7 @@ import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog
     DialogCreateAvtoComponent,
     DialogCreateGroupComponent,
     DialogUpdateGroupComponent,
+    DialogCreateServiceComponent,
   ]
 })
 export class ServiceModule {}

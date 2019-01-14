@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 export interface ServiceStruct {
-    avto_id: number;
-    comment: string;
-    date: string;
-    group_id: number;
+    service_id?: number;
+    avto_id?: number;
+    comment?: string;
+    date?: string;
+    group_id?: number;
     odo: number;
-    service_id: number;
+    next_odo?: number;
 }
 
 @Injectable()
@@ -36,8 +37,8 @@ export class ServiceService {
     ));
   }
 
-  create(data: ServiceStruct) {
-    return this.http.post(this.url, data);
+  create(data: ServiceStruct): Observable<ServiceStruct> {
+    return this.http.post<ServiceStruct>(this.url, data);
   }
 
   update(data: FormData) {
