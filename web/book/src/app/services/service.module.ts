@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
 import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog-update-group.component';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
+import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/di
     DialogCreateGroupComponent,
     DialogUpdateGroupComponent,
     DialogCreateServiceComponent,
+    DialogUpdateServiceComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +53,7 @@ import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/di
     DialogCreateGroupComponent,
     DialogUpdateGroupComponent,
     DialogCreateServiceComponent,
+    DialogUpdateServiceComponent,
   ]
 })
 export class ServiceModule {}

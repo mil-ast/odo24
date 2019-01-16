@@ -44,7 +44,7 @@
 			<div class="overflow">
 				<ul class="scroll">
 					<li *ngFor="let s of serviceList">
-						<app-item-service [model]="s"></app-item-service>
+						<app-item-service [model]="s" (eventOnDelete)="onServiceDelete($event)"></app-item-service>
 					</li>
 				</ul>
 			</div>

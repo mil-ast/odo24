@@ -55,6 +55,7 @@ export class DialogCreateServiceComponent implements OnInit {
       odo: this.form.get('odo').value,
       next_odo: this.form.get('next_odo').value,
       date: this.form.get('date').value,
+      price: this.form.get('price').value,
       comment: this.form.get('comment').value,
     };
 

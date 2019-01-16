@@ -112,6 +112,7 @@ func Services(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		service.User_id = profile.User_id
@@ -120,12 +121,14 @@ func Services(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		data, err := json.Marshal(service)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.WriteHeader(202)

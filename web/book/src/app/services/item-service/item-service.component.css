@@ -1,6 +1,13 @@
 .item {
     display: grid;
-    grid-template-columns: 140px 180px 1fr 40px;
+    grid-template-columns: 140px 180px 1fr 70px 40px;
+}
+.item:hover {
+    color:#000;
+}
+
+.item > div {
+    position: relative;
 }
 
 div.odo > span:first-child {
@@ -13,4 +20,15 @@ div.date > span {
     font-size: 14px;
     position: relative;
     top: 2px;
+}
+
+.menu {
+    position: absolute;
+    top: -12px;
+    right:10px;
+    display: none;
+}
+
+.item:hover .menu {
+    display: block;
 }

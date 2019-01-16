@@ -20,6 +20,7 @@ import {
     MatInputModule,
     MatButtonModule,
     MatProgressBarModule,
+    MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material';
 
 export const DATE_FORMATS = {
@@ -64,6 +65,7 @@ registerLocaleData(localeRu, 'ru');
     {provide: LOCALE_ID, useValue: 'ru-RU'},
     {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000}}
   ],
   exports : [
     SelectedAvtoModule,

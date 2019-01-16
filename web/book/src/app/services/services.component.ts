@@ -131,6 +131,13 @@ export class ServicesComponent implements OnInit, OnDestroy {
     }
   }
 
+  onServiceDelete(service: ServiceStruct) {
+    const index = this.serviceList.indexOf(service);
+    if (index !== -1) {
+      this.serviceList.splice(index, 1);
+    }
+  }
+
   private loadServices() {
     this.serviceList = [];
     if (!this.selectedAvto || !this.selectedGroup) {

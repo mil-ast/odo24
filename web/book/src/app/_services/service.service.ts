@@ -7,6 +7,7 @@ export interface ServiceStruct {
     service_id?: number;
     avto_id?: number;
     comment?: string;
+    price?: number;
     date?: string;
     group_id?: number;
     odo: number;
@@ -41,11 +42,11 @@ export class ServiceService {
     return this.http.post<ServiceStruct>(this.url, data);
   }
 
-  update(data: FormData) {
-    return this.http.put(this.url, data);
+  update(data: ServiceStruct): Observable<ServiceStruct> {
+    return this.http.put<ServiceStruct>(this.url, data);
   }
 
-  delete(id: number) {
-    return this.http.delete(this.url.concat(`?service_id=${id}`));
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.url.concat(`?service_id=${id}`));
   }
 }
