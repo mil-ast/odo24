@@ -2,12 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AvtoService } from '../_services/avto.service';
 import { AvtoStruct } from '../_classes/avto';
 import { Subscription } from 'rxjs';
-import { GroupService, GroupStruct } from '../_services/groups.service';
+import { GroupService, GroupStruct, GroupsStats } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog } from '@angular/material';
 import { DialogCreateAvtoComponent } from './dialogs/dialog-create-avto/dialog-create-avto.component';
 import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-services',
@@ -36,6 +37,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
       this.selectedAvto = avto;
+      this.syncGroupStats();
       this.loadServices();
     });
     this.groupListener = this.groupService.selected.subscribe((group: GroupStruct) => {
@@ -136,6 +138,35 @@ export class ServicesComponent implements OnInit, OnDestroy {
     if (index !== -1) {
       this.serviceList.splice(index, 1);
     }
+  }
+
+  private resetGroupStates() {
+    this.groupList.forEach((group: GroupStruct) => {
+      group.cnt = null;
+    });
+  }
+
+  private syncGroupStats() {
+    if (!this.selectedAvto) {
+      return;
+    }
+
+    this.resetGroupStates();
+
+    this.groupService.getStats(this.selectedAvto.avto_id).pipe(
+      map((stats: GroupsStats[]) => {
+        const links = new Map();
+        stats = stats || [];
+        stats.forEach((row: GroupsStats) => {
+          links.set(row.group_id, row.cnt);
+        });
+        return links;
+      })
+    ).subscribe((stats: Map<number, number>) => {
+      this.groupList.forEach((group: GroupStruct) => {
+        group.cnt = stats.get(group.group_id) | 0;
+      });
+    });
   }
 
   private loadServices() {

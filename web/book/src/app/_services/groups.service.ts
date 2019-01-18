@@ -10,6 +10,10 @@ export interface GroupStruct {
     global?: boolean;
     cnt?: number;
 }
+export interface GroupsStats {
+    group_id?: number;
+    cnt?: number;
+}
 
 @Injectable()
 export class GroupService {
@@ -40,6 +44,14 @@ export class GroupService {
         return 0;
       });
     }));
+  }
+
+  getStats(avtoId: number): Observable<GroupsStats[]> {
+    return this.http.get<GroupsStats[]>(`${this.url}/stats`, {
+      params: {
+        avto_id: avtoId.toString()
+      }
+    });
   }
 
   create(data: GroupStruct) {

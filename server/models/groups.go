@@ -16,8 +16,14 @@ type Group struct {
 	User_id  uint64 `json:"user_id,omitempty"`
 }
 
+type GroupsStat struct {
+	Group_id uint64 `json:"group_id"`
+	Cnt      uint16 `json:"cnt"`
+}
+
 type Groups_list struct {
 	User_id uint64
+	Avto_id uint64
 }
 
 /*
@@ -30,11 +36,8 @@ func (l Groups_list) Get() ([]Group, error) {
 		return nil, err
 	}
 
-	querySQL := `select "groups".group_id,"groups"."name","groups".sort,"groups"."global",count(cars.services.service_id) as cnt ` +
-		`from cars."groups" ` +
-		`left join cars.services on cars.services.group_id=cars."groups".group_id ` +
-		`where cars."groups".user_id in (0,$1) ` +
-		`group by cars."groups".group_id;`
+	querySQL := `select g.group_id,g."name",g.sort,g."global" ` +
+		`from cars."groups" g where g.user_id in (0,$1)`
 	rows, err := conn.Query(querySQL, l.User_id)
 	if err != nil {
 		log.Println(err)
@@ -45,20 +48,19 @@ func (l Groups_list) Get() ([]Group, error) {
 		groupID uint64
 		name    string
 		sort    uint16
-		cnt     uint16
 		global  bool
 	)
 	var responce []Group
 
 	for rows.Next() {
-		rows.Scan(&groupID, &name, &sort, &global, &cnt)
+		rows.Scan(&groupID, &name, &sort, &global)
 
 		responce = append(responce, Group{
 			Group_id: groupID,
 			Name:     name,
 			Order:    sort,
 			Global:   global,
-			Cnt:      cnt,
+			Cnt:      0,
 		})
 	}
 	rows.Close()
@@ -67,6 +69,40 @@ func (l Groups_list) Get() ([]Group, error) {
 		log.Println(err)
 		return nil, err
 	}
+
+	return responce, nil
+}
+
+/*
+	получить список
+*/
+func (l Groups_list) GetStats() ([]GroupsStat, error) {
+	conn, err := db.GetConnection()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	querySQL := "select * from cars.statsgroups($1,$2)"
+	rows, err := conn.Query(querySQL, l.User_id, l.Avto_id)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	var (
+		groupID  uint64
+		cnt      uint16
+		responce []GroupsStat
+	)
+	for rows.Next() {
+		rows.Scan(&groupID, &cnt)
+		responce = append(responce, GroupsStat{
+			Group_id: groupID,
+			Cnt:      cnt,
+		})
+	}
+	rows.Close()
 
 	return responce, nil
 }

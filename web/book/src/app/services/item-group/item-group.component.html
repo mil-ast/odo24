@@ -1,6 +1,6 @@
 <a class="item" (click)="clickSelect($event)" [ngClass]="{'selected' : selected}">
   <span>{{model.name}}</span>
-  <span class="cnt">{{model.cnt}}</span>
+  <span class="cnt" *ngIf="model.cnt !== null">{{model.cnt}}</span>
 </a>
 <div class="menu" *ngIf="!model.global">
   <button mat-icon-button [matMenuTriggerFor]="menu">
