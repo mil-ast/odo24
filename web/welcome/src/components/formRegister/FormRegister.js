@@ -75,9 +75,7 @@ class FormRegister extends Component {
             e.target.password.className = classError;
             this.setError('password_length');
             return false;
-        }
-    
-        if (passwd !== passwd2) {
+        } else if (passwd !== passwd2) {
             e.target.password2.className = classError;
             this.setError('password_diff');
             return false;
@@ -85,15 +83,16 @@ class FormRegister extends Component {
 
         const body = {
             login : login,
+            password: passwd,
         };
     
         const request = {
             method: 'POST',
             body: JSON.stringify(body)
         };
-        fetch('/api/register/confirm', request).then((res) => {
+        fetch('/api/register', request).then((res) => {
             switch(res.status) {
-            case 204:
+            case 201:
                 this.props.stage.emit('change', 2);
             break;
             case 409:

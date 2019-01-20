@@ -64,8 +64,8 @@ func main() {
 	sessions.SetMaxLifeTime(time.Minute * 20)
 
 	// профиль
-	//http.HandleFunc("/api/register/confirm", handlers.ProfileConfirmEmail)
-	//http.HandleFunc("/api/register", handlers.Profile_register)
+	http.HandleFunc("/api/register/confirm", handlers.ProfileConfirmEmail)
+	http.HandleFunc("/api/register", handlers.Profile_register)
 	http.HandleFunc("/api/profile/login", handlers.Profile_login)
 	http.HandleFunc("/api/profile/logout", handlers.Profile_logout)
 	http.HandleFunc("/api/profile", handlers.Profile)

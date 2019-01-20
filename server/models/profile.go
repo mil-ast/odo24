@@ -23,7 +23,7 @@ type Profile struct {
 	User_id   uint64 `json:"user_id"`
 	Login     string `json:"login,omitempty"`
 	Phone     uint64 `json:"phone,omitempty"`
-	Time_zone int8   `json:"time_zone"`
+	Time_zone int8   `json:"time_zone,omitempty"`
 	Password  string `json:"password,omitempty"`
 	Code      uint32 `json:"code,omitempty"`
 }
@@ -44,16 +44,21 @@ func (p *Profile) Auth() error {
 		return err
 	}
 
-	sqlQuery := "select * from cars.getprofile($1, $2::bytea);"
+	sqlQuery := "select user_id,login from profiles.login($1, $2::bytea);"
 	row := conn.QueryRow(sqlQuery, p.Login, p.Password)
-	err = row.Scan(&p.Login, &p.User_id)
+	err = row.Scan(&p.User_id, &p.Login)
 
 	// очистим пароль чтобы не возвращать на клиент
 	p.Password = ""
 
 	if err != nil {
-		log.Println(err)
-		return errors.New("incorrect login")
+		switch err.Error() {
+		case "user not found", "password error":
+			return errors.New("incorrect login/password")
+		default:
+			log.Println(err)
+			return err
+		}
 	}
 
 	if p.User_id == 0 {
@@ -141,44 +146,14 @@ func (p *Profile) Register() error {
 		return err
 	}
 
-	// проверим валидность кода подтверждения
-	querySQL := "SELECT `code` FROM `users_confirm` WHERE `value`=? AND `type`=?"
-	row := conn.QueryRow(querySQL, p.Login, "EMAIL")
-
-	var code uint32
-	row.Scan(&code)
-	if code == 0 {
-		return errors.New("code is empty")
-	}
-	if code != p.Code {
-		return errors.New("codes do not match")
-	}
-
-	h := sha256.New()
-	h.Write([]byte(p.Password))
-	byteHash := h.Sum(nil)
-
-	// очистим пароль
+	password := p.Password
 	p.Password = ""
-	p.Time_zone = 10
-	p.Code = 0
 
-	querySQL = "INSERT INTO `users` SET `login`=?,`password_hash`=?,`time_zone`=?,`last accessed`=?"
-	result, err := conn.Exec(querySQL, p.Login, byteHash, p.Time_zone, time.Now().Format("2006-01-02"))
-	if err != nil {
-		log.Println(err)
-		return err
-	}
+	querySQL := "select * from profiles.register($1,$2)"
+	row := conn.QueryRow(querySQL, p.Login, password)
+	err = row.Scan(&p.User_id, &p.Login)
 
-	lastID, err := result.LastInsertId()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	p.User_id = uint64(lastID)
-
-	return nil
+	return err
 }
 
 /**

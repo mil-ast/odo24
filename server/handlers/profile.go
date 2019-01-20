@@ -3,6 +3,7 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
+	"log"
 	"net/http"
 	"sto/server/models"
 
@@ -27,7 +28,7 @@ func ProfileConfirmEmail(w http.ResponseWriter, r *http.Request) {
 	err = profile.ConfirmEmail()
 	if err != nil {
 		switch err.Error() {
-		case "login is exists":
+		case "pq: login is exists":
 			http.Error(w, http.StatusText(409), 409)
 			return
 		default:
@@ -58,14 +59,15 @@ func Profile_register(w http.ResponseWriter, r *http.Request) {
 
 	err = profile.Register()
 	if err != nil {
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		if err.Error() == "pq: login is exists" {
+			http.Error(w, http.StatusText(http.StatusConflict), http.StatusConflict)
+		} else {
+			log.Println(err.Error())
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
+
 		return
 	}
-
-	// сразу авторизовываем
-	ses := sessions.Get(w, r)
-	ses.Set("auth", true)
-	ses.Set("profile", profile)
 
 	data, err := json.Marshal(profile)
 	if err != nil {
