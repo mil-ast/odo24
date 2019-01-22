@@ -42,7 +42,7 @@
 				<h2 class="mat-h2"><span>{{selectedGroup?.name}}</span></h2>
 			</div>
 			<div class="overflow">
-				<ul class="scroll">
+				<ul class="scroll" *ngIf="serviceList.length > 0; else emptyServices">
 					<li *ngFor="let s of serviceList">
 						<app-item-service [model]="s" (eventOnDelete)="onServiceDelete($event)"></app-item-service>
 					</li>
@@ -51,15 +51,23 @@
 		</div>
   </div>
 </div>
-
-<ng-template #emptyBody>
-	<div id="empty_avto" *ngIf="!isSync">
-		<h2>Начало работы!</h2>
-		<div>
-			<p>Для продолжения необходимо добавить авто!</p>
-		</div>
-		<div>
-			<button mat-raised-button color="primary" (click)="clickShowFormCreateAvto($event)"><i class="icon">&#xe145;</i> Добавить</button>
-		</div>
+<ng-template #emptyServices>
+	<div class="padding-content">
+		<p>Записей ещё нет. <a href="#" (click)="clickShowFormCreateService($event)">Добавить</a> новую запись обслуживания.</p>
 	</div>
+</ng-template>
+<ng-template #emptyBody>
+	<mat-card id="empty_avto" *ngIf="!isSync">
+		<mat-card-header>
+			<mat-card-title>Добавить авто</mat-card-title>
+			<mat-card-subtitle>У вас ещё нет добавленных автомобилей</mat-card-subtitle>
+		</mat-card-header>
+		<mat-card-content>
+			<p>Для продолжения необходимо добавить ваш автомобиль и вам откроются все возможности сервисной книжки.</p>
+			<p>Вы сможете добавлять и изменять записи обслуживания авто, контролировать плановые работы и видеть всю историю вашего авто!</p>
+		</mat-card-content>
+		<mat-card-actions>
+			<button mat-raised-button color="primary" (click)="clickShowFormCreateAvto($event)"><i class="icon">&#xe145;</i> Добавить</button>
+		</mat-card-actions>
+	</mat-card>
 </ng-template>

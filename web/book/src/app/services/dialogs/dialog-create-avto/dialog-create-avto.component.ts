@@ -28,7 +28,7 @@ export class DialogCreateAvtoComponent {
     this.avtoService.create(data).subscribe((avto: AvtoStruct) => {
       this.dialogRef.close(avto);
 
-      this.snackBar.open('Группа успешно добавлена!', 'OK', {
+      this.snackBar.open('Авто успешно добавлена!', 'OK', {
         duration: 5000,
       });
     }, (e) => {

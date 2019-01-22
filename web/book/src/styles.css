@@ -36,7 +36,10 @@ button:focus, input:focus, a:focus {
     outline: none !important;
 }
 
-a, a:active, a:focus { outline: none; text-decoration: none; }
+a, a:active, a:focus { outline: none; text-decoration: none; color: #3b70d0; }
+a:hover {
+    color:#333;
+}
 input, textarea {outline:none;}
 input:active, textarea:active {outline:none;}
 :focus {outline:none;}

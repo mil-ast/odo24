@@ -47,7 +47,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     this.avtoService.get().subscribe((list: AvtoStruct[]) => {
       this.avtoList = list || [];
-      if (list.length > 0) {
+      if (this.avtoList.length > 0) {
         this.avtoService.setSelected(list[0]);
       }
 
@@ -105,6 +105,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     dialog.afterClosed().subscribe((service: ServiceStruct) => {
       if (service) {
         this.serviceList.unshift(service);
+        this.incrementGroupCnt(service.group_id);
       }
     });
   }
@@ -137,6 +138,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     const index = this.serviceList.indexOf(service);
     if (index !== -1) {
       this.serviceList.splice(index, 1);
+      this.decrementGroupCnt(service.group_id);
     }
   }
 
@@ -177,6 +179,25 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     this.serviceService.get(this.selectedAvto.avto_id, this.selectedGroup.group_id).subscribe((list: ServiceStruct[]) => {
       this.serviceList = list || [];
+    });
+  }
+
+  private incrementGroupCnt(group_id: number) {
+    const group = this.findGroupById(group_id);
+    if (group) {
+      group.cnt++;
+    }
+  }
+
+  private decrementGroupCnt(group_id: number) {
+    const group = this.findGroupById(group_id);
+    if (group) {
+      group.cnt--;
+    }
+  }
+  private findGroupById(group_id: number): GroupStruct | undefined {
+    return this.groupList.find((g: GroupStruct) => {
+      return g.group_id === group_id;
     });
   }
 }

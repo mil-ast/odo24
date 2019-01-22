@@ -7,3 +7,14 @@
 #content {
     grid-template-columns: 300px 300px 1fr;
 }
+
+#empty_avto {
+    margin:40px;
+    padding:40px;
+    width:50%;
+    min-width:400px;
+}
+
+.padding-content {
+    padding:30px;
+}
