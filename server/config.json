@@ -5,7 +5,7 @@
 		"smtp_host" : "smtp.gmail.com",
 		"smtp_port" : 587,
 		"smtp_from" : "odometer.online@gmail.com",
-		"smtp_password" : "Dhfuytghjqltn1"
+		"smtp_password" : "LQEBeb5xw4hR6DB"
 	},
 	"db" : {
 		"driver_name" : "postgres",

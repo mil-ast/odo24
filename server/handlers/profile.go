@@ -196,7 +196,7 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 /**
 	выход из профиля
 **/
-func Profile_logout(w http.ResponseWriter, r *http.Request) {
+func ProfileLogout(w http.ResponseWriter, r *http.Request) {
 	ses := sessions.Get(w, r)
 
 	sessions.Delete(w, r)
@@ -207,6 +207,30 @@ func Profile_logout(w http.ResponseWriter, r *http.Request) {
 
 		var profile models.Profile = models.Profile{User_id: user_id}
 		profile.Logout()
+	}
+
+	w.WriteHeader(204)
+}
+
+/**
+	восстановление пароля
+**/
+func ProfileRecovery(w http.ResponseWriter, r *http.Request) {
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var recovery models.ProfileEmail
+
+	err := json.Unmarshal(buf.Bytes(), &recovery)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	err = recovery.CreateCode()
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	w.WriteHeader(204)

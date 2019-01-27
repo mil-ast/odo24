@@ -14,11 +14,6 @@ import (
 	"github.com/mil-ast/db"
 )
 
-type AuthStates struct {
-	Fail    bool
-	Version string
-}
-
 type Profile struct {
 	User_id   uint64 `json:"user_id"`
 	Login     string `json:"login,omitempty"`
