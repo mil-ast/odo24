@@ -145,7 +145,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 /**
 	авторизация
 **/
-func Profile_login(w http.ResponseWriter, r *http.Request) {
+func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	ses := sessions.Get(w, r)
 
@@ -179,8 +179,10 @@ func Profile_login(w http.ResponseWriter, r *http.Request) {
 			ses.Set("auth", false)
 
 			switch err.Error() {
-			case "incorrect login", "user is not exists", "incorrect password":
+			case "pq: password error", "pq: user not found", "pq: incorrect password":
 				w.WriteHeader(403)
+			case "no password is set", "login is not specified":
+				w.WriteHeader(400)
 			default:
 				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 				return

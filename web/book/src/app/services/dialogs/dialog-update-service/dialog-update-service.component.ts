@@ -23,7 +23,7 @@ export class DialogUpdateServiceComponent implements OnInit {
     this.form = new FormGroup({
       odo: new FormControl(this.data.odo, [Validators.required, Validators.min(0)]),
       next_odo: new FormControl(this.data.next_odo, Validators.min(0)),
-      date: new FormControl(this.data.date),
+      date: new FormControl(this.data.date, Validators.required),
       price: new FormControl(this.data.price, Validators.min(0)),
       comment: new FormControl(this.data.comment),
     });

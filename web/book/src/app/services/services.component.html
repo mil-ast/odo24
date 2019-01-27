@@ -42,6 +42,7 @@
 				<h2 class="mat-h2"><span>{{selectedGroup?.name}}</span></h2>
 			</div>
 			<div class="overflow">
+				<mat-progress-bar mode="indeterminate" class="sync-spinner" *ngIf="isSyncServices"></mat-progress-bar>
 				<ul class="scroll" *ngIf="serviceList.length > 0; else emptyServices">
 					<li *ngFor="let s of serviceList">
 						<app-item-service [model]="s" (eventOnDelete)="onServiceDelete($event)"></app-item-service>
@@ -52,13 +53,14 @@
   </div>
 </div>
 <ng-template #emptyServices>
-	<div class="padding-content">
+	<div class="padding-content" *ngIf="!isSyncServices">
 		<p>Записей ещё нет. <a href="#" (click)="clickShowFormCreateService($event)">Добавить</a> новую запись обслуживания.</p>
 	</div>
 </ng-template>
 <ng-template #emptyBody>
 	<mat-card id="empty_avto" *ngIf="!isSync">
 		<mat-card-header>
+			<img mat-card-avatar src="/assets/images/odo2.jpg" />
 			<mat-card-title>Добавить авто</mat-card-title>
 			<mat-card-subtitle>У вас ещё нет добавленных автомобилей</mat-card-subtitle>
 		</mat-card-header>
@@ -67,7 +69,7 @@
 			<p>Вы сможете добавлять и изменять записи обслуживания авто, контролировать плановые работы и видеть всю историю вашего авто!</p>
 		</mat-card-content>
 		<mat-card-actions>
-			<button mat-raised-button color="primary" (click)="clickShowFormCreateAvto($event)"><i class="icon">&#xe145;</i> Добавить</button>
+			<button mat-raised-button color="primary" (click)="clickShowFormCreateAvto($event)"><i class="icon">&#xe145;</i> Добавить авто</button>
 		</mat-card-actions>
 	</mat-card>
 </ng-template>

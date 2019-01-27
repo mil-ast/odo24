@@ -31,7 +31,7 @@ export class DialogCreateServiceComponent implements OnInit {
     this.form = new FormGroup({
       odo: new FormControl(null, [Validators.required, Validators.min(0)]),
       next_odo: new FormControl(null, Validators.min(0)),
-      date: new FormControl(moment()),
+      date: new FormControl(moment(), Validators.required),
       price: new FormControl(null, Validators.min(0)),
       comment: new FormControl(''),
     });

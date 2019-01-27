@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material';
 import { DialogCreateAvtoComponent } from './dialogs/dialog-create-avto/dialog-create-avto.component';
 import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
-import { map } from 'rxjs/operators';
+import { map, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-services',
@@ -23,6 +23,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
   selectedAvto: AvtoStruct = null;
   selectedGroup: GroupStruct = null;
   isSync = true;
+  isSyncServices = true;
 
   private avtoListener: Subscription;
   private groupListener: Subscription;
@@ -35,6 +36,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isSyncServices = true;
+
     this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
       this.selectedAvto = avto;
       this.syncGroupStats();
@@ -177,7 +180,12 @@ export class ServicesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.serviceService.get(this.selectedAvto.avto_id, this.selectedGroup.group_id).subscribe((list: ServiceStruct[]) => {
+    this.isSyncServices = true;
+    this.serviceService.get(this.selectedAvto.avto_id, this.selectedGroup.group_id).pipe(
+      finalize(() => {
+        this.isSyncServices = false;
+      })
+    ).subscribe((list: ServiceStruct[]) => {
       this.serviceList = list || [];
     });
   }

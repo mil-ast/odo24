@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Profile } from '../_classes/profile';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -47,17 +47,12 @@ export class ProfileService {
         });
     }
 
-    login(login: string, password: string) {
-        const req = this.http.post(this.url_login, { login: login, password: password });
-        req.subscribe((responce: any) => {
+    login(login: string, password: string): Observable<Profile> {
+        return this.http.post<Profile>(this.url_login, { login: login, password: password }).pipe(tap((responce) => {
             const profile: Profile = new Profile(responce);
-
             sessionStorage.setItem('isauth', '1');
             this.profile.next(profile);
-            this.router.navigate(['/service']);
-        }, () => {
-            this.exit();
-        });
+        }));
     }
 
     logout() {

@@ -20,6 +20,7 @@ div.date > span {
     font-size: 14px;
     position: relative;
     top: 2px;
+    border-radius: 4px;
 }
 
 .menu {

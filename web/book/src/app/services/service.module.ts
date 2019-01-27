@@ -1,7 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ServicesComponent } from './services.component';
-import { MatSnackBarModule, MatProgressSpinnerModule, MatDialogModule, MatButtonModule, MatInputModule, MatIconModule, MatMenuModule, MatDatepickerModule, MatCardModule } from '@angular/material';
+import {
+  MatSnackBarModule,
+  MatProgressSpinnerModule,
+  MatProgressBarModule,
+  MatDialogModule,
+  MatButtonModule,
+  MatInputModule,
+  MatIconModule,
+  MatMenuModule,
+  MatDatepickerModule,
+  MatCardModule } from '@angular/material';
 import { AvtoService } from '../_services/avto.service';
 import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module';
 import { ItemAvtoModule } from '../shared/item-avto/item-avto.module';
@@ -34,6 +44,7 @@ import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/di
     ItemAvtoModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatDialogModule,
     MatButtonModule,
     MatInputModule,

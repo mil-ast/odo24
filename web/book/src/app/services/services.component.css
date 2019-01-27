@@ -18,3 +18,9 @@
 .padding-content {
     padding:30px;
 }
+
+.sync-spinner {
+    position: relative;
+    top: 0px;
+    left:0px;
+}

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from '../../../_services/profile.service';
-import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -10,21 +10,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-    login = '';
-    password = '';
     isIncorrect = false;
-    isFormRegister = false;
-
-    public formRegister: FormGroup;
+    isSync = false;
+    formAuth: FormGroup;
 
     constructor(
         private fb: FormBuilder,
         private router: Router,
         private profileService: ProfileService
     ) {
-        this.formRegister = this.fb.group({
+        this.formAuth = this.fb.group({
             login: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.minLength(3) ]],
+            password: ['', [ Validators.required, Validators.minLength(3) ]],
         });
     }
 
@@ -32,7 +29,7 @@ export class HomeComponent implements OnInit {
         const login = localStorage.getItem('login');
         const password = localStorage.getItem('password');
         if (login !== null || password !== null) {
-            this.formRegister.patchValue({
+            this.formAuth.patchValue({
                 login : login,
                 password : password,
             });
@@ -43,22 +40,22 @@ export class HomeComponent implements OnInit {
     }
 
     submitLogin() {
-        if (!this.login || !this.password) {
+        if (this.formAuth.invalid) {
             return;
         }
 
-        /*this.profileService.profile$.subscribe((res) => {
-            console.log(res);
-            if (res !== null) {
-                this.router.navigate(['/service']);
-            }
-        });*/
-
-        this.profileService.login(this.login, this.password);
-    }
-
-    ToggleFormRegister(event: boolean) {
-        this.isFormRegister = event;
-        return false;
+        this.isSync = true;
+        this.isIncorrect = false;
+        this.formAuth.disable();
+        this.profileService.login(this.formAuth.controls.login.value, this.formAuth.controls.password.value).pipe(
+            finalize(() => {
+                this.formAuth.enable();
+            })
+        ).subscribe(() => {
+            this.router.navigate(['/service']);
+        }, () => {
+            this.isIncorrect = true;
+            this.profileService.exit();
+        });
     }
 }
