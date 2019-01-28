@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"net/smtp"
@@ -9,11 +10,12 @@ import (
 	"github.com/mil-ast/db"
 )
 
-type ProfileEmail struct {
-	Email string `json:"email"`
+type ProfileRecovery struct {
+	Email string `json:"email,omitempty"`
+	Code  uint16 `json:"code,omitempty"`
 }
 
-func (r ProfileEmail) CreateCode() error {
+func (r ProfileRecovery) CreateCode() error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err
@@ -30,6 +32,8 @@ func (r ProfileEmail) CreateCode() error {
 
 	// отправка почты
 	go func() {
+		return
+
 		cfg := config.GetInstance()
 
 		auth := smtp.PlainAuth("", cfg.App.SmtpFrom, cfg.App.SmtpPassword, cfg.App.SmtpHost)
@@ -46,6 +50,31 @@ func (r ProfileEmail) CreateCode() error {
 			log.Println(err)
 		}
 	}()
+
+	return nil
+}
+
+func (r ProfileRecovery) ConfirmCode() error {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	sqlQuery := "select * from profiles.checkrestorecode($1,$2)"
+	row := conn.QueryRow(sqlQuery, r.Email, r.Code)
+
+	var state bool
+	err = row.Scan(&state)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	log.Println("state", state)
+
+	if !state {
+		return errors.New("incorrect")
+	}
 
 	return nil
 }

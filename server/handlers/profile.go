@@ -216,10 +216,15 @@ func ProfileLogout(w http.ResponseWriter, r *http.Request) {
 	восстановление пароля
 **/
 func ProfileRecovery(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
 	var buf bytes.Buffer
 	buf.ReadFrom(r.Body)
 
-	var recovery models.ProfileEmail
+	var recovery models.ProfileRecovery
 
 	err := json.Unmarshal(buf.Bytes(), &recovery)
 	if err != nil {
@@ -230,6 +235,40 @@ func ProfileRecovery(w http.ResponseWriter, r *http.Request) {
 	err = recovery.CreateCode()
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(204)
+}
+
+/**
+	подтверждение кода
+**/
+func ProfileRecoveryConfirmCode(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var recovery models.ProfileRecovery
+
+	err := json.Unmarshal(buf.Bytes(), &recovery)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	err = recovery.ConfirmCode()
+	if err != nil {
+		if err.Error() == "incorrect" {
+			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		} else {
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
+
 		return
 	}
 

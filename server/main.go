@@ -69,6 +69,7 @@ func main() {
 	http.HandleFunc("/api/profile/login", handlers.ProfileLogin)
 	http.HandleFunc("/api/profile/logout", handlers.ProfileLogout)
 	http.HandleFunc("/api/profile/recovery", handlers.ProfileRecovery)
+	http.HandleFunc("/api/profile/confirm_code", handlers.ProfileRecoveryConfirmCode)
 	http.HandleFunc("/api/profile", handlers.Profile)
 	// авто
 	http.HandleFunc("/api/avto", handlers.Avto)
