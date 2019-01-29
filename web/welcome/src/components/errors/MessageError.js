@@ -12,16 +12,10 @@ class MessageError extends Component {
 
   getMessage() {
     switch (this.props.error) {
-      case 'incorrect_email':
-        return (<span>Неправильный формат e-mail</span>);
-      case 'password_length':
-        return (<span>Длина пароля должна быть не менее 5 знаков</span>);
-      case 'password_diff':
-        return (<span>Пароли не совпадают</span>);
       case 'login_busy':
         return (<span>Такой e-mail уже занят</span>);
       default:
-        return (<span>Произошла непредвиденная ошибка!</span>);
+        return (<span>{this.props.error}</span>);
     }
   }
 }

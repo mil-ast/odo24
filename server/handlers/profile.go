@@ -274,3 +274,37 @@ func ProfileRecoveryConfirmCode(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(204)
 }
+
+/**
+	Сброс пароля
+**/
+func ProfileRecoveryResetPassword(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var recovery models.ProfileRecovery
+
+	err := json.Unmarshal(buf.Bytes(), &recovery)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	if len(recovery.Email) < 6 || len(recovery.Password) < 4 {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	err = recovery.ResetPassword()
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(204)
+}

@@ -21,6 +21,9 @@ class FormRepair extends Component {
       case 3:
         layer = this.renderNewPassword();
       break;
+      case 4:
+        layer = this.renderSuccess();
+      break;
       default:
         layer = this.renderGetEmail();
     }
@@ -37,7 +40,7 @@ class FormRepair extends Component {
   renderGetEmail() {
     return (
       <div>
-        <form id="repair_form" method="POST" onSubmit={this.submitEmail.bind(this)} action="/api/profile/recovery">
+        <form id="repair_get_email" method="POST" onSubmit={this.submitEmail.bind(this)} action="/api/profile/recovery">
           <div className="form__row">
             <input autoFocus tabIndex="1" className="form__input" type="text" name="email" required autoComplete="off" placeholder="E-mail" />
             <p>Укажите ваш e-mail, куда будет отправлен код подтверждения</p>
@@ -55,7 +58,7 @@ class FormRepair extends Component {
   renderGetCode() {
     return (
       <div>
-        <form id="repair_form" method="POST" onSubmit={this.submitCode.bind(this)} action="/api/profile/confirm_code">
+        <form id="repair_get_code" method="POST" onSubmit={this.submitCode.bind(this)} action="/api/profile/confirm_code">
           <div className="form__row">
             <input autoFocus tabIndex="1" className="form__input" type="number" name="code" required autoComplete="off" placeholder="Код подтверждения" />
             <p>Укажите код подтверждения</p>
@@ -73,7 +76,7 @@ class FormRepair extends Component {
   renderNewPassword() {
     return (
       <div>
-        <form id="repair_form" method="POST" onSubmit={this.submitResetPassword.bind(this)} action="/api/profile/reset_password">
+        <form id="repair_new_passwd" method="POST" onSubmit={this.submitResetPassword.bind(this)} action="/api/profile/reset_password">
           <div className="form__row">
             <input autoFocus tabIndex="1" className="form__input" type="password" name="passwd1" required autoComplete="off" placeholder="Новый пароль" />
             <p>Придумайте новый пароль</p>
@@ -92,6 +95,13 @@ class FormRepair extends Component {
     );
   }
 
+  renderSuccess() {
+    return (<div>
+      <h2>Пароль успешно изменён!</h2>
+      <p>Теперь можно перейти к <a href="/book/">авторизации</a></p>
+    </div>);
+  }
+
   submitEmail(event) {
     try {
       event.preventDefault();
@@ -100,7 +110,7 @@ class FormRepair extends Component {
       this.setState({ error: null });
 
       if (!/\S+@\S+\.\S+/.test(email)) {
-        throw new Error('incorrect_email');
+        throw new Error('Неправильный формат e-mail');
       }
 
       const body = {
@@ -111,6 +121,9 @@ class FormRepair extends Component {
           body: JSON.stringify(body)
       };
       fetch(event.target.action, request).then((res) => {
+        if (res.status !== 204) {
+          throw new Error('Email либо не существует, либо недопустимый.');
+        }
         this.setState({
           email: email,
           stage: 2,
@@ -144,6 +157,11 @@ class FormRepair extends Component {
           body: JSON.stringify(body)
       };
       fetch(event.target.action, request).then((res) => {
+        if (res.status === 400) {
+          throw new Error('Вы ввели неправильный код подтверждения');
+        } else if (res.status !== 204) {
+          throw new Error('Произошла ошибка при получении кода подтверждения');
+        }
         this.setState({
           stage: 3,
         });
@@ -159,8 +177,42 @@ class FormRepair extends Component {
     try {
       event.preventDefault();
       this.setState({ error: null });
-    } catch (e) {
 
+      const passwd1 = event.target.passwd1.value;
+      const passwd2 = event.target.passwd2.value;
+      if (!passwd1) {
+        throw new Error('Необходимо придумать пароль');
+      }
+
+      if (passwd1.length < 4) {
+        throw new Error('Пароль слишком короткий');
+      }
+
+      if (passwd1 !== passwd2) {
+        throw new Error('Пароли не совпадают');
+      }
+
+      const request = {
+        method: 'POST',
+        body: JSON.stringify({
+          email: this.state.email,
+          password: passwd1,
+        })
+      };
+      fetch(event.target.action, request).then((res) => {
+        if (res.status !== 204) {
+          throw new Error('Произошла непредвиденная ошибка!');
+        }
+        
+        this.setState({
+          stage: 4,
+        });
+      }).catch((e) => {
+        console.log(e.message);
+        this.setError(e.message);
+      });
+    } catch (e) {
+      this.setError(e.message);
     }
   }
   

@@ -11,8 +11,9 @@ import (
 )
 
 type ProfileRecovery struct {
-	Email string `json:"email,omitempty"`
-	Code  uint16 `json:"code,omitempty"`
+	Email    string `json:"email,omitempty"`
+	Code     uint32 `json:"code,omitempty"`
+	Password string `json:"password,omitempty"`
 }
 
 func (r ProfileRecovery) CreateCode() error {
@@ -74,6 +75,22 @@ func (r ProfileRecovery) ConfirmCode() error {
 
 	if !state {
 		return errors.New("incorrect")
+	}
+
+	return nil
+}
+
+func (r ProfileRecovery) ResetPassword() error {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	sqlQuery := "call profiles.resetpassword($1,$2::bytea)"
+	_, err = conn.Exec(sqlQuery, r.Email, r.Password)
+	if err != nil {
+		log.Println(err)
+		return err
 	}
 
 	return nil
