@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MessageError from '../errors/messageError';
+import '../form.css';
 
 class FormRegister extends Component {
     constructor(props) {
@@ -39,8 +40,8 @@ class FormRegister extends Component {
                     </div>
                 </div>
                 <MessageError error={this.state.error} />
-                <div id="repair">
-                    <button type="button" onClick={this.clickRepair.bind(this)}>Восстановить пароль</button>
+                <div id="repair" className="bottom-links">
+                    <a className="underline" href="/" onClick={this.clickRepair.bind(this)}>Восстановить пароль</a>
                 </div>
             </form>
         </div>
@@ -119,7 +120,8 @@ class FormRegister extends Component {
         return false;
     }
 
-    clickRepair() {
+    clickRepair(event) {
+        event.preventDefault();
         this.props.stage.emit('change', 3);
     }
 }

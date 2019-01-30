@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MessageError from '../errors/messageError';
+import '../form.css';
 
 class FormRepair extends Component {
   constructor() {
@@ -46,11 +47,13 @@ class FormRepair extends Component {
             <p>Укажите ваш e-mail, куда будет отправлен код подтверждения</p>
           </div>
           <div>
-            <button type="submit">Отправить</button>
+            <button type="submit" className="form__button">Отправить</button>
           </div>
           <MessageError error={this.state.error} />
         </form>
-        <button onClick={this.clickBack.bind(this)}>Назад</button>
+        <div className="bottom-links">
+          <a href="/" className="underline" onClick={this.clickBack.bind(this)}>В начало</a>
+        </div>
       </div>
     );
   }
@@ -64,11 +67,13 @@ class FormRepair extends Component {
             <p>Укажите код подтверждения</p>
           </div>
           <div>
-            <button type="submit">Отправить</button>
+            <button type="submit" className="form__button">Отправить</button>
           </div>
           <MessageError error={this.state.error} />
         </form>
-        <button onClick={this.clickBack.bind(this)}>Назад</button>
+        <div className="bottom-links">
+          <a href="/" className="underline" onClick={this.clickBack.bind(this)}>В начало</a>
+        </div>
       </div>
     );
   }
@@ -86,11 +91,13 @@ class FormRepair extends Component {
             <p>Придумайте новый пароль</p>
           </div>
           <div>
-            <button type="submit">Сохранить</button>
+            <button type="submit" className="form__button">Сохранить</button>
           </div>
           <MessageError error={this.state.error} />
         </form>
-        <button onClick={this.clickBack.bind(this)}>Назад</button>
+        <div className="bottom-links">
+          <a href="/" className="underline" onClick={this.clickBack.bind(this)}>В начало</a>
+        </div>
       </div>
     );
   }
@@ -216,7 +223,8 @@ class FormRepair extends Component {
     }
   }
   
-  clickBack() {
+  clickBack(event) {
+    event.preventDefault();
     this.props.stage.emit('change', 1);
   }
 

@@ -15,12 +15,13 @@ import (
 )
 
 type Profile struct {
-	User_id   uint64 `json:"user_id"`
-	Login     string `json:"login,omitempty"`
-	Phone     uint64 `json:"phone,omitempty"`
-	Time_zone int8   `json:"time_zone,omitempty"`
-	Password  string `json:"password,omitempty"`
-	Code      uint32 `json:"code,omitempty"`
+	User_id       uint64 `json:"user_id"`
+	Login         string `json:"login,omitempty"`
+	Phone         uint64 `json:"phone,omitempty"`
+	Time_zone     int8   `json:"time_zone,omitempty"`
+	IsNoConfirmed bool   `json:"is_no_confirmed,omitempty"`
+	Password      string `json:"password,omitempty"`
+	Code          uint32 `json:"code,omitempty"`
 }
 
 /*
@@ -39,9 +40,9 @@ func (p *Profile) Auth() error {
 		return err
 	}
 
-	sqlQuery := "select user_id,login from profiles.login($1, $2::bytea);"
+	sqlQuery := "select user_id,login,is_no_confirmed from profiles.login($1, $2::bytea);"
 	row := conn.QueryRow(sqlQuery, p.Login, p.Password)
-	err = row.Scan(&p.User_id, &p.Login)
+	err = row.Scan(&p.User_id, &p.Login, &p.IsNoConfirmed)
 
 	// очистим пароль чтобы не возвращать на клиент
 	p.Password = ""
