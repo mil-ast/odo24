@@ -193,3 +193,21 @@ func (p *Profile) Save(password string) error {
 
 	return nil
 }
+
+/**
+	изменить пароль
+**/
+func (p Profile) UpdatePassword() error {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	querySQL := "call profiles.updatepassword($1,$2::bytea) "
+	_, err = conn.Exec(querySQL, p.User_id, p.Password)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

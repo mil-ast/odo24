@@ -29,12 +29,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  SubmitUpdateFrofile() {
+  submitUpdateFrofile() {
     if (this.password.length < 5 || this.password !== this.password2) {
       return;
     }
 
-    const req = this.profileService.Update({ password: this.password });
+    const req = this.profileService.update({ password: this.password });
     req.subscribe(() => {
       this.password = '';
       this.password2 = '';

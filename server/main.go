@@ -71,6 +71,7 @@ func main() {
 	http.HandleFunc("/api/profile/recovery", handlers.ProfileRecovery)
 	http.HandleFunc("/api/profile/confirm_code", handlers.ProfileRecoveryConfirmCode)
 	http.HandleFunc("/api/profile/reset_password", handlers.ProfileRecoveryResetPassword)
+	http.HandleFunc("/api/profile/update_password", handlers.ProfileUpdatePassword)
 	http.HandleFunc("/api/profile", handlers.Profile)
 	// авто
 	http.HandleFunc("/api/avto", handlers.Avto)

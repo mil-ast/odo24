@@ -9,7 +9,7 @@
 		<div *ngIf="isProfile" id="profile_menu">
             <div class="form">
                 <h1>Изменить пароль</h1>
-                <form action="#" method="PUT" (ngSubmit)="SubmitUpdateFrofile()" (reset)="showProfile(false)">
+                <form action="#" method="PUT" (ngSubmit)="submitUpdateFrofile()" (reset)="showProfile(false)">
                     <div>
                         <mat-form-field class="full_width">
                             <input required matInput placeholder="Новый пароль"autocomplete="off" [(ngModel)]="password" type="password" name="password">

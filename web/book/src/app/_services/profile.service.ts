@@ -64,8 +64,8 @@ export class ProfileService {
         });
     }
 
-    Update(data: any) {
-        return this.http.patch(this.url_profile, data);
+    update(data: any) {
+        return this.http.put(`${this.url_profile}/update_password`, data);
     }
 
     passwordConfirm(c: FormControl) {

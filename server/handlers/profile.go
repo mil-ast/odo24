@@ -308,3 +308,46 @@ func ProfileRecoveryResetPassword(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(204)
 }
+
+/**
+	изменение пароля
+**/
+func ProfileUpdatePassword(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "PUT" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
+	ses := sessions.Get(w, r)
+
+	if !ses.GetBool("auth") {
+		http.Error(w, http.StatusText(403), 403)
+		return
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var profile models.Profile
+
+	err := json.Unmarshal(buf.Bytes(), &profile)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	profile.User_id = ses.Get("profile").(models.Profile).User_id
+
+	if len(profile.Password) < 4 {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	err = profile.UpdatePassword()
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(204)
+}
