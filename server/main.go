@@ -64,7 +64,7 @@ func main() {
 	sessions.SetMaxLifeTime(time.Minute * 20)
 
 	// профиль
-	http.HandleFunc("/api/register/confirm", handlers.ProfileConfirmEmail)
+	// http.HandleFunc("/api/register/confirm", handlers.ProfileConfirmEmail)
 	http.HandleFunc("/api/register", handlers.Profile_register)
 	http.HandleFunc("/api/profile/login", handlers.ProfileLogin)
 	http.HandleFunc("/api/profile/logout", handlers.ProfileLogout)
@@ -72,6 +72,7 @@ func main() {
 	http.HandleFunc("/api/profile/confirm_code", handlers.ProfileRecoveryConfirmCode)
 	http.HandleFunc("/api/profile/reset_password", handlers.ProfileRecoveryResetPassword)
 	http.HandleFunc("/api/profile/update_password", handlers.ProfileUpdatePassword)
+	http.HandleFunc("/api/profile/confirm_email", handlers.ProfileConfirmEmail)
 	http.HandleFunc("/api/profile", handlers.Profile)
 	// авто
 	http.HandleFunc("/api/avto", handlers.Avto)

@@ -3,11 +3,13 @@ export class Profile {
   login: string;
   phone: number;
   time_zone: number;
+  is_no_confirmed: boolean;
 
   constructor(data: any) {
     this.user_id = data.user_id | 0;
     this.login = data.login || null;
     this.phone = data.phone | 0;
     this.time_zone = data.time_zone | 10;
+    this.is_no_confirmed = data.is_no_confirmed || false;
   }
 }

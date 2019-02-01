@@ -14,10 +14,15 @@ import (
 	подтверждение почты
 */
 func ProfileConfirmEmail(w http.ResponseWriter, r *http.Request) {
-	profile := models.Profile{}
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
 
 	var buf bytes.Buffer
 	buf.ReadFrom(r.Body)
+
+	var profile models.Profile
 
 	err := json.Unmarshal(buf.Bytes(), &profile)
 	if err != nil {
@@ -27,14 +32,9 @@ func ProfileConfirmEmail(w http.ResponseWriter, r *http.Request) {
 
 	err = profile.ConfirmEmail()
 	if err != nil {
-		switch err.Error() {
-		case "pq: login is exists":
-			http.Error(w, http.StatusText(409), 409)
-			return
-		default:
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			return
-		}
+		log.Println(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	w.WriteHeader(204)

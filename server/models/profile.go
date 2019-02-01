@@ -5,11 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"math/rand"
 	"net/smtp"
 	"sto/server/config"
 	"strings"
-	"time"
 
 	"github.com/mil-ast/db"
 )
@@ -66,7 +64,7 @@ func (p *Profile) Auth() error {
 
 /*
 	подтверждение почты
-*/
+
 func (p Profile) ConfirmEmail() error {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -124,7 +122,7 @@ func (p Profile) ConfirmEmail() error {
 
 	return nil
 }
-
+*/
 /*
 	регистрация
 */
@@ -150,6 +148,48 @@ func (p *Profile) Register() error {
 	err = row.Scan(&p.User_id, &p.Login)
 
 	return err
+}
+
+/*
+	отправка кода для подтверждения почты
+*/
+func (p *Profile) ConfirmEmail() error {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	sqlQuery := "select code from profiles.createrestorecode($1)"
+	row := conn.QueryRow(sqlQuery, p.Login)
+
+	var code uint16
+	err = row.Scan(&code)
+	if err != nil {
+		return err
+	}
+
+	// отправка почты
+	go func() {
+		return
+
+		cfg := config.GetInstance()
+
+		auth := smtp.PlainAuth("", cfg.App.SmtpFrom, cfg.App.SmtpPassword, cfg.App.SmtpHost)
+
+		to := []string{p.Login}
+		msg := []byte(fmt.Sprintf("To: %s\r\n"+
+			"Subject: Подтверждение почты на Odometer.online\r\n"+
+			"MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\r\n"+
+			"\r\n"+
+			"Для подтверждения текущего E-mail введите в форму на сайте этот код подтверждения: <strong>%d</strong>\r\n", p.Login, code))
+
+		err = smtp.SendMail(fmt.Sprintf("%s:%d", cfg.App.SmtpHost, cfg.App.SmtpPort), auth, cfg.App.SmtpFrom, to, msg)
+		if err != nil {
+			log.Println(err)
+		}
+	}()
+
+	return nil
 }
 
 /**

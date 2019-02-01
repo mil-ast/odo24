@@ -21,6 +21,8 @@ import {
     MatButtonModule,
     MatProgressBarModule,
     MAT_SNACK_BAR_DEFAULT_OPTIONS,
+    MatDialogModule,
+    MatStepperModule,
 } from '@angular/material';
 
 export const DATE_FORMATS = {
@@ -38,17 +40,21 @@ export const DATE_FORMATS = {
 import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
+import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 
 registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   declarations: [
     AppComponent,
+    ConfirmEmailDialogComponent,
   ],
   imports: [
     MatInputModule,
     MatButtonModule,
     MatProgressBarModule,
+    MatDialogModule,
+    MatStepperModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -69,6 +75,9 @@ registerLocaleData(localeRu, 'ru');
   ],
   exports : [
     SelectedAvtoModule,
+  ],
+  entryComponents: [
+    ConfirmEmailDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

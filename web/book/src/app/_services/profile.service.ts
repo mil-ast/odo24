@@ -68,22 +68,10 @@ export class ProfileService {
         return this.http.put(`${this.url_profile}/update_password`, data);
     }
 
-    passwordConfirm(c: FormControl) {
-        if (!c || !c.parent) {
-            return;
-        }
-
-        const pwd = c.parent.get('password');
-        const cpwd = c.parent.get('password2');
-
-        if (!pwd || !cpwd) {
-            return { invalid: true };
-        }
-        if (pwd.value !== cpwd.value) {
-            return { invalid: true };
-        }
-
-        return;
+    confirmEmail() {
+        return this.http.post('/api/profile/confirm_email', {
+            login: this.profile.getValue().login,
+        });
     }
 
     exit() {
