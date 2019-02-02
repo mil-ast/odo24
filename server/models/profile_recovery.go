@@ -33,8 +33,6 @@ func (r ProfileRecovery) CreateCode() error {
 
 	// отправка почты
 	go func() {
-		return
-
 		cfg := config.GetInstance()
 
 		auth := smtp.PlainAuth("", cfg.App.SmtpFrom, cfg.App.SmtpPassword, cfg.App.SmtpHost)
@@ -70,8 +68,6 @@ func (r ProfileRecovery) ConfirmCode() error {
 		log.Println(err)
 		return err
 	}
-
-	log.Println("state", state)
 
 	if !state {
 		return errors.New("incorrect")

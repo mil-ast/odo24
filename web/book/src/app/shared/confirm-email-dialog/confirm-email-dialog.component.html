@@ -1,4 +1,4 @@
-<h2 at-dialog-title>Необходимо подтвердить ваш E&ndash;mail</h2>
+<h2 at-dialog-title>Подтверждение E&ndash;mail</h2>
 <mat-dialog-content>
   <p>Чтобы продолжить пользоваться сервисной книжкой со всеми возможностями, необходимо подтвердить ваш  E&ndash;mail</p>
   <p>Для этого необходимо отправить на <strong>{{data.login}}</strong> числовой код, который нужно просто ввести в поле ниже.</p>
@@ -14,13 +14,13 @@
     </mat-step>
     <mat-step [editable]="false" [stepControl]="codeform">
       <div class="content">
-        <form [formGroup]="codeform">
+        <form [formGroup]="codeform" (ngSubmit)="submitCheckCode()">
           <ng-template matStepLabel>Подтвердить</ng-template>
           <mat-form-field>
             <input matInput placeholder="Код" formControlName="code" type="number" required>
           </mat-form-field>
           <div>
-            <button mat-raised-button (click)="clickCheckCode()" color="primary">Подтвердить</button>
+            <button mat-raised-button color="primary">Подтвердить</button>
           </div>
         </form>
       </div>

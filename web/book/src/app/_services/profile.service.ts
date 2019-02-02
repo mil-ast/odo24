@@ -74,6 +74,13 @@ export class ProfileService {
         });
     }
 
+    checkCode(code: number) {
+        return this.http.post('/api/profile/check_code', {
+            login: this.profile.getValue().login,
+            code: code,
+        });
+    }
+
     exit() {
         sessionStorage.removeItem('isauth');
         this.profile.next(null);

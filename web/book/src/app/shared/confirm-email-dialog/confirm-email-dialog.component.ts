@@ -31,5 +31,14 @@ export class ConfirmEmailDialogComponent implements OnInit {
     });
   }
 
-  clickCheckCode() {}
+  submitCheckCode() {
+    if (this.codeform.invalid) {
+      return;
+    }
+
+    this.profileService.checkCode(this.codeform.controls.code.value).subscribe(() => {
+      this.stepper.next();
+    });
+    console.log();
+  }
 }

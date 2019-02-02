@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
       }
 
       this.profile_login = (p !== null) ? p.login : null;
-
       if (p.is_no_confirmed) {
         this.confirmEmailDialog(p);
       }
@@ -83,7 +82,7 @@ export class AppComponent implements OnInit {
   }
 
   private confirmEmailDialog(p: Profile) {
-    timer(1000).pipe(first()).subscribe(() => {
+    timer(5000).pipe(first()).subscribe(() => {
       this.dialog.open(ConfirmEmailDialogComponent, {
         data: p
       });

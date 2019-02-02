@@ -276,6 +276,54 @@ func ProfileRecoveryConfirmCode(w http.ResponseWriter, r *http.Request) {
 }
 
 /**
+	подтверждение кода для проверки почты
+**/
+func ProfileConfirmCode(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
+	ses := sessions.Get(w, r)
+
+	if !ses.GetBool("auth") {
+		http.Error(w, http.StatusText(403), 403)
+		return
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var profile models.Profile
+
+	err := json.Unmarshal(buf.Bytes(), &profile)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	profile.User_id = ses.Get("profile").(models.Profile).User_id
+
+	err = profile.ConfirmCode()
+	if err != nil {
+		if err.Error() == "incorrect" {
+			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		} else {
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
+
+		return
+	}
+
+	sesProfile := ses.Get("profile").(models.Profile)
+	sesProfile.IsNoConfirmed = false
+
+	ses.Set("profile", sesProfile)
+
+	w.WriteHeader(204)
+}
+
+/**
 	Сброс пароля
 **/
 func ProfileRecoveryResetPassword(w http.ResponseWriter, r *http.Request) {
