@@ -5,6 +5,7 @@ import { Profile } from './_classes/profile';
 import { Observable, timer } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
+import { DeviceService } from './_services/device.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confi
 })
 export class AppComponent implements OnInit {
   constructor(
+    private device: DeviceService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private profileService: ProfileService,

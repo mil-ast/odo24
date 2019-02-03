@@ -41,6 +41,7 @@ import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
+import { DeviceService } from './_services/device.service';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -68,6 +69,7 @@ registerLocaleData(localeRu, 'ru');
     ProfileService,
     AuthGuard,
     httpInterceptorProviders,
+    DeviceService,
     {provide: LOCALE_ID, useValue: 'ru-RU'},
     {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
