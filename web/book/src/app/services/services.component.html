@@ -40,11 +40,15 @@
 			<div class="column__title">
 				<a href="#" class="column_title_icon create" title="Добавить сервис" (click)="clickShowFormCreateService($event)"></a>
 				<h2 class="mat-h2"><span>{{selectedGroup?.name}}</span></h2>
-				<div></div>
 			</div>
 			<div class="overflow">
 				<mat-progress-bar mode="indeterminate" class="sync-spinner" *ngIf="isSyncServices"></mat-progress-bar>
 				<ul class="scroll" *ngIf="serviceList.length > 0; else emptyServices">
+					<li id="left-distance" *ngIf="lastService && lastService.next_distance" [ngClass]="{'warn1' : leftDistanceColorState===1, 'warn2' : leftDistanceColorState===2, 'err' : leftDistanceColorState===3}">
+						<mat-icon>notifications</mat-icon>
+						<span>До следующей замены осталось</span>
+						<span><strong>{{getLeftDistance | number}}</strong> км</span>
+					</li>
 					<li *ngFor="let s of serviceList">
 						<app-item-service [model]="s" (eventOnDelete)="onServiceDelete($event)"></app-item-service>
 					</li>

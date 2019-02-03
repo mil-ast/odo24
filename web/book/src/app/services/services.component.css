@@ -24,3 +24,33 @@
     top: 0px;
     left:0px;
 }
+
+#left-distance {
+    height: 64px;
+    position: relative;
+    border-top: 1px #e6e6e6 solid;
+    display: grid;
+    grid-template-columns: 70px 282px 1fr;
+    background-color: #ddffe1;
+}
+
+#left-distance .mat-icon {
+    position: relative;
+    top: 21px;
+    left: 30px;
+}
+
+#left-distance.warn1 {
+    background-color: #f8ffdd;
+}
+#left-distance.warn2 {
+    background-color: #fffcdd;
+}
+
+#left-distance.err {
+    background-color: #ffdddd;
+}
+
+#left-distance span {
+    padding: 25px 0px 30px 0px;
+}
