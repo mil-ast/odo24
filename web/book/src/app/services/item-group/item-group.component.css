@@ -1,0 +1,33 @@
+:host {
+    position: relative;
+}
+.item {
+    position: relative;
+}
+
+.item .cnt {
+    position: absolute;
+    z-index:1;
+    top: 24px;
+    right: 10px;
+    display: inline-block;
+    background-color: #f0f0f0;
+    padding: 2px 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    color: #1f1f1f;
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    z-index:2;
+    top:7px;
+    right:1px;
+    padding:6px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+}
+:host:hover .menu {
+    display: block;
+}

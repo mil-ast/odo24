@@ -1,42 +1,52 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Avto } from '../_classes/avto';
+import { Avto, AvtoStruct } from '../_classes/avto';
+import { Observable, BehaviorSubject, Subscriber } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AvtoService {
-	private url = '/api/avto';
+  private url = '/api/avto';
 
-	private selectedAvto: Avto = null;
+  private selectedAvto: BehaviorSubject<AvtoStruct> = new BehaviorSubject(null);
+  selected: Observable<AvtoStruct> = this.selectedAvto.asObservable();
 
-	constructor(
-		private http: HttpClient
-	) { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
-	Get() {
-		return this.http.get(this.url);
-	}
+  get(): Observable<AvtoStruct[]> {
+    return this.http.get<AvtoStruct[]>(this.url).pipe(tap((data: AvtoStruct[]) => {
+      const list = data || [];
+      return list.sort((a: AvtoStruct, b: AvtoStruct) => {
+        if (a.avto_id > b.avto_id) {
+          return 1;
+        }
+        return -1;
+      });
+    }));
+  }
 
-	Create(data) {
-		return this.http.post(this.url, data);
-	}
+  create(data: AvtoStruct): Observable<AvtoStruct> {
+    return this.http.post<AvtoStruct>(this.url, data);
+  }
 
-	Update(data: FormData) {
-		return this.http.put(this.url, data);
-	}
+  update(data: FormData): Observable<AvtoStruct> {
+    return this.http.put<AvtoStruct>(this.url, data);
+  }
 
-	Delete(id) {
-		return this.http.delete(this.url.concat('?avto_id=', id.toString()));
-	}
+  delete(id: number) {
+    return this.http.delete(this.url.concat(`?avto_id=${id}`));
+  }
 
-	SetSelected(avto: Avto): Avto {
-		this.selectedAvto = avto;
-		return this.GetSelected();
-	}
-	ResetSelected(): void {
-		this.selectedAvto = null;
-	}
+  setSelected(avto: AvtoStruct) {
+    this.selectedAvto.next(avto);
+  }
+  resetSelected(): void {
+    this.selectedAvto.next(null);
+  }
 
-	GetSelected(): Avto {
-		return this.selectedAvto;
-	}
+  isSelected(avto: AvtoStruct): boolean {
+    return this.selectedAvto.getValue() === avto;
+  }
 }

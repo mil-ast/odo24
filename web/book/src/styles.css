@@ -36,7 +36,10 @@ button:focus, input:focus, a:focus {
     outline: none !important;
 }
 
-a, a:active, a:focus { outline: none; text-decoration: none; }
+a, a:active, a:focus { outline: none; text-decoration: none; color: #3b70d0; }
+a:hover {
+    color:#333;
+}
 input, textarea {outline:none;}
 input:active, textarea:active {outline:none;}
 :focus {outline:none;}
@@ -112,65 +115,71 @@ a.mat-icon-button {
     background-color: inherit;
 }
 
-a.menu {
-    display:none;
-    position:absolute;
-    z-index: 2;
-    top:30px;
-    right:10px;
-    font-family:icon;
-    font-size:24px;
-    color:#777;
-    text-decoration: none;
-}
-a.menu::before {
-    content:"\e5d2";
-}
-:hover > a.menu, :hover > div > a.menu {
-    display:inline;
-}
-a.menu:hover {
-    color:#38608c;
+#content {
+    width:100%;
+    height:100%;
 }
 
-
-.buttons button[type="submit"] {
-    float:left;
+.column__title {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    margin-bottom: 20px;
+    padding: 20px 10px 0px 30px;
 }
-.buttons button[type="reset"] {
-    float:right;
-}
 
-.icon_create {
+.column__title > a.column_title_icon {
+    display: inline-block;
+    width: 24px;
+    height: 26px;
     font-size: 24px;
-    font-family:icon;
-    padding:10px;
-    border:1px #cecece solid;
+    font-family: icon;
+    padding: 10px;
+    border: 1px solid #cecece;
     border-radius: 2px;
-    color:#cecece;
+    color: #cecece;
     text-decoration: none;
-    transition:200ms;
+    transition: .2s;
 }
-.icon_create:hover {
+.column__title > a.column_title_icon:hover {
     color:#85acd0;
     border-color: #85acd0;
 }
-.icon_create::before {
-    content:"\e145";
+
+.column__title > a.column_title_icon.create::before {
+    content: "\e145";
 }
 
-div.form > form > div {
-	position:relative;
-	margin-bottom:20px;
-}
-div.form > form > div:last-child {
-    margin-bottom:0px;
+.column__title > h2 {
+    margin:8px 0px 0px 10px;
 }
 
-.grid {
-    box-sizing: border-box;
+#content {
+    width:100%;
+    height:100%;
     display: grid;
-    grid-template-columns: 50% 1fr;
-    grid-gap: 20px;
-    margin-bottom: 20px;
+}
+
+.column__content {
+    display: grid;
+    grid-template-rows: 90px 1fr;
+    height: 100%;
+    border-right: 1px #e6e6e6 solid;
+}
+.overflow {
+    overflow: auto;
+    position:relative;
+}
+.overflow > .scroll {
+    position: absolute;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    width:100%;
+}
+
+.column {
+    box-sizing: border-box;
+}
+.column.avto__list {
+    width:300px;
 }

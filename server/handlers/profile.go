@@ -14,32 +14,27 @@ import (
 	подтверждение почты
 */
 func ProfileConfirmEmail(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
-	profile := models.Profile{}
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
 
 	var buf bytes.Buffer
 	buf.ReadFrom(r.Body)
 
+	var profile models.Profile
+
 	err := json.Unmarshal(buf.Bytes(), &profile)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	err = profile.ConfirmEmail()
 	if err != nil {
-		switch err.Error() {
-		case "login is exists":
-			http.Error(w, http.StatusText(409), 409)
-			return
-		default:
-			panic(err)
-		}
+		log.Println(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	w.WriteHeader(204)
@@ -49,13 +44,6 @@ func ProfileConfirmEmail(w http.ResponseWriter, r *http.Request) {
 	регистрация
 */
 func Profile_register(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 	profile := models.Profile{}
@@ -65,22 +53,26 @@ func Profile_register(w http.ResponseWriter, r *http.Request) {
 
 	err := json.Unmarshal(buf.Bytes(), &profile)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	err = profile.Register()
 	if err != nil {
-		panic(err)
-	}
+		if err.Error() == "pq: login is exists" {
+			http.Error(w, http.StatusText(http.StatusConflict), http.StatusConflict)
+		} else {
+			log.Println(err.Error())
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
 
-	// сразу авторизовываем
-	ses := sessions.Get(w, r)
-	ses.Set("auth", true)
-	ses.Set("profile", profile)
+		return
+	}
 
 	data, err := json.Marshal(profile)
 	if err != nil {
-		panic(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	w.WriteHeader(201)
@@ -91,13 +83,6 @@ func Profile_register(w http.ResponseWriter, r *http.Request) {
 	текущий профиль пользователя
 **/
 func Profile(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	ses := sessions.Get(w, r)
 
 	if !ses.GetBool("auth") {
@@ -111,7 +96,8 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		data, err := json.Marshal(ses.Get("profile").(models.Profile))
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		w.Write(data)
@@ -123,7 +109,8 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 		var empty_profile map[string]interface{} = make(map[string]interface{})
 		err := json.Unmarshal(buf.Bytes(), &empty_profile)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		var password string
@@ -136,14 +123,16 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 
 		err = profile.Save(password)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		ses.Set("profile", profile)
 
 		data, err := json.Marshal(profile)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		w.WriteHeader(202)
@@ -156,14 +145,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 /**
 	авторизация
 **/
-func Profile_login(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println("Login", err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
+func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	ses := sessions.Get(w, r)
 
@@ -176,7 +158,8 @@ func Profile_login(w http.ResponseWriter, r *http.Request) {
 
 		err := json.Unmarshal(buf.Bytes(), &profile)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
 		}
 
 		// auth
@@ -187,7 +170,8 @@ func Profile_login(w http.ResponseWriter, r *http.Request) {
 
 			data, err := json.Marshal(profile)
 			if err != nil {
-				panic(err)
+				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+				return
 			}
 
 			w.Write(data)
@@ -195,10 +179,13 @@ func Profile_login(w http.ResponseWriter, r *http.Request) {
 			ses.Set("auth", false)
 
 			switch err.Error() {
-			case "incorrect login", "user is not exists", "incorrect password":
+			case "pq: password error", "pq: user not found", "pq: incorrect password":
 				w.WriteHeader(403)
+			case "no password is set", "login is not specified":
+				w.WriteHeader(400)
 			default:
-				panic(err)
+				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+				return
 			}
 		}
 	default:
@@ -209,14 +196,7 @@ func Profile_login(w http.ResponseWriter, r *http.Request) {
 /**
 	выход из профиля
 **/
-func Profile_logout(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println("Logout", err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
+func ProfileLogout(w http.ResponseWriter, r *http.Request) {
 	ses := sessions.Get(w, r)
 
 	sessions.Delete(w, r)
@@ -227,6 +207,194 @@ func Profile_logout(w http.ResponseWriter, r *http.Request) {
 
 		var profile models.Profile = models.Profile{User_id: user_id}
 		profile.Logout()
+	}
+
+	w.WriteHeader(204)
+}
+
+/**
+	восстановление пароля
+**/
+func ProfileRecovery(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var recovery models.ProfileRecovery
+
+	err := json.Unmarshal(buf.Bytes(), &recovery)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	err = recovery.CreateCode()
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(204)
+}
+
+/**
+	подтверждение кода
+**/
+func ProfileRecoveryConfirmCode(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var recovery models.ProfileRecovery
+
+	err := json.Unmarshal(buf.Bytes(), &recovery)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	err = recovery.ConfirmCode()
+	if err != nil {
+		if err.Error() == "incorrect" {
+			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		} else {
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
+
+		return
+	}
+
+	w.WriteHeader(204)
+}
+
+/**
+	подтверждение кода для проверки почты
+**/
+func ProfileConfirmCode(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
+	ses := sessions.Get(w, r)
+
+	if !ses.GetBool("auth") {
+		http.Error(w, http.StatusText(403), 403)
+		return
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var profile models.Profile
+
+	err := json.Unmarshal(buf.Bytes(), &profile)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	profile.User_id = ses.Get("profile").(models.Profile).User_id
+
+	err = profile.ConfirmCode()
+	if err != nil {
+		if err.Error() == "incorrect" {
+			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		} else {
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
+
+		return
+	}
+
+	sesProfile := ses.Get("profile").(models.Profile)
+	sesProfile.IsNoConfirmed = false
+
+	ses.Set("profile", sesProfile)
+
+	w.WriteHeader(204)
+}
+
+/**
+	Сброс пароля
+**/
+func ProfileRecoveryResetPassword(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var recovery models.ProfileRecovery
+
+	err := json.Unmarshal(buf.Bytes(), &recovery)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	if len(recovery.Email) < 6 || len(recovery.Password) < 4 {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	err = recovery.ResetPassword()
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(204)
+}
+
+/**
+	изменение пароля
+**/
+func ProfileUpdatePassword(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "PUT" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
+	ses := sessions.Get(w, r)
+
+	if !ses.GetBool("auth") {
+		http.Error(w, http.StatusText(403), 403)
+		return
+	}
+
+	var buf bytes.Buffer
+	buf.ReadFrom(r.Body)
+
+	var profile models.Profile
+
+	err := json.Unmarshal(buf.Bytes(), &profile)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	profile.User_id = ses.Get("profile").(models.Profile).User_id
+
+	if len(profile.Password) < 4 {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	err = profile.UpdatePassword()
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 
 	w.WriteHeader(204)

@@ -1,0 +1,8 @@
+<h2 at-dialog-title *ngIf="data.title">{{ data.title }}</h2>
+<mat-dialog-content>
+  <div>{{data.message}}</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button color="{{ data.type || 'primary' }}" mat-raised-button [mat-dialog-close]="true">OK</button>
+  <button mat-button [mat-dialog-close]="false">Отмена</button>
+</mat-dialog-actions>

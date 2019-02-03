@@ -1,7 +1,7 @@
 package models
 
 import (
-	"errors"
+	"database/sql"
 	"log"
 
 	"github.com/mil-ast/db"
@@ -11,12 +11,19 @@ type Group struct {
 	Group_id uint64 `json:"group_id"`
 	Name     string `json:"name"`
 	Order    uint16 `json:"order"`
-	Own      string `json:"own"`
+	Global   bool   `json:"global"`
+	Cnt      uint16 `json:"cnt"`
 	User_id  uint64 `json:"user_id,omitempty"`
+}
+
+type GroupsStat struct {
+	Group_id uint64 `json:"group_id"`
+	Cnt      uint16 `json:"cnt"`
 }
 
 type Groups_list struct {
 	User_id uint64
+	Avto_id uint64
 }
 
 /*
@@ -29,29 +36,31 @@ func (l Groups_list) Get() ([]Group, error) {
 		return nil, err
 	}
 
-	query_sql := "SELECT `group_id`,`name`,`order`,`own` FROM `groups` WHERE `user_id` IN ('0', ?)"
-	rows, err := conn.Query(query_sql, l.User_id)
+	querySQL := `select g.group_id,g."name",g.sort,g."global" ` +
+		`from cars."groups" g where g.user_id in (0,$1)`
+	rows, err := conn.Query(querySQL, l.User_id)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
 	var (
-		group_id uint64
-		name     string
-		order    uint16
-		own      string
+		groupID uint64
+		name    string
+		sort    uint16
+		global  bool
 	)
 	var responce []Group
 
 	for rows.Next() {
-		rows.Scan(&group_id, &name, &order, &own)
+		rows.Scan(&groupID, &name, &sort, &global)
 
 		responce = append(responce, Group{
-			Group_id: group_id,
+			Group_id: groupID,
 			Name:     name,
-			Order:    order,
-			Own:      own,
+			Order:    sort,
+			Global:   global,
+			Cnt:      0,
 		})
 	}
 	rows.Close()
@@ -65,8 +74,42 @@ func (l Groups_list) Get() ([]Group, error) {
 }
 
 /*
-	получить открытый список пользователя
+	получить список
 */
+func (l Groups_list) GetStats() ([]GroupsStat, error) {
+	conn, err := db.GetConnection()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	querySQL := "select * from cars.statsgroups($1,$2)"
+	rows, err := conn.Query(querySQL, l.User_id, l.Avto_id)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	var (
+		groupID  uint64
+		cnt      uint16
+		responce []GroupsStat
+	)
+	for rows.Next() {
+		rows.Scan(&groupID, &cnt)
+		responce = append(responce, GroupsStat{
+			Group_id: groupID,
+			Cnt:      cnt,
+		})
+	}
+	rows.Close()
+
+	return responce, nil
+}
+
+/*
+	получить открытый список пользователя
+
 func (l Groups_list) GetPublic(avto_id uint64) ([]Group, error) {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -111,7 +154,7 @@ func (l Groups_list) GetPublic(avto_id uint64) ([]Group, error) {
 
 	return responce, nil
 }
-
+*/
 /*
 	создание группы
 */
@@ -122,23 +165,16 @@ func (g *Group) Create() error {
 		return err
 	}
 
-	g.Order = 10
-	g.Own = "USER"
+	g.Global = false
 
-	query_sql := "INSERT INTO `groups` SET `user_id`=?,`name`=?,`order`=?,`own`=?"
-	result, err := conn.Exec(query_sql, g.User_id, g.Name, g.Order, g.Own)
-	if err != nil {
+	querySQL := "select group_id,name,sort from cars.creategroup($1,$2)"
+	row := conn.QueryRow(querySQL, g.User_id, g.Name)
+
+	err = row.Scan(&g.Group_id, &g.Name, &g.Order)
+	if err != nil && err != sql.ErrNoRows {
 		log.Println(err)
 		return err
 	}
-
-	last_id, err := result.LastInsertId()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	g.Group_id = uint64(last_id)
 
 	return nil
 }
@@ -153,14 +189,8 @@ func (g *Group) Update() error {
 		return err
 	}
 
-	err = g.checkOwn()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	query_sql := "UPDATE `groups` SET `name`=? WHERE `group_id`=?"
-	_, err = conn.Exec(query_sql, g.Name, g.Group_id)
+	querySQL := "select * from cars.updategroup($1,$2,$3)"
+	_, err = conn.Exec(querySQL, g.Group_id, g.User_id, g.Name)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -179,63 +209,11 @@ func (g *Group) Delete() error {
 		return err
 	}
 
-	err = g.checkOwn()
+	querySQL := "select * from cars.deletegroup($1,$2)"
+	_, err = conn.Exec(querySQL, g.Group_id, g.User_id)
 	if err != nil {
 		log.Println(err)
 		return err
-	}
-
-	tx, err := conn.Begin()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	query_sql := "DELETE FROM `services` WHERE `group_id`=?"
-	_, err = tx.Exec(query_sql, g.Group_id)
-	if err != nil {
-		log.Println(err)
-		tx.Rollback()
-		return err
-	}
-
-	query_sql = "DELETE FROM `groups` WHERE `group_id`=?"
-	_, err = tx.Exec(query_sql, g.Group_id)
-	if err != nil {
-		log.Println(err)
-		tx.Rollback()
-		return err
-	}
-
-	err = tx.Commit()
-	if err != nil {
-		log.Println(err)
-		tx.Rollback()
-		return err
-	}
-
-	return nil
-}
-
-func (g Group) checkOwn() error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
-
-	query_sql := "SELECT `group_id`,`user_id` FROM `groups` WHERE `group_id`=?"
-	row := conn.QueryRow(query_sql, g.Group_id)
-
-	var group_id, user_id uint64
-
-	row.Scan(&group_id, &user_id)
-	if group_id == 0 {
-		return errors.New("not found")
-	}
-
-	if g.User_id != user_id {
-		log.Println("not the owner")
-		return errors.New("not the owner")
 	}
 
 	return nil

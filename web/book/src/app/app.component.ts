@@ -1,78 +1,91 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
+import { Observable, timer } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-	constructor(
-		public snackBar: MatSnackBar,
-		private profileService: ProfileService,
-	) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private profileService: ProfileService,
+  ) { }
 
-	profile_login: string = null;
-	password: string = '';
-	password2: string = '';
-	is_profile: boolean = false;
+  profile_login: string = null;
+  profile: Observable<Profile>;
+  password = '';
+  password2 = '';
+  isProfile = false;
 
-	ngOnInit() {
-		// проверяем регистрацию
-		this.profileService.Sync();
+  ngOnInit() {
+    this.profileService.profile$.subscribe((p: Profile) => {
+      if (p === null) {
+        return;
+      }
 
-		// подписка на профиль
-		this.profileService.GetProfile().subscribe((profile: Profile) => {
-			if (profile !== null) {
-				this.profile_login = profile.login||null;
-			} else {
-				this.profile_login = null;
-			}
-		});
-	}
+      this.profile_login = (p !== null) ? p.login : null;
+      if (p.is_no_confirmed) {
+        this.confirmEmailDialog(p);
+      }
+    }, () => {
+      this.profile_login = null;
+    });
+  }
 
-	SubmitUpdateFrofile() {
-		if (this.password.length < 5 || this.password != this.password2) {
-			return false;
-		}
+  submitUpdateFrofile() {
+    if (this.password.length < 5 || this.password !== this.password2) {
+      return;
+    }
 
-		const req = this.profileService.Update({ password : this.password });
-		req.subscribe(() => {
-			this.password = '';
-			this.password2 = '';
-			
-			this.ShowProfile(false);
+    const req = this.profileService.update({ password: this.password });
+    req.subscribe(() => {
+      this.password = '';
+      this.password2 = '';
 
-			this.snackBar.open('Пароль успешно изменён!', 'OK', {
-				duration: 5000,
-			});
-		}, (err) => {
-			console.error(err);
+      this.showProfile(false);
 
-			this.snackBar.open('Что-то пошло не так!', 'OK', {
-				duration: 5000,
-				panelClass : 'error',
-			});
-		});
-		return false;
-	}
+      this.snackBar.open('Пароль успешно изменён!', 'OK', {
+        duration: 5000,
+      });
+    }, (err) => {
+      console.error(err);
 
-	/*
-		скрыть/показать профиль
-	*/
-	ShowProfile(event) {
-		this.is_profile = event;
-		return false;
-	}
+      this.snackBar.open('Что-то пошло не так!', 'OK', {
+        duration: 5000,
+        panelClass: 'error',
+      });
+    });
+  }
 
-	/*
-		выход
-	*/
-	ClickLogout() {
-		this.profileService.Logout();
-		return false;
-	}
+  /*
+      скрыть/показать профиль
+  */
+  showProfile(event: boolean) {
+    this.isProfile = event;
+    return false;
+  }
+
+  /*
+      выход
+  */
+  clickLogout() {
+    this.profile_login = null;
+    this.profileService.logout();
+    return false;
+  }
+
+  private confirmEmailDialog(p: Profile) {
+    timer(5000).pipe(first()).subscribe(() => {
+      this.dialog.open(ConfirmEmailDialogComponent, {
+        data: p
+      });
+    });
+  }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import MessageError from '../../components/errors/MessageError';
+import MessageError from '../errors/messageError';
+import '../form.css';
 
 class FormRegister extends Component {
     constructor(props) {
@@ -14,26 +15,37 @@ class FormRegister extends Component {
     }
 
     render() {
-        return (<form id="auth_form" onSubmit={this.Submit.bind(this)} action="/api/register/confirm" method="POST">
-            <div className="form__row">
-                <input autoFocus tabIndex="1" value={this.state.login} onChange={this.handleChange.bind(this)} className="form__input" type="text" name="login" required autoComplete="off" placeholder="E-mail" />
-            </div>
-            <div className="form__row form__row_grid">
-                <input tabIndex="2" value={this.state.password} onChange={this.handleChange.bind(this)} className="form__input" type="password" name="password" required autoComplete="off" placeholder="Новый пароль" />
-                <input tabIndex="3" value={this.state.password2} onChange={this.handleChange.bind(this)} className="form__input" type="password" name="password2" required autoComplete="off" placeholder="Пароль ещё раз" />
-            </div>
-            <div className="form__row form__row_grid">
-                <button tabIndex="4" className="form__button">Дальше</button>
-                <div>
-                    <span className="step">
-                        <span>Шаг</span>
-                        <span>1</span>
-                        <span>из 2</span>
-                    </span>
+        return (<div>
+            <h3 className="form-block__title">
+                <i className="material-icons">fingerprint</i>
+                <span>Регистрация</span>
+            </h3>
+            <div>
+                <form id="auth_form" onSubmit={this.submit.bind(this)} action="/api/register/confirm" method="POST">
+                <div className="form__row">
+                    <input autoFocus tabIndex="1" value={this.state.login} onChange={this.handleChange.bind(this)} className="form__input" type="text" name="login" required autoComplete="off" placeholder="E-mail" />
                 </div>
-            </div>
-            <MessageError error={this.state.error} />
-        </form>);
+                <div className="form__row form__row_grid">
+                    <input tabIndex="2" value={this.state.password} onChange={this.handleChange.bind(this)} className="form__input" type="password" name="password" required autoComplete="off" placeholder="Новый пароль" />
+                    <input tabIndex="3" value={this.state.password2} onChange={this.handleChange.bind(this)} className="form__input" type="password" name="password2" required autoComplete="off" placeholder="Пароль ещё раз" />
+                </div>
+                <div className="form__row form__row_grid">
+                    <button tabIndex="4" className="form__button">Дальше</button>
+                    <div>
+                        <span className="step">
+                            <span>Шаг</span>
+                            <span>1</span>
+                            <span>из 2</span>
+                        </span>
+                    </div>
+                </div>
+                <MessageError error={this.state.error} />
+                <div id="repair" className="bottom-links">
+                    <a className="underline" href="/" onClick={this.clickRepair.bind(this)}>Восстановить пароль</a>
+                </div>
+            </form>
+        </div>
+        </div>);
     }
 
     handleChange(e) {
@@ -48,7 +60,7 @@ class FormRegister extends Component {
         this.setState({ error : err});
     }
 
-    Submit(e) {
+    submit(e) {
         e.preventDefault();
 
         this.setState({ error : null});
@@ -75,9 +87,7 @@ class FormRegister extends Component {
             e.target.password.className = classError;
             this.setError('password_length');
             return false;
-        }
-    
-        if (passwd !== passwd2) {
+        } else if (passwd !== passwd2) {
             e.target.password2.className = classError;
             this.setError('password_diff');
             return false;
@@ -85,15 +95,16 @@ class FormRegister extends Component {
 
         const body = {
             login : login,
+            password: passwd,
         };
     
         const request = {
             method: 'POST',
             body: JSON.stringify(body)
         };
-        fetch('/api/register/confirm', request).then((res) => {
+        fetch('/api/register', request).then((res) => {
             switch(res.status) {
-            case 204:
+            case 201:
                 this.props.stage.emit('change', 2);
             break;
             case 409:
@@ -107,6 +118,11 @@ class FormRegister extends Component {
             this.setError('any');
         });
         return false;
+    }
+
+    clickRepair(event) {
+        event.preventDefault();
+        this.props.stage.emit('change', 3);
     }
 }
 

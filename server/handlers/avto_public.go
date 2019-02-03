@@ -30,7 +30,7 @@ func AvtoPublic(w http.ResponseWriter, r *http.Request) {
 	}
 
 	avto := models.Avto{
-		Avto_id: id,
+		AvtoID: id,
 	}
 
 	err = avto.GetPublic()

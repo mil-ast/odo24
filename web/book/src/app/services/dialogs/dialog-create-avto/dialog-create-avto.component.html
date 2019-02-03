@@ -1,0 +1,24 @@
+<h2 at-dialog-title>Добавить авто</h2>
+<mat-dialog-content>
+  <form id="form" [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <mat-form-field class="full_width">
+        <input #formName matInput placeholder="Название" required formControlName="name" type="text" maxlength="60" />
+        <mat-hint align="end">{{formName.value.length}} / 60</mat-hint>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="full_width">
+        <input matInput placeholder="Пробег" required formControlName="odo" type="number" min="0" />
+        <mat-hint align="start">км</mat-hint>
+      </mat-form-field>
+    </div>
+    <div>
+      <p>Добавить фото машины будет возможно в редактировании авто</p>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button form="form" type="submit" color="primary" [disabled]="form.invalid || form.disabled" mat-raised-button>Добавить</button>
+  <button mat-button mat-dialog-close>Отмена</button>
+</mat-dialog-actions>

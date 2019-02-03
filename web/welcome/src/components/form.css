@@ -1,0 +1,14 @@
+a {
+    color:#2c6dd8;
+}
+a:hover {
+    color:#333;
+}
+a.underline {
+    display: inline-block;
+    border-bottom:1px currentColor dashed;
+}
+
+.bottom-links {
+    text-align: right;
+}

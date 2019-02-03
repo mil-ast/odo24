@@ -8,8 +8,7 @@ import { AuthGuard } from './auth.guard';
 import { httpInterceptorProviders } from './http-interceptors';
 // модули
 import { AppRoutingModule } from './app.routing';
-import { ServiceModule } from './service/service.module';
-import { ReminderModule } from './reminder/reminder.module';
+import { ServiceModule } from './services/service.module';
 import { HomeModule } from './home/home.module';
 
 // сервисы
@@ -21,6 +20,9 @@ import {
     MatInputModule,
     MatButtonModule,
     MatProgressBarModule,
+    MAT_SNACK_BAR_DEFAULT_OPTIONS,
+    MatDialogModule,
+    MatStepperModule,
 } from '@angular/material';
 
 export const DATE_FORMATS = {
@@ -37,25 +39,29 @@ export const DATE_FORMATS = {
 
 import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
+import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 
 registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   declarations: [
     AppComponent,
+    ConfirmEmailDialogComponent,
   ],
   imports: [
     MatInputModule,
     MatButtonModule,
     MatProgressBarModule,
-
+    MatDialogModule,
+    MatStepperModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    SelectedAvtoModule,
     ServiceModule,
-    ReminderModule,
     HomeModule,
   ],
   providers: [
@@ -65,8 +71,14 @@ registerLocaleData(localeRu, 'ru');
     {provide: LOCALE_ID, useValue: 'ru-RU'},
     {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000}}
   ],
-  exports : [ ],
+  exports : [
+    SelectedAvtoModule,
+  ],
+  entryComponents: [
+    ConfirmEmailDialogComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

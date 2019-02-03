@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"io"
@@ -9,35 +10,35 @@ import (
 	"os"
 	"os/exec"
 	"sto/server/config"
-	"strings"
 
 	"github.com/mil-ast/db"
 )
 
 type Avto struct {
-	Avto_id uint64 `json:"avto_id"`
-	Name    string `json:"name"`
-	Odo     uint32 `json:"odo"`
-	User_id uint64 `json:"user_id,omitempty"`
-	Avatar  bool   `json:"avatar"`
+	AvtoID uint64 `json:"avto_id"`
+	Name   string `json:"name"`
+	Odo    uint32 `json:"odo"`
+	UserID uint64 `json:"user_id,omitempty"`
+	Avatar bool   `json:"avatar"`
+	Public bool   `json:"public,omitempty"`
 }
 
-type Avto_list struct {
-	User_id uint64
+type AvtoList struct {
+	UserID uint64
 }
 
 /*
 	получить список
 */
-func (l Avto_list) Get() ([]Avto, error) {
+func (l AvtoList) Get() ([]Avto, error) {
 	conn, err := db.GetConnection()
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
-	query_sql := "SELECT `avto_id`,`name`,`odo`,`avatar` FROM `avto` WHERE `user_id`=?"
-	rows, err := conn.Query(query_sql, l.User_id)
+	querySQL := `SELECT avto_id,"name",odo,avatar FROM cars.avto WHERE user_id=$1`
+	rows, err := conn.Query(querySQL, l.UserID)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -47,7 +48,7 @@ func (l Avto_list) Get() ([]Avto, error) {
 		avto_id uint64
 		name    string
 		odo     uint32
-		avatar  string
+		avatar  bool
 	)
 	var responce []Avto
 
@@ -55,10 +56,10 @@ func (l Avto_list) Get() ([]Avto, error) {
 		rows.Scan(&avto_id, &name, &odo, &avatar)
 
 		responce = append(responce, Avto{
-			Avto_id: avto_id,
-			Name:    name,
-			Odo:     odo,
-			Avatar:  avatar == "Y",
+			AvtoID: avto_id,
+			Name:   name,
+			Odo:    odo,
+			Avatar: avatar,
 		})
 	}
 	rows.Close()
@@ -72,7 +73,7 @@ func (l Avto_list) Get() ([]Avto, error) {
 }
 
 /*
-	синхронизировать
+	публичные авто
 */
 func (a *Avto) GetPublic() error {
 	conn, err := db.GetConnection()
@@ -81,27 +82,18 @@ func (a *Avto) GetPublic() error {
 		return err
 	}
 
-	query_sql := "SELECT `name`,`odo`,`avatar`,`public` FROM `avto` WHERE `avto_id`=?"
-	row := conn.QueryRow(query_sql, a.Avto_id)
+	querySQL := "SELECT name,odo,avatar,public FROM cars.avto WHERE avto_id=$1"
+	row := conn.QueryRow(querySQL, a.AvtoID)
 
-	var (
-		name   string
-		odo    uint32
-		avatar string
-		public string
-	)
-	err = row.Scan(&name, &odo, &avatar, &public)
+	var public bool
+	err = row.Scan(&a.Name, &a.Odo, &a.Avatar, &public)
 	if err != nil {
 		return err
 	}
 
-	if public != "Y" {
+	if !public {
 		return errors.New("hidden")
 	}
-
-	a.Name = name
-	a.Odo = odo
-	a.Avatar = avatar == "Y"
 
 	return nil
 }
@@ -116,20 +108,16 @@ func (a *Avto) Create() error {
 		return err
 	}
 
-	query_sql := "INSERT INTO `avto` SET `name`=?,`odo`=?,`user_id`=?"
-	result, err := conn.Exec(query_sql, a.Name, a.Odo, a.User_id)
-	if err != nil {
+	querySQL := `SELECT avto_id,"name",odo,user_id,avatar,public FROM cars.createavto($1,$2,$3)`
+	row := conn.QueryRow(querySQL, a.Name, a.Odo, a.UserID)
+
+	var car Avto
+	var public bool
+	err = row.Scan(&a.AvtoID, &a.Name, &a.Odo, &car.UserID, &a.Avatar, &public)
+	if err != nil && err != sql.ErrNoRows {
 		log.Println(err)
 		return err
 	}
-
-	last_id, err := result.LastInsertId()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	a.Avto_id = uint64(last_id)
 
 	return nil
 }
@@ -144,32 +132,21 @@ func (a *Avto) Update() error {
 		return err
 	}
 
-	err = a.checkOwn()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	query_sql_arr := []string{"UPDATE `avto` SET `name`=?,`odo`=?"}
+	var paramAvatar sql.NullBool
 	if a.Avatar {
-		query_sql_arr = append(query_sql_arr, ",`avatar`='Y'")
+		paramAvatar.Scan(a.Avatar)
 	}
-	query_sql_arr = append(query_sql_arr, " WHERE `avto_id`=?")
 
-	_, err = conn.Exec(strings.Join(query_sql_arr, ""), a.Name, a.Odo, a.Avto_id)
-	if err != nil {
+	querySQL := "select * from cars.updateavto($1,$2,$3,$4,$5,$6)"
+	row := conn.QueryRow(querySQL, a.AvtoID, a.Odo, a.Name, a.UserID, paramAvatar, nil)
+
+	var car Avto
+	var public bool
+	err = row.Scan(&car.AvtoID, &a.Name, &a.Odo, &car.UserID, &a.Avatar, &public)
+	if err != nil && err != sql.ErrNoRows {
 		log.Println(err)
 		return err
 	}
-
-	if !a.Avatar {
-		row := conn.QueryRow("SELECT `avatar` FROM `avto` WHERE `avto_id`=?", a.Avto_id)
-		var avatar string
-
-		row.Scan(&avatar)
-		a.Avatar = avatar == "Y"
-	}
-
 	return nil
 }
 
@@ -183,71 +160,22 @@ func (a Avto) Delete() error {
 		return err
 	}
 
-	err = a.checkOwn()
+	querySQL := "select cars.deleteavto($1,$2)"
+	_, err = conn.Exec(querySQL, a.AvtoID, a.UserID)
 	if err != nil {
 		log.Println(err)
-		return err
-	}
-
-	tx, err := conn.Begin()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
-	query_sql := "DELETE FROM `avto` WHERE `avto_id`=?"
-	_, err = tx.Exec(query_sql, a.Avto_id)
-	if err != nil {
-		log.Println(err)
-		tx.Rollback()
-		return err
-	}
-
-	query_sql = "DELETE FROM `services` WHERE `avto_id`=?"
-	_, err = tx.Exec(query_sql, a.Avto_id)
-	if err != nil {
-		log.Println(err)
-		tx.Rollback()
-		return err
-	}
-
-	err = tx.Commit()
-	if err != nil {
-		log.Println(err)
-		tx.Rollback()
 		return err
 	}
 
 	return nil
 }
 
-func (a Avto) checkOwn() error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
-
-	query_sql := "SELECT `avto_id`,`user_id` FROM `avto` WHERE `avto_id`=?"
-	row := conn.QueryRow(query_sql, a.Avto_id)
-
-	var avto_id, user_id uint64
-
-	row.Scan(&avto_id, &user_id)
-	if avto_id == 0 {
-		return errors.New("not found")
-	}
-
-	if a.User_id != user_id {
-		log.Println("not the owner")
-		return errors.New("not the owner")
-	}
-
-	return nil
-}
-
+/*
+	загрузка аватарки
+*/
 func (a Avto) FileUpload(file multipart.File, handler *multipart.FileHeader) error {
-	file_path := fmt.Sprintf("./fileuploads/src/%d_%s", a.Avto_id, handler.Filename)
-	f, err := os.OpenFile(file_path, os.O_WRONLY|os.O_CREATE, 0666)
+	filePath := fmt.Sprintf("./fileuploads/src/%d_%s", a.AvtoID, handler.Filename)
+	f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return err
 	}
@@ -257,9 +185,8 @@ func (a Avto) FileUpload(file multipart.File, handler *multipart.FileHeader) err
 	cfg := config.GetInstance()
 
 	// medium
-	file_output_path_medium := fmt.Sprintf("./fileuploads/medium/%d.jpg", a.Avto_id)
-
-	args := []string{file_path, "-resize", "240x240^", "-gravity", "center", "-extent", "240x240", file_output_path_medium}
+	fileOutputPathMedium := fmt.Sprintf("./fileuploads/medium/%d.jpg", a.AvtoID)
+	args := []string{filePath, "-resize", "240x240^", "-gravity", "center", "-extent", "240x240", fileOutputPathMedium}
 	cmd := exec.Command(cfg.App.ImageMagick, args...)
 	err = cmd.Run()
 	if err != nil {
@@ -268,11 +195,11 @@ func (a Avto) FileUpload(file multipart.File, handler *multipart.FileHeader) err
 	}
 
 	// удалим большой временный файл
-	os.Remove(file_path)
+	os.Remove(filePath)
 
 	// small
-	file_output_path_small := fmt.Sprintf("./fileuploads/small/%d.jpg", a.Avto_id)
-	args = []string{file_output_path_medium, "-resize", "60x60", file_output_path_small}
+	fileOutputPathSmall := fmt.Sprintf("./fileuploads/small/%d.jpg", a.AvtoID)
+	args = []string{fileOutputPathMedium, "-resize", "60x60", fileOutputPathSmall}
 	cmd = exec.Command(cfg.App.ImageMagick, args...)
 	err = cmd.Run()
 	if err != nil {
@@ -292,18 +219,10 @@ func (a *Avto) SetODO(odo uint32) error {
 		return err
 	}
 
-	query_sql := "SELECT `odo` FROM `avto` WHERE `avto_id`=?"
-	row := conn.QueryRow(query_sql, a.Avto_id)
-
-	var avto_odo uint32
-	row.Scan(&avto_odo)
-
-	if odo > avto_odo {
-		query_sql = "UPDATE `avto` SET `odo`=? WHERE `avto_id`=?"
-		_, err = conn.Exec(query_sql, odo, a.Avto_id)
-		if err != nil {
-			return err
-		}
+	querySQL := "select cars.setAvtoOdo($1,$2)"
+	_, err = conn.Exec(querySQL, a.AvtoID, odo, a.UserID)
+	if err != nil {
+		log.Println(err)
 	}
 
 	return nil

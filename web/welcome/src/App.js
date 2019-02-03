@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import FormRegister from './components/formRegister/FormRegister';
-import FormConfirm from './components/formConfirm/FormConfirm';
+import FormRegister from './components/formRegister/formRegister';
+import FormRepair from './components/repairForm/repairForm';
+import Success from './components/success/Success';
 import { EventEmitter } from 'events';
 
 class App extends Component {
@@ -24,7 +25,9 @@ class App extends Component {
     render() {
         switch(this.state.stage) {
         case 2:
-            return <FormConfirm stage={this.step} data={this.data}/>;
+            return <Success data={this.data}/>;
+        case 3:
+            return <FormRepair stage={this.step} />;
         default:
             return <FormRegister stage={this.step} data={this.data}/>;
         }

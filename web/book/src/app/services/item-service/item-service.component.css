@@ -1,0 +1,35 @@
+.item {
+    display: grid;
+    grid-template-columns: 140px 180px 1fr 70px 40px;
+}
+.item:hover {
+    color:#000;
+}
+
+.item > div {
+    position: relative;
+}
+
+div.odo > span:first-child {
+    font-size: 18px;
+    padding-right: 4px;
+}
+div.date > span {
+    padding: 6px 10px;
+    background-color: #f0f0f0;
+    font-size: 14px;
+    position: relative;
+    top: 2px;
+    border-radius: 4px;
+}
+
+.menu {
+    position: absolute;
+    top: -12px;
+    right:10px;
+    display: none;
+}
+
+.item:hover .menu {
+    display: block;
+}

@@ -1,98 +1,94 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { Subject, BehaviorSubject } from 'rxjs';
-
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Profile } from '../_classes/profile';
+import { map, catchError, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ProfileService {
-	private url_login = '/api/profile/login';
-	private url_logout = '/api/profile/logout';
-	private url_profile = '/api/profile';
+    private url_login = '/api/profile/login';
+    private url_logout = '/api/profile/logout';
+    private url_profile = '/api/profile';
 
-	private profile: BehaviorSubject<Profile> = new BehaviorSubject<Profile>(null);
-	
-	constructor(
-		private router: Router,
-		private http: HttpClient
-	) { }
+    private profile: BehaviorSubject<Profile> = new BehaviorSubject<Profile>(null);
+    profile$: Observable<Profile>;
 
-	GetProfile() {
-		return this.profile;
-	}
-
-	Sync() {
-		this.http.get(this.url_profile).subscribe((res: any) => {
-			this.loginOk(new Profile(res));
-		});
-	}
-
-    Login(login: string, password: string) {
-		const req = this.http.post(this.url_login, { login: login, password: password });
-		req.subscribe((responce: any) => {
-			const profile: Profile = new Profile(responce);
-			
-			localStorage.setItem('auth', profile.login);
-			this.profile.next(profile);
-
-			this.router.navigate(['/service']);
-		}, () => {
-			this.Exit();
-		});
+    constructor(
+        private http: HttpClient,
+        private router: Router,
+    ) {
+        this.profile$ = this.profile.asObservable();
     }
 
-    Logout() {
-		const req = this.http.get(this.url_logout);
-		req.subscribe(() => {}, (err) => {
-			console.error(err);
-		}, () => {
-			this.Exit();
-		});
+    isAuthorized(): Observable<boolean> {
+        const localIsAuth = sessionStorage.getItem('isauth');
+        if (!localIsAuth) {
+            return of(false);
+        }
+
+        return this.http.get(this.url_profile).pipe(
+            map((res: any) => {
+                sessionStorage.setItem('isauth', '1');
+                this.profile.next(new Profile(res));
+                return true;
+            }, catchError(() => {
+                sessionStorage.removeItem('isauth');
+                this.profile.next(null);
+                return of(false);
+            }))
+        );
     }
 
-	Update(data: any) {
-		return this.http.patch(this.url_profile, data);
-	}
-	
-	passwordConfirm(c: FormControl) {
-		if(!c || !c.parent) {
-			return;
-		}
-		
-        const pwd = c.parent.get('password');
-        const cpwd= c.parent.get('password2');
+    sync() {
+        this.http.get(this.url_profile).subscribe((res: any) => {
+            this.loginOk(new Profile(res));
+        });
+    }
 
-        if(!pwd || !cpwd) {
-			return { invalid: true };
-		}
-        if (pwd.value !== cpwd.value) {
-			return { invalid: true };
-		}
+    login(login: string, password: string): Observable<Profile> {
+        return this.http.post<Profile>(this.url_login, { login: login, password: password }).pipe(tap((responce) => {
+            const profile: Profile = new Profile(responce);
+            sessionStorage.setItem('isauth', '1');
+            this.profile.next(profile);
+        }));
+    }
 
-		return;
-	}
+    logout() {
+        const req = this.http.get(this.url_logout);
+        req.subscribe(() => { }, (err) => {
+            console.error(err);
+        }, () => {
+            this.exit();
+        });
+    }
 
-	CheckAuth(): boolean {
-		if (localStorage.getItem('auth') !== null) {
-			return true;
-		} else {
-			return this.profile.getValue() !== null;
-		}
-	}
+    update(data: any) {
+        return this.http.put(`${this.url_profile}/update_password`, data);
+    }
 
-	Exit() {
-		localStorage.removeItem('auth');
-		this.profile.next(null);
-		this.router.navigate(['/']);
-	}
+    confirmEmail() {
+        return this.http.post('/api/profile/confirm_email', {
+            login: this.profile.getValue().login,
+        });
+    }
 
-	private loginOk(profile: Profile) {
-		console.log(profile);
-		localStorage.setItem('auth', profile.login);
-		this.profile.next(profile);
+    checkCode(code: number) {
+        return this.http.post('/api/profile/check_code', {
+            login: this.profile.getValue().login,
+            code: code,
+        });
+    }
 
-		this.router.navigate(['/service']);
-	}
+    exit() {
+        sessionStorage.removeItem('isauth');
+        this.profile.next(null);
+        this.router.navigate(['/']);
+    }
+
+    private loginOk(profile: Profile) {
+        sessionStorage.setItem('isauth', '1');
+        this.profile.next(profile);
+    }
 }

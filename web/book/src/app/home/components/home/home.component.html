@@ -6,16 +6,16 @@
 		</div>
 	</header>
 	<div class="b_center">
-		<h3><mat-icon>fingerprint</mat-icon><span>Авторизация</span></h3>
-		<form (submit)="SubmitLogin()">
+		<h3 class="mat-h3"><mat-icon>fingerprint</mat-icon><span>Авторизация</span></h3>
+		<form (ngSubmit)="submitLogin()" [formGroup]="formAuth">
 			<mat-form-field class="full_width">
-				<input [(ngModel)]="login" matInput placeholder="Логин" type="text" name="login" required />
+				<input formControlName="login" matInput placeholder="Логин" type="text" name="login" required />
 			</mat-form-field>
 			<mat-form-field class="full_width">
-				<input [(ngModel)]="password" matInput placeholder="Пароль" type="password" name="password" required />
+				<input  formControlName="password" matInput placeholder="Пароль" type="password" name="password" required />
 			</mat-form-field>
 			<div>
-				<button [disabled]="login=='' || password==''" mat-raised-button color="primary">ВОЙТИ</button>
+				<button [disabled]="formAuth.invalid || formAuth.disabled" mat-raised-button color="primary">ВОЙТИ</button>
 				<div id="incorrect" *ngIf="isIncorrect">
 					<mat-icon>error_outline</mat-icon>
 					<span class="error__message">Неправильный логин или пароль!</span>

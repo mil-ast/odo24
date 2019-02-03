@@ -1,0 +1,31 @@
+<div class="item">
+  <div class="odo">
+    <span>{{model.odo}}</span>
+    <span>км</span>
+  </div>
+  <div class="date">
+    <span>{{model.date | date:'dd MMMM yyyy'}}</span>
+  </div>
+  <div class="comment">{{model.comment }}</div>
+  <div class="price">
+    <div *ngIf="model.price">
+      <span>{{ model.price | number }}</span>
+      <span>&#8381;</span>
+    </div>
+  </div>
+  <div class="menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="clickEdit()">
+        <mat-icon>edit</mat-icon>
+        <span>Изменить</span>
+      </button>
+      <button mat-menu-item (click)="clickDelete()">
+        <mat-icon>delete_outline</mat-icon>
+        <span>Удалить</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

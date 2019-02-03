@@ -1,15 +1,15 @@
-<header *ngIf="profile_login !== null">
+<header *ngIf="profile_login">
 	<a routerLink="/service" id="logo"></a>
 	<nav>
 		<a routerLink="/service" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">Обслуживание</a>
-		<a routerLink="/remind" routerLinkActive="selected">Уведомления</a>
+		<!--<a routerLink="/remind" routerLinkActive="selected">Уведомления</a>-->
 	</nav>
 	<div id="profile">
-		<a href="#" (click)="ShowProfile(true)">{{ profile_login }}</a>
-		<div *ngIf="is_profile" id="profile_menu">
+		<a href="#" (click)="showProfile(true)">{{ profile_login }}</a>
+		<div *ngIf="isProfile" id="profile_menu">
             <div class="form">
                 <h1>Изменить пароль</h1>
-                <form action="#" method="PUT" (submit)="SubmitUpdateFrofile()" (reset)="ShowProfile(false)">
+                <form action="#" method="PUT" (ngSubmit)="submitUpdateFrofile()" (reset)="showProfile(false)">
                     <div>
                         <mat-form-field class="full_width">
                             <input required matInput placeholder="Новый пароль"autocomplete="off" [(ngModel)]="password" type="password" name="password">
@@ -30,6 +30,8 @@
             </div>
 		</div>
 	</div>
-	<a id="logout" href="/logout" (click)="ClickLogout()">Выход</a>
+	<a id="logout" href="/logout" (click)="clickLogout()">Выход</a>
 </header>
-<router-outlet></router-outlet>
+<div id="app">
+    <router-outlet></router-outlet>
+</div>

@@ -15,13 +15,6 @@ import (
 	сервисы
 **/
 func Services(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	ses := sessions.Get(w, r)
 
 	if !ses.GetBool("auth") {
@@ -33,18 +26,46 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		list_services := models.Services_list{
-			User_id: profile.User_id,
+		getAvtoId := r.URL.Query().Get("avto_id")
+		if getAvtoId == "" {
+			http.Error(w, http.StatusText(400), 400)
+			return
 		}
 
-		list, err := list_services.Get()
+		getGroupId := r.URL.Query().Get("group_id")
+		if getGroupId == "" {
+			http.Error(w, http.StatusText(400), 400)
+			return
+		}
+
+		avtoID, err := strconv.ParseUint(getAvtoId, 10, 64)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
+		}
+
+		groupID, err := strconv.ParseUint(getGroupId, 10, 64)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
+		}
+
+		listServices := models.Services_list{
+			Avto_id:  avtoID,
+			Group_id: groupID,
+			User_id:  profile.User_id,
+		}
+
+		list, err := listServices.Get()
+		if err != nil {
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		data, err := json.Marshal(list)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.Write(data)
@@ -56,7 +77,8 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 		err := json.Unmarshal(buf.Bytes(), &service)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		if service.Avto_id == 0 || service.Group_id == 0 {
@@ -68,12 +90,14 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 		err = service.Create()
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		data, err := json.Marshal(service)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.WriteHeader(201)
@@ -86,19 +110,25 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 		err := json.Unmarshal(buf.Bytes(), &service)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		service.User_id = profile.User_id
 
 		err = service.Update()
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		data, err := json.Marshal(service)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.WriteHeader(202)
@@ -112,7 +142,8 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 		service_id, err := strconv.ParseUint(get_service_id, 10, 64)
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		service := models.Service{
@@ -122,7 +153,8 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 		err = service.Delete()
 		if err != nil {
-			panic(err)
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
 		}
 
 		w.WriteHeader(204)

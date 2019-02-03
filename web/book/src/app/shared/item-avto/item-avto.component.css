@@ -1,0 +1,22 @@
+a.item {
+    position: relative;
+    padding-left:110px;
+}
+
+a.item img {
+    border:1px transparent solid;
+    position: absolute;
+    top:1px;
+    left:30px;
+}
+
+.menu {
+    position: absolute;
+    top:12px;
+    right:10px;
+    z-index:2;
+    display: none;
+}
+:host:hover .menu {
+    display: block;
+}

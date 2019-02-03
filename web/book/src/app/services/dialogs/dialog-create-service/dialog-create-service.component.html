@@ -1,0 +1,40 @@
+<h2 at-dialog-title>Добавить запись об обслуживании</h2>
+<mat-dialog-content>
+  <form id="form" [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <mat-form-field class="full_width">
+        <input matInput placeholder="Пробег" formControlName="odo" type="number" min="0" required />
+        <mat-hint align="start">Пробег обслуживания</mat-hint>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="full_width">
+        <input matInput placeholder="Следующий пробег" formControlName="next_odo" type="number" min="0" />
+        <mat-hint align="start">Пробег обслуживания</mat-hint>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="full_width">
+        <input matInput [matDatepicker]="picker" placeholder="Дата обслуживания" formControlName="date" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="full_width">
+        <input matInput placeholder="Стоимость обслуживания" formControlName="price" type="number" min="0" />
+        <mat-hint align="start">рублей</mat-hint>
+      </mat-form-field>
+      </div>
+    <div class="comment">
+      <mat-form-field class="full_width">
+        <textarea #formComment matInput placeholder="Примечание" formControlName="comment" maxlength="1000"></textarea>
+        <mat-hint align="end">{{formComment.value.length}} / 1000</mat-hint>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button form="form" type="submit" color="primary" [disabled]="form.invalid || form.disabled" mat-raised-button>Добавить</button>
+  <button mat-button mat-dialog-close>Отмена</button>
+</mat-dialog-actions>

@@ -1,9 +1,18 @@
+export interface AvtoStruct {
+    avto_id?: number;
+    user_id?: number;
+    name: string;
+    odo: number;
+    avatar?: boolean;
+    public?: boolean;
+}
+
 export class Avto {
     avto_id: number;
     name: string;
     odo: number;
     avatar: boolean;
-    avatar_time_cache: number = 1;
+    avatar_time_cache = 1;
 
     constructor(id: number, name: string, odo: number, avatar: boolean) {
         this.avto_id = id;
@@ -12,7 +21,7 @@ export class Avto {
 
     Update(name: string, odo: number, avatar: boolean) {
         this.name = name;
-        this.odo = odo|0;
+        this.odo = odo | 0;
         this.avatar = avatar;
     }
 
