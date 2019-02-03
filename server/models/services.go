@@ -9,15 +9,15 @@ import (
 )
 
 type Service struct {
-	Service_id uint64 `json:"service_id"`
-	Avto_id    uint64 `json:"avto_id"`
-	User_id    uint64 `json:"user_id,omitempty"`
-	Group_id   uint64 `json:"group_id"`
-	Odo        uint32 `json:"odo"`
-	Next_odo   uint32 `json:"next_odo,omitempty"`
-	Date       string `json:"date"`
-	Comment    string `json:"comment,omitempty"`
-	Price      uint32 `json:"price,omitempty"`
+	Service_id    uint64 `json:"service_id"`
+	Avto_id       uint64 `json:"avto_id"`
+	User_id       uint64 `json:"user_id,omitempty"`
+	Group_id      uint64 `json:"group_id"`
+	Odo           uint32 `json:"odo"`
+	Next_distance uint32 `json:"next_distance,omitempty"`
+	Date          string `json:"date"`
+	Comment       string `json:"comment,omitempty"`
+	Price         uint32 `json:"price,omitempty"`
 }
 
 type Services_list struct {
@@ -39,38 +39,38 @@ func (l Services_list) Get() ([]Service, error) {
 		return nil, errors.New("empty data")
 	}
 
-	querySQL := `SELECT service_id,avto_id,group_id, odo,next_odo,"date","comment",price::numeric FROM cars.services WHERE avto_id=$1 and group_id=$2 and user_id=$3`
+	querySQL := `SELECT service_id,avto_id,group_id, odo,next_distance,"date","comment",price::numeric FROM cars.services WHERE avto_id=$1 and group_id=$2 and user_id=$3`
 	rows, err := conn.Query(querySQL, l.Avto_id, l.Group_id, l.User_id)
 	if err != nil {
 		return nil, err
 	}
 
 	var (
-		service_id uint64
-		avto_id    uint64
-		group_id   uint64
-		odo        uint32
-		next_odo   sql.NullInt64
-		date       string
-		comment    sql.NullString
-		price      sql.NullFloat64
+		service_id    uint64
+		avto_id       uint64
+		group_id      uint64
+		odo           uint32
+		next_distance sql.NullInt64
+		date          string
+		comment       sql.NullString
+		price         sql.NullFloat64
 	)
 
 	var responce []Service
 
 	for rows.Next() {
-		rows.Scan(&service_id, &avto_id, &group_id, &odo, &next_odo, &date, &comment, &price)
+		rows.Scan(&service_id, &avto_id, &group_id, &odo, &next_distance, &date, &comment, &price)
 
 		responce = append(responce, Service{
-			Service_id: service_id,
-			Avto_id:    avto_id,
-			User_id:    0,
-			Group_id:   group_id,
-			Odo:        odo,
-			Next_odo:   uint32(next_odo.Int64),
-			Date:       date,
-			Comment:    comment.String,
-			Price:      uint32(price.Float64),
+			Service_id:    service_id,
+			Avto_id:       avto_id,
+			User_id:       0,
+			Group_id:      group_id,
+			Odo:           odo,
+			Next_distance: uint32(next_distance.Int64),
+			Date:          date,
+			Comment:       comment.String,
+			Price:         uint32(price.Float64),
 		})
 	}
 	rows.Close()
@@ -98,8 +98,8 @@ func (s *Service) Create() error {
 		price   sql.NullInt64
 	)
 
-	if s.Next_odo > 0 {
-		nextODO.Scan(s.Next_odo)
+	if s.Next_distance > 0 {
+		nextODO.Scan(s.Next_distance)
 	}
 	if s.Comment != "" {
 		comment.Scan(s.Comment)
@@ -136,8 +136,8 @@ func (s Service) Update() error {
 		price   sql.NullInt64
 	)
 
-	if s.Next_odo > 0 {
-		nextODO.Scan(s.Next_odo)
+	if s.Next_distance > 0 {
+		nextODO.Scan(s.Next_distance)
 	}
 	if s.Comment != "" {
 		comment.Scan(s.Comment)

@@ -11,7 +11,7 @@ export interface ServiceStruct {
     date?: string;
     group_id?: number;
     odo: number;
-    next_odo?: number;
+    next_distance?: number;
 }
 
 @Injectable()

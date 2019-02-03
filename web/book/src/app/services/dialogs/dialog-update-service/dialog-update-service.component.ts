@@ -22,7 +22,7 @@ export class DialogUpdateServiceComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       odo: new FormControl(this.data.odo, [Validators.required, Validators.min(0)]),
-      next_odo: new FormControl(this.data.next_odo, Validators.min(0)),
+      next_distance: new FormControl(this.data.next_distance, Validators.min(0)),
       date: new FormControl(this.data.date, Validators.required),
       price: new FormControl(this.data.price, Validators.min(0)),
       comment: new FormControl(this.data.comment),
@@ -33,7 +33,7 @@ export class DialogUpdateServiceComponent implements OnInit {
     const data: ServiceStruct = {
       service_id: this.data.service_id,
       odo: this.form.get('odo').value,
-      next_odo: this.form.get('next_odo').value,
+      next_distance: this.form.get('next_distance').value,
       date: this.form.get('date').value,
       price: this.form.get('price').value,
       comment: this.form.get('comment').value,
