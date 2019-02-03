@@ -22,6 +22,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
   selectedAvto: AvtoStruct = null;
   selectedGroup: GroupStruct = null;
+  lastService: ServiceStruct = null;
   isSync = true;
   isSyncServices = true;
 
@@ -145,6 +146,44 @@ export class ServicesComponent implements OnInit, OnDestroy {
     }
   }
 
+  get getLeftDistance(): number {
+    if (this.selectedAvto && this.lastService && this.lastService.next_distance > 0) {
+      const nextOdo = this.lastService.odo + this.lastService.next_distance;
+      const leftOdo = nextOdo - this.selectedAvto.odo;
+
+      if (leftOdo < 0) {
+        return 0;
+      }
+
+      return leftOdo;
+    }
+
+    return 0;
+  }
+
+  get leftDistanceColorState(): number {
+    if (!this.selectedAvto.odo || !this.lastService || !this.lastService.next_distance) {
+      return 0;
+    }
+
+    const nextOdo = this.lastService.odo + this.lastService.next_distance;
+    const leftDistance = nextOdo - this.selectedAvto.odo;
+    if (leftDistance < 0) {
+      return 3; // err
+    }
+
+    const percent = (100 / this.lastService.next_distance) * (this.selectedAvto.odo - this.lastService.odo);
+    if (percent > 89.9) {
+      return 3; // err
+    } else if (percent > 69.9) {
+      return 2; // warn2
+    } else if (59.9) {
+      return 1; // warn1
+    }
+
+    return 0;
+  }
+
   private resetGroupStates() {
     this.groupList.forEach((group: GroupStruct) => {
       group.cnt = null;
@@ -176,6 +215,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
   private loadServices() {
     this.serviceList = [];
+    this.lastService = null;
     if (!this.selectedAvto || !this.selectedGroup) {
       return;
     }
@@ -187,6 +227,10 @@ export class ServicesComponent implements OnInit, OnDestroy {
       })
     ).subscribe((list: ServiceStruct[]) => {
       this.serviceList = list || [];
+
+      if (list.length > 0) {
+        this.lastService = list[0];
+      }
     });
   }
 

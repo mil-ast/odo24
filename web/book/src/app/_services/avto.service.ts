@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Avto, AvtoStruct } from '../_classes/avto';
+import { AvtoStruct } from '../_classes/avto';
 import { Observable, BehaviorSubject, Subscriber } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AvtoService {
@@ -16,9 +16,12 @@ export class AvtoService {
   ) { }
 
   get(): Observable<AvtoStruct[]> {
-    return this.http.get<AvtoStruct[]>(this.url).pipe(tap((data: AvtoStruct[]) => {
-      const list = data || [];
-      return list.sort((a: AvtoStruct, b: AvtoStruct) => {
+    return this.http.get<AvtoStruct[]>(this.url).pipe(map((data: AvtoStruct[]) => {
+      if (!Array.isArray(data)) {
+        return [];
+      }
+
+      return data.sort((a: AvtoStruct, b: AvtoStruct) => {
         if (a.avto_id > b.avto_id) {
           return 1;
         }

@@ -30,7 +30,7 @@ export class DialogCreateServiceComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       odo: new FormControl(null, [Validators.required, Validators.min(0)]),
-      next_odo: new FormControl(null, Validators.min(0)),
+      next_distance: new FormControl(null, Validators.min(0)),
       date: new FormControl(moment(), Validators.required),
       price: new FormControl(null, Validators.min(0)),
       comment: new FormControl(''),
@@ -53,7 +53,7 @@ export class DialogCreateServiceComponent implements OnInit {
       avto_id: this.selectegAvto.avto_id,
       group_id: this.selectegGroup.group_id,
       odo: this.form.get('odo').value,
-      next_odo: this.form.get('next_odo').value,
+      next_distance: this.form.get('next_distance').value,
       date: this.form.get('date').value,
       price: this.form.get('price').value,
       comment: this.form.get('comment').value,

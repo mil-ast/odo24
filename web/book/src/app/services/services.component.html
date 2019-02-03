@@ -11,7 +11,7 @@
 					<div *ngIf="selectedAvto !== null" id="selected_avto">
 						<app-selected-avto [model]="selectedAvto"></app-selected-avto>
 					</div>
-					<ul>
+					<ul *ngIf="avtoList.length > 1">
 						<li *ngFor="let a of avtoList">
 							<app-item-avto [model]="a" (eventDelete)="onAvtoDelete($event)"></app-item-avto>
 						</li>
@@ -44,6 +44,11 @@
 			<div class="overflow">
 				<mat-progress-bar mode="indeterminate" class="sync-spinner" *ngIf="isSyncServices"></mat-progress-bar>
 				<ul class="scroll" *ngIf="serviceList.length > 0; else emptyServices">
+					<li id="left-distance" *ngIf="lastService && lastService.next_distance" [ngClass]="{'warn1' : leftDistanceColorState===1, 'warn2' : leftDistanceColorState===2, 'err' : leftDistanceColorState===3}">
+						<mat-icon>notifications</mat-icon>
+						<span>До следующей замены осталось</span>
+						<span><strong>{{getLeftDistance | number}}</strong> км</span>
+					</li>
 					<li *ngFor="let s of serviceList">
 						<app-item-service [model]="s" (eventOnDelete)="onServiceDelete($event)"></app-item-service>
 					</li>
