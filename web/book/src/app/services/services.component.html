@@ -11,7 +11,7 @@
 					<div *ngIf="selectedAvto !== null" id="selected_avto">
 						<app-selected-avto [model]="selectedAvto"></app-selected-avto>
 					</div>
-					<ul>
+					<ul *ngIf="avtoList.length > 1">
 						<li *ngFor="let a of avtoList">
 							<app-item-avto [model]="a" (eventDelete)="onAvtoDelete($event)"></app-item-avto>
 						</li>
