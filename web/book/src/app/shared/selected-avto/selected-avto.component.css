@@ -12,7 +12,7 @@
 
 .avto__title, .avto__odo {
     position:absolute;
-    right:27px;
+    left:30px;
     color:#5a5a5a;
 }
 .avto__title {
