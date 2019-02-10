@@ -1,41 +1,28 @@
 package com.example.odo;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import java.util.ArrayList;
-import java.util.List;
 
-import static android.Manifest.permission.READ_CONTACTS;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +78,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void httpLogin() {
+        JSONObject responce = run("https://jsonplaceholder.typicode.com/todos/1");
+    }
 
+    JSONObject run(String url) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+            Response  response = client.newCall(request).execute();
+            return new JSONObject(response.body().string());
+        } catch (@NonNull IOException | JSONException e) {
+            Log.e("", "" + e.getLocalizedMessage());
+        }
+
+        return null;
     }
 }
 
