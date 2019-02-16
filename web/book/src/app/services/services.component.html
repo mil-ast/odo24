@@ -48,6 +48,7 @@
 						<mat-icon>notifications</mat-icon>
 						<span>До следующей замены осталось</span>
 						<span><strong>{{getLeftDistance | number}}</strong> км</span>
+						<span>Пробег составит {{lastService.next_distance | number}} км</span>
 					</li>
 					<li *ngFor="let s of serviceList">
 						<app-item-service [model]="s" (eventOnDelete)="onServiceDelete($event)"></app-item-service>
