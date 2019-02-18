@@ -1,4 +1,4 @@
-<header *ngIf="profile_login">
+<header *ngIf="profile_login; else loginHeader">
 	<a routerLink="/service" id="logo"></a>
 	<nav>
 		<a routerLink="/service" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">Обслуживание</a>
@@ -35,3 +35,7 @@
 <div id="app">
     <router-outlet></router-outlet>
 </div>
+
+<ng-template #loginHeader>
+    <header></header>
+</ng-template>

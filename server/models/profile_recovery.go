@@ -39,10 +39,12 @@ func (r ProfileRecovery) CreateCode() error {
 
 		to := []string{r.Email}
 		msg := []byte(fmt.Sprintf("To: %s\r\n"+
-			"Subject: Восстановление пароля на Odometer.online\r\n"+
-			"MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\r\n"+
-			"\r\n"+
-			"Для восстановления доступа к аккаунту введите в форму этот код подтверждения: <strong>%d</strong>\r\n", r.Email, code))
+			`Subject: Восстановление пароля на odo24.ru\r\n`+
+			`MIME-version: 1.0;\nContent-Type: text/html; charset="UTF-8";\r\n`+
+			`\r\n`+
+			`<p>Для восстановления доступа к аккаунту введите в форму этот код подтверждения: <strong>%d</strong></p>`+
+			`<p>С уважением, команда <a href="https://odo24.ru\">odo24.ru</a></p>`+
+			`\r\n`, r.Email, code))
 
 		err = smtp.SendMail(fmt.Sprintf("%s:%d", cfg.App.SmtpHost, cfg.App.SmtpPort), auth, cfg.App.SmtpFrom, to, msg)
 		if err != nil {

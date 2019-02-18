@@ -28,6 +28,9 @@ header > nav a.selected {
     cursor:default;
 }
 
+#app {
+    position: relative;
+}
 #logo {
     display:block;
     width:100%;
