@@ -217,9 +217,40 @@ footer {
   position: relative;
   background-color: #1f2326;
   color: #777;
-  text-align: center;
 }
 .footer_date {
   display: inline-block;
   padding-top: 32px;
+}
+
+footer > div {
+  width: 900px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 200px 200px;
+  padding-top: 32px;
+}
+
+footer a {
+  color: inherit;
+}
+footer a:hover {
+  color: #aaa;
+}
+
+#contacts {
+  position: relative;
+}
+#contacts > i, #contacts > a {
+  position: absolute;
+}
+#contacts > i {
+  top: -3px;
+  left: 0px;
+}
+#contacts > a {
+  top: 0px;
+  left: 30px;
+  border-bottom: 1px currentColor solid;
+  padding-bottom: 2px;
 }
