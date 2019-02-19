@@ -114,13 +114,14 @@ func (p *Profile) ConfirmEmail() error {
 		auth := smtp.PlainAuth("", cfg.App.SmtpFrom, cfg.App.SmtpPassword, cfg.App.SmtpHost)
 
 		to := []string{p.Login}
-		msg := []byte(fmt.Sprintf(`To: %s\r\n`+
-			`Subject: Подтверждение почты на odo24.ru\r\n`+
-			`MIME-version: 1.0;\nContent-Type: text/html; charset="UTF-8";\r\n`+
-			`\r\n`+
-			`<p>Для подтверждения текущего E-mail введите в форму на сайте этот код подтверждения: <strong>%d</strong></p>`+
-			`<p>С уважением, команда <a href="https://odo24.ru\">odo24.ru</a></p>`+
-			`\r\n`, p.Login, code))
+
+		msg := []byte(fmt.Sprintf("To: %s\r\n"+
+			"Subject: Подтверждение почты на odo24.ru\r\n"+
+			"MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\r\n"+
+			"\r\n"+
+			"<p>Для подтверждения текущего E-mail введите в форму на сайте этот код подтверждения: <strong>%d</strong></p>"+
+			"<p>С уважением, команда <a href=\"https://odo24.ru\">odo24.ru</a></p>"+
+			"<p>По всем вопросам пишите на info@odo24.ru</p>", p.Login, code))
 
 		err = smtp.SendMail(fmt.Sprintf("%s:%d", cfg.App.SmtpHost, cfg.App.SmtpPort), auth, cfg.App.SmtpFrom, to, msg)
 		if err != nil {
