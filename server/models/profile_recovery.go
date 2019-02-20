@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"net/smtp"
 	"sto/server/config"
+	"sto/server/sendmail"
 
 	"github.com/mil-ast/db"
 )
@@ -35,18 +35,29 @@ func (r ProfileRecovery) CreateCode() error {
 	go func() {
 		cfg := config.GetInstance()
 
-		auth := smtp.PlainAuth("", cfg.App.SmtpFrom, cfg.App.SmtpPassword, cfg.App.SmtpHost)
+		host := sendmail.SendMail{
+			Host:     cfg.App.SmtpHost,
+			Port:     cfg.App.SmtpPort,
+			Login:    cfg.App.SmtpFrom,
+			Password: cfg.App.SmtpPassword,
+		}
 
-		to := []string{r.Email}
-		msg := []byte(fmt.Sprintf("To: %s\r\n"+
-			"Subject: Восстановление пароля на odo24.ru\r\n"+
-			"MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\r\n"+
-			"\r\n"+
+		body := fmt.Sprintf(
 			"<p>Для восстановления доступа к аккаунту введите в форму этот код подтверждения: <strong>%d</strong></p>"+
-			"<p>С уважением, команда <a href=\"https://odo24.ru\">odo24.ru</a></p>"+
-			"<p>По всем вопросам пишите на info@odo24.ru</p>", r.Email, code))
+				"<p>С уважением, команда <a href=\"https://odo24.ru\">odo24.ru</a></p>"+
+				"<p>По всем вопросам пишите на %s",
+			code,
+			cfg.App.SmtpFrom,
+		)
 
-		err = smtp.SendMail(fmt.Sprintf("%s:%d", cfg.App.SmtpHost, cfg.App.SmtpPort), auth, cfg.App.SmtpFrom, to, msg)
+		mail := sendmail.Mail{
+			From:    cfg.App.SmtpFrom,
+			To:      r.Email,
+			Subject: "Восстановление пароля на odo24.ru",
+			Body:    body,
+		}
+
+		err := host.Send(mail)
 		if err != nil {
 			log.Println(err)
 		}
