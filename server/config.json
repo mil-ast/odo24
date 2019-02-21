@@ -12,7 +12,6 @@
 		"name" : "cars",
 		"data_source" : "host=81.177.26.40 port=5432 user=pavel password=Dhfuytghjqltn1 dbname=postgres sslmode=disable",
 		"max_idle_conns" : 100,
-		"max_open_conns" : 50,
-		"timeout" : "90s"
+		"max_open_conns" : 50
 	}
 }

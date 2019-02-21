@@ -48,7 +48,6 @@ func main() {
 		DriverName:     options.Db.Driver_name,
 		DataSourceName: options.Db.Data_source,
 		DbName:         options.Db.Name,
-		Timeout:        options.Db.Timeout,
 		MaxIdleConns:   options.Db.Max_idle_conns,
 		MaxOpenConns:   options.Db.Max_open_conns,
 	})
