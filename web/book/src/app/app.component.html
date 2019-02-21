@@ -1,34 +1,21 @@
-<header *ngIf="profile_login; else loginHeader">
+<header *ngIf="profile; else loginHeader">
 	<a routerLink="/service" id="logo"></a>
 	<nav>
 		<a routerLink="/service" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">Обслуживание</a>
 		<!--<a routerLink="/remind" routerLinkActive="selected">Уведомления</a>-->
 	</nav>
 	<div id="profile">
-		<a href="#" (click)="showProfile(true)">{{ profile_login }}</a>
-		<div *ngIf="isProfile" id="profile_menu">
-            <div class="form">
-                <h1>Изменить пароль</h1>
-                <form action="#" method="PUT" (ngSubmit)="submitUpdateFrofile()" (reset)="showProfile(false)">
-                    <div>
-                        <mat-form-field class="full_width">
-                            <input required matInput placeholder="Новый пароль"autocomplete="off" [(ngModel)]="password" type="password" name="password">
-                            <mat-error *ngIf="password.length < 5">Длинна пароля не менее 5 знаков</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field class="full_width">
-                            <input required matInput placeholder="Пароль ещё раз"autocomplete="off" [(ngModel)]="password2" type="password" name="password2">
-                            <mat-error *ngIf="password != password2">Пароли не совпадают</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="buttons">
-                        <button mat-raised-button color="primary" [disabled]="password.length < 5 || password != password2" type="submit">Сохранить</button>
-                        <button mat-button type="reset">Отмена</button>
-                    </div>
-                </form>
-            </div>
-		</div>
+        <a [matMenuTriggerFor]="menu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">{{ profile.login }}</a>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="clickShowChangePasswordDialog()">
+                <mat-icon>lock</mat-icon>
+                <span>Изменить пароль</span>
+            </button>
+            <button class="warn" *ngIf="profile.is_no_confirmed" mat-menu-item>
+                <mat-icon>email</mat-icon>
+                <span>Подтвердить почту</span>
+            </button>
+        </mat-menu>
 	</div>
 	<a id="logout" href="/logout" (click)="clickLogout()">Выход</a>
 </header>

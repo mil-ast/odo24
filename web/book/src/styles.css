@@ -184,3 +184,7 @@ a.mat-icon-button {
 .column.avto__list {
     width:300px;
 }
+
+button.warn, button.warn .mat-icon {
+    color:#f44336;
+}

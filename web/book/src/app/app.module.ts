@@ -23,6 +23,9 @@ import {
     MAT_SNACK_BAR_DEFAULT_OPTIONS,
     MatDialogModule,
     MatStepperModule,
+    MatMenuModule,
+    MatBadgeModule,
+    MatIconModule,
 } from '@angular/material';
 
 export const DATE_FORMATS = {
@@ -41,6 +44,7 @@ import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
+import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -48,6 +52,7 @@ registerLocaleData(localeRu, 'ru');
   declarations: [
     AppComponent,
     ConfirmEmailDialogComponent,
+    PrifileDialogComponent,
   ],
   imports: [
     MatInputModule,
@@ -55,6 +60,9 @@ registerLocaleData(localeRu, 'ru');
     MatProgressBarModule,
     MatDialogModule,
     MatStepperModule,
+    MatMenuModule,
+    MatBadgeModule,
+    MatIconModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -78,6 +86,7 @@ registerLocaleData(localeRu, 'ru');
   ],
   entryComponents: [
     ConfirmEmailDialogComponent,
+    PrifileDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

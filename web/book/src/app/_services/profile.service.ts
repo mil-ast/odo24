@@ -59,9 +59,8 @@ export class ProfileService {
         const req = this.http.get(this.url_logout);
         req.subscribe(() => { }, (err) => {
             console.error(err);
-        }, () => {
-            this.exit();
         });
+        this.exit();
     }
 
     update(data: any) {
