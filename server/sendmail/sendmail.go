@@ -22,10 +22,11 @@ type SendMail struct {
 	Сообщение
 */
 type Mail struct {
-	From    string
-	To      string
-	Subject string
-	Body    string
+	From        string
+	To          string
+	Subject     string
+	Body        string
+	ContentType string
 }
 
 /*
@@ -35,7 +36,16 @@ func (sm SendMail) Send(em Mail) error {
 	from := mail.Address{Address: em.From}
 	to := mail.Address{Address: em.To}
 
+	var contentType string
+	if em.ContentType != "" {
+		contentType = em.ContentType
+	} else {
+		contentType = "text/html; charset=\"UTF-8\""
+	}
+
 	headers := make(map[string]string)
+	headers["MIME-version"] = "1.0"
+	headers["Content-type"] = contentType
 	headers["From"] = from.String()
 	headers["To"] = to.String()
 	headers["Subject"] = em.Subject
