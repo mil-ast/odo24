@@ -5,11 +5,12 @@ import { HomeComponent } from './home/components/home/home.component';
 
 import { AuthGuard } from './auth.guard';
 import { ServicesComponent } from './services/services.component';
+import { RemindingComponent } from './reminding/reminding.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'service', component: ServicesComponent, canActivate: [AuthGuard] },
-  // { path: 'remind', component: Reminder, canActivate: [AuthGuard] },
+  { path: 'reminding', component: RemindingComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 

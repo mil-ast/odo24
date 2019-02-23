@@ -2,7 +2,7 @@
 	<a routerLink="/service" id="logo"></a>
 	<nav>
 		<a routerLink="/service" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">Обслуживание</a>
-		<!--<a routerLink="/remind" routerLinkActive="selected">Уведомления</a>-->
+		<a routerLink="/reminding" routerLinkActive="selected">Напоминания</a>
 	</nav>
 	<div id="profile">
         <a [matMenuTriggerFor]="menu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">{{ profile.login }}</a>

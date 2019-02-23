@@ -45,6 +45,7 @@ import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
+import { RemindingComponent } from './reminding/reminding.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -53,6 +54,7 @@ registerLocaleData(localeRu, 'ru');
     AppComponent,
     ConfirmEmailDialogComponent,
     PrifileDialogComponent,
+    RemindingComponent,
   ],
   imports: [
     MatInputModule,
