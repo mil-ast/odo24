@@ -1,12 +1,9 @@
 package handlers
 
 import (
-	"bytes"
 	"encoding/json"
-	"log"
 	"net/http"
 	"sto/server/models"
-	"strconv"
 
 	"github.com/mil-ast/sessions"
 )
@@ -15,13 +12,6 @@ import (
 	Напоминания
 **/
 func Reminding(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
 	ses := sessions.Get(w, r)
 
 	if !ses.GetBool("auth") {
@@ -39,49 +29,55 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 
 		items, err := list.Get()
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		data, err := json.Marshal(items)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.Write(data)
 	case "POST":
-		var buf bytes.Buffer
+		/*var buf bytes.Buffer
 		buf.ReadFrom(r.Body)
 
 		rem := models.Remining{}
 
 		err := json.Unmarshal(buf.Bytes(), &rem)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		rem.User_id = profile.User_id
 
 		err = rem.Create()
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		data, err := json.Marshal(rem)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.WriteHeader(201)
-		w.Write(data)
+		w.Write(data)*/
 	case "PUT":
-		var buf bytes.Buffer
+		/*var buf bytes.Buffer
 		buf.ReadFrom(r.Body)
 
 		rem := models.Remining{}
 
 		err := json.Unmarshal(buf.Bytes(), &rem)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		rem.User_id = profile.User_id
@@ -93,27 +89,30 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, http.StatusText(404), 404)
 				return
 			default:
-				panic(err)
+				http.Error(w, http.StatusText(500), 500)
+				return
 			}
 		}
 
 		data, err := json.Marshal(rem)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.WriteHeader(202)
-		w.Write(data)
+		w.Write(data)*/
 	case "DELETE":
-		get_id := r.URL.Query().Get("id")
-		if get_id == "" {
+		/*getID := r.URL.Query().Get("id")
+		if getID == "" {
 			http.Error(w, http.StatusText(400), 400)
 			return
 		}
 
-		id, err := strconv.ParseUint(get_id, 10, 64)
+		id, err := strconv.ParseUint(getID, 10, 64)
 		if err != nil {
-			panic(err)
+			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		rem := models.Remining{
@@ -131,11 +130,12 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, http.StatusText(403), 403)
 				return
 			default:
-				panic(err)
+				http.Error(w, http.StatusText(500), 500)
+				return
 			}
 		}
 
-		w.WriteHeader(204)
+		w.WriteHeader(204)*/
 	default:
 		http.Error(w, http.StatusText(405), 405)
 	}

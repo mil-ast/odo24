@@ -57,11 +57,8 @@ func main() {
 	}
 	fmt.Println("OK!")
 
-	// запуск сервиса напоминаний
-	// go reminder.Start()
-
 	// актуальность сессии
-	sessions.SetMaxLifeTime(time.Minute * 20)
+	sessions.SetMaxLifeTime(time.Hour)
 
 	// профиль
 	http.HandleFunc("/api/register", handlers.Profile_register)
@@ -76,16 +73,13 @@ func main() {
 	http.HandleFunc("/api/profile", handlers.Profile)
 	// авто
 	http.HandleFunc("/api/avto", handlers.Avto)
-	//http.HandleFunc("/api/avto/public/", handlers.AvtoPublic)
 	// группы
 	http.HandleFunc("/api/groups", handlers.Groups)
 	http.HandleFunc("/api/groups/stats", handlers.GroupsStats)
-	//http.HandleFunc("/api/groups/public/", handlers.GroupsPublic)
 	// сервисы
 	http.HandleFunc("/api/services", handlers.Services)
-	//http.HandleFunc("/api/services/public/", handlers.ServicesPublic)
 	// напоминания
-	//http.HandleFunc("/api/reminding", handlers.Reminding)
+	http.HandleFunc("/api/reminding", handlers.Reminding)
 	// фото авто
 	http.HandleFunc("/api/images/", handlers.Images)
 

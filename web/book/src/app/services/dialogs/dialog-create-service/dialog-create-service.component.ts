@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import { AvtoService } from 'src/app/_services/avto.service';
@@ -24,7 +24,6 @@ export class DialogCreateServiceComponent implements OnInit {
     private serviceService: ServiceService,
     private groupService: GroupService,
     private avtoService: AvtoService,
-    @Inject(MAT_DIALOG_DATA) data: any,
   ) { }
 
   ngOnInit() {

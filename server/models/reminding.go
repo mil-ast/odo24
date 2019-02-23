@@ -2,22 +2,20 @@ package models
 
 import (
 	"database/sql"
-	"errors"
-	"fmt"
 	"log"
-	"time"
 
 	"github.com/mil-ast/db"
 )
 
 type Remining struct {
-	Id           uint64 `json:"id"`
-	User_id      uint64 `json:"user_id,omitempty"`
-	Event_type   string `json:"event_type,omitempty"`
-	Date_start   string `json:"date_start"`
-	Date_end     string `json:"date_end"`
-	Event_before uint16 `json:"event_before"`
-	Comment      string `json:"comment"`
+	ID              uint64 `json:"id"`
+	UserID          uint64 `json:"user_id,omitempty"`
+	AvtoID          uint64 `json:"avto_id,omitempty"`
+	EventType       string `json:"event_type,omitempty"`
+	DateStart       string `json:"date_start"`
+	DateEnd         string `json:"date_end"`
+	DaysBeforeEvent uint16 `json:"days_before_event"`
+	Comment         string `json:"comment"`
 }
 
 type Remining_list struct {
@@ -31,7 +29,7 @@ func (l Remining_list) Get() ([]Remining, error) {
 		return nil, err
 	}
 
-	query_sql := "SELECT `id`,`event_type`,`date_start`,`date_end`,`event_before`,`comment` FROM `reminding` WHERE `user_id`=?"
+	query_sql := `SELECT id,event_type,date_start,date_end,days_before_event,"comment",avto_id FROM cars.reminding where user_id=$1`
 	rows, err := conn.Query(query_sql, l.User_id)
 	if err != nil {
 		log.Println(err)
@@ -39,26 +37,28 @@ func (l Remining_list) Get() ([]Remining, error) {
 	}
 
 	var (
-		id           uint64
-		event_type   string
-		date_start   string
-		date_end     string
-		event_before uint16
-		comment      sql.NullString
+		id              uint64
+		eventType       string
+		dateStart       string
+		dateEnd         string
+		daysBeforeEvent uint16
+		comment         sql.NullString
+		avtoID          sql.NullInt64
 	)
 
 	var responce []Remining
 
 	for rows.Next() {
-		rows.Scan(&id, &event_type, &date_start, &date_end, &event_before, &comment)
+		rows.Scan(&id, &eventType, &dateStart, &dateEnd, &daysBeforeEvent, &comment, &avtoID)
 
 		responce = append(responce, Remining{
-			Id:           id,
-			Event_type:   event_type,
-			Date_start:   date_start,
-			Date_end:     date_end,
-			Event_before: event_before,
-			Comment:      comment.String,
+			ID:              id,
+			EventType:       eventType,
+			DateStart:       dateStart,
+			DateEnd:         dateEnd,
+			DaysBeforeEvent: daysBeforeEvent,
+			Comment:         comment.String,
+			AvtoID:          uint64(avtoID.Int64),
 		})
 	}
 	rows.Close()
@@ -72,7 +72,7 @@ func (l Remining_list) Get() ([]Remining, error) {
 	return responce, nil
 }
 
-/* создание */
+/* создание
 func (r *Remining) Create() error {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -109,7 +109,7 @@ func (r *Remining) Create() error {
 	return nil
 }
 
-/* изменение */
+
 func (r *Remining) Update() error {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -136,7 +136,7 @@ func (r *Remining) Update() error {
 	return nil
 }
 
-/* удаление */
+
 func (r *Remining) Delete() error {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -181,3 +181,4 @@ func (g Remining) checkOwn() error {
 
 	return nil
 }
+*/

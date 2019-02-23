@@ -16,18 +16,7 @@ export class AvtoService {
   ) { }
 
   get(): Observable<AvtoStruct[]> {
-    return this.http.get<AvtoStruct[]>(this.url).pipe(map((data: AvtoStruct[]) => {
-      if (!Array.isArray(data)) {
-        return [];
-      }
-
-      return data.sort((a: AvtoStruct, b: AvtoStruct) => {
-        if (a.avto_id > b.avto_id) {
-          return 1;
-        }
-        return -1;
-      });
-    }));
+    return this.http.get<AvtoStruct[]>(this.url);
   }
 
   create(data: AvtoStruct): Observable<AvtoStruct> {
