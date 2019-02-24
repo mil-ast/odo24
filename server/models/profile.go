@@ -101,7 +101,7 @@ func (p *Profile) ConfirmEmail() error {
 	sqlQuery := "select code from profiles.createrestorecode($1)"
 	row := conn.QueryRow(sqlQuery, p.Login)
 
-	var code uint16
+	var code uint32
 	err = row.Scan(&code)
 	if err != nil {
 		return err
@@ -188,16 +188,16 @@ func (p Profile) Logout() {}
 **/
 func (p *Profile) Save(password string) error {
 	var (
-		query_sql     string = "UPDATE `users` SET %s WHERE `user_id`=?"
-		query_sql_arr []string
-		params        []interface{}
+		querySQL    string = "UPDATE `users` SET %s WHERE `user_id`=?"
+		querySqlArr []string
+		params      []interface{}
 	)
 
 	if password != "" {
 		h := sha256.New()
 		h.Write([]byte(password))
 
-		query_sql_arr = append(query_sql_arr, "`password_hash`=?")
+		querySqlArr = append(querySqlArr, "`password_hash`=?")
 		params = append(params, h.Sum(nil))
 	}
 
@@ -212,7 +212,7 @@ func (p *Profile) Save(password string) error {
 		return err
 	}
 
-	_, err = conn.Exec(fmt.Sprintf(query_sql, strings.Join(query_sql_arr, ",")), params...)
+	_, err = conn.Exec(fmt.Sprintf(querySQL, strings.Join(querySqlArr, ",")), params...)
 	if err != nil {
 		return err
 	}
