@@ -1,22 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProfileService } from 'src/app/_services/profile.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-prifile-dialog',
   templateUrl: './prifile-dialog.component.html',
   styleUrls: ['./prifile-dialog.component.css']
 })
-export class PrifileDialogComponent implements OnInit {
+export class PrifileDialogComponent {
   password = '';
   password2 = '';
   constructor(
     private profileService: ProfileService,
     private snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<PrifileDialogComponent>,
   ) { }
-
-  ngOnInit() {
-  }
 
   submitUpdateFrofile() {
     if (this.password.length < 5 || this.password !== this.password2) {
@@ -31,6 +29,8 @@ export class PrifileDialogComponent implements OnInit {
       this.snackBar.open('Пароль успешно изменён!', 'OK', {
         duration: 5000,
       });
+
+      this.dialogRef.close();
     }, (err) => {
       console.error(err);
 
