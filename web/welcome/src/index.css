@@ -227,7 +227,7 @@ footer > div {
   width: 900px;
   margin: auto;
   display: grid;
-  grid-template-columns: 200px 200px;
+  grid-template-columns: 200px 1fr;
   padding-top: 32px;
 }
 
@@ -239,18 +239,25 @@ footer a:hover {
 }
 
 #contacts {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+}
+
+#contacts > div {
   position: relative;
 }
-#contacts > i, #contacts > a {
-  position: absolute;
-}
-#contacts > i {
-  top: -3px;
-  left: 0px;
-}
-#contacts > a {
-  top: 0px;
-  left: 30px;
+
+#contacts > div a {
+  margin: 3px 0px 2px 30px;
+  display: inline-block;
   border-bottom: 1px currentColor solid;
-  padding-bottom: 2px;
+}
+#contacts > div i {
+  position: absolute;
+  top:0px;
+  left:0px;
+}
+#contacts > div i.new-window {
+  left:auto;
+  font-size: 16px;
 }
