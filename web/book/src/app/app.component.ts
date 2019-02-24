@@ -32,7 +32,22 @@ export class AppComponent implements OnInit {
   }
 
   clickShowChangePasswordDialog() {
-    this.dialog.open(PrifileDialogComponent, {});
+    this.dialog.open(PrifileDialogComponent, {
+      position: {
+        top: '80px',
+        right: '40px'
+      }
+    });
+  }
+
+  clickShowConfirmEmailDialog() {
+    this.dialog.open(ConfirmEmailDialogComponent, {
+      position: {
+        top: '80px',
+        right: '40px'
+      },
+      data: this.profile
+    });
   }
 
   /*

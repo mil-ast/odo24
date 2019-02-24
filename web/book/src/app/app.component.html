@@ -11,9 +11,9 @@
                 <mat-icon>lock</mat-icon>
                 <span>Изменить пароль</span>
             </button>
-            <button class="warn" *ngIf="profile.is_no_confirmed" mat-menu-item>
+            <button class="warn" (click)="clickShowConfirmEmailDialog()" *ngIf="profile.is_no_confirmed" mat-menu-item>
                 <mat-icon>email</mat-icon>
-                <span>Подтвердить почту</span>
+                <span>Подтвердите почту</span>
             </button>
         </mat-menu>
 	</div>
