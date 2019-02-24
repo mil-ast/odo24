@@ -5,14 +5,12 @@ import { AvtoService } from '../_services/avto.service';
 import { RemindingService, Reminding } from './services/reminding.service';
 import { MatDialog } from '@angular/material';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
+import { DialogCreateAvtoComponent } from '../services/dialogs/dialog-create-avto/dialog-create-avto.component';
 
 @Component({
   selector: 'app-reminding',
   templateUrl: './reminding.component.html',
   styleUrls: ['./reminding.component.css'],
-  providers: [
-    RemindingService,
-  ]
 })
 export class RemindingComponent implements OnInit, OnDestroy {
   avtoList: AvtoStruct[] = [];
@@ -53,9 +51,26 @@ export class RemindingComponent implements OnInit, OnDestroy {
 
   clickShowFormCreateDoct(event: MouseEvent) {
     event.preventDefault();
-    const dialog = this.dialog.open(DialogCreateDocComponent, {
+    this.dialog.open(DialogCreateDocComponent, {
       width: '600px',
+      data: this.selectedAvto
+    }).afterClosed().subscribe((rem: Reminding) => {
+      if (rem) {
+        this.remindList.unshift(rem);
+      }
     });
+  }
 
+  clickShowFormCreateAvto(event: MouseEvent) {
+    event.preventDefault();
+    this.dialog.open(DialogCreateAvtoComponent, {
+      autoFocus: true,
+      width: '500px',
+    }).afterClosed().subscribe((avto: AvtoStruct) => {
+      if (avto) {
+        this.avtoList.push(avto);
+        this.avtoService.setSelected(avto);
+      }
+    });
   }
 }

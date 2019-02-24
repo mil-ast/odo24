@@ -29,7 +29,7 @@ func (l Remining_list) Get() ([]Remining, error) {
 		return nil, err
 	}
 
-	query_sql := `SELECT id,event_type,date_start,date_end,days_before_event,"comment",avto_id FROM cars.reminding where user_id=$1`
+	query_sql := `SELECT id,event_type,date_start,date_end,days_before_event,"comment",avto_id FROM reminding.reminding where user_id=$1`
 	rows, err := conn.Query(query_sql, l.User_id)
 	if err != nil {
 		log.Println(err)
@@ -72,7 +72,7 @@ func (l Remining_list) Get() ([]Remining, error) {
 	return responce, nil
 }
 
-/* создание
+/* создание */
 func (r *Remining) Create() error {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -84,32 +84,29 @@ func (r *Remining) Create() error {
 	if r.Comment != "" {
 		comment.Scan(r.Comment)
 	}
+	var avtoID sql.NullInt64
+	if r.EventType == "insurance" {
+		avtoID.Scan(r.AvtoID)
+	}
+	querySQL := `select id,event_type,date_start,date_end,days_before_event,"comment",avto_id from reminding.createremind($1,$2,$3,$4,$5,$6::int2,$7)`
+	row := conn.QueryRow(querySQL, r.UserID, avtoID, r.EventType, r.DateStart, r.DateEnd, r.DaysBeforeEvent, comment)
 
-	var dateEnd string = fmt.Sprintf("%s %s", r.Date_end, time.Now().Format("15:04:05"))
-
-	query_sql := "INSERT INTO `reminding` SET `user_id`=?,`event_type`=?,`date_start`=?,`date_end`=?,`event_before`=?,`comment`=?"
-	result, err := conn.Exec(query_sql, r.User_id, r.Event_type, r.Date_start, dateEnd, r.Event_before, comment)
-	if err != nil {
+	err = row.Scan(&r.ID, &r.EventType, &r.DateStart, &r.DateEnd, &r.DaysBeforeEvent, &comment, &avtoID)
+	if err != nil && err != sql.ErrNoRows {
 		log.Println(err)
 		return err
 	}
 
-	last_id, err := result.LastInsertId()
-	if err != nil {
-		log.Println(err)
-		return err
+	if avtoID.Int64 != 0 {
+		r.AvtoID = uint64(avtoID.Int64)
 	}
 
-	r.Id = uint64(last_id)
-
-	// обнулим прочие значения, чтобы не возвращать на клиент
-	r.User_id = 0
-	r.Event_type = ""
+	r.Comment = comment.String
 
 	return nil
 }
 
-
+/*
 func (r *Remining) Update() error {
 	conn, err := db.GetConnection()
 	if err != nil {

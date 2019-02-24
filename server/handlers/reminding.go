@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"sto/server/models"
@@ -41,7 +42,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 
 		w.Write(data)
 	case "POST":
-		/*var buf bytes.Buffer
+		var buf bytes.Buffer
 		buf.ReadFrom(r.Body)
 
 		rem := models.Remining{}
@@ -52,7 +53,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		rem.User_id = profile.User_id
+		rem.UserID = profile.User_id
 
 		err = rem.Create()
 		if err != nil {
@@ -67,7 +68,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(201)
-		w.Write(data)*/
+		w.Write(data)
 	case "PUT":
 		/*var buf bytes.Buffer
 		buf.ReadFrom(r.Body)

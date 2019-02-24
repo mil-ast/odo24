@@ -1,0 +1,10 @@
+form {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 20px;
+}
+
+.comment {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}

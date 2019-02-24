@@ -24,4 +24,8 @@ export class RemindingService {
   get(): Observable<Reminding[]> {
     return this.http.get<Reminding[]>(this.url);
   }
+
+  create(data: Reminding): Observable<Reminding> {
+    return this.http.post<Reminding>(this.url, data);
+  }
 }
