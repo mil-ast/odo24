@@ -1,6 +1,7 @@
 .item {
+    position: relative;
     display: grid;
-    grid-template-columns: 140px repeat(2, 180px) 1fr;
+    grid-template-columns: 140px repeat(2, 180px) 1fr 40px;
 }
 
 div.date > span {
@@ -10,4 +11,15 @@ div.date > span {
     position: relative;
     top: 2px;
     border-radius: 4px;
+}
+
+.menu {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    visibility: hidden;
+}
+
+.item:hover .menu {
+    visibility: visible;
 }

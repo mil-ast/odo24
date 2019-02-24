@@ -6,7 +6,7 @@ export interface Reminding {
   id?: number;
   user_id?: number;
   avto_id?: number;
-  event_type: string;
+  event_type?: string;
   date_start: string;
   date_end: string;
   days_before_event: number;
@@ -27,5 +27,9 @@ export class RemindingService {
 
   create(data: Reminding): Observable<Reminding> {
     return this.http.post<Reminding>(this.url, data);
+  }
+
+  update(data: Reminding): Observable<Reminding> {
+    return this.http.put<Reminding>(this.url, data);
   }
 }

@@ -70,7 +70,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(201)
 		w.Write(data)
 	case "PUT":
-		/*var buf bytes.Buffer
+		var buf bytes.Buffer
 		buf.ReadFrom(r.Body)
 
 		rem := models.Remining{}
@@ -81,7 +81,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		rem.User_id = profile.User_id
+		rem.UserID = profile.User_id
 
 		err = rem.Update()
 		if err != nil {
@@ -102,7 +102,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(202)
-		w.Write(data)*/
+		w.Write(data)
 	case "DELETE":
 		/*getID := r.URL.Query().Get("id")
 		if getID == "" {

@@ -97,16 +97,13 @@ func (r *Remining) Create() error {
 		return err
 	}
 
-	if avtoID.Int64 != 0 {
-		r.AvtoID = uint64(avtoID.Int64)
-	}
-
+	r.AvtoID = uint64(avtoID.Int64)
 	r.Comment = comment.String
 
 	return nil
 }
 
-/*
+/* редактирование */
 func (r *Remining) Update() error {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -114,26 +111,31 @@ func (r *Remining) Update() error {
 		return err
 	}
 
-	if err = r.checkOwn(); err != nil {
-		return err
-	}
-
 	var comment sql.NullString
 	if r.Comment != "" {
 		comment.Scan(r.Comment)
 	}
+	var avtoID sql.NullInt64
 
-	query_sql := "UPDATE `reminding` SET `date_start`=?,`date_end`=?,`event_before`=?,`comment`=? WHERE `id`=?"
-	_, err = conn.Exec(query_sql, r.Date_start, r.Date_end, r.Event_before, comment, r.Id)
+	querySQL := `select id,event_type,date_start,date_end,days_before_event,"comment",avto_id from reminding.updateremind($1,$2,$3,$4,$5::int2,$6)`
+	row := conn.QueryRow(querySQL, r.ID, r.UserID, r.DateStart, r.DateEnd, r.DaysBeforeEvent, comment)
+	err = row.Scan(&r.ID, &r.EventType, &r.DateStart, &r.DateEnd, &r.DaysBeforeEvent, &comment, &avtoID)
+	if err != nil && err != sql.ErrNoRows {
+		log.Println(err)
+		return err
+	}
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 
+	r.AvtoID = uint64(avtoID.Int64)
+	r.Comment = comment.String
+
 	return nil
 }
 
-
+/*
 func (r *Remining) Delete() error {
 	conn, err := db.GetConnection()
 	if err != nil {

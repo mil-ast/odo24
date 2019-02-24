@@ -8,14 +8,23 @@ import { ItemRemindComponent } from './item-remind/item-remind.component';
 import { OrderPipeModule } from '../_pipes/order.pipe.module';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatInputModule, MatDialogModule, MatDatepickerModule, MatButtonModule, MatSelectModule } from '@angular/material';
+import {
+  MatInputModule,
+  MatDialogModule,
+  MatDatepickerModule,
+  MatButtonModule,
+  MatSelectModule, MatMenuModule,
+  MatIconModule
+} from '@angular/material';
 import { RemindingService } from './services/reminding.service';
+import { DialogUpdateDocComponent } from './dialogs/dialog-update-doc/dialog-update-doc.component';
 
 @NgModule({
   declarations: [
     RemindingComponent,
     ItemRemindComponent,
     DialogCreateDocComponent,
+    DialogUpdateDocComponent,
   ],
   imports: [
     CommonModule,
@@ -29,10 +38,13 @@ import { RemindingService } from './services/reminding.service';
     MatSelectModule,
     MatButtonModule,
     MatDialogModule,
+    MatMenuModule,
+    MatIconModule,
     MatDatepickerModule,
   ],
   entryComponents: [
     DialogCreateDocComponent,
+    DialogUpdateDocComponent,
   ],
   providers: [
     RemindingService,

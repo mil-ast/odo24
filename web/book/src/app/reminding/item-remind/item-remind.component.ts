@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Reminding } from '../services/reminding.service';
+import { Component, Input } from '@angular/core';
+import { Reminding, RemindingService } from '../services/reminding.service';
+import { MatDialog } from '@angular/material';
+import { DialogUpdateDocComponent } from '../dialogs/dialog-update-doc/dialog-update-doc.component';
 
 @Component({
   selector: 'app-item-remind',
@@ -9,12 +11,27 @@ import { Reminding } from '../services/reminding.service';
     './item-remind.component.css'
   ]
 })
-export class ItemRemindComponent implements OnInit {
+export class ItemRemindComponent {
   @Input() model: Reminding;
 
-  constructor() { }
+  constructor(
+    private remindingService: RemindingService,
+    private dialog: MatDialog,
+  ) { }
 
-  ngOnInit() {
+  clickEdit() {
+    this.dialog.open(DialogUpdateDocComponent, {
+      width: '600px',
+      data: this.model
+    }).afterClosed().subscribe((rem: Reminding) => {
+      if (rem) {
+        this.model.date_start = rem.date_start;
+        this.model.date_end = rem.date_end;
+        this.model.days_before_event = rem.days_before_event;
+        this.model.comment = rem.comment;
+      }
+    });
   }
 
+  clickDelete() {}
 }
