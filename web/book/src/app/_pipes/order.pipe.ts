@@ -34,13 +34,3 @@ export class OrderPipe implements PipeTransform {
     });
   }
 }
-
-@NgModule({
-  imports: [],
-  declarations: [
-    OrderPipe,
-  ],
-  providers: [],
-  exports: [OrderPipe]
-})
-export class PipesModule {}

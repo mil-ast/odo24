@@ -5,7 +5,7 @@
       <mat-form-field class="full_width">
         <mat-select placeholder="Документ" formControlName="event_type">
           <mat-option value="docs">Водительское удостоверение</mat-option>
-          <mat-option value="insurance">Страховка</mat-option>
+          <mat-option *ngIf="avto" value="insurance">Страховка</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

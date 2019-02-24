@@ -18,7 +18,7 @@ export class DialogCreateDocComponent {
     private remindingService: RemindingService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<DialogCreateDocComponent>,
-    @Inject(MAT_DIALOG_DATA) private avto: AvtoStruct,
+    @Inject(MAT_DIALOG_DATA) public avto: AvtoStruct,
   ) {
     this.form = new FormGroup({
       event_type: new FormControl('insurance', Validators.required),
@@ -32,8 +32,10 @@ export class DialogCreateDocComponent {
   submit() {
     const dateFrom = moment(this.form.value.date_start).format('YYYY-MM-DD');
     const dateTo = moment(this.form.value.date_end).format('YYYY-MM-DD');
+
+    const avtoID = this.avto ? this.avto.avto_id : null;
     const data = {
-      avto_id: this.avto.avto_id,
+      avto_id: avtoID,
       event_type: this.form.value.event_type,
       date_start: dateFrom,
       date_end: dateTo,

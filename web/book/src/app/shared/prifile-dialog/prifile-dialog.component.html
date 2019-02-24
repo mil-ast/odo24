@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Изменить пароль</h1>
 <mat-dialog-content>
-    <form  id="profilDialog" (ngSubmit)="submitUpdateFrofile()" (reset)="showProfile(false)">
+    <form id="profilDialog" (ngSubmit)="submitUpdateFrofile()">
         <div>
             <mat-form-field class="full_width">
                 <input required matInput placeholder="Новый пароль"autocomplete="off" [(ngModel)]="password" type="password" name="password">
