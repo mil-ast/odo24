@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"net/smtp"
 	"sto/server/config"
+	"sto/server/sendmail"
 	"strings"
 
 	"github.com/mil-ast/db"
@@ -111,18 +111,29 @@ func (p *Profile) ConfirmEmail() error {
 	go func() {
 		cfg := config.GetInstance()
 
-		auth := smtp.PlainAuth("", cfg.App.SmtpFrom, cfg.App.SmtpPassword, cfg.App.SmtpHost)
+		host := sendmail.SendMail{
+			Host:     cfg.App.SmtpHost,
+			Port:     cfg.App.SmtpPort,
+			Login:    cfg.App.SmtpFrom,
+			Password: cfg.App.SmtpPassword,
+		}
 
-		to := []string{p.Login}
-		msg := []byte(fmt.Sprintf(`To: %s\r\n`+
-			`Subject: Подтверждение почты на odo24.ru\r\n`+
-			`MIME-version: 1.0;\nContent-Type: text/html; charset="UTF-8";\r\n`+
-			`\r\n`+
-			`<p>Для подтверждения текущего E-mail введите в форму на сайте этот код подтверждения: <strong>%d</strong></p>`+
-			`<p>С уважением, команда <a href="https://odo24.ru\">odo24.ru</a></p>`+
-			`\r\n`, p.Login, code))
+		body := fmt.Sprintf(
+			"<p>Для подтверждения текущего E-mail введите в форму на сайте этот код подтверждения: <strong>%d</strong></p>"+
+				"<p>С уважением, команда <a href=\"https://odo24.ru\">odo24.ru</a></p>"+
+				"<p>По всем вопросам пишите на %s",
+			code,
+			cfg.App.SmtpFrom,
+		)
 
-		err = smtp.SendMail(fmt.Sprintf("%s:%d", cfg.App.SmtpHost, cfg.App.SmtpPort), auth, cfg.App.SmtpFrom, to, msg)
+		mail := sendmail.Mail{
+			From:    cfg.App.SmtpFrom,
+			To:      p.Login,
+			Subject: "Подтверждение почты на odo24.ru",
+			Body:    body,
+		}
+
+		err := host.Send(mail)
 		if err != nil {
 			log.Println(err)
 		}

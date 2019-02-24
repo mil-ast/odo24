@@ -4,3 +4,4 @@ node_modules
 *_old
 *.bk
 server/fileuploads
+server/server

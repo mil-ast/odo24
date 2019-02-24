@@ -25,17 +25,10 @@ input:active, textarea:active {outline:none;}
 #header {
   display: block;
   width: 100%;
-  height: 405px;
+  height: 400px;
   position: relative;
   color: #fff;
-  background:
-      radial-gradient(#000 15%, transparent 16%) 0 0,
-      radial-gradient(#000 15%, transparent 16%) 8px 8px,
-      radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
-      radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
   background-color:#213453;
-  background-size:15px 15px;
-  box-shadow: 0px 12px 30px rgba(33,52,83,0.8);
 }
 
 #logo {
@@ -90,7 +83,7 @@ input:active, textarea:active {outline:none;}
   position: absolute;
   left: 50%;
   margin-left: -250px;
-  top: 300px;
+  top: 270px;
   width: 500px;
 }
 .form-block {
@@ -222,11 +215,42 @@ footer {
   width:100%;
   height:80px;
   position: relative;
-  background-color: #e98e69;
-  color: #ac6a50;
-  text-align: center;
+  background-color: #1f2326;
+  color: #777;
 }
 .footer_date {
   display: inline-block;
   padding-top: 32px;
+}
+
+footer > div {
+  width: 900px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 200px 200px;
+  padding-top: 32px;
+}
+
+footer a {
+  color: inherit;
+}
+footer a:hover {
+  color: #aaa;
+}
+
+#contacts {
+  position: relative;
+}
+#contacts > i, #contacts > a {
+  position: absolute;
+}
+#contacts > i {
+  top: -3px;
+  left: 0px;
+}
+#contacts > a {
+  top: 0px;
+  left: 30px;
+  border-bottom: 1px currentColor solid;
+  padding-bottom: 2px;
 }
