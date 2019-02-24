@@ -135,49 +135,19 @@ func (r *Remining) Update() error {
 	return nil
 }
 
-/*
-func (r *Remining) Delete() error {
+/* удаление */
+func (r Remining) Delete() error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 
-	if err = r.checkOwn(); err != nil {
-		return err
-	}
-
-	query_sql := "DELETE FROM `reminding` WHERE `id`=?"
-	_, err = conn.Exec(query_sql, r.Id)
+	querySQL := "select * from reminding.deleteremind($1,$2)"
+	_, err = conn.Exec(querySQL, r.ID, r.UserID)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
-
 	return nil
 }
-
-func (g Remining) checkOwn() error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
-
-	query_sql := "SELECT `id`,`user_id` FROM `reminding` WHERE `id`=?"
-	row := conn.QueryRow(query_sql, g.Id)
-
-	var id, user_id uint64
-
-	row.Scan(&id, &user_id)
-	if id == 0 {
-		return errors.New("not found")
-	}
-
-	if g.User_id != user_id {
-		log.Println("not the owner")
-		return errors.New("not the owner")
-	}
-
-	return nil
-}
-*/

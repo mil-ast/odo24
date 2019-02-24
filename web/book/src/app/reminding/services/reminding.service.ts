@@ -32,4 +32,12 @@ export class RemindingService {
   update(data: Reminding): Observable<Reminding> {
     return this.http.put<Reminding>(this.url, data);
   }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.url, {
+      params: {
+        id: `${id}`
+      }
+    });
+  }
 }

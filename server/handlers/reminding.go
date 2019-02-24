@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"sto/server/models"
+	"strconv"
 
 	"github.com/mil-ast/sessions"
 )
@@ -104,7 +105,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(202)
 		w.Write(data)
 	case "DELETE":
-		/*getID := r.URL.Query().Get("id")
+		getID := r.URL.Query().Get("id")
 		if getID == "" {
 			http.Error(w, http.StatusText(400), 400)
 			return
@@ -117,17 +118,17 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 		}
 
 		rem := models.Remining{
-			Id:      id,
-			User_id: profile.User_id,
+			ID:     id,
+			UserID: profile.User_id,
 		}
 
 		err = rem.Delete()
 		if err != nil {
 			switch err.Error() {
-			case "not found":
+			case "pg: not found":
 				http.Error(w, http.StatusText(404), 404)
 				return
-			case "not the owner":
+			case "pg: forbidden":
 				http.Error(w, http.StatusText(403), 403)
 				return
 			default:
@@ -136,7 +137,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		w.WriteHeader(204)*/
+		w.WriteHeader(204)
 	default:
 		http.Error(w, http.StatusText(405), 405)
 	}

@@ -73,4 +73,11 @@ export class RemindingComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  onDelete(rem: Reminding) {
+    const index = this.remindList.indexOf(rem);
+    if (index !== -1) {
+      this.remindList.splice(index);
+    }
+  }
 }

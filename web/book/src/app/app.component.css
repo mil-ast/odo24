@@ -57,7 +57,7 @@ header > nav a.selected {
     content:"\e853";
     font-size:24px;
     position: absolute;
-    top:-1px;
+    top:-2px;
     left:0px;
 }
 

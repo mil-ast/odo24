@@ -26,12 +26,18 @@
 				<h2 class="mat-h2">Мои документы</h2>
 			</div>
 			<div class="overflow">
-				<ul class="scroll">
+				<ul class="scroll" *ngIf="remindList.length > 0; else emplyList">
 					<li *ngFor="let rem of remindList | order:'date_end':'desc'">
-						<app-item-remind [model]="rem"></app-item-remind>
+						<app-item-remind [model]="rem" (delete)="onDelete($event)"></app-item-remind>
 					</li>
 				</ul>
 			</div>
 		</div>
   </div>
 </div>
+
+<ng-template #emplyList>
+	<div id="emply_remind">
+		<p>Документов ещё нет. <a href="#" (click)="clickShowFormCreateDoct($event)">Добавить</a> новый документ.</p>
+	</div>
+</ng-template>
