@@ -3,6 +3,7 @@ import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AvtoService } from 'src/app/_services/avto.service';
 import { AvtoStruct } from 'src/app/_classes/avto';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dialog-create-avto',
@@ -31,7 +32,7 @@ export class DialogCreateAvtoComponent {
       this.snackBar.open('Авто успешно добавлена!', 'OK', {
         duration: 5000,
       });
-    }, (e) => {
+    }, (e: HttpErrorResponse) => {
       console.error(e);
       this.snackBar.open('Что-то пошло не так!', 'OK', {
         duration: 5000,

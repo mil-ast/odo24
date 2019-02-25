@@ -6,12 +6,12 @@
 }
 
 header {
-    display:block;
     background-color: #1f2326;
-    height:58px;
+    height: 58px;
     display: grid;
-    grid-template-columns: 150px 1fr 200px 80px;
-    position:relative;
+    grid-template-columns: 150px 1fr auto 80px;
+    grid-gap: 10px;
+    position: relative;
 }
 
 header > nav {
@@ -44,9 +44,10 @@ header > nav a.selected {
 }
 #profile > a {
     color: #737373;
-    padding: 21px 6px 20px 30px;
+    padding: 2px 12px 10px 30px;
     display: inline-block;
-    position:relative;
+    position: relative;
+    top: 20px;
 }
 #profile > a:hover {
     color:#afafaf;
@@ -56,7 +57,7 @@ header > nav a.selected {
     content:"\e853";
     font-size:24px;
     position: absolute;
-    top:17px;
+    top:-2px;
     left:0px;
 }
 

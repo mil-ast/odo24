@@ -5,12 +5,12 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
   pure: false
 })
 export class OrderPipe implements PipeTransform {
-  transform(array: any[], field: string, direction: string) {
+  transform(array: any[], field: string, direction: string = 'asc') {
     if (!Array.isArray(array)) {
       return [];
     }
 
-    if (field === undefined || field === '') {
+    if (!field) {
       field = 'id';
     }
 
@@ -34,13 +34,3 @@ export class OrderPipe implements PipeTransform {
     });
   }
 }
-
-@NgModule({
-  imports: [],
-  declarations: [
-    OrderPipe,
-  ],
-  providers: [],
-  exports: [OrderPipe]
-})
-export class PipesModule {}

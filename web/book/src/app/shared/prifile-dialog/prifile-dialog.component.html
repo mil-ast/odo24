@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Изменить пароль</h1>
+<mat-dialog-content>
+    <form id="profilDialog" (ngSubmit)="submitUpdateFrofile()">
+        <div>
+            <mat-form-field class="full_width">
+                <input required matInput placeholder="Новый пароль"autocomplete="off" [(ngModel)]="password" type="password" name="password">
+                <mat-error *ngIf="password?.length < 5">Длинна пароля не менее 5 знаков</mat-error>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="full_width">
+                <input required matInput placeholder="Пароль ещё раз"autocomplete="off" [(ngModel)]="password2" type="password" name="password2">
+                <mat-error *ngIf="password != password2">Пароли не совпадают</mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button form="profilDialog" mat-raised-button color="primary" [disabled]="password.length < 5 || password != password2" type="submit">Сохранить</button>
+    <button mat-button type="reset" mat-dialog-close>Отмена</button>
+</mat-dialog-actions>

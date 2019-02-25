@@ -25,6 +25,7 @@ import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog
 import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog-update-group.component';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
+import { OrderPipeModule } from '../_pipes/order.pipe.module';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/di
     MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
+    OrderPipeModule,
   ],
   providers: [
     AvtoService,

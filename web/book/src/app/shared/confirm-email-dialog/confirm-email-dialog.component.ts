@@ -37,8 +37,8 @@ export class ConfirmEmailDialogComponent implements OnInit {
     }
 
     this.profileService.checkCode(this.codeform.controls.code.value).subscribe(() => {
+      this.data.is_no_confirmed = false;
       this.stepper.next();
     });
-    console.log();
   }
 }

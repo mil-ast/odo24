@@ -1,0 +1,7 @@
+#content {
+    grid-template-columns: 300px 1fr;
+}
+
+#emply_remind {
+    padding: 30px;
+}
