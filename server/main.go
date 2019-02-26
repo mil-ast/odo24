@@ -10,8 +10,6 @@ import (
 	"runtime"
 	"sto/server/config"
 	"sto/server/handlers"
-
-	//"sto/server/reminder"
 	"syscall"
 	"time"
 
