@@ -121,7 +121,7 @@ func (p *Profile) ConfirmEmail() error {
 		body := fmt.Sprintf(
 			"<p>Для подтверждения текущего E-mail введите в форму на сайте этот код подтверждения: <strong>%d</strong></p>"+
 				"<p>С уважением, команда <a href=\"https://odo24.ru\">odo24.ru</a></p>"+
-				"<p>По всем вопросам пишите на %s",
+				"<p>По всем вопросам пишите на %s</p>",
 			code,
 			cfg.App.SmtpFrom,
 		)

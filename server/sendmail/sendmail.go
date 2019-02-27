@@ -8,9 +8,13 @@ import (
 	"net/smtp"
 )
 
-/*
-	Настройки хоста
-*/
+// Типы сообщений
+const (
+	TypeConfirmEmail uint8 = iota
+	TypeRepairConfirmCode
+)
+
+// SendMail Настройки хоста
 type SendMail struct {
 	Host     string
 	Port     uint16
@@ -18,9 +22,7 @@ type SendMail struct {
 	Password string
 }
 
-/*
-	Сообщение
-*/
+// Mail Сообщение
 type Mail struct {
 	From        string
 	To          string
@@ -29,9 +31,11 @@ type Mail struct {
 	ContentType string
 }
 
-/*
-	Отправка почты
-*/
+func init() {
+
+}
+
+// Send Отправка почты
 func (sm SendMail) Send(em Mail) error {
 	from := mail.Address{Address: em.From}
 	to := mail.Address{Address: em.To}
