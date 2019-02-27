@@ -23,7 +23,7 @@ func main() {
 	options := config.GetInstance()
 
 	log.Print("Create DB connection... ")
-	conn, err := db.CreateConnection(db.Options{
+	_, err := db.CreateConnection(db.Options{
 		DriverName:     options.Db.Driver_name,
 		DataSourceName: options.Db.Data_source,
 		DbName:         options.Db.Name,
@@ -35,7 +35,7 @@ func main() {
 	}
 	fmt.Println("OK!")
 
-	worker.Start(conn)
+	worker.Start()
 
 	log.SetFlags(log.Ldate | log.Ltime)
 
