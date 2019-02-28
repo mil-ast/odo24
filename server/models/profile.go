@@ -118,22 +118,12 @@ func (p *Profile) ConfirmEmail() error {
 			Password: cfg.App.SmtpPassword,
 		}
 
-		body := fmt.Sprintf(
-			"<p>Для подтверждения текущего E-mail введите в форму на сайте этот код подтверждения: <strong>%d</strong></p>"+
-				"<p>С уважением, команда <a href=\"https://odo24.ru\">odo24.ru</a></p>"+
-				"<p>По всем вопросам пишите на %s</p>",
-			code,
-			cfg.App.SmtpFrom,
-		)
-
 		mail := sendmail.Mail{
-			From:    cfg.App.SmtpFrom,
-			To:      p.Login,
-			Subject: "Подтверждение почты на odo24.ru",
-			Body:    body,
+			From: cfg.App.SmtpFrom,
+			To:   p.Login,
 		}
 
-		err := host.Send(mail)
+		err := host.SendEmail(mail, sendmail.TypeConfirmEmail, code)
 		if err != nil {
 			log.Println(err)
 		}

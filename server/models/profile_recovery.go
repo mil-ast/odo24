@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"sto/server/config"
 	"sto/server/sendmail"
@@ -25,7 +24,7 @@ func (r ProfileRecovery) CreateCode() error {
 	sqlQuery := "select code from profiles.createrestorecode($1)"
 	row := conn.QueryRow(sqlQuery, r.Email)
 
-	var code uint16
+	var code uint32
 	err = row.Scan(&code)
 	if err != nil {
 		return err
@@ -42,22 +41,12 @@ func (r ProfileRecovery) CreateCode() error {
 			Password: cfg.App.SmtpPassword,
 		}
 
-		body := fmt.Sprintf(
-			"<p>Для восстановления доступа к аккаунту введите в форму этот код подтверждения: <strong>%d</strong></p>"+
-				"<p>С уважением, команда <a href=\"https://odo24.ru\">odo24.ru</a></p>"+
-				"<p>По всем вопросам пишите на %s",
-			code,
-			cfg.App.SmtpFrom,
-		)
-
 		mail := sendmail.Mail{
-			From:    cfg.App.SmtpFrom,
-			To:      r.Email,
-			Subject: "Восстановление пароля на odo24.ru",
-			Body:    body,
+			From: cfg.App.SmtpFrom,
+			To:   r.Email,
 		}
 
-		err := host.Send(mail)
+		err := host.SendEmail(mail, sendmail.TypeRepairConfirmCode, code)
 		if err != nil {
 			log.Println(err)
 		}

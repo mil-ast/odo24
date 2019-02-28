@@ -2,7 +2,9 @@ package sendmail
 
 import (
 	"crypto/tls"
+	"errors"
 	"fmt"
+	"io/ioutil"
 	"net"
 	"net/mail"
 	"net/smtp"
@@ -24,42 +26,46 @@ type SendMail struct {
 
 // Mail Сообщение
 type Mail struct {
-	From        string
-	To          string
-	Subject     string
-	Body        string
-	ContentType string
+	From string
+	To   string
 }
+
+var templates map[uint8]string
 
 func init() {
+	templates = make(map[uint8]string)
 
+	var (
+		body []byte
+		err  error
+	)
+	// TypeConfirmEmail
+	body, err = ioutil.ReadFile("./sendmail/confirm_email.eml")
+	if err != nil {
+		panic(err)
+	}
+	templates[TypeConfirmEmail] = string(body)
+
+	// TypeRepairConfirmCode
+	body, err = ioutil.ReadFile("./sendmail/confirm_repair_code.eml")
+	if err != nil {
+		panic(err)
+	}
+	templates[TypeRepairConfirmCode] = string(body)
 }
 
-// Send Отправка почты
-func (sm SendMail) Send(em Mail) error {
-	from := mail.Address{Address: em.From}
-	to := mail.Address{Address: em.To}
-
-	var contentType string
-	if em.ContentType != "" {
-		contentType = em.ContentType
-	} else {
-		contentType = "text/html; charset=\"UTF-8\""
+// SendConfirmEmail подтверждениу почты
+func (sm SendMail) SendEmail(em Mail, tpl uint8, code uint32) error {
+	body, ok := templates[tpl]
+	if !ok {
+		return errors.New("Template not founc")
 	}
 
-	headers := make(map[string]string)
-	headers["MIME-version"] = "1.0"
-	headers["Content-type"] = contentType
-	headers["From"] = from.String()
-	headers["To"] = to.String()
-	headers["Subject"] = em.Subject
+	message := fmt.Sprintf(body, em.From, em.To, code)
+	return sm.send(em, message)
+}
 
-	message := ""
-	for k, v := range headers {
-		message += fmt.Sprintf("%s: %s\r\n", k, v)
-	}
-	message += "\r\n" + em.Body
-
+func (sm SendMail) send(em Mail, body string) error {
 	servername := fmt.Sprintf("%s:%d", sm.Host, sm.Port)
 	host, _, _ := net.SplitHostPort(servername)
 
@@ -84,6 +90,9 @@ func (sm SendMail) Send(em Mail) error {
 		return err
 	}
 
+	from := mail.Address{Address: em.From}
+	to := mail.Address{Address: em.To}
+
 	// To && From
 	if err = c.Mail(from.Address); err != nil {
 		return err
@@ -99,7 +108,7 @@ func (sm SendMail) Send(em Mail) error {
 		return err
 	}
 
-	_, err = w.Write([]byte(message))
+	_, err = w.Write([]byte(body))
 	if err != nil {
 		return err
 	}
