@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"sto/server/config"
 	"sto/server/sendmail"
 	"strings"
 
@@ -109,21 +108,7 @@ func (p *Profile) ConfirmEmail() error {
 
 	// отправка почты
 	go func() {
-		cfg := config.GetInstance()
-
-		host := sendmail.SendMail{
-			Host:     cfg.App.SmtpHost,
-			Port:     cfg.App.SmtpPort,
-			Login:    cfg.App.SmtpFrom,
-			Password: cfg.App.SmtpPassword,
-		}
-
-		mail := sendmail.Mail{
-			From: cfg.App.SmtpFrom,
-			To:   p.Login,
-		}
-
-		err := host.SendEmail(mail, sendmail.TypeConfirmEmail, code)
+		err := sendmail.SendEmail(p.Login, sendmail.TypeConfirmEmail, code)
 		if err != nil {
 			log.Println(err)
 		}

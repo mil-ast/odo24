@@ -1,13 +1,12 @@
 package sendmail
 
 import (
-	"crypto/tls"
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"net"
-	"net/mail"
-	"net/smtp"
+	"sto/server/config"
+
+	email "github.com/mil-ast/sendmail"
 )
 
 // Типы сообщений
@@ -15,20 +14,6 @@ const (
 	TypeConfirmEmail uint8 = iota
 	TypeRepairConfirmCode
 )
-
-// SendMail Настройки хоста
-type SendMail struct {
-	Host     string
-	Port     uint16
-	Login    string
-	Password string
-}
-
-// Mail Сообщение
-type Mail struct {
-	From string
-	To   string
-}
 
 var templates map[uint8]string
 
@@ -54,70 +39,32 @@ func init() {
 	templates[TypeRepairConfirmCode] = string(body)
 }
 
-// SendConfirmEmail подтверждениу почты
-func (sm SendMail) SendEmail(em Mail, tpl uint8, code uint32) error {
+// SendEmail подтверждениу почты
+func SendEmail(to string, tpl uint8, code uint32) error {
 	body, ok := templates[tpl]
 	if !ok {
 		return errors.New("Template not founc")
 	}
 
-	message := fmt.Sprintf(body, em.From, em.To, code)
-	return sm.send(em, message)
-}
+	options := config.GetInstance()
 
-func (sm SendMail) send(em Mail, body string) error {
-	servername := fmt.Sprintf("%s:%d", sm.Host, sm.Port)
-	host, _, _ := net.SplitHostPort(servername)
-
-	auth := smtp.PlainAuth("", sm.Login, sm.Password, host)
-
-	tlsconfig := &tls.Config{
-		InsecureSkipVerify: true,
-		ServerName:         host,
+	host := email.Host{
+		Host:     options.App.SmtpHost,
+		Port:     options.App.SmtpPort,
+		Login:    options.App.SmtpFrom,
+		Password: options.App.SmtpPassword,
 	}
-	conn, err := tls.Dial("tcp", servername, tlsconfig)
+
+	client, err := email.NewClient(host)
 	if err != nil {
 		return err
 	}
 
-	c, err := smtp.NewClient(conn, host)
+	message := fmt.Sprintf(body, options.App.SmtpFrom, to, code)
+	err = client.Send(options.App.SmtpFrom, to, message)
 	if err != nil {
 		return err
 	}
 
-	// Auth
-	if err = c.Auth(auth); err != nil {
-		return err
-	}
-
-	from := mail.Address{Address: em.From}
-	to := mail.Address{Address: em.To}
-
-	// To && From
-	if err = c.Mail(from.Address); err != nil {
-		return err
-	}
-
-	if err = c.Rcpt(to.Address); err != nil {
-		return err
-	}
-
-	// Data
-	w, err := c.Data()
-	if err != nil {
-		return err
-	}
-
-	_, err = w.Write([]byte(body))
-	if err != nil {
-		return err
-	}
-
-	err = w.Close()
-	if err != nil {
-		return err
-	}
-
-	c.Quit()
-	return nil
+	return client.Quit()
 }

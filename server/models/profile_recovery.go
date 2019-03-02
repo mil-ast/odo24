@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"log"
-	"sto/server/config"
 	"sto/server/sendmail"
 
 	"github.com/mil-ast/db"
@@ -32,21 +31,7 @@ func (r ProfileRecovery) CreateCode() error {
 
 	// отправка почты
 	go func() {
-		cfg := config.GetInstance()
-
-		host := sendmail.SendMail{
-			Host:     cfg.App.SmtpHost,
-			Port:     cfg.App.SmtpPort,
-			Login:    cfg.App.SmtpFrom,
-			Password: cfg.App.SmtpPassword,
-		}
-
-		mail := sendmail.Mail{
-			From: cfg.App.SmtpFrom,
-			To:   r.Email,
-		}
-
-		err := host.SendEmail(mail, sendmail.TypeRepairConfirmCode, code)
+		err := sendmail.SendEmail(r.Email, sendmail.TypeRepairConfirmCode, code)
 		if err != nil {
 			log.Println(err)
 		}
