@@ -39,7 +39,7 @@ func init() {
 	templates[TypeRepairConfirmCode] = string(body)
 }
 
-// SendEmail подтверждениу почты
+// SendEmail
 func SendEmail(to string, tpl uint8, code uint32) error {
 	body, ok := templates[tpl]
 	if !ok {
