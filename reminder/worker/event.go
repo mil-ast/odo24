@@ -7,6 +7,7 @@ import (
 	"sto/reminder/config"
 	"sto/reminder/sendmail"
 
+	"github.com/mil-ast/db"
 	email "github.com/mil-ast/sendmail"
 )
 
@@ -35,7 +36,16 @@ func (list EventList) Send() error {
 	}
 
 	for _, event := range list.List {
-		event.send(client)
+		err = event.send(client)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+
+		event.comlete()
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	err = client.Quit()
@@ -71,4 +81,15 @@ func (event Event) send(client email.Client) error {
 	}
 
 	return client.Send(options.App.SmtpFrom, event.Email, message)
+}
+
+// send
+func (event Event) comlete() error {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	_, err = conn.Exec("update reminding.reminding set is_closed=true where id=$1", event.ID)
+	return err
 }
