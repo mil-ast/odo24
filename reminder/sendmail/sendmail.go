@@ -1,8 +1,6 @@
 package sendmail
 
 import (
-	"errors"
-	"fmt"
 	"io/ioutil"
 	"sto/server/config"
 
@@ -39,13 +37,7 @@ func init() {
 	templates[TypeInsurance] = string(body)
 }
 
-// SendEmail
-func SendEmail(to string, tpl uint8, code uint32) error {
-	body, ok := templates[tpl]
-	if !ok {
-		return errors.New("Template not founc")
-	}
-
+func GetClient() (email.Client, error) {
 	options := config.GetInstance()
 
 	host := email.Host{
@@ -55,16 +47,10 @@ func SendEmail(to string, tpl uint8, code uint32) error {
 		Password: options.App.SmtpPassword,
 	}
 
-	client, err := email.NewClient(host)
-	if err != nil {
-		return err
-	}
+	return email.NewClient(host)
+}
 
-	message := fmt.Sprintf(body, options.App.SmtpFrom, to, code)
-	err = client.Send(options.App.SmtpFrom, to, message)
-	if err != nil {
-		return err
-	}
-
-	return client.Quit()
+func GetTemplate(tpl uint8) (string, bool) {
+	body, ok := templates[tpl]
+	return body, ok
 }
