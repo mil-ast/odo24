@@ -1,28 +1,17 @@
 package com.example.odo;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,25 +64,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
-    }
-
-    private void httpLogin() {
-        JSONObject responce = run("https://jsonplaceholder.typicode.com/todos/1");
-    }
-
-    JSONObject run(String url) {
-        try {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-            Response  response = client.newCall(request).execute();
-            return new JSONObject(response.body().string());
-        } catch (@NonNull IOException | JSONException e) {
-            Log.e("", "" + e.getLocalizedMessage());
-        }
-
-        return null;
     }
 }
 
