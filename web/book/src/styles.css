@@ -89,7 +89,7 @@ ul, ol {
 .mat-form-field-appearance-legacy .mat-form-field-suffix .mat-datepicker-toggle-default-icon {
     width: 16px !important;
 }
-
+/*
 a.mat-menu-item {
     font-size:14px;
     padding-left:34px;
@@ -178,10 +178,4 @@ a.mat-icon-button {
     width:100%;
 }
 
-.column {
-    box-sizing: border-box;
-}
-
-button.warn, button.warn .mat-icon {
-    color:#f44336;
-}
+*/
