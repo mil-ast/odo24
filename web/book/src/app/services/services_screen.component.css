@@ -1,0 +1,5 @@
+@media (max-width: 1300px) {
+    #content {
+        grid-template-columns: 300px 300px 1fr;
+    }
+}

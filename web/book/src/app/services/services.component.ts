@@ -13,7 +13,7 @@ import { map, finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
-  styleUrls: ['./services.component.css']
+  styleUrls: ['./services.component.css', './services_screen.component.css']
 })
 export class ServicesComponent implements OnInit, OnDestroy {
   avtoList: AvtoStruct[] = [];

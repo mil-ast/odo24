@@ -100,6 +100,7 @@ input:active, textarea:active {outline:none;}
 }
 .form-block {
   padding: 40px;
+  height: 230px;
   box-shadow: 0 0 20px rgba(0,0,0,.2);
   background-color: #fff;
   color:#332;

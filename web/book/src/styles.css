@@ -181,9 +181,6 @@ a.mat-icon-button {
 .column {
     box-sizing: border-box;
 }
-.column.avto__list {
-    width:300px;
-}
 
 button.warn, button.warn .mat-icon {
     color:#f44336;
