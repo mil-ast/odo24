@@ -20,8 +20,8 @@ export class HomeComponent implements OnInit {
         private profileService: ProfileService
     ) {
         this.formAuth = this.fb.group({
-            login: ['', [Validators.required, Validators.email]],
-            password: ['', [ Validators.required, Validators.minLength(3) ]],
+            login: ['', [ Validators.email]],
+            password: ['', [ Validators.minLength(3) ]],
         });
     }
 
