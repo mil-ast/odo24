@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProfileService } from '../../../_services/profile.service';
+import { ProfileService } from '../_services/profile.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
