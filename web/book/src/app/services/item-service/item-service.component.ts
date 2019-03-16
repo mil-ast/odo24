@@ -8,8 +8,7 @@ import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/
   selector: 'app-item-service',
   templateUrl: './item-service.component.html',
   styleUrls: [
-    '../../_css/item_list.css',
-    './item-service.component.css',
+    './item-service.component.scss',
   ]
 })
 export class ItemServiceComponent {

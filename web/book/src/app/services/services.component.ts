@@ -13,7 +13,7 @@ import { map, finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
-  styleUrls: ['./services.component.css', './services_screen.component.css']
+  styleUrls: ['./services.component.scss', './services_screen.component.css']
 })
 export class ServicesComponent implements OnInit, OnDestroy {
   avtoList: AvtoStruct[] = [];
@@ -41,15 +41,15 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
       this.selectedAvto = avto;
-      this.syncGroupStats();
       this.loadServices();
+      this.isSync = false;
     });
     this.groupListener = this.groupService.selected.subscribe((group: GroupStruct) => {
       this.selectedGroup = group;
       this.loadServices();
     });
 
-    this.avtoService.get().subscribe((list: AvtoStruct[]) => {
+    /*this.avtoService.get().subscribe((list: AvtoStruct[]) => {
       this.avtoList = list || [];
       if (this.avtoList.length > 0) {
         this.avtoService.setSelected(list[0]);
@@ -63,7 +63,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       if (this.groupList.length > 0) {
         this.groupService.setSelected(this.groupList[0]);
       }
-    });
+    });*/
   }
 
   ngOnDestroy() {
@@ -100,10 +100,9 @@ export class ServicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  clickShowFormCreateService(event: MouseEvent) {
-    event.preventDefault();
+  clickShowFormCreateService() {
     const dialog = this.dialog.open(DialogCreateServiceComponent, {
-      width: '600px',
+
     });
 
     dialog.afterClosed().subscribe((service: ServiceStruct) => {

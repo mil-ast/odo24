@@ -6,7 +6,7 @@ import { DialogUpdateAvtoComponent } from 'src/app/services/dialogs/dialog-updat
 @Component({
   selector: 'app-selected-avto',
   templateUrl: './selected-avto.component.html',
-  styleUrls: ['./selected-avto.component.css']
+  styleUrls: ['./selected-avto.component.scss']
 })
 export class SelectedAvtoComponent {
   @Input() model: AvtoStruct;

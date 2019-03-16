@@ -26,6 +26,7 @@ import {
     MatMenuModule,
     MatBadgeModule,
     MatIconModule,
+    MatSidenavModule,
 } from '@angular/material';
 
 export const DATE_FORMATS = {
@@ -45,6 +46,7 @@ import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
+import { OrderPipeModule } from './_pipes/order.pipe.module';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -63,11 +65,13 @@ registerLocaleData(localeRu, 'ru');
     MatMenuModule,
     MatBadgeModule,
     MatIconModule,
+    MatSidenavModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    OrderPipeModule,
     SelectedAvtoModule,
     ServiceModule,
     HomeModule,

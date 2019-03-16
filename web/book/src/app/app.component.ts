@@ -4,27 +4,60 @@ import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
+import { AvtoStruct } from './_classes/avto';
+import { AvtoService } from './_services/avto.service';
+import { GroupService, GroupStruct } from './_services/groups.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   constructor(
+    private avtoService: AvtoService,
+    private groupService: GroupService,
     private dialog: MatDialog,
     private profileService: ProfileService,
   ) { }
 
+  avtoList: AvtoStruct[] = [];
+  groupList: GroupStruct[] = [];
+  selectedAvto: AvtoStruct = null;
+  selectedGroup: GroupStruct = null;
+
+  isSync = false;
   profile: Profile = null;
 
   ngOnInit() {
+    this.avtoService.selected.subscribe((avto: AvtoStruct) => {
+      this.selectedAvto = avto;
+    });
+    this.groupService.selected.subscribe((group: GroupStruct) => {
+      this.selectedGroup = group;
+    });
+
     this.profileService.profile$.subscribe((p: Profile) => {
       if (p === null) {
         return;
       }
-
       this.profile = p;
+
+      this.avtoService.get().subscribe((list: AvtoStruct[]) => {
+        this.avtoList = list || [];
+        if (this.avtoList.length > 0) {
+          this.avtoService.setSelected(list[0]);
+        }
+
+        this.isSync = false;
+      });
+
+      this.groupService.get().subscribe((list: GroupStruct[]) => {
+        this.groupList = list || [];
+        if (this.groupList.length > 0) {
+          this.groupService.setSelected(this.groupList[0]);
+        }
+      });
     }, () => {
       this.profile = null;
     });
@@ -49,6 +82,14 @@ export class AppComponent implements OnInit {
     });
   }
 
+  clickSelectGroup(group: GroupStruct) {
+    this.groupService.setSelected(group);
+  }
+
+  clickSelectAvto(avto: AvtoStruct) {
+    this.avtoService.setSelected(avto);
+  }
+
   /*
       выход
   */
@@ -57,6 +98,7 @@ export class AppComponent implements OnInit {
     this.profileService.logout();
     return false;
   }
+
 
   private confirmEmailDialog(p: Profile) {
     this.dialog.open(ConfirmEmailDialogComponent, {
