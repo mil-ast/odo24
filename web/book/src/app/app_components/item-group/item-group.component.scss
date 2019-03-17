@@ -1,3 +1,4 @@
+@import './src/theme.scss';
 
 :host {
     display: block;
@@ -9,7 +10,8 @@
     padding:10px 60px 10px 10px;
 
     &.selected {
-        
+        background-color: mat-color($primary);
+        color: mat-contrast($primary, 500);
     }
     .cnt {
         position: absolute;
@@ -25,23 +27,15 @@
     }
 }
 
-
 .menu {
-    display: none;
     position: absolute;
-    z-index: 2;
     top: 3px;
-    right: 4px;
-    padding: 0px 4px;
-    background-color: #f7f7f7;
-    border-radius: 10px;
+    color: mat-contrast($primary, 500);
+    right: 9px;
     button {
         padding:0px;
         width: 30px;
         height: 30px;
         line-height: 0px;
     }
-}
-:host:hover .menu {
-    display: block;
 }
