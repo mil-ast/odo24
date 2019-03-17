@@ -26,8 +26,20 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
+		avtoIDQuery := r.URL.Query().Get("avto_id")
+		var avtoID uint64
+		var err error
+		if avtoIDQuery != "" {
+			avtoID, err = strconv.ParseUint(avtoIDQuery, 10, 64)
+			if err != nil {
+				http.Error(w, http.StatusText(400), 400)
+				return
+			}
+		}
+
 		listGroups := models.Groups_list{
 			User_id: profile.User_id,
+			Avto_id: avtoID,
 		}
 
 		list, err := listGroups.Get()
@@ -145,52 +157,4 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 	default:
 		http.Error(w, http.StatusText(405), 405)
 	}
-}
-
-/*статистика: группы и количество записей в них*/
-func GroupsStats(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Error(w, http.StatusText(405), 405)
-		return
-	}
-
-	ses := sessions.Get(w, r)
-
-	if !ses.GetBool("auth") {
-		http.Error(w, http.StatusText(403), 403)
-		return
-	}
-
-	profile := ses.Get("profile").(models.Profile)
-
-	queryAvtoID := r.URL.Query().Get("avto_id")
-	if queryAvtoID == "" {
-		http.Error(w, http.StatusText(400), 400)
-		return
-	}
-
-	avtoId, err := strconv.ParseUint(queryAvtoID, 10, 64)
-	if err != nil {
-		http.Error(w, http.StatusText(400), 400)
-		return
-	}
-
-	groupList := models.Groups_list{
-		User_id: profile.User_id,
-		Avto_id: avtoId,
-	}
-	list, err := groupList.GetStats()
-	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
-		return
-	}
-
-	data, err := json.Marshal(list)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, http.StatusText(500), 500)
-		return
-	}
-
-	w.Write(data)
 }

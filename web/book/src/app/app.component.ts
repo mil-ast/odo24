@@ -7,6 +7,7 @@ import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.c
 import { AvtoStruct } from './_classes/avto';
 import { AvtoService } from './_services/avto.service';
 import { GroupService, GroupStruct } from './_services/groups.service';
+import { DialogUpdateGroupComponent } from './app_components/dialog-update-group/dialog-update-group.component';
 
 @Component({
   selector: 'app-root',
@@ -32,32 +33,21 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.avtoService.selected.subscribe((avto: AvtoStruct) => {
       this.selectedAvto = avto;
+      if (avto) {
+        this.fetchGroups();
+      }
     });
     this.groupService.selected.subscribe((group: GroupStruct) => {
       this.selectedGroup = group;
     });
 
     this.profileService.profile$.subscribe((p: Profile) => {
+      this.profile = p;
       if (p === null) {
         return;
       }
-      this.profile = p;
 
-      this.avtoService.get().subscribe((list: AvtoStruct[]) => {
-        this.avtoList = list || [];
-        if (this.avtoList.length > 0) {
-          this.avtoService.setSelected(list[0]);
-        }
-
-        this.isSync = false;
-      });
-
-      this.groupService.get().subscribe((list: GroupStruct[]) => {
-        this.groupList = list || [];
-        if (this.groupList.length > 0) {
-          this.groupService.setSelected(this.groupList[0]);
-        }
-      });
+      this.fetchAvto();
     }, () => {
       this.profile = null;
     });
@@ -90,6 +80,13 @@ export class AppComponent implements OnInit {
     this.avtoService.setSelected(avto);
   }
 
+  clickEditGroup(group: GroupStruct) {
+    this.dialog.open(DialogUpdateGroupComponent, {
+      width: '500px',
+      data: group
+    });
+  }
+
   /*
       выход
   */
@@ -99,6 +96,25 @@ export class AppComponent implements OnInit {
     return false;
   }
 
+  private fetchAvto() {
+    this.avtoService.get().subscribe((list: AvtoStruct[]) => {
+      this.avtoList = list || [];
+      if (this.avtoList.length > 0) {
+        this.avtoService.setSelected(list[0]);
+      }
+
+      this.isSync = false;
+    });
+  }
+
+  private fetchGroups() {
+    this.groupService.get(this.selectedAvto.avto_id).subscribe((list: GroupStruct[]) => {
+      this.groupList = list || [];
+      if (this.groupList.length > 0) {
+        this.groupService.setSelected(this.groupList[0]);
+      }
+    });
+  }
 
   private confirmEmailDialog(p: Profile) {
     this.dialog.open(ConfirmEmailDialogComponent, {

@@ -1,15 +1,14 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GroupStruct, GroupService } from 'src/app/_services/groups.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { DialogUpdateGroupComponent } from '../dialogs/dialog-update-group/dialog-update-group.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { DialogUpdateGroupComponent } from '../dialog-update-group/dialog-update-group.component';
 
 @Component({
   selector: 'app-item-group',
   templateUrl: './item-group.component.html',
   styleUrls: [
-    './item-group.component.css',
-    '../../_css/item_list.css'
+    './item-group.component.scss',
   ]
 })
 export class ItemGroupComponent {

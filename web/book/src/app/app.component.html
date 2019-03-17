@@ -12,7 +12,17 @@
       <h3 class="mat-h3">Группы</h3>
       <ul>
         <li *ngFor="let group of groupList">
-          <button [color]="group.group_id===selectedGroup?.group_id ? 'primary' : ''" (click)="clickSelectGroup(group)" mat-flat-button>{{group.name}}</button>
+          <app-item-group [model]="group"></app-item-group>
+          <!--<div>
+            <button [color]="group.group_id===selectedGroup?.group_id ? 'primary' : ''" (click)="clickSelectGroup(group)" mat-flat-button>{{group.name}}</button>
+            <button class="edit_menu" mat-icon-button [matMenuTriggerFor]="edit_menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #edit_menu="matMenu">
+              <button mat-menu-item (click)="clickEditGroup(group)">Изменить</button>
+              <button mat-menu-item>Удалить</button>
+            </mat-menu>
+          </div>-->
         </li>
       </ul>
     </div>

@@ -72,7 +72,6 @@ func main() {
 	http.HandleFunc("/api/avto", handlers.Avto)
 	// группы
 	http.HandleFunc("/api/groups", handlers.Groups)
-	http.HandleFunc("/api/groups/stats", handlers.GroupsStats)
 	// сервисы
 	http.HandleFunc("/api/services", handlers.Services)
 	// напоминания

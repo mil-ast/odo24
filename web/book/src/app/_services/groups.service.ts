@@ -26,16 +26,14 @@ export class GroupService {
     private http: HttpClient
   ) { }
 
-  get(): Observable<GroupStruct[]> {
-    return this.http.get<GroupStruct[]>(this.url).pipe(tap((data: GroupStruct[]) => {
+  get(avtoId: number = 0): Observable<GroupStruct[]> {
+    return this.http.get<GroupStruct[]>(this.url, {
+      params: {
+        avto_id: `${avtoId}`
+      }
+    }).pipe(tap((data: GroupStruct[]) => {
       const list = data || [];
       return list.sort((a: GroupStruct, b: GroupStruct) => {
-        /*if (a.global && !a.global) {
-          return -1;
-        } else if (!a.global && a.global) {
-          return 1;
-        }*/
-
         if (a.order > b.order) {
           return 1;
         } else if (a.order < b.order) {

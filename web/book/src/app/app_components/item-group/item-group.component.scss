@@ -1,0 +1,47 @@
+
+:host {
+    display: block;
+    position: relative;
+}
+.item {
+    position: relative;
+    display: block;
+    padding:10px 60px 10px 10px;
+
+    &.selected {
+        
+    }
+    .cnt {
+        position: absolute;
+        z-index:1;
+        top: 9px;
+        right: 10px;
+        display: inline-block;
+        background-color: #f0f0f0;
+        padding: 2px 10px;
+        font-size: 12px;
+        border-radius: 10px;
+        color: #1f1f1f;
+    }
+}
+
+
+.menu {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    top: 3px;
+    right: 4px;
+    padding: 0px 4px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    button {
+        padding:0px;
+        width: 30px;
+        height: 30px;
+        line-height: 0px;
+    }
+}
+:host:hover .menu {
+    display: block;
+}

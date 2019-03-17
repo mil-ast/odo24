@@ -47,6 +47,7 @@ import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module'
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
 import { OrderPipeModule } from './_pipes/order.pipe.module';
+import { ItemGroupComponent } from './app_components/item-group/item-group.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -55,6 +56,7 @@ registerLocaleData(localeRu, 'ru');
     AppComponent,
     ConfirmEmailDialogComponent,
     PrifileDialogComponent,
+    ItemGroupComponent,
   ],
   imports: [
     MatInputModule,

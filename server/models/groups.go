@@ -36,19 +36,39 @@ func (l Groups_list) Get() ([]Group, error) {
 		return nil, err
 	}
 
-	querySQL := `select g.group_id,g."name",g.sort,g."global" ` +
-		`from cars."groups" g where g.user_id in (0,$1)`
-	rows, err := conn.Query(querySQL, l.User_id)
+	var servicesCnt map[uint64]uint16 = make(map[uint64]uint16)
+	var querySQL string
+	var rows *sql.Rows
+	var groupID uint64
+
+	if l.Avto_id > 0 {
+		// получим количество
+		querySQL = "select group_id,cnt from cars.statsgroups($1,$2)"
+		rows, err = conn.Query(querySQL, l.User_id, l.Avto_id)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+
+		var cnt uint16
+		for rows.Next() {
+			rows.Scan(&groupID, &cnt)
+			servicesCnt[groupID] = cnt
+		}
+		rows.Close()
+	}
+
+	querySQL = `select g.group_id,g."name",g.sort,g."global" from cars."groups" g where g.user_id in (0,$1)`
+	rows, err = conn.Query(querySQL, l.User_id)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
 	var (
-		groupID uint64
-		name    string
-		sort    uint16
-		global  bool
+		name   string
+		sort   uint16
+		global bool
 	)
 	var responce []Group
 
@@ -60,7 +80,7 @@ func (l Groups_list) Get() ([]Group, error) {
 			Name:     name,
 			Order:    sort,
 			Global:   global,
-			Cnt:      0,
+			Cnt:      servicesCnt[groupID],
 		})
 	}
 	rows.Close()
@@ -75,7 +95,7 @@ func (l Groups_list) Get() ([]Group, error) {
 
 /*
 	получить список
-*/
+
 func (l Groups_list) GetStats() ([]GroupsStat, error) {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -105,7 +125,7 @@ func (l Groups_list) GetStats() ([]GroupsStat, error) {
 	rows.Close()
 
 	return responce, nil
-}
+}*/
 
 /*
 	получить открытый список пользователя

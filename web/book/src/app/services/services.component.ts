@@ -5,10 +5,9 @@ import { Subscription } from 'rxjs';
 import { GroupService, GroupStruct, GroupsStats } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog } from '@angular/material';
-import { DialogCreateAvtoComponent } from './dialogs/dialog-create-avto/dialog-create-avto.component';
-import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { map, finalize } from 'rxjs/operators';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-services',
@@ -28,15 +27,22 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
   private avtoListener: Subscription;
   private groupListener: Subscription;
+  private screenListener: Subscription;
+  private screenIsSmall = false;
 
   constructor(
     private avtoService: AvtoService,
     private groupService: GroupService,
     private serviceService: ServiceService,
     private dialog: MatDialog,
+    public breakpointObserver: BreakpointObserver,
   ) { }
 
   ngOnInit() {
+    this.screenListener = this.breakpointObserver.observe(['(max-width: 640px)']).subscribe((state: BreakpointState) => {
+      this.screenIsSmall = state.matches;
+    });
+
     this.isSyncServices = true;
 
     this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
@@ -48,30 +54,15 @@ export class ServicesComponent implements OnInit, OnDestroy {
       this.selectedGroup = group;
       this.loadServices();
     });
-
-    /*this.avtoService.get().subscribe((list: AvtoStruct[]) => {
-      this.avtoList = list || [];
-      if (this.avtoList.length > 0) {
-        this.avtoService.setSelected(list[0]);
-      }
-
-      this.isSync = false;
-    });
-
-    this.groupService.get().subscribe((list: GroupStruct[]) => {
-      this.groupList = list || [];
-      if (this.groupList.length > 0) {
-        this.groupService.setSelected(this.groupList[0]);
-      }
-    });*/
   }
 
   ngOnDestroy() {
     this.avtoListener.unsubscribe();
     this.groupListener.unsubscribe();
+    this.screenListener.unsubscribe();
   }
 
-  clickShowFormCreateAvto(event: MouseEvent) {
+  /*clickShowFormCreateAvto(event: MouseEvent) {
     event.preventDefault();
     const dialog = this.dialog.open(DialogCreateAvtoComponent, {
       autoFocus: true,
@@ -98,13 +89,15 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.groupService.setSelected(group);
       }
     });
-  }
+  }*/
 
   clickShowFormCreateService() {
-    const dialog = this.dialog.open(DialogCreateServiceComponent, {
+    const config = { minWidth: '600px' };
+    if (this.screenIsSmall) {
+      config.minWidth = '98%';
+    }
 
-    });
-
+    const dialog = this.dialog.open(DialogCreateServiceComponent, config);
     dialog.afterClosed().subscribe((service: ServiceStruct) => {
       if (service) {
         this.serviceList.unshift(service);
