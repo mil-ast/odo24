@@ -27,6 +27,7 @@ export class DialogUpdateGroupComponent {
       name: this.form.get('name').value,
     };
     this.groupService.update(data).subscribe((group: GroupStruct) => {
+      this.data.name = group.name;
       this.dialogRef.close(group);
 
       this.snackBar.open('Группа успешно сохранена!', 'OK', {

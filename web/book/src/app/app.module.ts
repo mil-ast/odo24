@@ -48,6 +48,9 @@ import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confi
 import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
 import { OrderPipeModule } from './_pipes/order.pipe.module';
 import { ItemGroupComponent } from './app_components/item-group/item-group.component';
+import { DialogUpdateGroupComponent } from './app_components/dialog-update-group/dialog-update-group.component';
+import { DialogCreateGroupComponent } from './app_components/dialog-create-group/dialog-create-group.component';
+import { ItemAvtoComponent } from './app_components/item-avto/item-avto.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -57,6 +60,9 @@ registerLocaleData(localeRu, 'ru');
     ConfirmEmailDialogComponent,
     PrifileDialogComponent,
     ItemGroupComponent,
+    ItemAvtoComponent,
+    DialogUpdateGroupComponent,
+    DialogCreateGroupComponent,
   ],
   imports: [
     MatInputModule,
@@ -93,6 +99,8 @@ registerLocaleData(localeRu, 'ru');
   entryComponents: [
     ConfirmEmailDialogComponent,
     PrifileDialogComponent,
+    DialogUpdateGroupComponent,
+    DialogCreateGroupComponent,
   ],
   bootstrap: [AppComponent]
 })

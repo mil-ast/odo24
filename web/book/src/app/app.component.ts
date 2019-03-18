@@ -8,6 +8,8 @@ import { AvtoStruct } from './_classes/avto';
 import { AvtoService } from './_services/avto.service';
 import { GroupService, GroupStruct } from './_services/groups.service';
 import { DialogUpdateGroupComponent } from './app_components/dialog-update-group/dialog-update-group.component';
+import { DialogCreateGroupComponent } from './app_components/dialog-create-group/dialog-create-group.component';
+import { DialogCreateAvtoComponent } from './services/dialogs/dialog-create-avto/dialog-create-avto.component';
 
 @Component({
   selector: 'app-root',
@@ -80,11 +82,43 @@ export class AppComponent implements OnInit {
     this.avtoService.setSelected(avto);
   }
 
+  clickShowAddGroup() {
+    this.dialog.open(DialogCreateGroupComponent, {
+      width: '500px',
+    }).afterClosed().subscribe((group: GroupStruct) => {
+      if (group) {
+        this.groupList.push(group);
+        this.groupService.setSelected(group);
+      }
+    });
+  }
+
+  clickShowAddAvto() {
+    const dialog = this.dialog.open(DialogCreateAvtoComponent, {
+      width: '500px',
+    });
+
+    dialog.afterClosed().subscribe((avto: AvtoStruct) => {
+      if (avto) {
+        this.avtoList.push(avto);
+        this.avtoService.setSelected(avto);
+      }
+    });
+  }
+
   clickEditGroup(group: GroupStruct) {
     this.dialog.open(DialogUpdateGroupComponent, {
       width: '500px',
       data: group
     });
+  }
+
+  // евент удаления группы
+  onGroupDelete(group: GroupStruct) {
+    const index = this.groupList.indexOf(group);
+    if (index !== -1) {
+      this.groupList.splice(index, 1);
+    }
   }
 
   /*

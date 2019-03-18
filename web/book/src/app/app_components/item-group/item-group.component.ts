@@ -8,7 +8,7 @@ import { DialogUpdateGroupComponent } from '../dialog-update-group/dialog-update
   selector: 'app-item-group',
   templateUrl: './item-group.component.html',
   styleUrls: [
-    './item-group.component.scss',
+    '../../_css/sidenav_menu.scss',
   ]
 })
 export class ItemGroupComponent {

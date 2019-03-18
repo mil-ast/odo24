@@ -1,28 +1,29 @@
 <mat-sidenav-container id="container" autosize>
   <mat-sidenav #snav mode="push" id="sidenav">
-    <div id="cars" *ngIf="avtoList.length > 1">
-      <h3 class="mat-h3">Мои машины</h3>
+    <div id="cars">
+      <div class="title">
+        <button mat-icon-button (click)="clickShowAddAvto()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <h3 class="mat-h3">Мои машины</h3>
+      </div>
       <ul>
         <li *ngFor="let avto of avtoList | order:'avto_id':'desc'">
-          <button color="{{avto.avto_id===selectedAvto?.avto_id ? 'primary' : ''}}" (click)="clickSelectAvto(avto)" mat-flat-button>{{avto.name}} / {{avto===selectedAvto}}</button>
+          <!--<button color="{{avto.avto_id===selectedAvto?.avto_id ? 'primary' : ''}}" (click)="clickSelectAvto(avto)" mat-flat-button>{{avto.name}} / {{avto===selectedAvto}}</button>-->
+          <app-item-avto [model]="avto"></app-item-avto>
         </li>
       </ul>
     </div>
     <div id="groups">
-      <h3 class="mat-h3">Группы</h3>
+      <div class="title">
+        <button mat-icon-button (click)="clickShowAddGroup()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <h3 class="mat-h3">Группы</h3>
+      </div>
       <ul>
         <li *ngFor="let group of groupList">
-          <app-item-group [model]="group"></app-item-group>
-          <!--<div>
-            <button [color]="group.group_id===selectedGroup?.group_id ? 'primary' : ''" (click)="clickSelectGroup(group)" mat-flat-button>{{group.name}}</button>
-            <button class="edit_menu" mat-icon-button [matMenuTriggerFor]="edit_menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #edit_menu="matMenu">
-              <button mat-menu-item (click)="clickEditGroup(group)">Изменить</button>
-              <button mat-menu-item>Удалить</button>
-            </mat-menu>
-          </div>-->
+          <app-item-group (eventDelete)="onGroupDelete($event)" [model]="group"></app-item-group>
         </li>
       </ul>
     </div>

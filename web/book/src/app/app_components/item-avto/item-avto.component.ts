@@ -3,14 +3,13 @@ import { AvtoStruct } from 'src/app/_classes/avto';
 import { AvtoService } from 'src/app/_services/avto.service';
 import { MatDialog } from '@angular/material';
 import { DialogUpdateAvtoComponent } from 'src/app/services/dialogs/dialog-update-avto/dialog-update-avto.component';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-item-avto',
   templateUrl: './item-avto.component.html',
   styleUrls: [
-    '../../_css/item_list.css',
-    './item-avto.component.css',
+    '../../_css/sidenav_menu.scss',
   ]
 })
 export class ItemAvtoComponent {

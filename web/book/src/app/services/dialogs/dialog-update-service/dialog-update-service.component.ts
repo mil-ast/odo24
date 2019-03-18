@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import * as moment from 'moment';
 import { ServiceService, ServiceStruct } from 'src/app/_services/service.service';
 
 @Component({
