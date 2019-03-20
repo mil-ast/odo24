@@ -113,11 +113,26 @@ export class AppComponent implements OnInit {
     });
   }
 
+  // евент удаления авто
+  onAvtoDelete(avto: AvtoStruct) {
+    const index = this.avtoList.indexOf(avto);
+    if (index !== -1) {
+      this.avtoList.splice(index, 1);
+      if (this.avtoList.length > 0) {
+        this.avtoService.setSelected(this.avtoList[0]);
+      }
+    }
+  }
+
   // евент удаления группы
   onGroupDelete(group: GroupStruct) {
-    const index = this.groupList.indexOf(group);
+    let index = this.groupList.indexOf(group);
     if (index !== -1) {
       this.groupList.splice(index, 1);
+      if (index > 0) {
+        index--;
+      }
+      this.groupService.setSelected(this.groupList[index]);
     }
   }
 
@@ -145,7 +160,19 @@ export class AppComponent implements OnInit {
     this.groupService.get(this.selectedAvto.avto_id).subscribe((list: GroupStruct[]) => {
       this.groupList = list || [];
       if (this.groupList.length > 0) {
+        if (this.selectedGroup) {
+          const group = this.groupList.find((g: GroupStruct) => {
+            return g.group_id === this.selectedGroup.group_id;
+          });
+          if (group) {
+            this.groupService.setSelected(group);
+            return;
+          }
+        }
+
         this.groupService.setSelected(this.groupList[0]);
+      } else {
+        this.groupService.setSelected(null);
       }
     });
   }

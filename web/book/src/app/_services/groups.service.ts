@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 export interface GroupStruct {
     group_id?: number;
@@ -31,9 +31,15 @@ export class GroupService {
       params: {
         avto_id: `${avtoId}`
       }
-    }).pipe(tap((data: GroupStruct[]) => {
-      const list = data || [];
+    }).pipe(map((list: GroupStruct[]) => {
+      list = list || [];
       return list.sort((a: GroupStruct, b: GroupStruct) => {
+        if (a.global && !b.global) {
+          return -1;
+        } else if (!a.global && b.global) {
+          return 1;
+        }
+
         if (a.order > b.order) {
           return 1;
         } else if (a.order < b.order) {

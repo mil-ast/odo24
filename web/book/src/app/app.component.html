@@ -2,24 +2,23 @@
   <mat-sidenav #snav mode="push" id="sidenav">
     <div id="cars">
       <div class="title">
-        <button mat-icon-button (click)="clickShowAddAvto()">
+        <button color="primary" mat-icon-button (click)="clickShowAddAvto()">
           <mat-icon>add</mat-icon>
         </button>
-        <h3 class="mat-h3">Мои машины</h3>
+        <h2 class="mat-h2">Мои машины</h2>
       </div>
       <ul>
-        <li *ngFor="let avto of avtoList | order:'avto_id':'desc'">
-          <!--<button color="{{avto.avto_id===selectedAvto?.avto_id ? 'primary' : ''}}" (click)="clickSelectAvto(avto)" mat-flat-button>{{avto.name}} / {{avto===selectedAvto}}</button>-->
-          <app-item-avto [model]="avto"></app-item-avto>
+        <li *ngFor="let avto of avtoList">
+          <app-item-avto (eventDelete)="onAvtoDelete($event)" [model]="avto"></app-item-avto>
         </li>
       </ul>
     </div>
     <div id="groups">
       <div class="title">
-        <button mat-icon-button (click)="clickShowAddGroup()">
+        <button color="primary" mat-icon-button (click)="clickShowAddGroup()">
           <mat-icon>add</mat-icon>
         </button>
-        <h3 class="mat-h3">Группы</h3>
+        <h2 class="mat-h2">Группы</h2>
       </div>
       <ul>
         <li *ngFor="let group of groupList">

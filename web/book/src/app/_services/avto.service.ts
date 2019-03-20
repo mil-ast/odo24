@@ -16,7 +16,15 @@ export class AvtoService {
   ) { }
 
   get(): Observable<AvtoStruct[]> {
-    return this.http.get<AvtoStruct[]>(this.url);
+    return this.http.get<AvtoStruct[]>(this.url).pipe(map((list: AvtoStruct[]) => {
+      list = list || [];
+      return list.sort((left: AvtoStruct, right: AvtoStruct) => {
+        if (left.avto_id > right.avto_id) {
+          return -1;
+        }
+        return 1;
+      });
+    }));
   }
 
   create(data: AvtoStruct): Observable<AvtoStruct> {

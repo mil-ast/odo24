@@ -1,7 +1,7 @@
 :host {
     display: grid;
     grid-template-columns: 140px 1fr 50px;
-    border-bottom: 1px #ececec solid;
+    border-top: 1px #ececec solid;
     padding:10px 0px;
 }
 
@@ -17,11 +17,7 @@
 }
 
 .date {
-    span {
-        background-color: #eee;
-        padding: 5px 10px;
-        border-radius: 4px;
-    }
+    color: #777;
 }
 
 .comment {
@@ -46,34 +42,3 @@
     grid-row-end: 4;
     padding:10px 0px 0px 20px;
 }
-/*.item:hover {
-    color:#000;
-}
-
-.item > div {
-    position: relative;
-}
-
-div.odo > span:first-child {
-    font-size: 18px;
-    padding-right: 4px;
-}
-div.date > span {
-    padding: 6px 10px;
-    background-color: #f0f0f0;
-    font-size: 14px;
-    position: relative;
-    top: 2px;
-    border-radius: 4px;
-}
-
-.menu {
-    position: absolute;
-    top: -12px;
-    right:10px;
-    display: none;
-}
-
-.item:hover .menu {
-    display: block;
-}*/

@@ -87,18 +87,23 @@ header {
 }
 
 #sidenav {
+    min-width:300px;
     .title {
         position: relative;
-        padding: 6px 2px 0px 10px;
+        padding: 18px 2px 0px 10px;
         height: 50px;
-        background-color: #292e31;
-        color: #fff;
+        /*background-color: #292e31;
+        color: #fff;*/
         margin:0px;
         display: grid;
         grid-template-columns: 50px 1fr;
 
         h3 {
             margin-top: 8px;
+        }
+
+        button {
+            top:-5px;
         }
     }
 
