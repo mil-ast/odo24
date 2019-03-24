@@ -11,15 +11,11 @@
 
 #login {
     width:440px;
-    margin:auto;
+    margin:0px auto 0px auto;
 }
 
 #title {
     text-align: center;
-}
-
-header {
-    margin: 40px 0px;
 }
 
 .mat-card-header {
