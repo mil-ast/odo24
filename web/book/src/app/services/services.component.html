@@ -1,5 +1,5 @@
 <div id="content" *ngIf="selectedAvto && !isSync; else emptyBody">
-	<div id="selected_avto">
+	<div id="selected_avto" *ngIf="screenIsSmall">
 		<app-selected-avto [model]="selectedAvto"></app-selected-avto>
 	</div>
 	<div id="services" *ngIf="selectedGroup">

@@ -27,17 +27,16 @@
         left: 0px;
         right: 0px;
         overflow: auto;
+        background-color: #fff;
     }
 
     #left-distance {
         height: 72px;
         position: relative;
         border-top: 1px #e6e6e6 solid;
-        border-bottom: 1px #e6e6e6 solid;
         display: grid;
         grid-template-columns: 50px 230px 1fr;
         background-color: #ddffe1;
-        margin-bottom: 10px;
 
         #next_odo_title {
             grid-column-start: 2; 
@@ -80,26 +79,10 @@
     padding:20px;
 }
 
-/*
-#content {
-    grid-template-columns: 300px 300px 1fr;
+@media only screen and (min-width: 860px) {
+    #services {
+        #services_list {
+            top: 120px;
+        }
+    }
 }
-
-#empty_avto {
-    margin:40px;
-    padding:40px;
-    width:50%;
-    min-width:400px;
-}
-
-.padding-content {
-    padding:30px;
-}
-
-.sync-spinner {
-    position: relative;
-    top: 0px;
-    left:0px;
-}
-
-*/

@@ -6,8 +6,8 @@ import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog } from '@angular/material';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
-import { map, finalize } from 'rxjs/operators';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { finalize } from 'rxjs/operators';
+import { ScreenpService, Screen, SmallScreen } from '../_services/screen.service';
 
 @Component({
   selector: 'app-services',
@@ -16,31 +16,27 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 })
 export class ServicesComponent implements OnInit, OnDestroy {
   serviceList: ServiceStruct[] = [];
-
   selectedAvto: AvtoStruct = null;
   selectedGroup: GroupStruct = null;
   lastService: ServiceStruct = null;
   isSync = true;
   isSyncServices = true;
+  screenIsSmall = false;
 
   private avtoListener: Subscription;
   private groupListener: Subscription;
   private screenListener: Subscription;
-  private screenIsSmall = false;
+  private screenIsMobile = false;
 
   constructor(
     private avtoService: AvtoService,
     private groupService: GroupService,
     private serviceService: ServiceService,
     private dialog: MatDialog,
-    public breakpointObserver: BreakpointObserver,
+    private screenpService: ScreenpService
   ) { }
 
   ngOnInit() {
-    this.screenListener = this.breakpointObserver.observe(['(max-width: 640px)']).subscribe((state: BreakpointState) => {
-      this.screenIsSmall = state.matches;
-    });
-
     this.isSyncServices = true;
 
     this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
@@ -51,6 +47,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
       this.selectedGroup = group;
       this.loadServices();
     });
+
+    this.screenListener = this.screenpService.getScreen().subscribe(this.onResize.bind(this));
   }
 
   ngOnDestroy() {
@@ -61,7 +59,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
   clickShowFormCreateService() {
     const config = { minWidth: '600px' };
-    if (this.screenIsSmall) {
+    if (this.screenIsMobile) {
       config.minWidth = '98%';
     }
 
@@ -69,7 +67,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
     dialog.afterClosed().subscribe((service: ServiceStruct) => {
       if (service) {
         this.serviceList.unshift(service);
-        // this.incrementGroupCnt(service.group_id);
       }
     });
   }
@@ -78,7 +75,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
     const index = this.serviceList.indexOf(service);
     if (index !== -1) {
       this.serviceList.splice(index, 1);
-      // this.decrementGroupCnt(service.group_id);
     }
   }
 
@@ -138,5 +134,10 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.lastService = list[0];
       }
     });
+  }
+
+  private onResize(screen: Screen) {
+    this.screenIsMobile = screen.innerWidth < 600;
+    this.screenIsSmall = screen.innerWidth < SmallScreen;
   }
 }

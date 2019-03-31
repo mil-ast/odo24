@@ -42,3 +42,17 @@
     grid-row-end: 4;
     padding:10px 0px 0px 20px;
 }
+
+@media only screen and (min-width: 860px) {
+    :host {
+        .menu {
+            visibility: hidden;
+        }
+
+        &:hover {
+            .menu {
+                visibility: visible;
+            } 
+        }
+    }
+}

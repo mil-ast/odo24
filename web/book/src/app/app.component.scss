@@ -94,11 +94,13 @@ header {
     min-width:300px;
     .title {
         position: relative;
-        padding: 18px 2px 0px 10px;
-        height: 50px;
+        padding: 12px 2px 4px 10px;
+        height: 40px;
         margin:0px;
         display: grid;
         grid-template-columns: 50px 1fr;
+        background-color: #292e31;
+        color: #fff;
 
         h3 {
             margin-top: 8px;
@@ -112,4 +114,26 @@ header {
     ul li {
         border-bottom:1px #eee solid;
     }
+}
+
+
+@media only screen and (min-width: 860px) {
+    header {
+        height: 56px;
+        grid-template-columns: 1fr 200px 90px;
+        grid-template-rows: none;
+
+        #logo {
+            display: none;
+        }
+
+        nav {
+            grid-column-start: 1; 
+            grid-column-end: 2; 
+            grid-row-start: 1; 
+            grid-row-end: 2;
+        }
+    }
+
+
 }

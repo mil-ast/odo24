@@ -8,10 +8,13 @@
     position: relative;
     display: block;
     padding:12px 60px 12px 10px;
+    cursor: pointer;
+    &:hover {
+        color:#000;
+    }
 
     &.selected {
-        background-color: mat-color($primary, 700);
-        color: mat-contrast($primary, 700);
+        background-color: #f8ffdd;
     }
     .cnt {
         position: absolute;
@@ -30,12 +33,17 @@
 .menu {
     position: absolute;
     top: 5px;
-    color: mat-contrast($primary, 500);
     right: 9px;
     button {
         padding:0px;
         width: 30px;
         height: 30px;
         line-height: 0px;
+    }
+}
+
+@media only screen and (min-width: 860px) {
+    .item {
+        padding:16px 60px 16px 10px;
     }
 }

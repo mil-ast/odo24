@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { MatDialog, MatSidenav } from '@angular/material';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
@@ -10,6 +10,7 @@ import { GroupService, GroupStruct } from './_services/groups.service';
 import { DialogUpdateGroupComponent } from './app_components/dialog-update-group/dialog-update-group.component';
 import { DialogCreateGroupComponent } from './app_components/dialog-create-group/dialog-create-group.component';
 import { DialogCreateAvtoComponent } from './services/dialogs/dialog-create-avto/dialog-create-avto.component';
+import { ScreenpService, SmallScreen, Screen } from './_services/screen.service';
 
 @Component({
   selector: 'app-root',
@@ -22,8 +23,15 @@ export class AppComponent implements OnInit {
     private groupService: GroupService,
     private dialog: MatDialog,
     private profileService: ProfileService,
+    private screenService: ScreenpService,
   ) { }
 
+  @ViewChild('snav') sidenav: MatSidenav;
+  @HostListener('window:resize', ['$event']) onResize() {
+    this.screenService.onResize(window.innerWidth, window.innerHeight);
+  }
+
+  smallScreen = false;
   avtoList: AvtoStruct[] = [];
   groupList: GroupStruct[] = [];
   selectedAvto: AvtoStruct = null;
@@ -42,14 +50,15 @@ export class AppComponent implements OnInit {
     this.groupService.selected.subscribe((group: GroupStruct) => {
       this.selectedGroup = group;
     });
-
+  
     this.profileService.profile$.subscribe((p: Profile) => {
       this.profile = p;
       if (p === null) {
         return;
       }
-
+  
       this.fetchAvto();
+      this.screenService.getScreen().subscribe(this.configureSideNav.bind(this));
     }, () => {
       this.profile = null;
     });
@@ -143,6 +152,18 @@ export class AppComponent implements OnInit {
     this.profile = null;
     this.profileService.logout();
     return false;
+  }
+
+  configureSideNav(screen: Screen) {
+    this.smallScreen = screen.innerWidth < SmallScreen ? true : false;
+    console.log(this.smallScreen);
+    if (!this.smallScreen) {
+      this.sidenav.mode = 'side';
+      this.sidenav.opened = true;
+    } else {
+      this.sidenav.mode = 'push';
+      this.sidenav.opened = false;
+    }
   }
 
   private fetchAvto() {
