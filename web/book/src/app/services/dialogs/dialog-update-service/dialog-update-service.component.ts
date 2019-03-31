@@ -6,7 +6,7 @@ import { ServiceService, ServiceStruct } from 'src/app/_services/service.service
 @Component({
   selector: 'app-dialog-update-service',
   templateUrl: './dialog-update-service.component.html',
-  styleUrls: ['./dialog-update-service.component.css']
+  styleUrls: ['../../../_css/dialogs_form.scss']
 })
 export class DialogUpdateServiceComponent implements OnInit {
   form: FormGroup;

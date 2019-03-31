@@ -52,7 +52,7 @@ import { DialogUpdateGroupComponent } from './app_components/dialog-update-group
 import { DialogCreateGroupComponent } from './app_components/dialog-create-group/dialog-create-group.component';
 import { ItemAvtoComponent } from './app_components/item-avto/item-avto.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
-import { DialogUpdateAvtoComponent } from './services/dialogs/dialog-update-avto/dialog-update-avto.component';
+import { DialogUpdateAvtoComponent } from './app_components/dialog-update-avto/dialog-update-avto.component';
 
 registerLocaleData(localeRu, 'ru');
 

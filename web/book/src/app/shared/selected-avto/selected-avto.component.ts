@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AvtoStruct } from '../../_classes/avto';
 import { MatDialog } from '@angular/material';
-import { DialogUpdateAvtoComponent } from 'src/app/services/dialogs/dialog-update-avto/dialog-update-avto.component';
+import { DialogUpdateAvtoComponent } from 'src/app/app_components/dialog-update-avto/dialog-update-avto.component';
 
 @Component({
   selector: 'app-selected-avto',

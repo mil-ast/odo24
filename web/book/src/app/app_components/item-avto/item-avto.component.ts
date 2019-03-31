@@ -2,8 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AvtoStruct } from 'src/app/_classes/avto';
 import { AvtoService } from 'src/app/_services/avto.service';
 import { MatDialog } from '@angular/material';
-import { DialogUpdateAvtoComponent } from 'src/app/services/dialogs/dialog-update-avto/dialog-update-avto.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { DialogUpdateAvtoComponent } from 'src/app/app_components/dialog-update-avto/dialog-update-avto.component';
 
 @Component({
   selector: 'app-item-avto',

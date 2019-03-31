@@ -9,7 +9,7 @@ import { AvtoService } from './_services/avto.service';
 import { GroupService, GroupStruct } from './_services/groups.service';
 import { DialogUpdateGroupComponent } from './app_components/dialog-update-group/dialog-update-group.component';
 import { DialogCreateGroupComponent } from './app_components/dialog-create-group/dialog-create-group.component';
-import { DialogCreateAvtoComponent } from './services/dialogs/dialog-create-avto/dialog-create-avto.component';
+import { DialogCreateAvtoComponent } from './app_components/dialog-create-avto/dialog-create-avto.component';
 import { ScreenpService, SmallScreen, Screen } from './_services/screen.service';
 
 @Component({
@@ -50,13 +50,13 @@ export class AppComponent implements OnInit {
     this.groupService.selected.subscribe((group: GroupStruct) => {
       this.selectedGroup = group;
     });
-  
+
     this.profileService.profile$.subscribe((p: Profile) => {
       this.profile = p;
       if (p === null) {
         return;
       }
-  
+
       this.fetchAvto();
       this.screenService.getScreen().subscribe(this.configureSideNav.bind(this));
     }, () => {

@@ -5,7 +5,7 @@ import { AvtoService } from '../_services/avto.service';
 import { RemindingService, Reminding } from './services/reminding.service';
 import { MatDialog } from '@angular/material';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
-import { DialogCreateAvtoComponent } from '../services/dialogs/dialog-create-avto/dialog-create-avto.component';
+import { DialogCreateAvtoComponent } from '../app_components/dialog-create-avto/dialog-create-avto.component';
 
 @Component({
   selector: 'app-reminding',

@@ -5,9 +5,9 @@ import { Subscription } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog } from '@angular/material';
-import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { finalize } from 'rxjs/operators';
 import { ScreenpService, Screen, SmallScreen } from '../_services/screen.service';
+import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 
 @Component({
   selector: 'app-services',
