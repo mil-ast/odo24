@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { MatDialog, MatSidenav } from '@angular/material';
+import { MatDialog, MatSidenav, MatFormFieldBase } from '@angular/material';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
@@ -10,7 +10,7 @@ import { GroupService, GroupStruct } from './_services/groups.service';
 import { DialogUpdateGroupComponent } from './app_components/dialog-update-group/dialog-update-group.component';
 import { DialogCreateGroupComponent } from './app_components/dialog-create-group/dialog-create-group.component';
 import { DialogCreateAvtoComponent } from './app_components/dialog-create-avto/dialog-create-avto.component';
-import { ScreenpService, SmallScreen, Screen } from './_services/screen.service';
+import { ScreenService, SmallScreen, Screen } from './_services/screen.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     private groupService: GroupService,
     private dialog: MatDialog,
     private profileService: ProfileService,
-    private screenService: ScreenpService,
+    private screenService: ScreenService,
   ) { }
 
   @ViewChild('snav') sidenav: MatSidenav;
@@ -54,6 +54,7 @@ export class AppComponent implements OnInit {
     this.profileService.profile$.subscribe((p: Profile) => {
       this.profile = p;
       if (p === null) {
+        this.isSideNavOpened(false);
         return;
       }
 
@@ -103,10 +104,7 @@ export class AppComponent implements OnInit {
   }
 
   clickShowAddAvto() {
-    const dialog = this.dialog.open(DialogCreateAvtoComponent, {
-      width: '500px',
-    });
-
+    const dialog = this.dialog.open(DialogCreateAvtoComponent);
     dialog.afterClosed().subscribe((avto: AvtoStruct) => {
       if (avto) {
         this.avtoList.push(avto);
@@ -117,7 +115,6 @@ export class AppComponent implements OnInit {
 
   clickEditGroup(group: GroupStruct) {
     this.dialog.open(DialogUpdateGroupComponent, {
-      width: '500px',
       data: group
     });
   }
@@ -156,14 +153,20 @@ export class AppComponent implements OnInit {
 
   configureSideNav(screen: Screen) {
     this.smallScreen = screen.innerWidth < SmallScreen ? true : false;
-    console.log(this.smallScreen);
     if (!this.smallScreen) {
+      this.isSideNavOpened(true);
+    } else {
+      this.isSideNavOpened(false);
+    }
+  }
+
+  private isSideNavOpened(opened: boolean) {
+    if (opened) {
       this.sidenav.mode = 'side';
-      this.sidenav.opened = true;
     } else {
       this.sidenav.mode = 'push';
-      this.sidenav.opened = false;
     }
+    this.sidenav.opened = opened;
   }
 
   private fetchAvto() {

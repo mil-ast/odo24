@@ -11,7 +11,7 @@ export interface Screen {
 @Injectable({
   providedIn: 'root'
 })
-export class ScreenpService {
+export class ScreenService {
   private screenSubject: BehaviorSubject<Screen> = new BehaviorSubject({
     innerWidth: window.innerWidth,
     innerHeight: window.innerHeight

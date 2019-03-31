@@ -6,7 +6,7 @@ import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog } from '@angular/material';
 import { finalize } from 'rxjs/operators';
-import { ScreenpService, Screen, SmallScreen } from '../_services/screen.service';
+import { ScreenService, Screen, SmallScreen } from '../_services/screen.service';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 
 @Component({
@@ -33,7 +33,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     private groupService: GroupService,
     private serviceService: ServiceService,
     private dialog: MatDialog,
-    private screenpService: ScreenpService
+    private screenService: ScreenService
   ) { }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       this.loadServices();
     });
 
-    this.screenListener = this.screenpService.getScreen().subscribe(this.onResize.bind(this));
+    this.screenListener = this.screenService.getScreen().subscribe(this.onResize.bind(this));
   }
 
   ngOnDestroy() {

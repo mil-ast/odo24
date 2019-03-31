@@ -1,30 +1,32 @@
 <mat-sidenav-container id="container" autosize>
   <mat-sidenav #snav mode="push" id="sidenav">
-    <div id="cars">
-      <div class="title">
-        <button color="primary" mat-mini-fab (click)="clickShowAddAvto()">
-          <mat-icon>add</mat-icon>
-        </button>
-        <h2 class="mat-h2">Мои машины</h2>
+    <div *ngIf="profile!==null; else emptySidenav">
+      <div id="cars">
+        <div class="title">
+          <button color="primary" mat-mini-fab (click)="clickShowAddAvto()">
+            <mat-icon>add</mat-icon>
+          </button>
+          <h2 class="mat-h2">Мои машины</h2>
+        </div>
+        <ul>
+          <li *ngFor="let avto of avtoList">
+            <app-item-avto (eventDelete)="onAvtoDelete($event)" [model]="avto"></app-item-avto>
+          </li>
+        </ul>
       </div>
-      <ul>
-        <li *ngFor="let avto of avtoList">
-          <app-item-avto (eventDelete)="onAvtoDelete($event)" [model]="avto"></app-item-avto>
-        </li>
-      </ul>
-    </div>
-    <div id="groups">
-      <div class="title">
-        <button color="primary" mat-mini-fab (click)="clickShowAddGroup()">
-          <mat-icon>add</mat-icon>
-        </button>
-        <h2 class="mat-h2">Группы</h2>
+      <div id="groups">
+        <div class="title">
+          <button color="primary" mat-mini-fab (click)="clickShowAddGroup()">
+            <mat-icon>add</mat-icon>
+          </button>
+          <h2 class="mat-h2">Группы</h2>
+        </div>
+        <ul>
+          <li *ngFor="let group of groupList">
+            <app-item-group (eventDelete)="onGroupDelete($event)" [model]="group"></app-item-group>
+          </li>
+        </ul>
       </div>
-      <ul>
-        <li *ngFor="let group of groupList">
-          <app-item-group (eventDelete)="onGroupDelete($event)" [model]="group"></app-item-group>
-        </li>
-      </ul>
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -68,4 +70,8 @@
 
 <ng-template #loginHeader>
   <header id="login_header"></header>
+</ng-template>
+
+<ng-template #emptySidenav>
+  
 </ng-template>

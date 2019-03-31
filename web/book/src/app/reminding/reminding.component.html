@@ -1,5 +1,10 @@
 <div id="content">
-	<div class="column avto__list">
+	<div id="selected_avto" *ngIf="screenIsSmall">
+		<app-selected-avto [model]="selectedAvto"></app-selected-avto>
+	</div>
+
+
+	<!--<div class="column avto__list">
 		<div class="column__content">
 			<div class="column__title">
 				<a href="#" (click)="clickShowFormCreateAvto($event)" class="column_title_icon create" title="Добавить авто"></a>
@@ -18,7 +23,7 @@
 				</div>
 			</div>
 		</div>
-  </div>
+  </div>-->
   <div class="column reminding__list">
 		<div class="column__content">
 			<div class="column__title">
