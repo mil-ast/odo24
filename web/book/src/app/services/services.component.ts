@@ -20,7 +20,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
   selectedGroup: GroupStruct = null;
   lastService: ServiceStruct = null;
   isSync = true;
-  isSyncServices = true;
+  isLoading = true;
   screenIsSmall = false;
 
   private avtoListener: Subscription;
@@ -37,8 +37,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.isSyncServices = true;
-
     this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
       this.selectedAvto = avto;
       this.isSync = false;
@@ -122,10 +120,10 @@ export class ServicesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isSyncServices = true;
+    this.isLoading = true;
     this.serviceService.get(this.selectedAvto.avto_id, this.selectedGroup.group_id).pipe(
       finalize(() => {
-        this.isSyncServices = false;
+        this.isLoading = false;
       })
     ).subscribe((list: ServiceStruct[]) => {
       this.serviceList = list || [];

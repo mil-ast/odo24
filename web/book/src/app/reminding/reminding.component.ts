@@ -6,6 +6,7 @@ import { RemindingService, Reminding } from './services/reminding.service';
 import { MatDialog } from '@angular/material';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
 import { ScreenService, Screen, SmallScreen } from '../_services/screen.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reminding',
@@ -17,6 +18,7 @@ export class RemindingComponent implements OnInit, OnDestroy {
   selectedAvto: AvtoStruct = null;
   screenIsMobile = false;
   screenIsSmall = false;
+  isloading = false;
 
   private avtoListener: Subscription;
   private screenListener: Subscription;
@@ -42,7 +44,12 @@ export class RemindingComponent implements OnInit, OnDestroy {
   }
 
   fetch() {
-    this.remindingService.get().subscribe((res: Reminding[]) => {
+    this.isloading = true;
+    this.remindingService.get().pipe(
+      finalize(() => {
+        this.isloading = false;
+      })
+    ).subscribe((res: Reminding[]) => {
       this.remindList = res || [];
     });
   }

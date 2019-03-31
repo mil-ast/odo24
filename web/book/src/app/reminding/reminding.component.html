@@ -1,4 +1,5 @@
 <div id="content">
+	<mat-progress-bar mode="indeterminate" *ngIf="isloading"></mat-progress-bar>
 	<div id="selected_avto" *ngIf="screenIsSmall">
 		<app-selected-avto [model]="selectedAvto"></app-selected-avto>
 	</div>
@@ -20,7 +21,10 @@
 </div>
 
 <ng-template #emplyList>
-	<div id="emply_remind">
-		<p>Документов ещё нет. <a href="#" (click)="clickShowFormCreateDoct($event)">Добавить</a> новый документ.</p>
+	<div id="emply_remind" *ngIf="!isloading">
+		<div>
+			<p>Документов ещё нет.</p>
+		</div>
+		<button mat-raised-button color="primary" (click)="clickShowFormCreateDoct()">Добавить новый документ</button>
 	</div>
 </ng-template>

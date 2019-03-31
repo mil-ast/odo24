@@ -13,7 +13,8 @@ import {
   MatDatepickerModule,
   MatButtonModule,
   MatSelectModule, MatMenuModule,
-  MatIconModule
+  MatIconModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { RemindingService } from './services/reminding.service';
 import { DialogUpdateDocComponent } from './dialogs/dialog-update-doc/dialog-update-doc.component';
@@ -39,6 +40,7 @@ import { DialogUpdateDocComponent } from './dialogs/dialog-update-doc/dialog-upd
     MatMenuModule,
     MatIconModule,
     MatDatepickerModule,
+    MatProgressBarModule,
   ],
   entryComponents: [
     DialogCreateDocComponent,

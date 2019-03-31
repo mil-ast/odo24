@@ -1,4 +1,5 @@
 <div id="content" *ngIf="selectedAvto && !isSync; else emptyBody">
+	<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 	<div id="selected_avto" *ngIf="screenIsSmall">
 		<app-selected-avto [model]="selectedAvto"></app-selected-avto>
 	</div>
@@ -27,7 +28,7 @@
 </div>
 
 <ng-template #emptyReminders>
-	<div id="empty-reminders" *ngIf="!isSyncServices">
+	<div id="empty-reminders" *ngIf="!isLoading">
 		<div><p>Записей ещё нет.</p></div>
 		<button mat-raised-button color="primary" (click)="clickShowFormCreateService()">Добавить новую запись</button>
 	</div>
