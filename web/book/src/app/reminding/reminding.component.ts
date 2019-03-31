@@ -10,7 +10,7 @@ import { ScreenService, Screen, SmallScreen } from '../_services/screen.service'
 @Component({
   selector: 'app-reminding',
   templateUrl: './reminding.component.html',
-  styleUrls: ['./reminding.component.css'],
+  styleUrls: ['./reminding.component.scss'],
 })
 export class RemindingComponent implements OnInit, OnDestroy {
   remindList: Reminding[] = [];
@@ -47,10 +47,8 @@ export class RemindingComponent implements OnInit, OnDestroy {
     });
   }
 
-  clickShowFormCreateDoct(event: MouseEvent) {
-    event.preventDefault();
+  clickShowFormCreateDoct() {
     this.dialog.open(DialogCreateDocComponent, {
-      width: '600px',
       data: this.selectedAvto
     }).afterClosed().subscribe((rem: Reminding) => {
       if (rem) {

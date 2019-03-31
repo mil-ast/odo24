@@ -1,0 +1,106 @@
+@import 'src/theme.scss';
+:host {
+    display: grid;
+    grid-template-columns: 50px 140px 150px 1fr 50px;
+    border-top: 1px #ececec solid;
+    padding:10px 0px;
+    position: relative;
+}
+
+.icon {
+    text-align: center;
+    color: mat-color($accent);
+    .doc {
+        color: mat-color($primary);
+    }
+}
+
+.date {
+    color: #777;
+    > span:first-child {
+        padding-right:4px;
+    }
+}
+
+.comment {
+    grid-column-start: 2; 
+    grid-column-end: 4; 
+    grid-row-start: 2; 
+    grid-row-end: 3;
+    color:#777;
+    padding-top: 5px;
+}
+
+.menu {
+    grid-column-start: 5; 
+    grid-column-end: 6; 
+    grid-row-start: 1; 
+    grid-row-end: 3;
+}
+
+/*
+.menu {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    visibility: hidden;
+}
+
+.item:hover .menu {
+    visibility: visible;
+}*/
+
+/*
+
+
+.odo, .comment {
+    padding-left:20px;
+}
+
+.odo {
+    span:first-child {
+        font-size: 1.2em;
+        padding-right:4px;
+    }
+}
+
+.date {
+    color: #777;
+}
+
+.comment {
+    grid-column-start: 1; 
+    grid-column-end: 3; 
+    grid-row-start: 2; 
+    grid-row-end: 3;
+    color:#777;
+    padding-top: 5px;
+}
+.menu {
+    grid-column-start: 3; 
+    grid-column-end: 4; 
+    grid-row-start: 1; 
+    grid-row-end: 3;
+}
+
+.price {
+    grid-column-start: 1; 
+    grid-column-end: 4; 
+    grid-row-start: 3; 
+    grid-row-end: 4;
+    padding:10px 0px 0px 20px;
+}
+
+@media only screen and (min-width: 860px) {
+    :host {
+        .menu {
+            visibility: hidden;
+        }
+
+        &:hover {
+            .menu {
+                visibility: visible;
+            } 
+        }
+    }
+}*/

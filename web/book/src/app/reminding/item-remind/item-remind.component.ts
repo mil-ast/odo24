@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   selector: 'app-item-remind',
   templateUrl: './item-remind.component.html',
   styleUrls: [
-    './item-remind.component.css'
+    './item-remind.component.scss'
   ]
 })
 export class ItemRemindComponent {

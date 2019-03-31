@@ -12,7 +12,7 @@ import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/di
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
-  styleUrls: ['./services.component.scss', './services_screen.component.css']
+  styleUrls: ['./services.component.scss']
 })
 export class ServicesComponent implements OnInit, OnDestroy {
   serviceList: ServiceStruct[] = [];
