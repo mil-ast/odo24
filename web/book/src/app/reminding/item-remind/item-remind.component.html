@@ -7,11 +7,11 @@
   <span *ngSwitchCase="'insurance'" class="insurance">Страховка</span>
   <span *ngSwitchDefault>{{model.event_type}}</span>
 </div>
-<div class="date">
+<div class="date from">
   <span>с</span>
   <span>{{model.date_start | date:'dd MMMM yyyy'}}</span>
 </div>
-<div class="date">
+<div class="date to">
   <span>по</span>
   <span>{{model.date_end | date:'dd MMMM yyyy'}}</span>
 </div>
