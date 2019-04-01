@@ -1,4 +1,4 @@
-<a href="#" (click)="clickEdit($event)">
+<a href="#" (click)="clickEdit($event)" *ngIf="model">
   <img decoding="async" *ngIf="model.avatar; else noPhoto" src="/api/images/small/{{model.avto_id}}.jpg?t={{ model.avatar_time_cache }}" />
   <span>
     <span class="title">{{ model.name }}</span>
