@@ -43,7 +43,8 @@ export class ItemGroupComponent {
         title: 'Удалить группу?',
         message: 'Удалить группу и все её записи? Восстановление будет невозможым!',
         type: 'warn'
-      }
+      },
+      autoFocus: false,
     });
     dialog.afterClosed().subscribe((ok: boolean) => {
       if (!ok) {

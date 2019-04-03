@@ -40,7 +40,8 @@ export class ItemAvtoComponent {
   clickEdit() {
     this.dialog.open(DialogUpdateAvtoComponent, {
       data: this.model,
-      width: '500px'
+      width: '500px',
+      autoFocus: false,
     });
   }
 

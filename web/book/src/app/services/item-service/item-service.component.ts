@@ -28,6 +28,7 @@ export class ItemServiceComponent {
     this.screenpService.getScreen().pipe(first()).subscribe((screen: Screen) => {
       const config = {
         minWidth: '600px',
+        autoFocus: false,
         data: this.model
       };
 

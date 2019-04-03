@@ -52,7 +52,6 @@ export class AppComponent implements OnInit {
     });
 
     this.profileService.profile$.subscribe((p: Profile) => {
-      console.log(p);
       this.profile = p;
       if (p === null) {
         this.isSideNavOpened(false);
@@ -71,7 +70,8 @@ export class AppComponent implements OnInit {
       position: {
         top: '80px',
         right: '40px'
-      }
+      },
+      autoFocus: false,
     });
   }
 
@@ -81,6 +81,7 @@ export class AppComponent implements OnInit {
         top: '80px',
         right: '40px'
       },
+      autoFocus: false,
       data: this.profile
     });
   }
@@ -96,6 +97,7 @@ export class AppComponent implements OnInit {
   clickShowAddGroup() {
     this.dialog.open(DialogCreateGroupComponent, {
       width: '500px',
+      autoFocus: false,
     }).afterClosed().subscribe((group: GroupStruct) => {
       if (group) {
         this.groupList.push(group);
@@ -105,7 +107,9 @@ export class AppComponent implements OnInit {
   }
 
   clickShowAddAvto() {
-    const dialog = this.dialog.open(DialogCreateAvtoComponent);
+    const dialog = this.dialog.open(DialogCreateAvtoComponent, {
+      autoFocus: false,
+    });
     dialog.afterClosed().subscribe((avto: AvtoStruct) => {
       if (avto) {
         this.avtoList.push(avto);
@@ -116,6 +120,7 @@ export class AppComponent implements OnInit {
 
   clickEditGroup(group: GroupStruct) {
     this.dialog.open(DialogUpdateGroupComponent, {
+      autoFocus: false,
       data: group
     });
   }
@@ -200,12 +205,6 @@ export class AppComponent implements OnInit {
       } else {
         this.groupService.setSelected(null);
       }
-    });
-  }
-
-  private confirmEmailDialog(p: Profile) {
-    this.dialog.open(ConfirmEmailDialogComponent, {
-      data: p
     });
   }
 }

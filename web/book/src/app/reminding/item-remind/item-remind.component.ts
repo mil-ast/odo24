@@ -25,6 +25,7 @@ export class ItemRemindComponent {
   clickEdit() {
     this.dialog.open(DialogUpdateDocComponent, {
       width: '600px',
+      autoFocus: false,
       data: this.model
     }).afterClosed().subscribe((rem: Reminding) => {
       if (rem) {

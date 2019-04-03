@@ -58,7 +58,8 @@ export class RemindingComponent implements OnInit, OnDestroy {
 
   clickShowFormCreateDoct() {
     this.dialog.open(DialogCreateDocComponent, {
-      data: this.selectedAvto
+      data: this.selectedAvto,
+      autoFocus: false,
     }).afterClosed().subscribe((rem: Reminding) => {
       if (rem) {
         this.remindList.unshift(rem);

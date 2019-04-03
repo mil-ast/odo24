@@ -5,3 +5,4 @@ node_modules
 *.bk
 server/fileuploads
 server/server
+server/server.exe

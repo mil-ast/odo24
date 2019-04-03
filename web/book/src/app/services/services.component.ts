@@ -56,7 +56,10 @@ export class ServicesComponent implements OnInit, OnDestroy {
   }
 
   clickShowFormCreateService() {
-    const config = { minWidth: '600px' };
+    const config = {
+      minWidth: '600px',
+      autoFocus: false,
+    };
     if (this.screenIsMobile) {
       config.minWidth = '98%';
     }
