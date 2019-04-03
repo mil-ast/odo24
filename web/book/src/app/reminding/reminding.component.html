@@ -1,8 +1,8 @@
-<div id="content">
-	<mat-progress-bar mode="indeterminate" *ngIf="isloading"></mat-progress-bar>
+<div id="content" *ngIf="selectedAvto && !isSync; else emptyBody">
 	<div id="selected_avto" *ngIf="screenIsSmall">
 		<app-selected-avto [model]="selectedAvto"></app-selected-avto>
 	</div>
+	<mat-progress-bar mode="indeterminate" *ngIf="isloading"></mat-progress-bar>
 	<div id="reminding">
 		<div id="reminding-title">
 			<h2 class="mat-h2">Мои документы</h2>
@@ -27,4 +27,8 @@
 		</div>
 		<button mat-raised-button color="primary" (click)="clickShowFormCreateDoct()">Добавить новый документ</button>
 	</div>
+</ng-template>
+
+<ng-template #emptyBody>
+	<p>Для продолжения можно добавить ваш автомобиль</p>
 </ng-template>

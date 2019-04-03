@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { MatDialog, MatSidenav, MatFormFieldBase } from '@angular/material';
+import { MatDialog, MatSidenav } from '@angular/material';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
     });
 
     this.profileService.profile$.subscribe((p: Profile) => {
+      console.log(p);
       this.profile = p;
       if (p === null) {
         this.isSideNavOpened(false);
@@ -181,6 +182,7 @@ export class AppComponent implements OnInit {
   }
 
   private fetchGroups() {
+    this.groupList = [];
     this.groupService.get(this.selectedAvto.avto_id).subscribe((list: GroupStruct[]) => {
       this.groupList = list || [];
       if (this.groupList.length > 0) {

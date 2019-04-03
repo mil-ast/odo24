@@ -4,8 +4,20 @@
     display: block;
 }
 
+#selected_avto {
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 5;
+}
+
 #reminding {
-    padding-top:18px;
+    position: absolute;
+    top: 170px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: auto;
+    background-color: #fff;
 
     #reminding-title {
         display: grid;
@@ -18,16 +30,6 @@
             position: relative;
             top:-6px;
         }
-    }
-
-    #reminding_list {
-        position: absolute;
-        top: 240px;
-        bottom: 0px;
-        left: 0px;
-        right: 0px;
-        overflow: auto;
-        background-color: #fff;
     }
 }
 

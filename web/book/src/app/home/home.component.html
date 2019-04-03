@@ -13,7 +13,7 @@
 		<mat-card-content>
 			<form (ngSubmit)="submitLogin()" [formGroup]="formAuth" id="form-auth">
 				<mat-form-field class="full_width">
-					<input formControlName="login" matInput placeholder="Логин" type="text" name="login" required />
+					<input formControlName="login" matInput placeholder="Логин" type="email" name="login" required />
 				</mat-form-field>
 				<mat-form-field class="full_width">
 					<input  formControlName="password" matInput placeholder="Пароль" type="password" name="password" required />

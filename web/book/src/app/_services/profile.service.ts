@@ -23,34 +23,25 @@ export class ProfileService {
     }
 
     isAuthorized(): Observable<boolean> {
-        const localIsAuth = sessionStorage.getItem('isauth');
-        if (!localIsAuth) {
-            return of(false);
+        const profile = this.profile.getValue();
+        if (profile !== null) {
+            return of(true);
         }
 
         return this.http.get(this.url_profile).pipe(
             map((res: any) => {
-                sessionStorage.setItem('isauth', '1');
                 this.profile.next(new Profile(res));
                 return true;
             }, catchError(() => {
-                sessionStorage.removeItem('isauth');
                 this.profile.next(null);
                 return of(false);
             }))
         );
     }
 
-    sync() {
-        this.http.get(this.url_profile).subscribe((res: any) => {
-            this.loginOk(new Profile(res));
-        });
-    }
-
     login(login: string, password: string): Observable<Profile> {
         return this.http.post<Profile>(this.url_login, { login: login, password: password }).pipe(tap((responce) => {
             const profile: Profile = new Profile(responce);
-            sessionStorage.setItem('isauth', '1');
             this.profile.next(profile);
         }));
     }
@@ -81,13 +72,7 @@ export class ProfileService {
     }
 
     exit() {
-        sessionStorage.removeItem('isauth');
         this.profile.next(null);
         this.router.navigate(['/']);
-    }
-
-    private loginOk(profile: Profile) {
-        sessionStorage.setItem('isauth', '1');
-        this.profile.next(profile);
     }
 }

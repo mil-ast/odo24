@@ -18,6 +18,7 @@ export class RemindingComponent implements OnInit, OnDestroy {
   selectedAvto: AvtoStruct = null;
   screenIsMobile = false;
   screenIsSmall = false;
+  isSync = true;
   isloading = false;
 
   private avtoListener: Subscription;
@@ -34,6 +35,7 @@ export class RemindingComponent implements OnInit, OnDestroy {
     this.screenListener = this.screenService.getScreen().subscribe(this.onResize.bind(this));
 
     this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
+      this.isSync = false;
       this.selectedAvto = avto;
       this.fetch();
     });

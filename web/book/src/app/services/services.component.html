@@ -1,8 +1,8 @@
 <div id="content" *ngIf="selectedAvto && !isSync; else emptyBody">
-	<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 	<div id="selected_avto" *ngIf="screenIsSmall">
 		<app-selected-avto [model]="selectedAvto"></app-selected-avto>
 	</div>
+	<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 	<div id="services" *ngIf="selectedGroup">
 		<div id="selected_group">
 			<h2 class="mat-h2">{{selectedGroup.name}}</h2>
@@ -12,7 +12,7 @@
 				</button>
 			</div>
 		</div>
-		<ul id="services_list" *ngIf="serviceList.length > 0; else emptyReminders">
+		<ul id="services_list" *ngIf="serviceList.length > 0; else emptyServices">
 			<li id="left-distance" *ngIf="lastService && lastService.next_distance" [ngClass]="{'warn1' : leftDistanceColorState===1, 'warn2' : leftDistanceColorState===2, 'err' : leftDistanceColorState===3}">
 				<mat-icon>notifications</mat-icon>
 				<span>До следующей замены осталось</span>
@@ -27,9 +27,13 @@
 	</div>
 </div>
 
-<ng-template #emptyReminders>
-	<div id="empty-reminders" *ngIf="!isLoading">
+<ng-template #emptyServices>
+	<div id="empty-services" *ngIf="!isLoading">
 		<div><p>Записей ещё нет.</p></div>
 		<button mat-raised-button color="primary" (click)="clickShowFormCreateService()">Добавить новую запись</button>
 	</div>
+</ng-template>
+
+<ng-template #emptyBody>
+	<p>Для продолжения можно добавить ваш автомобиль</p>
 </ng-template>
