@@ -1,6 +1,6 @@
 <mat-sidenav-container id="container" autosize>
   <mat-sidenav #snav mode="push" id="sidenav">
-    <div *ngIf="profile!==null; else emptySidenav">
+    <div *ngIf="profile!==null">
       <div id="cars">
         <div class="title">
           <button color="primary" mat-mini-fab (click)="clickShowAddAvto()">
@@ -43,6 +43,10 @@
       <div id="profile">
         <a [matMenuTriggerFor]="menu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">{{ profile.login }}</a>
         <mat-menu #menu="matMenu">
+          <button class="warn" (click)="clickShowConfirmEmailDialog()" *ngIf="profile.is_no_confirmed" mat-menu-item>
+            <mat-icon>email</mat-icon>
+            <span>Подтвердите почту</span>
+          </button>
           <button mat-menu-item (click)="clickShowChangePasswordDialog()">
             <mat-icon>lock</mat-icon>
             <span>Изменить пароль</span>
@@ -50,10 +54,6 @@
           <button mat-menu-item (click)="clickLogout()">
             <mat-icon>exit_to_app</mat-icon>
             <span>Выход</span>
-          </button>
-          <button class="warn" (click)="clickShowConfirmEmailDialog()" *ngIf="profile.is_no_confirmed" mat-menu-item>
-            <mat-icon>email</mat-icon>
-            <span>Подтвердите почту</span>
           </button>
         </mat-menu>
       </div>
