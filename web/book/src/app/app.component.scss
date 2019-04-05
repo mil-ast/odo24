@@ -63,7 +63,7 @@ header {
         text-align:right;
         a {
             color: #737373;
-            padding: 20px 12px 10px 30px;
+            padding: 20px 18px 10px 30px;
             display: inline-block;
             position: relative;
 
@@ -74,6 +74,11 @@ header {
                 position: absolute;
                 top:16px;
                 left:0px;
+            }
+
+            .mat-badge-content {
+                top:5px;
+                right:0px;
             }
         }
     }
@@ -113,6 +118,10 @@ header {
 
     ul li {
         border-bottom:1px #eee solid;
+    }
+
+    #empty-avto {
+        margin:20px;
     }
 }
 

@@ -3,8 +3,8 @@
   "name": "Сервисная книжка",
   "short_name": "ODO24",
   "description": "Сервисная книжка онлайн!",
-  "display": "fullscreen",
-  "orientation": "landscape",
+  "display": "standalone",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/assets/icon_32.png",

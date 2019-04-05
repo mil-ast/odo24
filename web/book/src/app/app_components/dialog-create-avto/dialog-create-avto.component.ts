@@ -42,4 +42,8 @@ export class DialogCreateAvtoComponent {
 
     return false;
   }
+
+  get isDisableClose(): boolean {
+    return this.dialogRef.disableClose;
+  }
 }

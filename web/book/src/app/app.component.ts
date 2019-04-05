@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
   groupList: GroupStruct[] = [];
   selectedAvto: AvtoStruct = null;
   selectedGroup: GroupStruct = null;
-
   isSync = false;
   profile: Profile = null;
 
@@ -106,9 +105,10 @@ export class AppComponent implements OnInit {
     });
   }
 
-  clickShowAddAvto() {
+  clickShowAddAvto(disableClose: boolean = false) {
     const dialog = this.dialog.open(DialogCreateAvtoComponent, {
       autoFocus: false,
+      disableClose: disableClose,
     });
     dialog.afterClosed().subscribe((avto: AvtoStruct) => {
       if (avto) {
@@ -132,6 +132,8 @@ export class AppComponent implements OnInit {
       this.avtoList.splice(index, 1);
       if (this.avtoList.length > 0) {
         this.avtoService.setSelected(this.avtoList[0]);
+      } else {
+        this.avtoService.setSelected(null);
       }
     }
   }
@@ -180,6 +182,8 @@ export class AppComponent implements OnInit {
       this.avtoList = list || [];
       if (this.avtoList.length > 0) {
         this.avtoService.setSelected(list[0]);
+      } else {
+        this.clickShowAddAvto(true);
       }
 
       this.isSync = false;

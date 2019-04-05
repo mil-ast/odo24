@@ -8,13 +8,13 @@
           </button>
           <h2 class="mat-h2">Мои машины</h2>
         </div>
-        <ul>
+        <ul *ngIf="avtoList.length > 0; else emptyAvto">
           <li *ngFor="let avto of avtoList">
             <app-item-avto (eventDelete)="onAvtoDelete($event)" [model]="avto"></app-item-avto>
           </li>
         </ul>
       </div>
-      <div id="groups">
+      <div id="groups" *ngIf="selectedAvto!==null">
         <div class="title">
           <button color="primary" mat-mini-fab (click)="clickShowAddGroup()">
             <mat-icon>add</mat-icon>
@@ -38,7 +38,7 @@
       </div>
       <nav>
         <a routerLink="/service" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">Обслуживание</a>
-        <a routerLink="/reminding" routerLinkActive="selected">Напоминания</a>
+        <a *ngIf="selectedAvto!==null" routerLink="/reminding" routerLinkActive="selected">Напоминания</a>
       </nav>
       <div id="profile">
         <a [matMenuTriggerFor]="menu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">{{ profile.login }}</a>
@@ -72,6 +72,12 @@
   <header id="login_header"></header>
 </ng-template>
 
-<ng-template #emptySidenav>
-  
+<ng-template #emptyAvto>
+  <div id="empty-avto">
+    <div><p>Автомобилей ещё нет.</p></div>
+    <button mat-raised-button color="primary" (click)="clickShowAddAvto()">
+      <mat-icon>add</mat-icon>
+      <span>&nbsp;Добавить</span>
+    </button>
+  </div>
 </ng-template>
