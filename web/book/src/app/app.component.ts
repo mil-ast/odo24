@@ -4,7 +4,7 @@ import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
-import { AvtoStruct } from './_classes/avto';
+import { AvtoStruct, Avto } from './_classes/avto';
 import { AvtoService } from './_services/avto.service';
 import { GroupService, GroupStruct } from './_services/groups.service';
 import { DialogUpdateGroupComponent } from './app_components/dialog-update-group/dialog-update-group.component';
@@ -34,15 +34,15 @@ export class AppComponent implements OnInit {
   }
 
   smallScreen = false;
-  avtoList: AvtoStruct[] = [];
+  avtoList: Avto[] = [];
   groupList: GroupStruct[] = [];
-  selectedAvto: AvtoStruct = null;
+  selectedAvto: Avto = null;
   selectedGroup: GroupStruct = null;
   isSync = false;
   profile: Profile = null;
 
   ngOnInit() {
-    this.avtoService.selected.subscribe((avto: AvtoStruct) => {
+    this.avtoService.selected.subscribe((avto: Avto) => {
       this.selectedAvto = avto;
       if (avto) {
         this.fetchGroups();
@@ -112,8 +112,9 @@ export class AppComponent implements OnInit {
       autoFocus: false,
       disableClose: disableClose,
     });
-    dialog.afterClosed().subscribe((avto: AvtoStruct) => {
-      if (avto) {
+    dialog.afterClosed().subscribe((data: AvtoStruct) => {
+      if (data) {
+        const avto = new Avto(data);
         this.avtoList.push(avto);
         this.avtoService.setSelected(avto);
       }
@@ -121,17 +122,22 @@ export class AppComponent implements OnInit {
   }
 
   clickShowEditAvto(avto: AvtoStruct) {
+    let position = null;
+    if (!this.smallScreen) {
+      position = '40px';
+    }
     const dialog = this.dialog.open(DialogUpdateAvtoComponent, {
       autoFocus: false,
       data: avto,
+      width: '500px',
       position: {
-        left: '40px',
+        left: position,
       }
     });
     dialog.afterClosed().subscribe();
   }
 
-  clickDeleteAvto(avto: AvtoStruct) {
+  clickDeleteAvto(avto: Avto) {
     const dialog = this.dialog.open(ConfirmationDialogComponent, {
       data: {
         title: 'Удалить авто?',
@@ -158,7 +164,7 @@ export class AppComponent implements OnInit {
   }
 
   // евент удаления авто
-  onAvtoDelete(avto: AvtoStruct) {
+  onAvtoDelete(avto: Avto) {
     const index = this.avtoList.indexOf(avto);
     if (index !== -1) {
       this.avtoList.splice(index, 1);
@@ -210,7 +216,7 @@ export class AppComponent implements OnInit {
   }
 
   private fetchAvto() {
-    this.avtoService.get().subscribe((list: AvtoStruct[]) => {
+    this.avtoService.get().subscribe((list: Avto[]) => {
       this.avtoList = list || [];
       if (this.avtoList.length > 0) {
         this.avtoService.setSelected(list[0]);

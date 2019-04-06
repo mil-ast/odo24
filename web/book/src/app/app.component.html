@@ -20,7 +20,7 @@
           </div>
           <div *ngSwitchCase="1" id="onceAvto">
             <div id="onceAvtoImage">
-              <img src="/api/images/medium/{{selectedAvto.avto_id}}.jpg?t=1" />
+              <img [src]="selectedAvto.avatarPath('medium')" />
             </div>
             <div id="onceAvtoName">
               <div>

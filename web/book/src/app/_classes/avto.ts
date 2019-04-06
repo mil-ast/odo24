@@ -5,7 +5,6 @@ export interface AvtoStruct {
     odo: number;
     avatar?: boolean;
     public?: boolean;
-    cacheImg?: number;
 }
 
 export class Avto {
@@ -13,20 +12,33 @@ export class Avto {
     name: string;
     odo: number;
     avatar: boolean;
-    avatar_time_cache = 1;
+    private cache: number;
 
-    constructor(id: number, name: string, odo: number, avatar: boolean) {
-        this.avto_id = id;
-        this.Update(name, odo, avatar);
+    constructor(data: AvtoStruct) {
+        this.avto_id = data.avto_id;
+        this.update(data.name, data.odo, data.avatar);
     }
 
-    Update(name: string, odo: number, avatar: boolean) {
+    update(name: string, odo: number, avatar: boolean) {
         this.name = name;
-        this.odo = odo | 0;
+        this.odo = odo;
         this.avatar = avatar;
+        this.cache = Date.now();
     }
 
-    SetCacheValue(value: number) {
-        this.avatar_time_cache = value;
+    avatarPath(type: string): string {
+        if (!this.avatar) {
+            if (type === 'medium') {
+                return '/assets/images/no_photo.png';
+            } else {
+                return '/assets/images/no_photo_small.png';
+            }
+        } else {
+            if (type === 'medium') {
+                return `/api/images/medium/${this.avto_id}.jpg?t=${this.cache}`;
+            } else {
+                return `/api/images/small/${this.avto_id}.jpg?t=${this.cache}`;
+            }
+        }
     }
 }

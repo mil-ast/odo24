@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AvtoService } from 'src/app/_services/avto.service';
-import { AvtoStruct } from 'src/app/_classes/avto';
+import { AvtoStruct, Avto } from 'src/app/_classes/avto';
 
 @Component({
   selector: 'app-dialog-update-avto',
@@ -17,7 +17,7 @@ export class DialogUpdateAvtoComponent {
     private dialogRef: MatDialogRef<DialogUpdateAvtoComponent>,
     private avtoService: AvtoService,
     private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: AvtoStruct,
+    @Inject(MAT_DIALOG_DATA) public data: Avto,
   ) {
     this.form = new FormGroup({
       name: new FormControl(data.name, Validators.required),
@@ -38,9 +38,7 @@ export class DialogUpdateAvtoComponent {
     }
 
     this.avtoService.update(formData).subscribe((res: AvtoStruct) => {
-      this.data.name = res.name;
-      this.data.odo = res.odo;
-      this.data.avatar = res.avatar;
+      this.data.update(res.name, res.odo, res.avatar);
 
       this.snackBar.open('Изменения успешно сохранены!', 'OK', {
         duration: 5000,
