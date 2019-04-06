@@ -5,6 +5,7 @@ export interface AvtoStruct {
     odo: number;
     avatar?: boolean;
     public?: boolean;
+    cacheImg?: number;
 }
 
 export class Avto {

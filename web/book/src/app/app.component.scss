@@ -123,6 +123,21 @@ header {
     #empty-avto {
         margin:20px;
     }
+
+    #onceAvto {
+        margin: 20px 0px;
+        #onceAvtoImage {
+            text-align:center;
+        }
+
+        #onceAvtoName {
+            width:240px;
+            margin:auto;
+            padding:10px 0px;
+            display: grid;
+            grid-template-columns: 1fr 40px;
+        }
+    }
 }
 
 .warn {

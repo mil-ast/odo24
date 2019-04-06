@@ -11,6 +11,8 @@ import { DialogUpdateGroupComponent } from './app_components/dialog-update-group
 import { DialogCreateGroupComponent } from './app_components/dialog-create-group/dialog-create-group.component';
 import { DialogCreateAvtoComponent } from './app_components/dialog-create-avto/dialog-create-avto.component';
 import { ScreenService, SmallScreen, Screen } from './_services/screen.service';
+import { DialogUpdateAvtoComponent } from './app_components/dialog-update-avto/dialog-update-avto.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -115,6 +117,36 @@ export class AppComponent implements OnInit {
         this.avtoList.push(avto);
         this.avtoService.setSelected(avto);
       }
+    });
+  }
+
+  clickShowEditAvto(avto: AvtoStruct) {
+    const dialog = this.dialog.open(DialogUpdateAvtoComponent, {
+      autoFocus: false,
+      data: avto,
+      position: {
+        left: '40px',
+      }
+    });
+    dialog.afterClosed().subscribe();
+  }
+
+  clickDeleteAvto(avto: AvtoStruct) {
+    const dialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Удалить авто?',
+        message: 'Удалить авто и всю историю по ней? Восстановление будет невозможным!',
+        type: 'warn'
+      },
+    });
+    dialog.afterClosed().subscribe((ok: boolean) => {
+      if (!ok) {
+        return;
+      }
+
+      this.avtoService.delete(avto.avto_id).subscribe(() => {
+        this.onAvtoDelete(avto);
+      });
     });
   }
 

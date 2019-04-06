@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './auth.guard';
 import { httpInterceptorProviders } from './http-interceptors';
 // модули
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from './app.routing';
 import { ServiceModule } from './services/service.module';
 import { HomeModule } from './home/home.module';
@@ -53,6 +54,7 @@ import { DialogCreateGroupComponent } from './app_components/dialog-create-group
 import { ItemAvtoComponent } from './app_components/item-avto/item-avto.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from './app_components/dialog-update-avto/dialog-update-avto.component';
+import { environment } from '../environments/environment';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -87,6 +89,7 @@ registerLocaleData(localeRu, 'ru');
     SelectedAvtoModule,
     ServiceModule,
     HomeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     ProfileService,

@@ -1,4 +1,4 @@
-a.item {
+/*a.item {
     position: relative;
     padding-left:110px;
 }
@@ -19,4 +19,9 @@ a.item img {
 }
 :host:hover .menu {
     display: block;
+}**/
+
+.large {
+    height: 300px;
+
 }
