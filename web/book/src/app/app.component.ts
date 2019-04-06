@@ -192,6 +192,11 @@ export class AppComponent implements OnInit {
       выход
   */
   clickLogout() {
+    this.avtoList = [];
+    this.groupList = [];
+
+    this.avtoService.setSelected(null);
+    this.groupService.setSelected(null);
     this.profile = null;
     this.profileService.logout();
     return false;
