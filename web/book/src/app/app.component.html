@@ -1,5 +1,5 @@
 <mat-sidenav-container id="container" autosize>
-  <mat-sidenav #snav mode="push" id="sidenav">
+  <mat-sidenav #snav mode="push" [autoFocus]="false" id="sidenav">
     <div *ngIf="profile!==null">
       <div id="cars">
         <div class="title">
