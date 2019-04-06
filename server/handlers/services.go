@@ -58,14 +58,15 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 		list, err := listServices.Get()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
+			return
 		}
 
 		data, err := json.Marshal(list)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.Write(data)
@@ -79,6 +80,7 @@ func Services(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		if service.Avto_id == 0 || service.Group_id == 0 {
@@ -90,14 +92,15 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 		err = service.Create()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
+			return
 		}
 
 		data, err := json.Marshal(service)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.WriteHeader(201)
@@ -119,8 +122,7 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 		err = service.Update()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
 			return
 		}
 
@@ -144,6 +146,7 @@ func Services(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		service := models.Service{
@@ -153,8 +156,8 @@ func Services(w http.ResponseWriter, r *http.Request) {
 
 		err = service.Delete()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
+			return
 		}
 
 		w.WriteHeader(204)

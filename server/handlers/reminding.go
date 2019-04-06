@@ -31,7 +31,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 
 		items, err := list.Get()
 		if err != nil {
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
 			return
 		}
 
@@ -58,7 +58,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 
 		err = rem.Create()
 		if err != nil {
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
 			return
 		}
 
@@ -86,14 +86,8 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 
 		err = rem.Update()
 		if err != nil {
-			switch err.Error() {
-			case "not found", "not the owner":
-				http.Error(w, http.StatusText(404), 404)
-				return
-			default:
-				http.Error(w, http.StatusText(500), 500)
-				return
-			}
+			CheckStatusCode(w, err)
+			return
 		}
 
 		data, err := json.Marshal(rem)
@@ -124,17 +118,8 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 
 		err = rem.Delete()
 		if err != nil {
-			switch err.Error() {
-			case "pg: not found":
-				http.Error(w, http.StatusText(404), 404)
-				return
-			case "pg: forbidden":
-				http.Error(w, http.StatusText(403), 403)
-				return
-			default:
-				http.Error(w, http.StatusText(500), 500)
-				return
-			}
+			CheckStatusCode(w, err)
+			return
 		}
 
 		w.WriteHeader(204)

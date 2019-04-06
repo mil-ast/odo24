@@ -44,14 +44,15 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 
 		list, err := listGroups.Get()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
+			return
 		}
 
 		data, err := json.Marshal(list)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.Write(data)
@@ -65,20 +66,22 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		group.User_id = profile.User_id
 
 		err = group.Create()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
+			return
 		}
 
 		data, err := json.Marshal(group)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.WriteHeader(201)
@@ -93,29 +96,22 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		group.User_id = profile.User_id
 
 		err = group.Update()
 		if err != nil {
-			switch err.Error() {
-			case "not found":
-				http.Error(w, http.StatusText(404), 404)
-				return
-			case "not the owner":
-				http.Error(w, http.StatusText(403), 403)
-				return
-			default:
-				log.Println(err)
-				http.Error(w, http.StatusText(500), 500)
-			}
+			CheckStatusCode(w, err)
+			return
 		}
 
 		data, err := json.Marshal(group)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.WriteHeader(202)
@@ -131,6 +127,7 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		group := models.Group{
@@ -140,17 +137,8 @@ func Groups(w http.ResponseWriter, r *http.Request) {
 
 		err = group.Delete()
 		if err != nil {
-			switch err.Error() {
-			case "not found":
-				http.Error(w, http.StatusText(404), 404)
-				return
-			case "not the owner":
-				http.Error(w, http.StatusText(403), 403)
-				return
-			default:
-				log.Println(err)
-				http.Error(w, http.StatusText(500), 500)
-			}
+			CheckStatusCode(w, err)
+			return
 		}
 
 		w.WriteHeader(204)

@@ -9,19 +9,6 @@ import (
 )
 
 func Images(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
-	}()
-
-	/*ses := sessions.Get(w, r)
-	if !ses.GetBool("auth") {
-		http.Error(w, http.StatusText(403), 403)
-		return
-	}*/
-
 	if r.Method != "GET" {
 		http.Error(w, http.StatusText(405), 405)
 		return
@@ -38,7 +25,9 @@ func Images(w http.ResponseWriter, r *http.Request) {
 
 	data, err := ioutil.ReadFile(file_path)
 	if err != nil {
-		panic(err)
+		log.Println(err)
+		http.Error(w, http.StatusText(500), 500)
+		return
 	}
 
 	w.Write(data)
