@@ -63,4 +63,17 @@
     .header__title h1 {
         font-size: 2em;
     }
+
+    footer {
+        height: 160px;
+    }
+
+    footer > div {
+        padding-top: 40px;
+        display: block; 
+    }
+
+    #contacts {
+        margin-top: 10px;
+    }
 }

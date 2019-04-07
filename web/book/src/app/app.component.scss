@@ -125,7 +125,7 @@ header {
     }
 
     #onceAvto {
-        margin: 20px 0px;
+        margin-top: 20px;
         #onceAvtoImage {
             text-align:center;
         }
@@ -147,7 +147,7 @@ header {
 @media only screen and (min-width: 860px) {
     header {
         height: 56px;
-        grid-template-columns: 1fr 200px 90px;
+        grid-template-columns: 1fr auto 90px;
         grid-template-rows: none;
 
         #logo {

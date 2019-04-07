@@ -78,54 +78,6 @@
             </div>
         </div>
     </footer>
-    <template id="tpl_form_email">
-        <form id="auth_form" action="#" method="POST">
-            <div class="form__row">
-                <input autofocus tabindex="1" class="form__input" type="text" name="login" required placeholder="E-mail" />
-            </div>
-            <div class="form__row form__row_grid">
-                <input  tabindex="2" class="form__input" type="password" name="password" required placeholder="Новый пароль" />
-                <input  tabindex="3" class="form__input" type="password" name="password2" required placeholder="Пароль ещё раз" />
-            </div>
-            <div class="form__row form__row_grid">
-                <button tabindex="4" class="form__button" class="">Дальше</button>
-                <div>
-                    <span class="step">
-                        <span>Шаг</span>
-                        <span>1</span>
-                        <span>из 2</span>
-                    </span>
-                </div>
-            </div>
-        </form>
-    </template>
-    <template id="tpl_form_confirm_email">
-        <form id="auth_form_confirm" action="#" method="POST">
-            <div class="form__row">
-                <p class="description">
-                    На <b id="conform_email"></b> был отправлен код подтверждения.<br>
-                    Введите его в поле ниже для заврешения регистрации.
-                </p>
-            </div>
-            <div class="form__row">
-                <input autofocus tabindex="1" class="form__input" type="number" name="code" required placeholder="Код подтверждения" />
-            </div>
-            <div class="form__row form__row_grid">
-                <button tabindex="2" class="form__button" class="">Завершить</button>
-                <div>
-                    <a id="button_prev" class="button-back" href="#"><i class="material-icons">keyboard_arrow_left</i><span>Назад</span></a>
-                    <span class="step">
-                        <span>Шаг</span>
-                        <span>2</span>
-                        <span>из 2</span>
-                    </span>
-                </div>
-            </div>
-        </form>
-    </template>
-    <template id="tpl_messages">
-        <div id="msg_login_is_busy">Такой логин уже существует!</div>
-    </template>
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript" >
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};

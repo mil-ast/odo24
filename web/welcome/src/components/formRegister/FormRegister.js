@@ -22,29 +22,22 @@ class FormRegister extends Component {
             </h3>
             <div>
                 <form id="auth_form" onSubmit={this.submit.bind(this)} action="/api/register/confirm" method="POST">
-                <div className="form__row">
-                    <input autoFocus tabIndex="1" value={this.state.login} onChange={this.handleChange.bind(this)} className="form__input" type="text" name="login" required autoComplete="off" placeholder="E-mail" />
-                </div>
-                <div className="form__row form__row_grid">
-                    <input tabIndex="2" value={this.state.password} onChange={this.handleChange.bind(this)} className="form__input" type="password" name="password" required autoComplete="off" placeholder="Новый пароль" />
-                    <input tabIndex="3" value={this.state.password2} onChange={this.handleChange.bind(this)} className="form__input" type="password" name="password2" required autoComplete="off" placeholder="Пароль ещё раз" />
-                </div>
-                <div className="form__row form__row_grid">
-                    <button tabIndex="4" className="form__button">Дальше</button>
-                    <div>
-                        <span className="step">
-                            <span>Шаг</span>
-                            <span>1</span>
-                            <span>из 2</span>
-                        </span>
+                    <div className="form__row">
+                        <input autoFocus tabIndex="1" value={this.state.login} onChange={this.handleChange.bind(this)} className="form__input" type="text" name="login" required autoComplete="off" placeholder="E-mail" />
                     </div>
-                </div>
-                <MessageError error={this.state.error} />
-                <div id="repair" className="bottom-links">
-                    <a className="underline" href="/" onClick={this.clickRepair.bind(this)}>Восстановить пароль</a>
-                </div>
-            </form>
-        </div>
+                    <div className="form__row form__row_grid">
+                        <input tabIndex="2" value={this.state.password} onChange={this.handleChange.bind(this)} className="form__input" type="password" name="password" required autoComplete="off" placeholder="Новый пароль" />
+                        <input tabIndex="3" value={this.state.password2} onChange={this.handleChange.bind(this)} className="form__input" type="password" name="password2" required autoComplete="off" placeholder="Пароль ещё раз" />
+                    </div>
+                    <div className="form__row form__row_grid">
+                        <button tabIndex="4" className="form__button">Дальше</button>
+                        <div className="right">
+                            <a className="underline" href="/" onClick={this.clickRepair.bind(this)}>Не помню пароль</a>
+                        </div>
+                    </div>
+                    <MessageError error={this.state.error} />
+                </form>
+            </div>
         </div>);
     }
 
@@ -75,7 +68,7 @@ class FormRegister extends Component {
         this.props.data.login = login;
         this.props.data.password = passwd;
 
-         e.target.login.className = 'form__input';
+        e.target.login.className = 'form__input';
     
         if (!reg_email.test(login)) {
             e.target.login.className = classError;
