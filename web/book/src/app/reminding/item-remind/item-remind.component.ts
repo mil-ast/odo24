@@ -1,9 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Reminding, RemindingService } from '../services/reminding.service';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
 import { DialogUpdateDocComponent } from '../dialogs/dialog-update-doc/dialog-update-doc.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ScreenService, Screen } from 'src/app/_services/screen.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-item-remind',
@@ -20,20 +22,31 @@ export class ItemRemindComponent {
     private remindingService: RemindingService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
+    private screenService: ScreenService,
   ) { }
 
   clickEdit() {
-    this.dialog.open(DialogUpdateDocComponent, {
-      width: '600px',
-      autoFocus: false,
-      data: this.model
-    }).afterClosed().subscribe((rem: Reminding) => {
-      if (rem) {
-        this.model.date_start = rem.date_start;
-        this.model.date_end = rem.date_end;
-        this.model.days_before_event = rem.days_before_event;
-        this.model.comment = rem.comment;
+    this.screenService.getScreen().pipe(first()).subscribe((screen: Screen) => {
+      const config: MatDialogConfig = {
+        minWidth: '600px',
+        autoFocus: false,
+        data: this.model
+      };
+      if (screen.innerWidth < 600) {
+        config.minWidth = '98%';
+        config.position = {
+          top: '4px'
+        };
       }
+
+      this.dialog.open(DialogUpdateDocComponent, config).afterClosed().subscribe((rem: Reminding) => {
+        if (rem) {
+          this.model.date_start = rem.date_start;
+          this.model.date_end = rem.date_end;
+          this.model.days_before_event = rem.days_before_event;
+          this.model.comment = rem.comment;
+        }
+      });
     });
   }
 

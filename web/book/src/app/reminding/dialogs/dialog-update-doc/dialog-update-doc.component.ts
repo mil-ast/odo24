@@ -8,7 +8,6 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-dialog-update-doc',
   templateUrl: './dialog-update-doc.component.html',
-  styleUrls: ['./dialog-update-doc.component.css']
 })
 export class DialogUpdateDocComponent implements OnInit {
   form: FormGroup;

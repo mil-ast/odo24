@@ -3,7 +3,7 @@ import { AvtoStruct } from '../_classes/avto';
 import { Subscription } from 'rxjs';
 import { AvtoService } from '../_services/avto.service';
 import { RemindingService, Reminding } from './services/reminding.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
 import { ScreenService, Screen, SmallScreen } from '../_services/screen.service';
 import { finalize } from 'rxjs/operators';
@@ -57,10 +57,18 @@ export class RemindingComponent implements OnInit, OnDestroy {
   }
 
   clickShowFormCreateDoct() {
-    this.dialog.open(DialogCreateDocComponent, {
-      data: this.selectedAvto,
+    const config: MatDialogConfig = {
+      minWidth: '600px',
       autoFocus: false,
-    }).afterClosed().subscribe((rem: Reminding) => {
+      data: this.selectedAvto,
+    };
+    if (this.screenIsMobile) {
+      config.minWidth = '98%';
+      config.position = {
+        top: '4px'
+      };
+    }
+    this.dialog.open(DialogCreateDocComponent, config).afterClosed().subscribe((rem: Reminding) => {
       if (rem) {
         this.remindList.unshift(rem);
       }

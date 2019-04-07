@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { MatDialog, MatSidenav } from '@angular/material';
+import { MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
@@ -77,14 +77,22 @@ export class AppComponent implements OnInit {
   }
 
   clickShowConfirmEmailDialog() {
-    this.dialog.open(ConfirmEmailDialogComponent, {
-      position: {
+    const config: MatDialogConfig = {
+      autoFocus: false,
+      data: this.profile,
+    };
+    if (this.smallScreen) {
+      config.minWidth = '98%';
+      config.position = {
+        top: '4px'
+      };
+    } else {
+      config.position = {
         top: '80px',
         right: '40px'
-      },
-      autoFocus: false,
-      data: this.profile
-    });
+      };
+    }
+    this.dialog.open(ConfirmEmailDialogComponent, config);
   }
 
   clickSelectGroup(group: GroupStruct) {

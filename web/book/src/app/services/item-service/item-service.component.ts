@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ServiceStruct, ServiceService } from 'src/app/_services/service.service';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
 import { DialogUpdateServiceComponent } from '../dialogs/dialog-update-service/dialog-update-service.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { ScreenService, Screen } from 'src/app/_services/screen.service';
@@ -21,19 +21,21 @@ export class ItemServiceComponent {
     private serviceService: ServiceService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private screenpService: ScreenService
+    private screenService: ScreenService
   ) { }
 
   clickEdit() {
-    this.screenpService.getScreen().pipe(first()).subscribe((screen: Screen) => {
-      const config = {
+    this.screenService.getScreen().pipe(first()).subscribe((screen: Screen) => {
+      const config: MatDialogConfig = {
         minWidth: '600px',
         autoFocus: false,
         data: this.model
       };
-
       if (screen.innerWidth < 600) {
         config.minWidth = '98%';
+        config.position = {
+          top: '4px'
+        };
       }
 
       this.dialog.open(DialogUpdateServiceComponent, config);

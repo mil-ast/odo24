@@ -1,7 +1,7 @@
 @import 'src/theme.scss';
 :host {
   display: grid;
-  grid-template-columns: 50px 1fr 50px;
+  grid-template-columns: 40px 1fr 50px;
   border-top: 1px #ececec solid;
   padding:10px 0px;
   position: relative;

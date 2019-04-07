@@ -4,7 +4,7 @@ import { AvtoStruct } from '../_classes/avto';
 import { Subscription } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { ScreenService, Screen, SmallScreen } from '../_services/screen.service';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
@@ -56,12 +56,15 @@ export class ServicesComponent implements OnInit, OnDestroy {
   }
 
   clickShowFormCreateService() {
-    const config = {
+    const config: MatDialogConfig = {
       minWidth: '600px',
       autoFocus: false,
     };
     if (this.screenIsMobile) {
       config.minWidth = '98%';
+      config.position = {
+        top: '4px'
+      };
     }
 
     const dialog = this.dialog.open(DialogCreateServiceComponent, config);

@@ -9,7 +9,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-dialog-create-doc',
   templateUrl: './dialog-create-doc.component.html',
-  styleUrls: ['./dialog-create-doc.component.css']
 })
 export class DialogCreateDocComponent {
   form: FormGroup;

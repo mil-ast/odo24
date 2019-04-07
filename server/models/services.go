@@ -39,8 +39,8 @@ func (l Services_list) Get() ([]Service, error) {
 		return nil, errors.New("empty data")
 	}
 
-	querySQL := `SELECT service_id,avto_id,group_id, odo,next_distance,"date","comment",price::numeric FROM cars.services WHERE avto_id=$1 and group_id=$2 and user_id=$3`
-	rows, err := conn.Query(querySQL, l.Avto_id, l.Group_id, l.User_id)
+	querySQL := `SELECT service_id,avto_id,group_id, odo,next_distance,"date","comment",price::numeric FROM cars.services WHERE user_id=$1 and avto_id=$2 and group_id=$3`
+	rows, err := conn.Query(querySQL, l.User_id, l.Avto_id, l.Group_id)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,6 @@ func (l Services_list) Get() ([]Service, error) {
 		responce = append(responce, Service{
 			Service_id:    service_id,
 			Avto_id:       avto_id,
-			User_id:       0,
 			Group_id:      group_id,
 			Odo:           odo,
 			Next_distance: uint32(next_distance.Int64),
@@ -75,11 +74,7 @@ func (l Services_list) Get() ([]Service, error) {
 	}
 	rows.Close()
 
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return responce, nil
+	return responce, rows.Err()
 }
 
 /*
