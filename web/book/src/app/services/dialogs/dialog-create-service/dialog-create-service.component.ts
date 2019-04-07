@@ -11,7 +11,7 @@ import { GroupStruct, GroupService } from 'src/app/_services/groups.service';
 @Component({
   selector: 'app-dialog-create-service',
   templateUrl: './dialog-create-service.component.html',
-  styleUrls: ['./dialog-create-service.component.css']
+  styleUrls: ['../../../_css/dialogs_form.scss']
 })
 export class DialogCreateServiceComponent implements OnInit {
   form: FormGroup;

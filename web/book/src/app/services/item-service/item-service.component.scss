@@ -1,0 +1,58 @@
+:host {
+    display: grid;
+    grid-template-columns: 140px 1fr 50px;
+    border-top: 1px #ececec solid;
+    padding:10px 0px;
+}
+
+.odo, .comment {
+    padding-left:20px;
+}
+
+.odo {
+    span:first-child {
+        font-size: 1.2em;
+        padding-right:4px;
+    }
+}
+
+.date {
+    color: #777;
+}
+
+.comment {
+    grid-column-start: 1; 
+    grid-column-end: 3; 
+    grid-row-start: 2; 
+    grid-row-end: 3;
+    color:#777;
+    padding-top: 5px;
+}
+.menu {
+    grid-column-start: 3; 
+    grid-column-end: 4; 
+    grid-row-start: 1; 
+    grid-row-end: 3;
+}
+
+.price {
+    grid-column-start: 1; 
+    grid-column-end: 4; 
+    grid-row-start: 3; 
+    grid-row-end: 4;
+    padding:10px 0px 0px 20px;
+}
+
+@media only screen and (min-width: 860px) {
+    :host {
+        .menu {
+            visibility: hidden;
+        }
+
+        &:hover {
+            .menu {
+                visibility: visible;
+            } 
+        }
+    }
+}

@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './auth.guard';
 import { httpInterceptorProviders } from './http-interceptors';
 // модули
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from './app.routing';
 import { ServiceModule } from './services/service.module';
 import { HomeModule } from './home/home.module';
@@ -26,6 +27,7 @@ import {
     MatMenuModule,
     MatBadgeModule,
     MatIconModule,
+    MatSidenavModule,
 } from '@angular/material';
 
 export const DATE_FORMATS = {
@@ -45,6 +47,14 @@ import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
+import { OrderPipeModule } from './_pipes/order.pipe.module';
+import { ItemGroupComponent } from './app_components/item-group/item-group.component';
+import { DialogUpdateGroupComponent } from './app_components/dialog-update-group/dialog-update-group.component';
+import { DialogCreateGroupComponent } from './app_components/dialog-create-group/dialog-create-group.component';
+import { ItemAvtoComponent } from './app_components/item-avto/item-avto.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { DialogUpdateAvtoComponent } from './app_components/dialog-update-avto/dialog-update-avto.component';
+import { environment } from '../environments/environment';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -52,7 +62,13 @@ registerLocaleData(localeRu, 'ru');
   declarations: [
     AppComponent,
     ConfirmEmailDialogComponent,
+    ConfirmationDialogComponent,
     PrifileDialogComponent,
+    ItemGroupComponent,
+    ItemAvtoComponent,
+    DialogUpdateGroupComponent,
+    DialogCreateGroupComponent,
+    DialogUpdateAvtoComponent,
   ],
   imports: [
     MatInputModule,
@@ -63,14 +79,17 @@ registerLocaleData(localeRu, 'ru');
     MatMenuModule,
     MatBadgeModule,
     MatIconModule,
+    MatSidenavModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    OrderPipeModule,
     SelectedAvtoModule,
     ServiceModule,
     HomeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     ProfileService,
@@ -86,7 +105,11 @@ registerLocaleData(localeRu, 'ru');
   ],
   entryComponents: [
     ConfirmEmailDialogComponent,
+    ConfirmationDialogComponent,
     PrifileDialogComponent,
+    DialogUpdateGroupComponent,
+    DialogCreateGroupComponent,
+    DialogUpdateAvtoComponent,
   ],
   bootstrap: [AppComponent]
 })

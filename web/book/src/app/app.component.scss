@@ -1,0 +1,166 @@
+:host {
+    display: block;
+    width:100%;
+    height:100%;
+    position: relative;
+}
+
+#container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+header {
+    background-color: #1f2326;
+    height: 110px;
+    display: grid;
+    grid-template-columns: 60px 1fr 100px;
+    grid-template-rows: repeat(2, 55px);
+    position: relative;
+
+    &#login_header {
+        height: 6px;
+    }
+
+    #logo {
+        padding-top: 7px;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #5890ff;
+        color: #fff;
+    }
+
+    nav {
+        background-color: #292e31;
+        grid-column-start: 1; 
+        grid-column-end: 4; 
+        grid-row-start: 2; 
+        grid-row-end: 3;
+
+        .menu {
+            display: inline-block;
+            width:90px;
+            text-align: center;
+            color: #fff;
+        }
+        a {
+            display:inline-block;
+            padding:20px;
+            color:#e6e6e6;
+            text-decoration: none;
+
+            &.selected {
+                color:#e98e69;
+                cursor:default;
+            }
+        }
+    }
+
+    #profile {
+        text-align:right;
+        a {
+            color: #737373;
+            padding: 20px 18px 10px 30px;
+            display: inline-block;
+            position: relative;
+
+            &::before {
+                font-family:icon;
+                content:"\e853";
+                font-size:24px;
+                position: absolute;
+                top:16px;
+                left:0px;
+            }
+
+            .mat-badge-content {
+                top:5px;
+                right:0px;
+            }
+        }
+    }
+
+    #logout {
+        color: #e98e69;
+        padding: 10px 0px;
+        text-align: center;
+
+        .mat-icon {
+            position: relative;
+            top:6px;
+        }
+    }
+}
+
+#sidenav {
+    min-width:300px;
+    .title {
+        position: relative;
+        padding: 12px 2px 4px 10px;
+        height: 40px;
+        margin:0px;
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        background-color: #292e31;
+        color: #fff;
+
+        h3 {
+            margin-top: 8px;
+        }
+
+        button {
+            top:-5px;
+        }
+    }
+
+    ul li {
+        border-bottom:1px #eee solid;
+    }
+
+    #empty-avto {
+        margin:20px;
+    }
+
+    #onceAvto {
+        margin: 20px 0px;
+        #onceAvtoImage {
+            text-align:center;
+        }
+
+        #onceAvtoName {
+            width:240px;
+            margin:auto;
+            padding:10px 0px;
+            display: grid;
+            grid-template-columns: 1fr 40px;
+        }
+    }
+}
+
+.warn {
+    color: #ff6e40;
+}
+
+@media only screen and (min-width: 860px) {
+    header {
+        height: 56px;
+        grid-template-columns: 1fr 200px 90px;
+        grid-template-rows: none;
+
+        #logo {
+            display: none;
+        }
+
+        nav {
+            grid-column-start: 1; 
+            grid-column-end: 2; 
+            grid-row-start: 1; 
+            grid-row-end: 2;
+        }
+    }
+
+
+}

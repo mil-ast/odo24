@@ -3,38 +3,40 @@ import { AvtoStruct } from '../_classes/avto';
 import { Subscription } from 'rxjs';
 import { AvtoService } from '../_services/avto.service';
 import { RemindingService, Reminding } from './services/reminding.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
-import { DialogCreateAvtoComponent } from '../services/dialogs/dialog-create-avto/dialog-create-avto.component';
+import { ScreenService, Screen, SmallScreen } from '../_services/screen.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reminding',
   templateUrl: './reminding.component.html',
-  styleUrls: ['./reminding.component.css'],
+  styleUrls: ['./reminding.component.scss'],
 })
 export class RemindingComponent implements OnInit, OnDestroy {
-  avtoList: AvtoStruct[] = [];
   remindList: Reminding[] = [];
   selectedAvto: AvtoStruct = null;
+  screenIsMobile = false;
+  screenIsSmall = false;
+  isSync = true;
+  isloading = false;
+
   private avtoListener: Subscription;
+  private screenListener: Subscription;
 
   constructor(
     private avtoService: AvtoService,
     private remindingService: RemindingService,
     private dialog: MatDialog,
+    private screenService: ScreenService,
   ) { }
 
   ngOnInit() {
+    this.screenListener = this.screenService.getScreen().subscribe(this.onResize.bind(this));
+
     this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
+      this.isSync = false;
       this.selectedAvto = avto;
-    });
-
-    this.avtoService.get().subscribe((list: AvtoStruct[]) => {
-      this.avtoList = list || [];
-      if (this.avtoList.length > 0) {
-        this.avtoService.setSelected(list[0]);
-      }
-
       this.fetch();
     });
   }
@@ -44,32 +46,31 @@ export class RemindingComponent implements OnInit, OnDestroy {
   }
 
   fetch() {
-    this.remindingService.get().subscribe((res: Reminding[]) => {
+    this.isloading = true;
+    this.remindingService.get().pipe(
+      finalize(() => {
+        this.isloading = false;
+      })
+    ).subscribe((res: Reminding[]) => {
       this.remindList = res || [];
     });
   }
 
-  clickShowFormCreateDoct(event: MouseEvent) {
-    event.preventDefault();
-    this.dialog.open(DialogCreateDocComponent, {
-      width: '600px',
-      data: this.selectedAvto
-    }).afterClosed().subscribe((rem: Reminding) => {
+  clickShowFormCreateDoct() {
+    const config: MatDialogConfig = {
+      minWidth: '600px',
+      autoFocus: false,
+      data: this.selectedAvto,
+    };
+    if (this.screenIsMobile) {
+      config.minWidth = '98%';
+      config.position = {
+        top: '4px'
+      };
+    }
+    this.dialog.open(DialogCreateDocComponent, config).afterClosed().subscribe((rem: Reminding) => {
       if (rem) {
         this.remindList.unshift(rem);
-      }
-    });
-  }
-
-  clickShowFormCreateAvto(event: MouseEvent) {
-    event.preventDefault();
-    this.dialog.open(DialogCreateAvtoComponent, {
-      autoFocus: true,
-      width: '500px',
-    }).afterClosed().subscribe((avto: AvtoStruct) => {
-      if (avto) {
-        this.avtoList.push(avto);
-        this.avtoService.setSelected(avto);
       }
     });
   }
@@ -79,5 +80,10 @@ export class RemindingComponent implements OnInit, OnDestroy {
     if (index !== -1) {
       this.remindList.splice(index);
     }
+  }
+
+  private onResize(screen: Screen) {
+    this.screenIsSmall = screen.innerWidth < SmallScreen;
+    this.screenIsMobile = screen.innerWidth < 600;
   }
 }

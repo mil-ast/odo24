@@ -1,0 +1,19 @@
+<a class="item" (click)="clickSelect($event)" [ngClass]="{'selected' : selected}">
+  <span>{{model.name}}</span>
+  <span class="cnt" *ngIf="!selected">{{model.odo}}</span>
+</a>
+<div class="menu" *ngIf="selected">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="clickEdit()">
+      <mat-icon>edit</mat-icon>
+      <span>Изменить</span>
+    </button>
+    <button mat-menu-item (click)="clickDelete()">
+      <mat-icon>delete_outline</mat-icon>
+      <span>Удалить</span>
+    </button>
+  </mat-menu>
+</div>

@@ -1,0 +1,53 @@
+@import './src/theme.scss';
+
+:host {
+    display: block;
+    position: relative;
+}
+.item {
+    position: relative;
+    display: block;
+    padding:12px 60px 12px 10px;
+    cursor: pointer;
+    &:hover {
+        color:#000;
+    }
+
+    &.selected {
+        background-color: #f8ffdd;
+    }
+    .cnt {
+        position: absolute;
+        z-index:1;
+        top: 11px;
+        right: 10px;
+        display: inline-block;
+        background-color: #f0f0f0;
+        padding: 2px 10px;
+        font-size: 12px;
+        border-radius: 10px;
+        color: #1f1f1f;
+    }
+}
+
+.menu {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    button {
+        padding:0px;
+        width: 30px;
+        height: 30px;
+        line-height: 0px;
+    }
+}
+
+@media only screen and (min-width: 860px) {
+    .item {
+        padding:16px 60px 16px 10px;
+
+        .cnt {
+            top: 16px;
+        }
+    }
+}

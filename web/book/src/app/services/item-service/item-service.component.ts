@@ -1,15 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ServiceStruct, ServiceService } from 'src/app/_services/service.service';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
 import { DialogUpdateServiceComponent } from '../dialogs/dialog-update-service/dialog-update-service.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { ScreenService, Screen } from 'src/app/_services/screen.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-item-service',
   templateUrl: './item-service.component.html',
   styleUrls: [
-    '../../_css/item_list.css',
-    './item-service.component.css',
+    './item-service.component.scss',
   ]
 })
 export class ItemServiceComponent {
@@ -20,13 +21,24 @@ export class ItemServiceComponent {
     private serviceService: ServiceService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private screenService: ScreenService
   ) { }
 
   clickEdit() {
-    this.dialog.open(DialogUpdateServiceComponent, {
-      autoFocus: true,
-      width: '600px',
-      data: this.model
+    this.screenService.getScreen().pipe(first()).subscribe((screen: Screen) => {
+      const config: MatDialogConfig = {
+        minWidth: '600px',
+        autoFocus: false,
+        data: this.model
+      };
+      if (screen.innerWidth < 600) {
+        config.minWidth = '98%';
+        config.position = {
+          top: '4px'
+        };
+      }
+
+      this.dialog.open(DialogUpdateServiceComponent, config);
     });
   }
 

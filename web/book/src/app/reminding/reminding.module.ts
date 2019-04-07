@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RemindingComponent } from './reminding.component';
 import { RemindingRoutingModule } from './reminding.router.module';
 import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module';
-import { ItemAvtoModule } from '../shared/item-avto/item-avto.module';
 import { ItemRemindComponent } from './item-remind/item-remind.component';
 import { OrderPipeModule } from '../_pipes/order.pipe.module';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
@@ -14,7 +13,8 @@ import {
   MatDatepickerModule,
   MatButtonModule,
   MatSelectModule, MatMenuModule,
-  MatIconModule
+  MatIconModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { RemindingService } from './services/reminding.service';
 import { DialogUpdateDocComponent } from './dialogs/dialog-update-doc/dialog-update-doc.component';
@@ -31,7 +31,6 @@ import { DialogUpdateDocComponent } from './dialogs/dialog-update-doc/dialog-upd
     ReactiveFormsModule,
     RemindingRoutingModule,
     SelectedAvtoModule,
-    ItemAvtoModule,
     OrderPipeModule,
     FormsModule,
     MatInputModule,
@@ -41,6 +40,7 @@ import { DialogUpdateDocComponent } from './dialogs/dialog-update-doc/dialog-upd
     MatMenuModule,
     MatIconModule,
     MatDatepickerModule,
+    MatProgressBarModule,
   ],
   entryComponents: [
     DialogCreateDocComponent,

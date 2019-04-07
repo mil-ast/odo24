@@ -32,14 +32,15 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 		list, err := listAvto.Get()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
+			return
 		}
 
 		data, err := json.Marshal(list)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.Write(data)
@@ -53,20 +54,22 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		avto.UserID = profile.User_id
 
 		err = avto.Create()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
+			return
 		}
 
 		data, err := json.Marshal(avto)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.WriteHeader(201)
@@ -85,6 +88,7 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		odo, err := strconv.ParseUint(form_odo, 10, 32)
@@ -115,14 +119,15 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 		err = avto.Update()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
+			return
 		}
 
 		data, err := json.Marshal(avto)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		w.WriteHeader(202)
@@ -138,6 +143,7 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(500), 500)
+			return
 		}
 
 		avto := models.Avto{
@@ -147,8 +153,8 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 
 		err = avto.Delete()
 		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
+			CheckStatusCode(w, err)
+			return
 		}
 
 		w.WriteHeader(204)
@@ -156,5 +162,3 @@ func Avto(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(405), 405)
 	}
 }
-
-//convert dragon.gif -resize 64x64^ -gravity center -extent 64x64  fill_crop_dragon.gif

@@ -17,9 +17,7 @@ export interface Reminding {
 export class RemindingService {
   private url = '/api/reminding';
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) { }
 
   get(): Observable<Reminding[]> {
     return this.http.get<Reminding[]>(this.url);

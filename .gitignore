@@ -3,5 +3,6 @@ build
 node_modules
 *_old
 *.bk
-server/fileuploads
+server/fileuploads/
 server/server
+server/server.exe

@@ -1,0 +1,30 @@
+{
+  "lang": "ru",
+  "name": "Сервисная книжка",
+  "short_name": "ODO24",
+  "description": "Сервисная книжка онлайн!",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/icons/icon_32.png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/assets/icons/icon_64.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "/assets/icons/icon_128.png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/assets/icons/icon_256.png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/assets/icons/icon_640.png",
+      "sizes": "640x640"
+    }
+  ]
+}

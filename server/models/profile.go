@@ -7,9 +7,12 @@ import (
 	"log"
 	"sto/server/sendmail"
 	"strings"
+	"time"
 
 	"github.com/mil-ast/db"
 )
+
+const SESSION_EXPIRES = time.Minute * 30
 
 type Profile struct {
 	User_id       uint64 `json:"user_id"`

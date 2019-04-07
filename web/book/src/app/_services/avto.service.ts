@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AvtoStruct } from '../_classes/avto';
+import { AvtoStruct, Avto } from '../_classes/avto';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -15,8 +15,15 @@ export class AvtoService {
     private http: HttpClient
   ) { }
 
-  get(): Observable<AvtoStruct[]> {
-    return this.http.get<AvtoStruct[]>(this.url);
+  get(): Observable<Avto[]> {
+    return this.http.get<AvtoStruct[]>(this.url).pipe(map((list: AvtoStruct[]) => {
+      list = list || [];
+      return list.map((item: AvtoStruct) => {
+        return new Avto(item);
+      }).sort((left: AvtoStruct, right: AvtoStruct) => {
+        return left.avto_id > right.avto_id ? -1 : 1;
+      });
+    }));
   }
 
   create(data: AvtoStruct): Observable<AvtoStruct> {

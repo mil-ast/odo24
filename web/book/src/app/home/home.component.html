@@ -1,0 +1,31 @@
+<div id="login">
+	<header class="header">
+		<a href="/" class="logo__transparent"></a>
+		<div id="title">
+			<h1 class="mat-h1">Своевременное обслуживание<br>автомобиля &mdash; легко!</h1>
+		</div>
+	</header>
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title><mat-icon>fingerprint</mat-icon><span>Авторизация</span></mat-card-title>
+		</mat-card-header>
+		<mat-card-subtitle>Введите ваше E-mail и пароль</mat-card-subtitle>
+		<mat-card-content>
+			<form (ngSubmit)="submitLogin()" [formGroup]="formAuth" id="form-auth">
+				<mat-form-field class="full_width">
+					<input formControlName="login" matInput placeholder="Логин" type="email" name="login" required />
+				</mat-form-field>
+				<mat-form-field class="full_width">
+					<input  formControlName="password" matInput placeholder="Пароль" type="password" name="password" required />
+				</mat-form-field>
+				<div *ngIf="isIncorrect" id="incorrect">
+					<mat-icon>error_outline</mat-icon>
+					<span class="error__message">Неправильный логин или пароль!</span>
+				</div>
+			</form>
+		</mat-card-content>
+		<mat-card-actions>
+			<button form="form-auth" [disabled]="formAuth.invalid || formAuth.disabled" mat-raised-button color="primary">Войти</button>
+		</mat-card-actions>
+	</mat-card>
+</div>

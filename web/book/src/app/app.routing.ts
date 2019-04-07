@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/components/home/home.component';
+import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth.guard';
 import { ServicesComponent } from './services/services.component';
-import { RemindingComponent } from './reminding/reminding.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },

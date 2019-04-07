@@ -33,13 +33,24 @@
     ],
     "member-access": false,
     "member-ordering": [
-      true,
+      false,
       {
         "order": [
-          "static-field",
-          "instance-field",
-          "static-method",
-          "instance-method"
+          "public-static-field",
+          "public-static-method",
+          "public-instance-field",
+          "public-constructor",
+          "public-instance-method",
+          "protected-static-field",
+          "protected-static-method",
+          "protected-instance-field",
+          "protected-constructor",
+          "protected-instance-method",
+          "private-static-field",
+          "private-static-method",
+          "private-instance-field",
+          "private-constructor",
+          "private-instance-method"
         ]
       }
     ],
