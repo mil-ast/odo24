@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RemindingComponent } from './reminding.component';
-import { RemindingRoutingModule } from './reminding.router.module';
 import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module';
 import { ItemRemindComponent } from './item-remind/item-remind.component';
 import { OrderPipeModule } from '../_pipes/order.pipe.module';
@@ -16,12 +14,14 @@ import {
   MatIconModule,
   MatProgressBarModule
 } from '@angular/material';
-import { RemindingService } from './services/reminding.service';
+import { DocumentsService } from './services/documents.service';
 import { DialogUpdateDocComponent } from './dialogs/dialog-update-doc/dialog-update-doc.component';
+import { DocumentsComponent } from './documents.component';
+import { DocumentsRoutingModule } from './documents.router.module';
 
 @NgModule({
   declarations: [
-    RemindingComponent,
+    DocumentsComponent,
     ItemRemindComponent,
     DialogCreateDocComponent,
     DialogUpdateDocComponent,
@@ -29,7 +29,7 @@ import { DialogUpdateDocComponent } from './dialogs/dialog-update-doc/dialog-upd
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RemindingRoutingModule,
+    DocumentsRoutingModule,
     SelectedAvtoModule,
     OrderPipeModule,
     FormsModule,
@@ -47,7 +47,7 @@ import { DialogUpdateDocComponent } from './dialogs/dialog-update-doc/dialog-upd
     DialogUpdateDocComponent,
   ],
   providers: [
-    RemindingService,
+    DocumentsService,
   ]
 })
-export class RemindingModule { }
+export class DocumentsModule { }

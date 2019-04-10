@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { RemindingService, Reminding } from '../../services/reminding.service';
+import { DocumentsService, Document } from '../../services/documents.service';
 import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,10 +13,10 @@ export class DialogUpdateDocComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private remindingService: RemindingService,
+    private remindingService: DocumentsService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<DialogUpdateDocComponent>,
-    @Inject(MAT_DIALOG_DATA) private doc: Reminding,
+    @Inject(MAT_DIALOG_DATA) private doc: Document,
   ) { }
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class DialogUpdateDocComponent implements OnInit {
       days_before_event: this.form.value.days_before_event,
       comment: this.form.value.comment,
     };
-    this.remindingService.update(data).subscribe((rem: Reminding) => {
+    this.remindingService.update(data).subscribe((rem: Document) => {
       this.snackBar.open('Документ успешно изменён!', 'OK', {
         duration: 5000,
       });

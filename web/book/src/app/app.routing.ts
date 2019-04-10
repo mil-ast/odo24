@@ -7,7 +7,7 @@ import { ServicesComponent } from './services/services.component';
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'service', component: ServicesComponent, canActivate: [AuthGuard] },
-  { path: 'reminding', loadChildren: './reminding/reminding.module#RemindingModule', canActivate: [AuthGuard] },
+  { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule', canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 

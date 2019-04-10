@@ -13,7 +13,7 @@ import (
 /**
 	Напоминания
 **/
-func Reminding(w http.ResponseWriter, r *http.Request) {
+func Documents(w http.ResponseWriter, r *http.Request) {
 	ses := sessions.Get(w, r)
 
 	if !ses.GetBool("auth") {
@@ -25,7 +25,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		list := models.Remining_list{
+		list := models.Documents{
 			User_id: profile.User_id,
 		}
 
@@ -46,7 +46,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 		var buf bytes.Buffer
 		buf.ReadFrom(r.Body)
 
-		rem := models.Remining{}
+		rem := models.Doc{}
 
 		err := json.Unmarshal(buf.Bytes(), &rem)
 		if err != nil {
@@ -74,7 +74,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 		var buf bytes.Buffer
 		buf.ReadFrom(r.Body)
 
-		rem := models.Remining{}
+		rem := models.Doc{}
 
 		err := json.Unmarshal(buf.Bytes(), &rem)
 		if err != nil {
@@ -111,7 +111,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		rem := models.Remining{
+		rem := models.Doc{
 			ID:     id,
 			UserID: profile.User_id,
 		}
