@@ -7,11 +7,11 @@ import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.c
 import { AvtoStruct, Avto } from './_classes/avto';
 import { AvtoService } from './_services/avto.service';
 import { GroupService, GroupStruct } from './_services/groups.service';
-import { DialogUpdateGroupComponent } from './app_components/dialog-update-group/dialog-update-group.component';
-import { DialogCreateGroupComponent } from './app_components/dialog-create-group/dialog-create-group.component';
-import { DialogCreateAvtoComponent } from './app_components/dialog-create-avto/dialog-create-avto.component';
+import { DialogUpdateGroupComponent } from './shared/dialog-update-group/dialog-update-group.component';
+import { DialogCreateGroupComponent } from './shared/dialog-create-group/dialog-create-group.component';
+import { DialogCreateAvtoComponent } from './shared/dialog-create-avto/dialog-create-avto.component';
 import { ScreenService, SmallScreen, Screen } from './_services/screen.service';
-import { DialogUpdateAvtoComponent } from './app_components/dialog-update-avto/dialog-update-avto.component';
+import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
