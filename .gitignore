@@ -2,6 +2,7 @@ dist
 build
 node_modules
 *_old
+links.html
 *.bk
 server/fileuploads/
 server/server
