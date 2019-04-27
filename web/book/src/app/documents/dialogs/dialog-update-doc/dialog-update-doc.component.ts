@@ -32,7 +32,10 @@ export class DialogUpdateDocComponent implements OnInit {
 
   submit() {
     const dateFrom = moment(this.form.value.date_start).format('YYYY-MM-DD');
-    const dateTo = moment(this.form.value.date_to).format('YYYY-MM-DD');
+    const dateTo = moment(this.form.value.date_end).format('YYYY-MM-DD');
+
+    console.log(this.form.value.date_end, dateTo);
+
     const data = {
       id: this.doc.id,
       date_start: dateFrom,
