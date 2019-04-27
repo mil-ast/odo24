@@ -3,6 +3,7 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"sto/server/models"
@@ -83,6 +84,9 @@ func Profile_register(w http.ResponseWriter, r *http.Request) {
 	текущий профиль пользователя
 **/
 func Profile(w http.ResponseWriter, r *http.Request) {
+	p, err := getSession(w, r)
+	fmt.Println(p, err)
+
 	ses := sessions.Get(w, r)
 
 	if !ses.GetBool("auth") {
@@ -167,6 +171,9 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			ses.Set("auth", true)
 			ses.Set("profile", profile)
+
+			err = newSession(w, r, profile)
+			fmt.Println("login", err)
 
 			data, err := json.Marshal(profile)
 			if err != nil {
