@@ -7,22 +7,17 @@ import (
 	"net/http"
 	"sto/server/models"
 	"strconv"
-
-	"github.com/mil-ast/sessions"
 )
 
 /**
 	авто текущего пользователя
 **/
 func Avto(w http.ResponseWriter, r *http.Request) {
-	ses := sessions.Get(w, r)
-
-	if !ses.GetBool("auth") {
+	profile, err := getSession(w, r)
+	if err != nil {
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
-
-	profile := ses.Get("profile").(models.Profile)
 
 	switch r.Method {
 	case "GET":

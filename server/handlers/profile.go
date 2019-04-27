@@ -3,12 +3,9 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"sto/server/models"
-
-	"github.com/mil-ast/sessions"
 )
 
 /*
@@ -84,12 +81,8 @@ func Profile_register(w http.ResponseWriter, r *http.Request) {
 	текущий профиль пользователя
 **/
 func Profile(w http.ResponseWriter, r *http.Request) {
-	p, err := getSession(w, r)
-	fmt.Println(p, err)
-
-	ses := sessions.Get(w, r)
-
-	if !ses.GetBool("auth") {
+	profile, err := getSession(w, r)
+	if err != nil {
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
@@ -98,7 +91,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		data, err := json.Marshal(ses.Get("profile").(models.Profile))
+		data, err := json.Marshal(profile)
 		if err != nil {
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
@@ -123,15 +116,13 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 			password = empty_profile["password"].(string)
 		}
 
-		profile := ses.Get("profile").(models.Profile)
-
 		err = profile.Save(password)
 		if err != nil {
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
 
-		ses.Set("profile", profile)
+		updateSession(w, r, profile)
 
 		data, err := json.Marshal(profile)
 		if err != nil {
@@ -151,8 +142,6 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 **/
 func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	ses := sessions.Get(w, r)
-
 	switch r.Method {
 	case "POST":
 		var buf bytes.Buffer
@@ -169,22 +158,22 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 		// auth
 		err = profile.Auth()
 		if err == nil {
-			ses.Set("auth", true)
-			ses.Set("profile", profile)
-
 			err = newSession(w, r, profile)
-			fmt.Println("login", err)
+			if err != nil {
+				log.Println(err)
+				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+				return
+			}
 
 			data, err := json.Marshal(profile)
 			if err != nil {
+				log.Println(err)
 				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 				return
 			}
 
 			w.Write(data)
 		} else {
-			ses.Set("auth", false)
-
 			switch err.Error() {
 			case "pq: password error", "pq: user not found", "pq: incorrect password":
 				w.WriteHeader(403)
@@ -204,17 +193,7 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 	выход из профиля
 **/
 func ProfileLogout(w http.ResponseWriter, r *http.Request) {
-	ses := sessions.Get(w, r)
-
-	sessions.Delete(w, r)
-
-	var user_id uint64
-	if ses.GetBool("auth") {
-		user_id = ses.Get("profile").(models.Profile).User_id
-
-		var profile models.Profile = models.Profile{User_id: user_id}
-		profile.Logout()
-	}
+	delSession(w, r)
 
 	w.WriteHeader(204)
 }
@@ -291,9 +270,8 @@ func ProfileConfirmCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ses := sessions.Get(w, r)
-
-	if !ses.GetBool("auth") {
+	profile, err := getSession(w, r)
+	if err != nil {
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
@@ -301,15 +279,11 @@ func ProfileConfirmCode(w http.ResponseWriter, r *http.Request) {
 	var buf bytes.Buffer
 	buf.ReadFrom(r.Body)
 
-	var profile models.Profile
-
-	err := json.Unmarshal(buf.Bytes(), &profile)
+	err = json.Unmarshal(buf.Bytes(), &profile)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-
-	profile.User_id = ses.Get("profile").(models.Profile).User_id
 
 	err = profile.ConfirmCode()
 	if err != nil {
@@ -322,10 +296,9 @@ func ProfileConfirmCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sesProfile := ses.Get("profile").(models.Profile)
-	sesProfile.IsNoConfirmed = false
+	profile.IsNoConfirmed = false
 
-	ses.Set("profile", sesProfile)
+	updateSession(w, r, profile)
 
 	w.WriteHeader(204)
 }
@@ -373,9 +346,9 @@ func ProfileUpdatePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ses := sessions.Get(w, r)
+	profile, err := getSession(w, r)
 
-	if !ses.GetBool("auth") {
+	if err != nil {
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
@@ -383,15 +356,11 @@ func ProfileUpdatePassword(w http.ResponseWriter, r *http.Request) {
 	var buf bytes.Buffer
 	buf.ReadFrom(r.Body)
 
-	var profile models.Profile
-
-	err := json.Unmarshal(buf.Bytes(), &profile)
+	err = json.Unmarshal(buf.Bytes(), &profile)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-
-	profile.User_id = ses.Get("profile").(models.Profile).User_id
 
 	if len(profile.Password) < 4 {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)

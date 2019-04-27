@@ -45,14 +45,19 @@ func CheckStatusCode(w http.ResponseWriter, err error) {
 
 func getSession(w http.ResponseWriter, r *http.Request) (models.Profile, error) {
 	var profile models.Profile
+
+	expires := time.Now().Add(SessionTimeLife)
 	cookie, err := r.Cookie(SessionID)
 	if err != nil {
 		sesID := createSessionID()
 
-		cookie = &http.Cookie{Name: SessionID, Value: sesID, Path: "/", HttpOnly: true, MaxAge: int(SessionTimeLife.Seconds())}
+		cookie = &http.Cookie{Name: SessionID, Value: sesID, Path: "/", HttpOnly: true, Expires: expires}
 		http.SetCookie(w, cookie)
 
 		return profile, errors.New("not found")
+	} else {
+		cookie.Expires = expires
+		http.SetCookie(w, cookie)
 	}
 
 	data, err := memc.Get(cookie.Value)
@@ -60,12 +65,35 @@ func getSession(w http.ResponseWriter, r *http.Request) (models.Profile, error) 
 		return profile, err
 	}
 
-	err = json.Unmarshal(data, profile)
+	err = json.Unmarshal(data, &profile)
 	if err != nil {
 		return profile, err
 	}
 
 	return profile, nil
+}
+
+func updateSession(w http.ResponseWriter, r *http.Request, profile models.Profile) error {
+	cookie, err := r.Cookie(SessionID)
+	if err != nil {
+		return err
+	}
+
+	if cookie.Value == "" {
+		return errors.New("empty session id")
+	}
+
+	data, err := json.Marshal(profile)
+	if err != nil {
+		return err
+	}
+
+	err = memc.Set(cookie.Value, SessionTimeLife, data)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func newSession(w http.ResponseWriter, r *http.Request, profile models.Profile) error {
@@ -88,6 +116,19 @@ func newSession(w http.ResponseWriter, r *http.Request, profile models.Profile) 
 		return err
 	}
 
+	return nil
+}
+
+func delSession(w http.ResponseWriter, r *http.Request) error {
+	cookie, err := r.Cookie(SessionID)
+	if err != nil {
+		return err
+	}
+
+	expires := time.Now().Add(time.Hour * -1)
+	cookie = &http.Cookie{Name: SessionID, Value: "", HttpOnly: true, Expires: expires}
+	http.SetCookie(w, cookie)
+	// TODO дописать удаление с мемкеша
 	return nil
 }
 
