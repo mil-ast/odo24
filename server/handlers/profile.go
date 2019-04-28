@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"sto/server/models"
+	"sto/server/sessions"
 )
 
 /*
@@ -81,7 +82,7 @@ func Profile_register(w http.ResponseWriter, r *http.Request) {
 	текущий профиль пользователя
 **/
 func Profile(w http.ResponseWriter, r *http.Request) {
-	profile, err := getSession(w, r)
+	profile, err := sessions.GetSession(w, r)
 	if err != nil {
 		http.Error(w, http.StatusText(403), 403)
 		return
@@ -122,7 +123,7 @@ func Profile(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		updateSession(w, r, profile)
+		sessions.UpdateSession(w, r, profile)
 
 		data, err := json.Marshal(profile)
 		if err != nil {
@@ -158,7 +159,7 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 		// auth
 		err = profile.Auth()
 		if err == nil {
-			err = newSession(w, r, profile)
+			err = sessions.NewSession(w, r, profile)
 			if err != nil {
 				log.Println(err)
 				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -193,7 +194,7 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 	выход из профиля
 **/
 func ProfileLogout(w http.ResponseWriter, r *http.Request) {
-	delSession(w, r)
+	sessions.DelSession(w, r)
 
 	w.WriteHeader(204)
 }
@@ -270,7 +271,7 @@ func ProfileConfirmCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	profile, err := getSession(w, r)
+	profile, err := sessions.GetSession(w, r)
 	if err != nil {
 		http.Error(w, http.StatusText(403), 403)
 		return
@@ -298,7 +299,7 @@ func ProfileConfirmCode(w http.ResponseWriter, r *http.Request) {
 
 	profile.IsNoConfirmed = false
 
-	updateSession(w, r, profile)
+	sessions.UpdateSession(w, r, profile)
 
 	w.WriteHeader(204)
 }
@@ -346,7 +347,7 @@ func ProfileUpdatePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	profile, err := getSession(w, r)
+	profile, err := sessions.GetSession(w, r)
 
 	if err != nil {
 		http.Error(w, http.StatusText(403), 403)

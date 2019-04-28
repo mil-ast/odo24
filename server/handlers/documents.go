@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"sto/server/models"
+	"sto/server/sessions"
 	"strconv"
 )
 
@@ -12,7 +13,7 @@ import (
 	Напоминания
 **/
 func Documents(w http.ResponseWriter, r *http.Request) {
-	profile, err := getSession(w, r)
+	profile, err := sessions.GetSession(w, r)
 	if err != nil {
 		http.Error(w, http.StatusText(403), 403)
 		return
