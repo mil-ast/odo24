@@ -5,27 +5,23 @@ import (
 	"encoding/json"
 	"net/http"
 	"sto/server/models"
+	"sto/server/sessions"
 	"strconv"
-
-	"github.com/mil-ast/sessions"
 )
 
 /**
 	Напоминания
 **/
-func Reminding(w http.ResponseWriter, r *http.Request) {
-	ses := sessions.Get(w, r)
-
-	if !ses.GetBool("auth") {
+func Documents(w http.ResponseWriter, r *http.Request) {
+	profile, err := sessions.GetSession(w, r)
+	if err != nil {
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
 
-	profile := ses.Get("profile").(models.Profile)
-
 	switch r.Method {
 	case "GET":
-		list := models.Remining_list{
+		list := models.Documents{
 			User_id: profile.User_id,
 		}
 
@@ -46,7 +42,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 		var buf bytes.Buffer
 		buf.ReadFrom(r.Body)
 
-		rem := models.Remining{}
+		rem := models.Doc{}
 
 		err := json.Unmarshal(buf.Bytes(), &rem)
 		if err != nil {
@@ -74,7 +70,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 		var buf bytes.Buffer
 		buf.ReadFrom(r.Body)
 
-		rem := models.Remining{}
+		rem := models.Doc{}
 
 		err := json.Unmarshal(buf.Bytes(), &rem)
 		if err != nil {
@@ -111,7 +107,7 @@ func Reminding(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		rem := models.Remining{
+		rem := models.Doc{
 			ID:     id,
 			UserID: profile.User_id,
 		}

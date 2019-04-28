@@ -3,18 +3,19 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { MAT_DIALOG_DATA, MatSnackBar, MatDialogRef } from '@angular/material';
 import { AvtoStruct } from 'src/app/_classes/avto';
-import { RemindingService, Reminding } from '../../services/reminding.service';
+import { DocumentsService, Document } from '../../services/documents.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dialog-create-doc',
   templateUrl: './dialog-create-doc.component.html',
+  styleUrls: ['../../../_css/dialogs_form.scss']
 })
 export class DialogCreateDocComponent {
   form: FormGroup;
 
   constructor(
-    private remindingService: RemindingService,
+    private remindingService: DocumentsService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<DialogCreateDocComponent>,
     @Inject(MAT_DIALOG_DATA) public avto: AvtoStruct,
@@ -41,7 +42,7 @@ export class DialogCreateDocComponent {
       days_before_event: this.form.value.days_before_event,
       comment: this.form.value.comment,
     };
-    this.remindingService.create(data).subscribe((rem: Reminding) => {
+    this.remindingService.create(data).subscribe((rem: Document) => {
       this.snackBar.open('Документ успешно добавлен!', 'OK', {
         duration: 5000,
       });

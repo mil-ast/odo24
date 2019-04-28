@@ -1,6 +1,8 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
+)
 
 const (
 	DATE_FORMAT_MYSQL string = "2006-01-02 15:04:05"

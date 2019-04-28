@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface Reminding {
+export interface Document {
   id?: number;
   user_id?: number;
   avto_id?: number;
@@ -14,21 +14,21 @@ export interface Reminding {
 }
 
 @Injectable()
-export class RemindingService {
-  private url = '/api/reminding';
+export class DocumentsService {
+  private url = '/api/documents';
 
   constructor(private http: HttpClient) { }
 
-  get(): Observable<Reminding[]> {
-    return this.http.get<Reminding[]>(this.url);
+  get(): Observable<Document[]> {
+    return this.http.get<Document[]>(this.url);
   }
 
-  create(data: Reminding): Observable<Reminding> {
-    return this.http.post<Reminding>(this.url, data);
+  create(data: Document): Observable<Document> {
+    return this.http.post<Document>(this.url, data);
   }
 
-  update(data: Reminding): Observable<Reminding> {
-    return this.http.put<Reminding>(this.url, data);
+  update(data: Document): Observable<Document> {
+    return this.http.put<Document>(this.url, data);
   }
 
   delete(id: number): Observable<void> {

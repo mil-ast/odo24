@@ -157,11 +157,6 @@ func (p Profile) ConfirmCode() error {
 }
 
 /**
-Выход из профиля
-*/
-func (p Profile) Logout() {}
-
-/**
 	сохранить профиль
 **/
 func (p *Profile) Save(password string) error {

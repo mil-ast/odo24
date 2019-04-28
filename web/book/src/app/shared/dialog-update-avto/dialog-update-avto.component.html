@@ -27,6 +27,10 @@
         </div>
       </div>
     </div>
+    <div *ngIf="data.avto_id===1">
+      <button type="button" mat-raised-button (click)="clickSyncODO($event)">Sync</button>
+      <div></div>
+    </div>
     <div>
       <mat-progress-bar *ngIf="form.disabled" mode="indeterminate"></mat-progress-bar>
     </div>

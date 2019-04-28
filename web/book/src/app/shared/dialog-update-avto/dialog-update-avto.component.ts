@@ -1,17 +1,20 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AvtoService } from 'src/app/_services/avto.service';
 import { AvtoStruct, Avto } from 'src/app/_classes/avto';
+import { ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog-update-avto',
   templateUrl: './dialog-update-avto.component.html',
   styleUrls: ['./dialog-update-avto.component.css']
 })
-export class DialogUpdateAvtoComponent {
+export class DialogUpdateAvtoComponent implements OnDestroy {
   form: FormGroup;
   uploaded_file: File = null;
+  private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
     private dialogRef: MatDialogRef<DialogUpdateAvtoComponent>,
@@ -23,6 +26,11 @@ export class DialogUpdateAvtoComponent {
       name: new FormControl(data.name, Validators.required),
       odo: new FormControl(data.odo, [Validators.required, Validators.min(0), Validators.pattern(/[\d]+/)]),
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy.next(null);
+    this.destroy.complete();
   }
 
   submit() {
@@ -37,7 +45,9 @@ export class DialogUpdateAvtoComponent {
       formData.append('file', this.uploaded_file, this.uploaded_file.name);
     }
 
-    this.avtoService.update(formData).subscribe((res: AvtoStruct) => {
+    this.avtoService.update(formData).pipe(
+      takeUntil(this.destroy),
+    ).subscribe((res: AvtoStruct) => {
       this.data.update(res.name, res.odo, res.avatar);
 
       this.snackBar.open('Изменения успешно сохранены!', 'OK', {
@@ -60,7 +70,6 @@ export class DialogUpdateAvtoComponent {
 
   selectedFileUpload(event) {
     const fileList: FileList = event.target.files;
-
     if (fileList.length === 0) {
       return;
     }
@@ -81,4 +90,6 @@ export class DialogUpdateAvtoComponent {
 
     return `${file_size} B`;
   }
+
+  clickSyncODO(ev: MouseEvent) { }
 }

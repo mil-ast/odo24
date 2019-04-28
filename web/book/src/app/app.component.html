@@ -77,7 +77,7 @@
       </div>
       <nav>
         <a routerLink="/service" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">Обслуживание</a>
-        <a *ngIf="selectedAvto!==null" routerLink="/reminding" routerLinkActive="selected">Напоминания</a>
+        <a *ngIf="selectedAvto!==null" routerLink="/documents" routerLinkActive="selected">Документы</a>
       </nav>
       <div id="profile">
         <a [matMenuTriggerFor]="menu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">{{ profile.login }}</a>

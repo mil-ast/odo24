@@ -10,13 +10,14 @@ const CONFIG_FILE_NAME string = "config.json"
 
 type Configuration struct {
 	App struct {
-		Version      string
-		Server_addr  string `json:"server_addr"`
-		ImageMagick  string `json:"imageMagick"`
-		SmtpHost     string `json:"smtp_host"`
-		SmtpPort     uint16 `json:"smtp_port"`
-		SmtpFrom     string `json:"smtp_from"`
-		SmtpPassword string `json:"smtp_password"`
+		Version       string
+		Server_addr   string `json:"server_addr"`
+		ImageMagick   string `json:"imageMagick"`
+		SmtpHost      string `json:"smtp_host"`
+		SmtpPort      uint16 `json:"smtp_port"`
+		SmtpFrom      string `json:"smtp_from"`
+		SmtpPassword  string `json:"smtp_password"`
+		MemcachedAddr string `json:"memcached_addr"`
 	}
 	Db struct {
 		Driver_name, Name, Data_source, Timeout string

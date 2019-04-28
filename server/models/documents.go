@@ -7,7 +7,7 @@ import (
 	"github.com/mil-ast/db"
 )
 
-type Remining struct {
+type Doc struct {
 	ID              uint64 `json:"id"`
 	UserID          uint64 `json:"user_id,omitempty"`
 	AvtoID          uint64 `json:"avto_id,omitempty"`
@@ -18,19 +18,19 @@ type Remining struct {
 	Comment         string `json:"comment"`
 }
 
-type Remining_list struct {
+type Documents struct {
 	User_id uint64
 }
 
-func (l Remining_list) Get() ([]Remining, error) {
+func (l Documents) Get() ([]Doc, error) {
 	conn, err := db.GetConnection()
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
-	query_sql := `SELECT id,event_type,date_start,date_end,days_before_event,"comment",avto_id FROM reminding.reminding where user_id=$1`
-	rows, err := conn.Query(query_sql, l.User_id)
+	querySQL := `SELECT id,event_type,date_start,date_end,days_before_event,"comment",avto_id FROM reminding.reminding where user_id=$1`
+	rows, err := conn.Query(querySQL, l.User_id)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -46,12 +46,12 @@ func (l Remining_list) Get() ([]Remining, error) {
 		avtoID          sql.NullInt64
 	)
 
-	var responce []Remining
+	var responce []Doc
 
 	for rows.Next() {
 		rows.Scan(&id, &eventType, &dateStart, &dateEnd, &daysBeforeEvent, &comment, &avtoID)
 
-		responce = append(responce, Remining{
+		responce = append(responce, Doc{
 			ID:              id,
 			EventType:       eventType,
 			DateStart:       dateStart,
@@ -73,7 +73,7 @@ func (l Remining_list) Get() ([]Remining, error) {
 }
 
 /* создание */
-func (r *Remining) Create() error {
+func (r *Doc) Create() error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		log.Println(err)
@@ -104,7 +104,7 @@ func (r *Remining) Create() error {
 }
 
 /* редактирование */
-func (r *Remining) Update() error {
+func (r *Doc) Update() error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		log.Println(err)
@@ -136,7 +136,7 @@ func (r *Remining) Update() error {
 }
 
 /* удаление */
-func (r Remining) Delete() error {
+func (r Doc) Delete() error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		log.Println(err)

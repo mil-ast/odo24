@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { RemindingService, Reminding } from '../../services/reminding.service';
+import { DocumentsService, Document } from '../../services/documents.service';
 import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -8,15 +8,16 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-dialog-update-doc',
   templateUrl: './dialog-update-doc.component.html',
+  styleUrls: ['../../../_css/dialogs_form.scss']
 })
 export class DialogUpdateDocComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private remindingService: RemindingService,
+    private remindingService: DocumentsService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<DialogUpdateDocComponent>,
-    @Inject(MAT_DIALOG_DATA) private doc: Reminding,
+    @Inject(MAT_DIALOG_DATA) private doc: Document,
   ) { }
 
   ngOnInit() {
@@ -31,7 +32,10 @@ export class DialogUpdateDocComponent implements OnInit {
 
   submit() {
     const dateFrom = moment(this.form.value.date_start).format('YYYY-MM-DD');
-    const dateTo = moment(this.form.value.date_to).format('YYYY-MM-DD');
+    const dateTo = moment(this.form.value.date_end).format('YYYY-MM-DD');
+
+    console.log(this.form.value.date_end, dateTo);
+
     const data = {
       id: this.doc.id,
       date_start: dateFrom,
@@ -39,7 +43,7 @@ export class DialogUpdateDocComponent implements OnInit {
       days_before_event: this.form.value.days_before_event,
       comment: this.form.value.comment,
     };
-    this.remindingService.update(data).subscribe((rem: Reminding) => {
+    this.remindingService.update(data).subscribe((rem: Document) => {
       this.snackBar.open('Документ успешно изменён!', 'OK', {
         duration: 5000,
       });

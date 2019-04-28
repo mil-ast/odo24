@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Reminding, RemindingService } from '../services/reminding.service';
+import { Document, DocumentsService } from '../services/documents.service';
 import { MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
 import { DialogUpdateDocComponent } from '../dialogs/dialog-update-doc/dialog-update-doc.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
@@ -15,11 +15,11 @@ import { first } from 'rxjs/operators';
   ]
 })
 export class ItemRemindComponent {
-  @Input() model: Reminding;
-  @Output() delete: EventEmitter<Reminding> = new EventEmitter();
+  @Input() model: Document;
+  @Output() delete: EventEmitter<Document> = new EventEmitter();
 
   constructor(
-    private remindingService: RemindingService,
+    private remindingService: DocumentsService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private screenService: ScreenService,
@@ -39,7 +39,7 @@ export class ItemRemindComponent {
         };
       }
 
-      this.dialog.open(DialogUpdateDocComponent, config).afterClosed().subscribe((rem: Reminding) => {
+      this.dialog.open(DialogUpdateDocComponent, config).afterClosed().subscribe((rem: Document) => {
         if (rem) {
           this.model.date_start = rem.date_start;
           this.model.date_end = rem.date_end;

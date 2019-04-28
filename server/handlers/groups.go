@@ -6,23 +6,19 @@ import (
 	"log"
 	"net/http"
 	"sto/server/models"
+	"sto/server/sessions"
 	"strconv"
-
-	"github.com/mil-ast/sessions"
 )
 
 /**
 	группы
 **/
 func Groups(w http.ResponseWriter, r *http.Request) {
-	ses := sessions.Get(w, r)
-
-	if !ses.GetBool("auth") {
+	profile, err := sessions.GetSession(w, r)
+	if err != nil {
 		http.Error(w, http.StatusText(403), 403)
 		return
 	}
-
-	profile := ses.Get("profile").(models.Profile)
 
 	switch r.Method {
 	case "GET":

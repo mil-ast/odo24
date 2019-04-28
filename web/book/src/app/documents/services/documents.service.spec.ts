@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RemindingService } from './reminding.service';
+import { DocumentsService } from './documents.service';
 
-describe('RemindingService', () => {
+describe('DocumentsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: RemindingService = TestBed.get(RemindingService);
+    const service: DocumentsService = TestBed.get(DocumentsService);
     expect(service).toBeTruthy();
   });
 });

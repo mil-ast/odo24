@@ -2,19 +2,19 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AvtoStruct } from '../_classes/avto';
 import { Subscription } from 'rxjs';
 import { AvtoService } from '../_services/avto.service';
-import { RemindingService, Reminding } from './services/reminding.service';
+import { DocumentsService, Document } from './services/documents.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
 import { ScreenService, Screen, SmallScreen } from '../_services/screen.service';
 import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-reminding',
-  templateUrl: './reminding.component.html',
-  styleUrls: ['./reminding.component.scss'],
+  selector: 'app-documents',
+  templateUrl: './documents.component.html',
+  styleUrls: ['./documents.component.scss'],
 })
-export class RemindingComponent implements OnInit, OnDestroy {
-  remindList: Reminding[] = [];
+export class DocumentsComponent implements OnInit, OnDestroy {
+  remindList: Document[] = [];
   selectedAvto: AvtoStruct = null;
   screenIsMobile = false;
   screenIsSmall = false;
@@ -26,7 +26,7 @@ export class RemindingComponent implements OnInit, OnDestroy {
 
   constructor(
     private avtoService: AvtoService,
-    private remindingService: RemindingService,
+    private remindingService: DocumentsService,
     private dialog: MatDialog,
     private screenService: ScreenService,
   ) { }
@@ -51,7 +51,7 @@ export class RemindingComponent implements OnInit, OnDestroy {
       finalize(() => {
         this.isloading = false;
       })
-    ).subscribe((res: Reminding[]) => {
+    ).subscribe((res: Document[]) => {
       this.remindList = res || [];
     });
   }
@@ -68,14 +68,14 @@ export class RemindingComponent implements OnInit, OnDestroy {
         top: '4px'
       };
     }
-    this.dialog.open(DialogCreateDocComponent, config).afterClosed().subscribe((rem: Reminding) => {
+    this.dialog.open(DialogCreateDocComponent, config).afterClosed().subscribe((rem: Document) => {
       if (rem) {
         this.remindList.unshift(rem);
       }
     });
   }
 
-  onDelete(rem: Reminding) {
+  onDelete(rem: Document) {
     const index = this.remindList.indexOf(rem);
     if (index !== -1) {
       this.remindList.splice(index);

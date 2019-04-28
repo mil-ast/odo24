@@ -5,7 +5,8 @@
 		"smtp_host" : "smtp.yandex.ru",
 		"smtp_port" : 465,
 		"smtp_from" : "info@odo24.ru",
-		"smtp_password" : "6PxnwmB4pcPvk8q"
+		"smtp_password" : "6PxnwmB4pcPvk8q",
+		"memcached_addr" : "81.177.26.40:11211"
 	},
 	"db" : {
 		"driver_name" : "postgres",
