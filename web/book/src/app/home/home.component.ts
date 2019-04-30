@@ -37,6 +37,13 @@ export class HomeComponent implements OnInit {
             localStorage.removeItem('login');
             localStorage.removeItem('password');
         }
+
+        if (!document.location.hash) {
+            return;
+        }
+
+        const token = /access_token=([^&]+)/.exec(document.location.hash)[1];
+        this.oauth(token);
     }
 
     submitLogin() {
@@ -57,5 +64,9 @@ export class HomeComponent implements OnInit {
             this.isIncorrect = true;
             this.profileService.exit();
         });
+    }
+
+    private oauth(token: string) {
+        this.profileService.loginOauth(token);
     }
 }

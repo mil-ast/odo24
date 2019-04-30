@@ -46,6 +46,10 @@ export class ProfileService {
         }));
     }
 
+    loginOauth(token: string) {
+        
+    }
+
     logout() {
         const req = this.http.get(this.url_logout);
         req.subscribe(() => { }, (err) => {

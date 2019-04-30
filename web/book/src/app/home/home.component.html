@@ -23,6 +23,9 @@
 					<span class="error__message">Неправильный логин или пароль!</span>
 				</div>
 			</form>
+			<div>
+				<a href="https://oauth.yandex.ru/authorize?response_type=token&client_id=591440f4698d49158536afd3e276b829">Войти через Яндекс</a>
+			</div>
 		</mat-card-content>
 		<mat-card-actions>
 			<button form="form-auth" [disabled]="formAuth.invalid || formAuth.disabled" mat-raised-button color="primary">Войти</button>
