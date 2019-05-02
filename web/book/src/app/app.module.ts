@@ -1,5 +1,4 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -18,16 +17,16 @@ import { MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import {
-    MatInputModule,
-    MatButtonModule,
-    MatProgressBarModule,
-    MAT_SNACK_BAR_DEFAULT_OPTIONS,
-    MatDialogModule,
-    MatStepperModule,
-    MatMenuModule,
-    MatBadgeModule,
-    MatIconModule,
-    MatSidenavModule,
+  MatButtonModule,
+  MatProgressBarModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatDialogModule,
+  MatStepperModule,
+  MatMenuModule,
+  MatBadgeModule,
+  MatIconModule,
+  MatSidenavModule,
+  MatFormFieldModule,
 } from '@angular/material';
 
 export const DATE_FORMATS = {
@@ -42,7 +41,7 @@ export const DATE_FORMATS = {
   },
 };
 
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, CommonModule } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
@@ -55,6 +54,8 @@ import { ItemAvtoComponent } from './shared/item-avto/item-avto.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
 import { environment } from '../environments/environment';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -71,7 +72,9 @@ registerLocaleData(localeRu, 'ru');
     DialogUpdateAvtoComponent,
   ],
   imports: [
-    MatInputModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    CommonModule,
     MatButtonModule,
     MatProgressBarModule,
     MatDialogModule,
@@ -79,8 +82,8 @@ registerLocaleData(localeRu, 'ru');
     MatMenuModule,
     MatBadgeModule,
     MatIconModule,
+    MatFormFieldModule,
     MatSidenavModule,
-    BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -88,7 +91,6 @@ registerLocaleData(localeRu, 'ru');
     OrderPipeModule,
     SelectedAvtoModule,
     ServiceModule,
-    HomeModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [

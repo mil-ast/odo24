@@ -58,8 +58,7 @@ export class HomeComponent implements OnInit {
     }
 
     private oauth(token: string) {
-        this.profileService.loginOauth(token).subscribe((result) => {
-            console.log(777, result);
+        this.profileService.loginOauth(token).subscribe(() => {
             this.router.navigate(['/service']);
         }, () => {
             this.isIncorrect = true;
