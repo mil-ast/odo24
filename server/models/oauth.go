@@ -36,6 +36,9 @@ func (oa OAuth) GetUser() (Profile, error) {
 	if err != nil {
 		return profile, err
 	}
+	if resp.StatusCode == http.StatusUnauthorized {
+		return profile, errors.New("auth error")
+	}
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
@@ -49,7 +52,7 @@ func (oa OAuth) GetUser() (Profile, error) {
 	}
 
 	if userInfo.EMail == "" {
-		return profile, errors.New("not auth")
+		return profile, errors.New("auth error")
 	}
 
 	conn, err := db.GetConnection()

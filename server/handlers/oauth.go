@@ -9,6 +9,11 @@ import (
 )
 
 func OAuth(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(405), 405)
+		return
+	}
+
 	tokenQuery := r.URL.Query().Get("token")
 	if tokenQuery == "" {
 		http.Error(w, http.StatusText(400), 400)
@@ -22,8 +27,13 @@ func OAuth(w http.ResponseWriter, r *http.Request) {
 
 	profile, err := token.GetUser()
 	if err != nil {
-		log.Println(err)
-		http.Error(w, http.StatusText(500), 500)
+		if err.Error() == "auth error" {
+			http.Error(w, http.StatusText(401), 401)
+		} else {
+			log.Println(err)
+			http.Error(w, http.StatusText(500), 500)
+		}
+
 		return
 	}
 

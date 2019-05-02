@@ -8,9 +8,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class ProfileService {
-    private url_login = '/api/profile/login';
-    private url_logout = '/api/profile/logout';
-    private url_profile = '/api/profile';
+    private baseURL = '/api/profile';
 
     private profile: BehaviorSubject<Profile> = new BehaviorSubject<Profile>(null);
     profile$: Observable<Profile>;
@@ -28,7 +26,7 @@ export class ProfileService {
             return of(true);
         }
 
-        return this.http.get(this.url_profile).pipe(
+        return this.http.get(this.baseURL).pipe(
             map((res: any) => {
                 this.profile.next(new Profile(res));
                 return true;
@@ -40,18 +38,22 @@ export class ProfileService {
     }
 
     login(login: string, password: string): Observable<Profile> {
-        return this.http.post<Profile>(this.url_login, { login: login, password: password }).pipe(tap((responce) => {
+        return this.http.post<Profile>(`${this.baseURL}/login`, { login: login, password: password }).pipe(tap((responce) => {
             const profile: Profile = new Profile(responce);
             this.profile.next(profile);
         }));
     }
 
     loginOauth(token: string) {
-        
+        return this.http.get(`${this.baseURL}/oauth`, {
+            params: {
+                token: token,
+            }
+        });
     }
 
     logout() {
-        const req = this.http.get(this.url_logout);
+        const req = this.http.get(`${this.baseURL}/logout`);
         req.subscribe(() => { }, (err) => {
             console.error(err);
         });
@@ -59,7 +61,7 @@ export class ProfileService {
     }
 
     update(data: any) {
-        return this.http.put(`${this.url_profile}/update_password`, data);
+        return this.http.put(`${this.baseURL}/update_password`, data);
     }
 
     confirmEmail() {
