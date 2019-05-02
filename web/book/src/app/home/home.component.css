@@ -40,6 +40,11 @@
     text-align: center;
 }
 
+#oauth {
+    padding:20px;
+    box-sizing: border-box;
+}
+
 footer {
     position: relative;
     background-color: #1f2326;

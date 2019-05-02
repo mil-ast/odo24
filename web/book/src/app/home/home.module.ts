@@ -8,6 +8,7 @@ import {
   MatButtonModule,
   MatIconModule,
   MatCardModule,
+  MatDividerModule,
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -17,6 +18,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
+    MatDividerModule,
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,

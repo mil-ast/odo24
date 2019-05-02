@@ -26,17 +26,15 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        const login = localStorage.getItem('login');
-        const password = localStorage.getItem('password');
-        if (login !== null || password !== null) {
-            this.formAuth.patchValue({
-                login : login,
-                password : password,
-            });
-
-            localStorage.removeItem('login');
-            localStorage.removeItem('password');
+        if (!document.location.hash) {
+            return;
         }
+
+        const token = /access_token=([^&]+)/.exec(document.location.hash)[1];
+        if (!token) {
+            return;
+        }
+        this.oauth(token);
     }
 
     submitLogin() {
@@ -52,6 +50,16 @@ export class HomeComponent implements OnInit {
                 this.formAuth.enable();
             })
         ).subscribe(() => {
+            this.router.navigate(['/service']);
+        }, () => {
+            this.isIncorrect = true;
+            this.profileService.exit();
+        });
+    }
+
+    private oauth(token: string) {
+        this.profileService.loginOauth(token).subscribe((result) => {
+            console.log(777, result);
             this.router.navigate(['/service']);
         }, () => {
             this.isIncorrect = true;
