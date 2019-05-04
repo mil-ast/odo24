@@ -44,7 +44,7 @@ func (m OAuthMailRuUser) getToken(code string) (string, error) {
 		GrantType:    "authorization_code",
 		ClientID:     "65ff8fc8b7ea4b409f61a465790f80b1",
 		ClientSecret: "f289ba761b31475380765fa7f5244108",
-		RedirectURI:  "http://localhost:4200/?service=mail.ru",
+		RedirectURI:  "https://odo24.ru/book/?service=mail.ru",
 	}
 	token, err := oauth.GetToken(code)
 	return token.AccessToken, err

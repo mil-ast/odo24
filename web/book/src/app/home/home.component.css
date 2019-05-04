@@ -43,6 +43,17 @@
 #oauth {
     padding:20px;
     box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+#oauth_links {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 20px;
+}
+
+#form-auth {
+    margin-top: 60px;
 }
 
 footer {
