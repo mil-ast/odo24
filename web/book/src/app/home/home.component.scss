@@ -55,9 +55,13 @@
         position: relative;
         width:140px;
         height:40px;
-        border: 1px transparent solid;
+        box-shadow: 0px 0px 6px rgba(0,0,0,0.12);
         border-radius: 4px;
         text-align: center;
+
+        &:hover {
+            box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+        }
 
         img {
             border-radius: inherit;
