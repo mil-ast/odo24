@@ -7,11 +7,26 @@
 	</header>
 	<mat-card>
 		<mat-card-header>
-			<mat-card-title><mat-icon>fingerprint</mat-icon><span>Авторизация</span></mat-card-title>
+			<mat-card-title><span>Войти с помощью</span></mat-card-title>
 		</mat-card-header>
-		<mat-card-subtitle>Введите ваше E-mail и пароль</mat-card-subtitle>
 		<mat-card-content>
+			<div id="oauth">
+				<div id="oauth_links">
+					<div>
+						<a href="https://oauth.yandex.ru/authorize?response_type=code&client_id=591440f4698d49158536afd3e276b829">
+							<img src="/assets/images/oauth/yandex.jpg" title="Яндекс" />
+						</a>
+					</div>
+					<div>
+						<a href="https://oauth.mail.ru/login?client_id=65ff8fc8b7ea4b409f61a465790f80b1&response_type=code&scope=userinfo&state=790f80b1&redirect_uri=https://odo24.ru/book/?service=mail.ru">
+							<img src="/assets/images/oauth/mailru.jpg" title="Mail.ru" />
+						</a>
+					</div>
+				</div>
+			</div>
+			<mat-divider></mat-divider>
 			<form (ngSubmit)="submitLogin()" [formGroup]="formAuth" id="form-auth">
+				<h2 class="mat-h2">Или войдите с помощью логина и пароля</h2>
 				<mat-form-field class="full_width">
 					<input formControlName="login" matInput placeholder="Логин" type="email" name="login" required />
 				</mat-form-field>
@@ -27,19 +42,5 @@
 		<mat-card-actions>
 			<button form="form-auth" [disabled]="formAuth.invalid || formAuth.disabled" mat-raised-button color="primary">Войти</button>
 		</mat-card-actions>
-		<mat-divider></mat-divider>
-		<mat-card-footer id="oauth">
-			<div id="">
-				<h3 class="mat-h3">Войти с помощью:</h3>
-				<div>
-					<a href="https://oauth.yandex.ru/authorize?response_type=code&client_id=591440f4698d49158536afd3e276b829">
-						<img src="/assets/images/oauth/yandex.jpg" />
-					</a>
-				</div>
-				<div>
-					<a href="https://oauth.mail.ru/login?client_id=65ff8fc8b7ea4b409f61a465790f80b1&response_type=code&scope=userinfo&state=qwe&redirect_uri=http://localhost:4200/?service=mail.ru">Mail.ru</a>
-				</div>
-			</div>
-		</mat-card-footer>
 	</mat-card>
 </div>
