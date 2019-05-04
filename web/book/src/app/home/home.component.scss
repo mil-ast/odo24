@@ -44,12 +44,33 @@
     padding:20px;
     box-sizing: border-box;
     margin-bottom: 20px;
-}
 
-#oauth_links {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-gap: 20px;
+    #oauth_links {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .social_btn {
+        display: inline-block;
+        position: relative;
+        width:140px;
+        height:40px;
+        border: 1px transparent solid;
+        border-radius: 4px;
+        text-align: center;
+
+        img {
+            border-radius: inherit;
+        }
+
+        &#oauth_mailru {
+            background-color: #005ff9;
+        }
+
+        &#oauth_yandex {
+            border-color: #f00;
+        }
+    }
 }
 
 #form-auth {
@@ -75,5 +96,15 @@ footer .year {
 
     h1 {
         font-size: 1.4em;
+    }
+
+    #oauth {
+        padding: 0px;
+        #oauth_links {
+            display: block;
+             > div:not(:last-child) {
+                 padding-bottom:10px;
+             }
+        }
     }
 }
