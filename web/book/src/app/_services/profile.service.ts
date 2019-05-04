@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Profile } from '../_classes/profile';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -42,14 +41,6 @@ export class ProfileService {
             const profile: Profile = new Profile(responce);
             this.profile.next(profile);
         }));
-    }
-
-    loginOauth(token: string) {
-        return this.http.get(`${this.baseURL}/oauth`, {
-            params: {
-                token: token,
-            }
-        });
     }
 
     logout() {

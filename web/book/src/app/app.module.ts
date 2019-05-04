@@ -1,5 +1,4 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -18,16 +17,17 @@ import { MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import {
-    MatInputModule,
-    MatButtonModule,
-    MatProgressBarModule,
-    MAT_SNACK_BAR_DEFAULT_OPTIONS,
-    MatDialogModule,
-    MatStepperModule,
-    MatMenuModule,
-    MatBadgeModule,
-    MatIconModule,
-    MatSidenavModule,
+  MatButtonModule,
+  MatProgressBarModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatDialogModule,
+  MatStepperModule,
+  MatMenuModule,
+  MatBadgeModule,
+  MatIconModule,
+  MatSidenavModule,
+  MatFormFieldModule,
+  MatInputModule,
 } from '@angular/material';
 
 export const DATE_FORMATS = {
@@ -42,11 +42,10 @@ export const DATE_FORMATS = {
   },
 };
 
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, CommonModule } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
-import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
 import { OrderPipeModule } from './_pipes/order.pipe.module';
 import { ItemGroupComponent } from './shared/item-group/item-group.component';
 import { DialogUpdateGroupComponent } from './shared/dialog-update-group/dialog-update-group.component';
@@ -55,6 +54,9 @@ import { ItemAvtoComponent } from './shared/item-avto/item-avto.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
 import { environment } from '../environments/environment';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -63,7 +65,7 @@ registerLocaleData(localeRu, 'ru');
     AppComponent,
     ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
-    PrifileDialogComponent,
+    ProfileDialogComponent,
     ItemGroupComponent,
     ItemAvtoComponent,
     DialogUpdateGroupComponent,
@@ -71,6 +73,9 @@ registerLocaleData(localeRu, 'ru');
     DialogUpdateAvtoComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
+    BrowserModule,
+    CommonModule,
     MatInputModule,
     MatButtonModule,
     MatProgressBarModule,
@@ -79,8 +84,8 @@ registerLocaleData(localeRu, 'ru');
     MatMenuModule,
     MatBadgeModule,
     MatIconModule,
+    MatFormFieldModule,
     MatSidenavModule,
-    BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -88,7 +93,6 @@ registerLocaleData(localeRu, 'ru');
     OrderPipeModule,
     SelectedAvtoModule,
     ServiceModule,
-    HomeModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
@@ -106,7 +110,7 @@ registerLocaleData(localeRu, 'ru');
   entryComponents: [
     ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
-    PrifileDialogComponent,
+    ProfileDialogComponent,
     DialogUpdateGroupComponent,
     DialogCreateGroupComponent,
     DialogUpdateAvtoComponent,

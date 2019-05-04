@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"sto/server/models"
+	"sto/server/oauth"
 	"sto/server/sessions"
 )
 
@@ -14,20 +15,36 @@ func OAuth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokenQuery := r.URL.Query().Get("token")
-	if tokenQuery == "" {
+	codeQuery := r.URL.Query().Get("code")
+	if codeQuery == "" {
+		http.Error(w, http.StatusText(400), 400)
+		return
+	}
+	serviceQuery := r.URL.Query().Get("service")
+	if serviceQuery == "" {
+		http.Error(w, http.StatusText(400), 400)
+		return
+	}
+
+	var serviceType oauth.OAuthUserInfo
+	switch serviceQuery {
+	case "yandex.ru":
+		serviceType = oauth.OAuthYandexRuUser{}
+	case "mail.ru":
+		serviceType = oauth.OAuthMailRuUser{}
+	default:
 		http.Error(w, http.StatusText(400), 400)
 		return
 	}
 
 	token := models.OAuth{
-		Type:  models.OAuthYandex,
-		Token: tokenQuery,
+		Type: serviceType,
+		Code: codeQuery,
 	}
 
 	profile, err := token.GetUser()
 	if err != nil {
-		if err.Error() == "auth error" {
+		if err.Error() == oauth.ErrAuthError {
 			http.Error(w, http.StatusText(401), 401)
 		} else {
 			log.Println(err)
