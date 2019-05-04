@@ -4,16 +4,16 @@ import { MatSnackBar, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-prifile-dialog',
-  templateUrl: './prifile-dialog.component.html',
-  styleUrls: ['./prifile-dialog.component.css']
+  templateUrl: './profile-dialog.component.html',
+  styleUrls: ['./profile-dialog.component.css']
 })
-export class PrifileDialogComponent {
+export class ProfileDialogComponent {
   password = '';
   password2 = '';
   constructor(
     private profileService: ProfileService,
     private snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<PrifileDialogComponent>,
+    private dialogRef: MatDialogRef<ProfileDialogComponent>,
   ) { }
 
   submitUpdateFrofile() {

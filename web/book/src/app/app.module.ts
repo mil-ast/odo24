@@ -27,6 +27,7 @@ import {
   MatIconModule,
   MatSidenavModule,
   MatFormFieldModule,
+  MatInputModule,
 } from '@angular/material';
 
 export const DATE_FORMATS = {
@@ -45,7 +46,6 @@ import { registerLocaleData, CommonModule } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
-import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
 import { OrderPipeModule } from './_pipes/order.pipe.module';
 import { ItemGroupComponent } from './shared/item-group/item-group.component';
 import { DialogUpdateGroupComponent } from './shared/dialog-update-group/dialog-update-group.component';
@@ -56,6 +56,7 @@ import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-up
 import { environment } from '../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -64,7 +65,7 @@ registerLocaleData(localeRu, 'ru');
     AppComponent,
     ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
-    PrifileDialogComponent,
+    ProfileDialogComponent,
     ItemGroupComponent,
     ItemAvtoComponent,
     DialogUpdateGroupComponent,
@@ -75,6 +76,7 @@ registerLocaleData(localeRu, 'ru');
     BrowserAnimationsModule,
     BrowserModule,
     CommonModule,
+    MatInputModule,
     MatButtonModule,
     MatProgressBarModule,
     MatDialogModule,
@@ -108,7 +110,7 @@ registerLocaleData(localeRu, 'ru');
   entryComponents: [
     ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
-    PrifileDialogComponent,
+    ProfileDialogComponent,
     DialogUpdateGroupComponent,
     DialogCreateGroupComponent,
     DialogUpdateAvtoComponent,

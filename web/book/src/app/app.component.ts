@@ -3,7 +3,6 @@ import { MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
-import { PrifileDialogComponent } from './shared/prifile-dialog/prifile-dialog.component';
 import { AvtoStruct, Avto } from './_classes/avto';
 import { AvtoService } from './_services/avto.service';
 import { GroupService, GroupStruct } from './_services/groups.service';
@@ -13,6 +12,7 @@ import { DialogCreateAvtoComponent } from './shared/dialog-create-avto/dialog-cr
 import { ScreenService, SmallScreen, Screen } from './_services/screen.service';
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
+import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
   }
 
   clickShowChangePasswordDialog() {
-    this.dialog.open(PrifileDialogComponent, {
+    this.dialog.open(ProfileDialogComponent, {
       position: {
         top: '80px',
         right: '40px'
