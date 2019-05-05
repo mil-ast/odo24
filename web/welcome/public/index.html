@@ -1,96 +1,114 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru">s
 <head>
   <meta charset="utf-8">
   <title>ODO24 &mdash; сервисная книжка автомобиля онлайн</title>
   <base href="/">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="description" content="Сервисная книжка вашего автомобиля онлайн!">
   <meta name="viewport" content="width=360, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Сервисная книжка автомобиля онлайн. Ведите учёт сервисного обслуживания вашего автомобиля в электронном виде."> 
-  <meta name="theme-color" content="#db805c"/>
+  <meta name="description" content="Сервисная книжка автомобиля онлайн. Ведите учёт сервисного обслуживания вашего автомобиля в цифровом виде.">
+  <meta name="theme-color" content="#db805c" />
   <link rel="manifest" href="/manifest.json">
   <link rel="shortcut icon" href="/favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Istok+Web" rel="stylesheet">
 </head>
-  <body>
-    <div id="header">
-        <a id="logo" href="/">ODO24</a>
-        <a id="goto_auth" href="/book/">
-            <i class="material-icons">account_circle</i>
-            <span>Авторизация</span>
-        </a>
-        <div class="header__title">
-            <h1>Сервисная книжка вашего автомобиля!</h1>
-        </div>
-        <div id="description">
-            <p>Ведите учёт сервисного обслуживания вашего автомобиля в онлайне</p>
-        </div>
-        <div id="auth">
-            <div class="form-block" id="register_steps"></div>
-        </div>
+<body>
+  <div id="header">
+    <a id="logo" href="/">ODO24</a>
+    <a id="goto_auth" href="/book/">
+      <i class="material-icons">account_circle</i>
+      <span>Авторизация</span>
+    </a>
+    <div class="header__title">
+      <h1>Сервисная книжка вашего автомобиля!</h1>
     </div>
-    <div id="promo">
-        <div class="promo__row">
-            <article class="promo__article">
-                <h3 class="promo__article__title">
-                    <i class="material-icons">wifi</i>
-                    <span>Сервисная книжка онлайн</span>
-                </h3>
-                <p class="promo__descript">Вся история обслуживания Вашего авто находится в электронном виде и не стоит опасаться, что она потеряется или закончится</p>
-            </article>
-            <article class="promo__article">
-                <h3 class="promo__article__title">
-                    <i class="material-icons">date_range</i>
-                    <span>Планирование обслуживания</span>
-                </h3>
-                <p class="promo__descript">Вы всегда можете узнать, сколько осталось до следующего обслуживания вашего авто, а так же всегда видеть сколько осталось до следующей замены</p>
-            </article>
-            <article class="promo__article">
-                <h3 class="promo__article__title">
-                    <i class="material-icons">bookmark_border</i>
-                    <span>Важные напоминания</span>
-                </h3>
-                <p class="promo__descript">Теперь можно добавлять напоминания о завершении действия страховки или водительского удостоверения, чтобы однажды это не стало для вас неприятным сюрпризом</p>
-            </article>
-            <article class="promo__article">
-                <h3 class="promo__article__title">
-                    <i class="material-icons">credit_card</i>
-                    <span>Сервис бесплатный</span>
-                </h3>
-                <p class="promo__descript">Данной электронной сервисной книжкой можно пользоваться абсолютно бесплатно и здень не найдёте назойливой рекламы</p>
-            </article>
-        </div>
+    <div id="description">
+      <p>Ведите учёт сервисного обслуживания вашего автомобиля в онлайне</p>
     </div>
-    <footer>
+  </div>
+  <div id="promo">
+    <div class="promo__row">
+      <article class="promo__article">
+        <h3 class="promo__article__title">
+          <i class="material-icons">wifi</i>
+          <span>Сервисная книжка онлайн</span>
+        </h3>
+        <p class="promo__descript">Вся история обслуживания Вашего авто находится в электронном виде и не стоит опасаться, что она потеряется или закончится</p>
+      </article>
+      <article class="promo__article">
+        <h3 class="promo__article__title">
+          <i class="material-icons">date_range</i>
+          <span>Планирование обслуживания</span>
+        </h3>
+        <p class="promo__descript">Вы всегда можете узнать, сколько осталось до следующего обслуживания вашего авто, а так же всегда видеть сколько осталось до следующей замены</p>
+      </article>
+      <article class="promo__article">
+        <h3 class="promo__article__title">
+          <i class="material-icons">bookmark_border</i>
+          <span>Важные напоминания</span>
+        </h3>
+        <p class="promo__descript">Теперь можно добавлять напоминания о завершении действия страховки или водительского удостоверения, чтобы однажды это не стало для вас неприятным сюрпризом</p>
+      </article>
+      <article class="promo__article">
+        <h3 class="promo__article__title">
+          <i class="material-icons">credit_card</i>
+          <span>Сервис бесплатный</span>
+        </h3>
+        <p class="promo__descript">Данной электронной сервисной книжкой можно пользоваться абсолютно бесплатно и здень не найдёте назойливой рекламы</p>
+      </article>
+    </div>
+  </div>
+  <div>
+    <div id="auth">
+      <div class="form-block" id="register_steps"></div>
+      <div id="social-auth">
+        <h3>Или войдите с помощью аккаунтов</h3>
         <div>
-            <div>2019 odo24.ru</div>
-            <div id="contacts">
-                <div id="email">
-                    <i class="material-icons">email</i>
-                    <a href="mailto:info@odo24.ru">info@odo24.ru</a>
-                </div>
-                <div id="feedback">
-                    <i class="material-icons">feedback</i>
-                    <a target="_blank" href="https://connect.yandex.ru/forms/5c72d4e419621d1db9afacf1/">Форма обратной связи</a>
-                    <i class="new-window material-icons">open_in_new</i>
-                </div>
-            </div>
+          <a class="social-btn" href="https://oauth.yandex.ru/authorize?response_type=code&client_id=591440f4698d49158536afd3e276b829">
+            <img src="/images/oauth/yandex.png" title="Яндекс" />
+          </a>
+          <a class="social-btn" href="https://oauth.mail.ru/login?client_id=65ff8fc8b7ea4b409f61a465790f80b1&response_type=code&scope=userinfo&state=790f80b1&redirect_uri=https://odo24.ru/book/?service=mail.ru">
+            <img src="/images/oauth/mailru.png" title="Mail.ru" />
+          </a>
         </div>
-    </footer>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-        ym(52441027, "init", {
-            id:52441027,
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true
-        });
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/52441027" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-  </body>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div>
+      <div>2019 odo24.ru</div>
+      <div id="contacts">
+        <div id="email">
+          <i class="material-icons">email</i>
+          <a href="mailto:info@odo24.ru">info@odo24.ru</a>
+        </div>
+        <div id="feedback">
+          <i class="material-icons">feedback</i>
+          <a target="_blank" href="https://connect.yandex.ru/forms/5c72d4e419621d1db9afacf1/">Форма обратной связи</a>
+          <i class="new-window material-icons">open_in_new</i>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+    m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+      m[i].l = 1 * new Date(); k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })
+      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    ym(52441027, "init", {
+      id: 52441027,
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true
+    });
+  </script>
+  <noscript>
+    <div><img src="https://mc.yandex.ru/watch/52441027" style="position:absolute; left:-9999px;" alt="" /></div>
+  </noscript>
+  <!-- /Yandex.Metrika counter -->
+</body>
+
 </html>

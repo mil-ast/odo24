@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormRegister from './components/formRegister/formRegister';
+import FormRegister from './components/formRegister/FormRegister';
 import FormRepair from './components/repairForm/repairForm';
 import Success from './components/success/Success';
 import { EventEmitter } from 'events';
