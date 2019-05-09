@@ -47,6 +47,7 @@
 
     footer > div {
         grid-template-columns: 150px 1fr;
+        padding-top: 50px;
     }
 
     #contacts {
@@ -87,6 +88,9 @@
         font-size: 1.7em;
         line-height: 30px;
     }
+    .promo__descript {
+        padding-left:0px;
+    }
 
     #description {
         line-height: 24px;
@@ -94,7 +98,7 @@
     }
 
     footer {
-        height: 160px;
+        height: 200px;
     }
 
     footer > div {

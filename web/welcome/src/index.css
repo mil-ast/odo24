@@ -241,6 +241,8 @@ input:active, textarea:active {outline:none;}
 .promo__descript {
   line-height: 24px;
   color:#5e656a;
+  font-size: 1.2em;
+  padding-left: 60px;
 }
 
 footer {
@@ -261,7 +263,7 @@ footer > div {
   margin: auto;
   display: grid;
   grid-template-columns: 200px 1fr;
-  padding-top: 95px;
+  padding-top: 80px;
 }
 
 footer a {
@@ -289,8 +291,12 @@ footer a:hover {
   position: absolute;
   top:0px;
   left:0px;
+  display: inline-block;
 }
-#contacts > div i.new-window {
-  left:auto;
-  font-size: 16px;
+#contacts > div i#vk_icon {
+  width:24px;
+  height:24px;
+  background-image: url("/images/vk.svg");
+  background-size: 100%;
+  background-repeat: no-repeat;
 }

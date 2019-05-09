@@ -23,7 +23,7 @@ class FormRegister extends Component {
             <div>
                 <form id="auth_form" onSubmit={this.submit.bind(this)} action="/api/register/confirm" method="POST">
                     <div className="form__row">
-                        <input autoFocus tabIndex="1" value={this.state.login} onChange={this.handleChange.bind(this)} className="form__input" type="text" name="login" required autoComplete="off" placeholder="E-mail" />
+                        <input tabIndex="1" value={this.state.login} onChange={this.handleChange.bind(this)} className="form__input" type="text" name="login" required autoComplete="off" placeholder="E-mail" />
                     </div>
                     <div className="form__row form__row_grid">
                         <input tabIndex="2" value={this.state.password} onChange={this.handleChange.bind(this)} className="form__input" type="password" name="password" required autoComplete="off" placeholder="Новый пароль" />
