@@ -51,9 +51,10 @@
     }
 
     .social_btn {
-        display: inline-block;
+        display: grid;
+        grid-template-columns: 40px 1fr;
         position: relative;
-        width:140px;
+        min-width: 110px;
         height:40px;
         box-shadow: 0px 0px 6px rgba(0,0,0,0.12);
         border-radius: 4px;
@@ -63,17 +64,24 @@
             box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
         }
 
-        img {
-            border-radius: inherit;
+        > .icon, > .title {
+            display: inline-block;
+            margin: auto;
         }
 
-        &#oauth_mailru {
-            background-color: #005ff9;
+        > .title {
+            margin-left: 0px;
         }
+    }
 
-        &#oauth_yandex {
-            border-color: #f00;
-        }
+    #oauth_yandex .title {
+        color: #f00;
+    }
+    #oauth_mailru .title {
+        color: #ff9e00;
+    }
+    #oauth_google .title {
+        color: #4285f4;
     }
 }
 
