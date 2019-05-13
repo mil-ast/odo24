@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -34,22 +35,19 @@ type OAuthParams struct {
 func (p OAuthParams) GetToken(code string) (OAuthToken, error) {
 	token := OAuthToken{}
 
-	params := make(map[string]string)
-	params["code"] = code
-	params["grant_type"] = p.GrantType
-	params["client_id"] = p.ClientID
-	params["client_secret"] = p.ClientSecret
-	params["redirect_uri"] = p.RedirectURI
+	params := url.Values{}
+	params.Set("code", code)
+	params.Set("grant_type", p.GrantType)
+	params.Set("client_id", p.ClientID)
+	params.Set("client_secret", p.ClientSecret)
+	params.Set("redirect_uri", p.RedirectURI)
 
-	data, err := json.Marshal(params)
+	req, err := http.NewRequest("POST", p.TokenURL, bytes.NewBufferString(params.Encode()))
 	if err != nil {
 		return token, err
 	}
 
-	req, err := http.NewRequest("POST", p.TokenURL, bytes.NewBuffer(data))
-	if err != nil {
-		return token, err
-	}
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	client := http.Client{
 		Timeout: time.Duration(ClientTimeout),
