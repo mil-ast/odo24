@@ -105,6 +105,46 @@ input:active, textarea:active {outline:none;}
   margin:0px;
   padding:0px 0px 20px 0px;
 }
+
+#social-auth > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 4px;
+}
+#social-auth .social_btn {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  position: relative;
+  min-width: 118px;
+  height:30px;
+  border-radius: 2px;
+  text-align: center;
+  color:#fff;
+  opacity: 0.8;
+  transition: 200ms;
+  padding: 10px 10px 0px 10px;
+}
+#social-auth .social_btn:hover {
+  opacity: 1;
+}
+#social-auth .social_btn .social_icon {
+  padding-top: 3px;
+}
+
+#oauth_yandex .social_btn {
+  background-color: #f00;
+}
+#oauth_mailru .social_btn {
+  background-color: #005ff9;
+}
+#oauth_google .social_btn {
+  background-color: #dc4b38;
+}
+#social-auth .social_btn .title {
+  text-align: left;
+  padding-top: 1px;
+}
+
 #social-auth .social-btn img {
   border-radius: 4px;
   display: inline-block;
@@ -115,7 +155,7 @@ input:active, textarea:active {outline:none;}
 }
 #social-auth .social-btn:hover img {
   box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
-}
+}*/
 .form-block {
   padding: 40px;
   height: 230px;

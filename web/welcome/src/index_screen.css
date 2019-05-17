@@ -74,6 +74,13 @@
         background-color: #fff;
         padding: 50px 20px;
     }
+
+    #social-auth > div {
+        display: block;
+    }
+    #social-auth .social_btn {
+        margin-top: 10px;
+    }
 }
 
 @media (max-width: 480px) {

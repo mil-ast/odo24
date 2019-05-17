@@ -65,12 +65,30 @@
       <div id="social-auth">
         <h3>Или войдите с помощью аккаунтов</h3>
         <div>
-          <a class="social-btn" href="https://oauth.yandex.ru/authorize?response_type=code&client_id=591440f4698d49158536afd3e276b829">
-            <img src="/images/oauth/yandex.png" title="Яндекс" />
-          </a>
-          <a class="social-btn" href="https://oauth.mail.ru/login?client_id=65ff8fc8b7ea4b409f61a465790f80b1&response_type=code&scope=userinfo&state=790f80b1&redirect_uri=https://odo24.ru/book/?service=mail.ru">
-            <img src="/images/oauth/mailru.png" title="Mail.ru" />
-          </a>
+					<div id="oauth_yandex">
+						<a class="social_btn" id="oauth_yandex" href="https://oauth.yandex.ru/authorize?response_type=code&client_id=591440f4698d49158536afd3e276b829">
+							<span class="social_icon">
+								<img height="15" src="/images/oauth/yandex_white.png" title="Яндекс" />
+							</span>
+							<span class="title">Яндекс</span>
+						</a>
+					</div>
+					<div id="oauth_google">
+						<a class="social_btn" href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://odo24.ru/book/?service=google&response_type=code&client_id=195955516861.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile">
+							<span class="social_icon">
+								<img height="15" src="/images/oauth/google_white.png" title="Google" />
+							</span>
+							<span class="title">Google</span>
+						</a>
+					</div>
+					<div id="oauth_mailru">
+						<a class="social_btn" href="https://oauth.mail.ru/login?client_id=65ff8fc8b7ea4b409f61a465790f80b1&response_type=code&scope=userinfo&state=790f80b1&redirect_uri=https://odo24.ru/book/?service=mail.ru">
+							<span class="social_icon">
+								<img height="15" src="/images/oauth/mailru_white.png" title="Mail.ru" />
+							</span>
+							<span class="title">Mail</span>
+						</a>
+					</div>
         </div>
       </div>
     </div>
