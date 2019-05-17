@@ -207,7 +207,7 @@ input:active, textarea:active {outline:none;}
   border:0px;
   border-bottom:1px #949494 solid;
   padding:4px 0px;
-  background-color: #fff;
+  background-color: transparent;
   width:100%;
 }
 .form__input__error {
