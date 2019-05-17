@@ -41,39 +41,54 @@
 }
 
 #oauth {
-    padding:20px;
+    padding:20px 0px;
     box-sizing: border-box;
     margin-bottom: 20px;
 
     #oauth_links {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 4px;
     }
 
     .social_btn {
-        display: inline-block;
+        display: grid;
+        grid-template-columns: 40px 1fr;
         position: relative;
-        width:140px;
-        height:40px;
-        box-shadow: 0px 0px 6px rgba(0,0,0,0.12);
-        border-radius: 4px;
+        min-width: 118px;
+        height:30px;
+        border-radius: 2px;
         text-align: center;
+        color:#fff;
+        opacity: 0.8;
+        transition: 200ms;
 
         &:hover {
-            box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+            opacity: 1;
         }
 
-        img {
-            border-radius: inherit;
+        > .social_icon {
+            padding-top: 3px;
         }
 
-        &#oauth_mailru {
-            background-color: #005ff9;
+        > .social_icon, > .title {
+            display: inline-block;
+            margin: auto;
         }
 
-        &#oauth_yandex {
-            border-color: #f00;
+        > .title {
+            margin-left: 0px;
         }
+    }
+
+    #oauth_yandex .social_btn {
+        background-color: #f00;
+    }
+    #oauth_mailru .social_btn {
+        background-color: #005ff9;
+    }
+    #oauth_google .social_btn {
+        background-color: #dc4b38;
     }
 }
 

@@ -32,6 +32,8 @@ func OAuth(w http.ResponseWriter, r *http.Request) {
 		serviceType = oauth.OAuthYandexRuUser{}
 	case "mail.ru":
 		serviceType = oauth.OAuthMailRuUser{}
+	case "google":
+		serviceType = oauth.OAuthGoogleComUser{}
 	default:
 		http.Error(w, http.StatusText(400), 400)
 		return

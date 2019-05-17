@@ -34,7 +34,6 @@ export class HomeComponent implements OnInit {
     this.oauth();
   }
 
-
   submitLogin() {
     if (this.formAuth.invalid) {
       return;

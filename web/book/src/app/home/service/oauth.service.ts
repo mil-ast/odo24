@@ -16,7 +16,7 @@ export class OauthService {
     const service = urlParams.get('service');
 
     switch (service) {
-      case 'yandex.ru': case 'mail.ru':
+      case 'yandex.ru': case 'mail.ru': case 'google':
         this.authByCode(service, urlParams.get('code'));
       break;
       default:

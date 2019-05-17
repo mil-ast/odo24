@@ -34,17 +34,20 @@ type OAuthParams struct {
 
 func (p OAuthParams) GetToken(code string) (OAuthToken, error) {
 	token := OAuthToken{}
+
 	params := url.Values{}
-	params.Add("code", code)
-	params.Add("grant_type", p.GrantType)
-	params.Add("client_id", p.ClientID)
-	params.Add("client_secret", p.ClientSecret)
-	params.Add("redirect_uri", p.RedirectURI)
+	params.Set("code", code)
+	params.Set("grant_type", p.GrantType)
+	params.Set("client_id", p.ClientID)
+	params.Set("client_secret", p.ClientSecret)
+	params.Set("redirect_uri", p.RedirectURI)
 
 	req, err := http.NewRequest("POST", p.TokenURL, bytes.NewBufferString(params.Encode()))
 	if err != nil {
 		return token, err
 	}
+
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	client := http.Client{
 		Timeout: time.Duration(ClientTimeout),
