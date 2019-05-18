@@ -5,6 +5,8 @@
   "description": "Сервисная книжка онлайн!",
   "display": "standalone",
   "orientation": "portrait",
+  "start_url": "/book/",
+  "theme_color": "#1976d2",
   "icons": [
     {
       "src": "/assets/icons/icon_32.png",
