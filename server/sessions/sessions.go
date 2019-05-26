@@ -2,21 +2,22 @@ package sessions
 
 import (
 	"crypto/rand"
-	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"io"
+	"fmt"
 	"net/http"
 	"sto/server/config"
 	"sto/server/models"
 	"time"
 
 	"bitbucket.org/mil-ast/memcached"
+	"github.com/mil-ast/db"
 )
 
 const (
-	SessionID       string        = "odo24.uuid"
-	SessionTimeLife time.Duration = time.Second * 3600
+	SessionID          string        = "odo24.sess"
+	SessionTimeLife    time.Duration = time.Hour * 8760 // 365d
+	SessionMemcTimeout time.Duration = time.Hour
 )
 
 var memc *memcached.Memcached
@@ -33,29 +34,31 @@ func init() {
 func GetSession(w http.ResponseWriter, r *http.Request) (models.Profile, error) {
 	var profile models.Profile
 
-	expires := time.Now().Add(SessionTimeLife)
 	cookie, err := r.Cookie(SessionID)
 	if err != nil {
 		return profile, err
 	}
-	//log.Println(cookie.Value)
 
 	data, err := memc.Get(cookie.Value)
 	if err != nil {
-
 		// если проблемы с Memcached, смотрим сессию в БД
-		return profile, err
+		if err.Error() == "NOT_STORED" {
+			userAgent := r.Header.Get("user-agent")
+			profile, err = getSessionFromDB(cookie.Value, userAgent)
+			if err != nil {
+				return profile, err
+			}
+		} else {
+			return profile, err
+		}
 	}
 
+	expires := time.Now().Add(SessionTimeLife)
 	cookie.Expires = expires
 	http.SetCookie(w, cookie)
 
 	err = json.Unmarshal(data, &profile)
-	if err != nil {
-		return profile, err
-	}
-
-	return profile, nil
+	return profile, err
 }
 
 func getProfileByUUID(uuid string) (models.Profile, error) {
@@ -78,12 +81,7 @@ func UpdateSession(w http.ResponseWriter, r *http.Request, profile models.Profil
 		return err
 	}
 
-	err = memc.Set(cookie.Value, SessionTimeLife, data)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return memc.Set(cookie.Value, SessionMemcTimeout, data)
 }
 
 func NewSession(w http.ResponseWriter, r *http.Request, profile models.Profile) error {
@@ -124,9 +122,24 @@ func DelSession(w http.ResponseWriter, r *http.Request) error {
 }
 
 func createSessionID() string {
-	b := make([]byte, 24)
-	if _, err := io.ReadFull(rand.Reader, b); err != nil {
+	b := make([]byte, 16)
+	_, err := rand.Read(b)
+	if err != nil {
 		return ""
 	}
-	return base64.URLEncoding.EncodeToString(b)
+
+	return fmt.Sprintf("%X-%X-%X-%X-%X", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
+}
+
+func getSessionFromDB(uuid, userAgent string) (models.Profile, error) {
+	var profile models.Profile
+
+	conn, err := db.GetConnection()
+	if err != nil {
+		return profile, err
+	}
+
+	row := conn.QueryRow("select * from profiles.getprofilebyuuid(?,?)", uuid, userAgent)
+	err = row.Scan(&profile.User_id, &profile.Login, &profile.IsNoConfirmed)
+	return profile, err
 }
