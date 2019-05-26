@@ -55,14 +55,13 @@
         display: grid;
         grid-template-columns: 40px 1fr;
         position: relative;
-        min-width: 118px;
         height:30px;
         border-radius: 2px;
         text-align: center;
         color:#fff;
         opacity: 0.8;
         transition: 200ms;
-        padding: 10px 10px 0px 10px;
+        padding: 0px 10px 0px 10px;
 
         &:hover {
             opacity: 1;
