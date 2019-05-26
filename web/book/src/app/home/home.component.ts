@@ -25,8 +25,8 @@ export class HomeComponent implements OnInit {
     private oauthService: OauthService,
   ) {
     this.formAuth = this.fb.group({
-      login: ['', [Validators.email]],
-      password: ['', [Validators.minLength(3)]],
+      login: ['', Validators.email],
+      password: ['', Validators.minLength(3)],
     });
   }
 
