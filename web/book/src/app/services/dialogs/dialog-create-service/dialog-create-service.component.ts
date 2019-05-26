@@ -53,7 +53,7 @@ export class DialogCreateServiceComponent implements OnInit {
       group_id: this.selectegGroup.group_id,
       odo: this.form.get('odo').value,
       next_distance: this.form.get('next_distance').value,
-      date: this.form.get('date').value,
+      date: this.form.get('date').value.format('YYYY-MM-DD'),
       price: this.form.get('price').value,
       comment: this.form.get('comment').value,
     };

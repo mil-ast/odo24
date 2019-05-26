@@ -71,6 +71,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     dialog.afterClosed().subscribe((service: ServiceStruct) => {
       if (service) {
         this.serviceList.unshift(service);
+        this.selectLastService();
       }
     });
   }
@@ -79,6 +80,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     const index = this.serviceList.indexOf(service);
     if (index !== -1) {
       this.serviceList.splice(index, 1);
+      this.selectLastService();
     }
   }
 
@@ -134,10 +136,16 @@ export class ServicesComponent implements OnInit, OnDestroy {
     ).subscribe((list: ServiceStruct[]) => {
       this.serviceList = list || [];
 
-      if (list.length > 0) {
-        this.lastService = list[0];
-      }
+      this.selectLastService();
     });
+  }
+
+  private selectLastService() {
+    if (this.serviceList.length > 0) {
+      this.lastService = this.serviceList[0];
+    } else {
+      this.lastService = null;
+    }
   }
 
   private onResize(screen: Screen) {
