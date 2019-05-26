@@ -145,8 +145,15 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	switch r.Method {
 	case "POST":
+		userAgent := r.Header.Get("User-Agent")
+		if userAgent == "" {
+			http.Error(w, http.StatusText(http.StatusForbidden), http.StatusForbidden)
+			return
+		}
+
 		var buf bytes.Buffer
 		buf.ReadFrom(r.Body)
+		defer r.Body.Close()
 
 		var profile models.Profile
 
@@ -157,7 +164,7 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// auth
-		err = profile.Auth()
+		err = profile.Auth(userAgent)
 		if err == nil {
 			err = sessions.NewSession(w, r, profile)
 			if err != nil {

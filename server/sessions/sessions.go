@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	SessionID       string        = "go.sid"
+	SessionID       string        = "odo24.uuid"
 	SessionTimeLife time.Duration = time.Second * 3600
 )
 
@@ -36,27 +36,30 @@ func GetSession(w http.ResponseWriter, r *http.Request) (models.Profile, error) 
 	expires := time.Now().Add(SessionTimeLife)
 	cookie, err := r.Cookie(SessionID)
 	if err != nil {
-		sesID := createSessionID()
-
-		cookie = &http.Cookie{Name: SessionID, Value: sesID, Path: "/", HttpOnly: true, Expires: expires}
-		http.SetCookie(w, cookie)
-
-		return profile, errors.New("not found")
-	} else {
-		cookie.Expires = expires
-		http.SetCookie(w, cookie)
+		return profile, err
 	}
+	//log.Println(cookie.Value)
 
 	data, err := memc.Get(cookie.Value)
 	if err != nil {
+
+		// если проблемы с Memcached, смотрим сессию в БД
 		return profile, err
 	}
+
+	cookie.Expires = expires
+	http.SetCookie(w, cookie)
 
 	err = json.Unmarshal(data, &profile)
 	if err != nil {
 		return profile, err
 	}
 
+	return profile, nil
+}
+
+func getProfileByUUID(uuid string) (models.Profile, error) {
+	var profile models.Profile
 	return profile, nil
 }
 
