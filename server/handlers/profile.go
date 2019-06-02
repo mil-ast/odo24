@@ -201,6 +201,11 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 	выход из профиля
 **/
 func ProfileLogout(w http.ResponseWriter, r *http.Request) {
+	/*profile, err := sessions.GetSession(w, r)
+	if err != nil {
+		http.Error(w, http.StatusText(403), 403)
+		return
+	}*/
 	sessions.DelSession(w, r)
 
 	w.WriteHeader(204)
