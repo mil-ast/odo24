@@ -7,11 +7,6 @@ import (
 	"github.com/mil-ast/db"
 )
 
-const (
-	OAuthYandexRu uint8 = iota
-	OAuthMailRu
-)
-
 type OAuth struct {
 	Type oauth.OAuthUserInfo
 	Code string
