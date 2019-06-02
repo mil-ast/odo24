@@ -16,19 +16,17 @@ import { ProfileService } from './_services/profile.service';
 import { MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
-import {
-  MatButtonModule,
-  MatProgressBarModule,
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatDialogModule,
-  MatStepperModule,
-  MatMenuModule,
-  MatBadgeModule,
-  MatIconModule,
-  MatSidenavModule,
-  MatFormFieldModule,
-  MatInputModule,
-} from '@angular/material';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 
 export const DATE_FORMATS = {
   parse: {

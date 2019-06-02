@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProfileService } from 'src/app/_services/profile.service';
-import { MatSnackBar, MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-prifile-dialog',

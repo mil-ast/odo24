@@ -3,7 +3,7 @@ import { AvtoStruct } from '../_classes/avto';
 import { Subscription } from 'rxjs';
 import { AvtoService } from '../_services/avto.service';
 import { DocumentsService, Document } from './services/documents.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
 import { ScreenService, Screen, SmallScreen } from '../_services/screen.service';
 import { finalize } from 'rxjs/operators';
