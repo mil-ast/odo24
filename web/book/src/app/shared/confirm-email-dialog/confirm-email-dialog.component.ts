@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatStepper } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatStepper } from '@angular/material/stepper';
 import { Profile } from 'src/app/_classes/profile';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProfileService } from 'src/app/_services/profile.service';
@@ -10,7 +11,7 @@ import { ProfileService } from 'src/app/_services/profile.service';
   styleUrls: ['./confirm-email-dialog.component.css']
 })
 export class ConfirmEmailDialogComponent implements OnInit {
-  @ViewChild('stepper') stepper: MatStepper;
+  @ViewChild('stepper', {static: false}) stepper: MatStepper;
   codeform: FormGroup;
 
   constructor(

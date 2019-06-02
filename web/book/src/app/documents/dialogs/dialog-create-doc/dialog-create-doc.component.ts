@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
-import { MAT_DIALOG_DATA, MatSnackBar, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AvtoStruct } from 'src/app/_classes/avto';
 import { DocumentsService, Document } from '../../services/documents.service';
 import { HttpErrorResponse } from '@angular/common/http';

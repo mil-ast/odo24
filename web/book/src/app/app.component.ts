@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
-import { MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit {
     private screenService: ScreenService,
   ) { }
 
-  @ViewChild('snav') sidenav: MatSidenav;
+  @ViewChild('snav', {static: true}) sidenav: MatSidenav;
   @HostListener('window:resize', ['$event']) onResize() {
     this.screenService.onResize(window.innerWidth, window.innerHeight);
   }
