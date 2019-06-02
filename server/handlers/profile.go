@@ -164,7 +164,7 @@ func ProfileLogin(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// auth
-		err = profile.Auth(userAgent)
+		err = profile.Auth()
 		if err == nil {
 			err = sessions.NewSession(w, r, profile)
 			if err != nil {

@@ -27,7 +27,7 @@ type Profile struct {
 /*
 	авторизация
 */
-func (p *Profile) Auth(userAgent string) error {
+func (p *Profile) Auth() error {
 	if p.Password == "" {
 		return errors.New("no password is set")
 	}
