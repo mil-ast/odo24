@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from '../_services/profile.service';
 import { Router } from '@angular/router';
-import { finalize, first } from 'rxjs/operators';
+import { finalize, first, takeUntil } from 'rxjs/operators';
 import { OauthService } from './service/oauth.service';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +14,11 @@ import { OauthService } from './service/oauth.service';
     OauthService,
   ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   isIncorrect = false;
   isSync = false;
   formAuth: FormGroup;
+  private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
     private fb: FormBuilder,
@@ -31,7 +33,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkAuth();
     this.oauth();
+  }
+
+  ngOnDestroy() {
+    this.destroy.next(null);
+    this.destroy.complete();
   }
 
   submitLogin() {
@@ -54,8 +62,17 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  private checkAuth() {
+    this.profileService.isAuthorized().subscribe(() => {
+      this.router.navigate(['/service']);
+    });
+  }
+
   private oauth() {
-    this.oauthService.onLogin.pipe(first()).subscribe((onLogin: boolean) => {
+    this.oauthService.onLogin.pipe(
+      first(),
+      takeUntil(this.destroy)
+    ).subscribe((onLogin: boolean) => {
       if (onLogin === true) {
         this.router.navigate(['/service']);
       }
