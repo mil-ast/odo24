@@ -70,6 +70,6 @@ export class ProfileService {
 
     exit() {
         this.profile.next(null);
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
     }
 }

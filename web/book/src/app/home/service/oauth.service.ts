@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable, throwError, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+
+export interface OauthQuery {
+  service: string;
+  code: string;
+}
 
 @Injectable()
 export class OauthService {
@@ -11,29 +16,36 @@ export class OauthService {
     private http: HttpClient,
   ) { }
 
-  auth() {
+  getParams(): OauthQuery {
     const urlParams = new URLSearchParams(window.location.search);
     const service = urlParams.get('service');
+    const code = urlParams.get('code');
 
-    switch (service) {
+    if (!service || !code) {
+      return null;
+    }
+
+    return {
+      service: service,
+      code: code,
+    };
+  }
+
+  auth(patam: OauthQuery): Observable<void> {
+    switch (patam.service) {
       case 'yandex.ru': case 'mail.ru': case 'google':
-        this.authByCode(service, urlParams.get('code'));
-      break;
+        return this.authByCode(patam.service, patam.code);
       default:
-        this.onLogin.next(null);
+        return throwError('Сервис не поддерживается');
     }
   }
 
-  private authByCode(service: string, code: string) {
-    this.http.get<void>(`${this.baseURL}/oauth`, {
+  private authByCode(service: string, code: string): Observable<void> {
+    return this.http.get<void>(`${this.baseURL}/oauth`, {
       params: {
         service: service,
         code: code,
       }
-    }).subscribe(() => {
-      this.onLogin.next(true);
-    }, () => {
-      this.onLogin.next(false);
     });
   }
 }

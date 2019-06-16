@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { HomeRoutingModule } from './home.routing';
 import { CommonModule } from '@angular/common';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { CommonModule } from '@angular/common';
     HomeRoutingModule,
   ],
   declarations: [
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ]
 })
 export class HomeModule { }
