@@ -5,14 +5,17 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AvtoService } from 'src/app/_services/avto.service';
 import { AvtoStruct, Avto } from 'src/app/_classes/avto';
 import { ReplaySubject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, mergeMap, map } from 'rxjs/operators';
+import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 
 @Component({
   selector: 'app-dialog-update-avto',
   templateUrl: './dialog-update-avto.component.html',
-  styleUrls: ['./dialog-update-avto.component.css']
+  styleUrls: ['./dialog-update-avto.component.css'],
+  providers: [ BluetoothCore ]
 })
 export class DialogUpdateAvtoComponent implements OnDestroy {
+  error: any;
   form: FormGroup;
   uploaded_file: File = null;
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -21,6 +24,7 @@ export class DialogUpdateAvtoComponent implements OnDestroy {
     private dialogRef: MatDialogRef<DialogUpdateAvtoComponent>,
     private avtoService: AvtoService,
     private snackBar: MatSnackBar,
+    private ble: BluetoothCore,
     @Inject(MAT_DIALOG_DATA) public data: Avto,
   ) {
     this.form = new FormGroup({
@@ -92,5 +96,15 @@ export class DialogUpdateAvtoComponent implements OnDestroy {
     return `${file_size} B`;
   }
 
-  clickSyncODO(ev: MouseEvent) { }
+  clickSyncODO(ev: MouseEvent) {
+    navigator.bluetooth.requestDevice({
+      acceptAllDevices: false,
+      filters: [
+        {services: [0x1802, 0x1803]},
+        {services: ['c48e6067-5295-48d3-8d5c-0395f61792b1']},
+      ]
+    }).then((e) => {
+      console.log(e);
+    });
+  }
 }

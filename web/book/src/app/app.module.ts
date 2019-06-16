@@ -55,6 +55,7 @@ import { environment } from '../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
+import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -91,6 +92,7 @@ registerLocaleData(localeRu, 'ru');
     OrderPipeModule,
     SelectedAvtoModule,
     ServiceModule,
+    WebBluetoothModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
