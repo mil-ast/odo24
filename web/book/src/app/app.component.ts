@@ -47,10 +47,12 @@ export class AppComponent implements OnInit {
       this.selectedAvto = avto;
       if (avto) {
         this.fetchGroups();
+        this.sideNavClose();
       }
     });
     this.groupService.selected.subscribe((group: GroupStruct) => {
       this.selectedGroup = group;
+      this.sideNavClose();
     });
 
     this.profileService.profile$.subscribe((p: Profile) => {
@@ -227,6 +229,12 @@ export class AppComponent implements OnInit {
       this.sidenav.mode = 'push';
     }
     this.sidenav.opened = opened;
+  }
+
+  private sideNavClose() {
+    if (this.smallScreen) {
+      this.sidenav.close();
+    }
   }
 
   private fetchAvto() {
