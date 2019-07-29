@@ -1,15 +1,32 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "lang": "ru",
+  "name": "Сервисная книжка",
+  "short_name": "ODO24",
+  "description": "Сервисная книжка онлайн!",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/book/",
+  "theme_color": "#1976d2",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/images/icons/logo_32.png",
+      "sizes": "32x10"
+    },
+    {
+      "src": "/images/icons/logo_64.png",
+      "sizes": "64x21"
+    },
+    {
+      "src": "/images/icons/logo_128.png",
+      "sizes": "128x42"
+    },
+    {
+      "src": "/images/icons/logo_256.png",
+      "sizes": "256x84"
+    },
+    {
+      "src": "/images/icons/logo.png",
+      "sizes": "445x146"
     }
-  ],
-  "start_url": "./index.html",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }
