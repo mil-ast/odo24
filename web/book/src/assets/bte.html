@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ODO24 &mdash; Test bte</title>
+  <base href="/">
+</head>
+<body>
+  <button id="the-button">Test</button>
+  <div>
+    <p id="result"></p>
+  </div>
+  <script type="application/javascript">
+    const button = document.querySelector('#the-button');
+    const result = document.querySelector('#result');
+    try {
+      result.innerHTML = '...';
+
+      button.addEventListener('click', () => {
+        const device = navigator.bluetooth.requestDevice({
+          filters: [{
+            services: ['user_data']
+          }]
+        });
+        
+        device.then(() => {
+          result.innerHTML = 'OK';
+        }).catch((e) => {
+          result.innerHTML = e.message;
+        });
+      });
+
+      
+      /*navigator.bluetooth.requestDevice({
+        filters: [{
+          services: ['user_data']
+        }]
+      }).then(device => {
+        result.innerHTML = device.id;
+        console.log('Got device:', device.name);
+        console.log('id:', device.id);
+      });
+    });*/
+    } catch (e) {
+      result.innerHTML = 'error';
+    }
+  </script>
+</body>
+</html>
