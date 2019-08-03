@@ -1,20 +1,8 @@
 <mat-sidenav-container id="container" autosize>
   <mat-sidenav #snav mode="push" [autoFocus]="false" id="sidenav">
     <ng-container *ngIf="profile!==null">
-      <app-list-avto [avtoList]="avtoList" [selectedAvto]="selectedAvto"></app-list-avto>
-      <div id="groups" *ngIf="selectedAvto!==null">
-        <div class="title">
-          <button color="primary" mat-mini-fab (click)="clickShowAddGroup()">
-            <mat-icon>add</mat-icon>
-          </button>
-          <h2 class="mat-h2">Группы</h2>
-        </div>
-        <ul>
-          <li *ngFor="let group of groupList">
-            <app-item-group (eventDelete)="onGroupDelete($event)" [model]="group"></app-item-group>
-          </li>
-        </ul>
-      </div>
+      <app-list-avto></app-list-avto>
+      <app-list-groups></app-list-groups>
     </ng-container>
   </mat-sidenav>
   <mat-sidenav-content>

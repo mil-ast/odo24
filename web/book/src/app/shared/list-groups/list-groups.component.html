@@ -1,0 +1,13 @@
+<div id="groups" *ngIf="selectedAvto!==null">
+  <div class="title">
+    <button color="primary" mat-mini-fab (click)="clickShowAddGroup()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <h2 class="mat-h2">Группы</h2>
+  </div>
+  <ul>
+    <li *ngFor="let group of groupList">
+      <app-item-group (eventDelete)="onGroupDelete($event)" [model]="group"></app-item-group>
+    </li>
+  </ul>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Avto, AvtoStruct } from 'src/app/_classes/avto';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateAvtoComponent } from '../dialog-create-avto/dialog-create-avto.component';
@@ -6,17 +6,19 @@ import { AvtoService } from 'src/app/_services/avto.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from '../dialog-update-avto/dialog-update-avto.component';
 import { ScreenService, Screen, SmallScreen } from 'src/app/_services/screen.service';
+import { ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-avto',
   templateUrl: './list-avto.component.html',
-  styleUrls: ['./list-avto.component.css']
 })
-export class ListAvtoComponent implements OnInit {
-  @Input() selectedAvto: Avto = null;
-  @Input() avtoList: Avto[] = [];
+export class ListAvtoComponent implements OnInit, OnDestroy {
+  selectedAvto: Avto = null;
+  avtoList: Avto[] = [];
 
   private smallScreen = false;
+  private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
     private avtoService: AvtoService,
@@ -25,9 +27,15 @@ export class ListAvtoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.screenService.getScreen().subscribe(this.configureSideNav.bind(this));
-
+    this.screenService.getScreen().pipe(
+      takeUntil(this.destroy)
+    ).subscribe(this.configureSideNav.bind(this));
     this.fetchAvto();
+  }
+
+  ngOnDestroy() {
+    this.destroy.next(null);
+    this.destroy.complete();
   }
 
   clickShowAddAvto(disableClose: boolean = false) {

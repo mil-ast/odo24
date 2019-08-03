@@ -57,6 +57,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
 import { ListAvtoComponent } from './shared/list-avto/list-avto.component';
+import { ListGroupsComponent } from './shared/list-groups/list-groups.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -72,6 +73,7 @@ registerLocaleData(localeRu, 'ru');
     DialogCreateGroupComponent,
     DialogUpdateAvtoComponent,
     ListAvtoComponent,
+    ListGroupsComponent,
   ],
   imports: [
     BrowserAnimationsModule,
