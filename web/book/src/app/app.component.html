@@ -1,58 +1,7 @@
 <mat-sidenav-container id="container" autosize>
   <mat-sidenav #snav mode="push" [autoFocus]="false" id="sidenav">
-    <div *ngIf="profile!==null">
-      <div id="cars">
-        <div class="title">
-          <button color="primary" mat-mini-fab (click)="clickShowAddAvto()">
-            <mat-icon>add</mat-icon>
-          </button>
-          <h2 class="mat-h2">Мои машины</h2>
-        </div>
-        <ng-container [ngSwitch]="avtoList.length">
-          <div *ngSwitchCase="0">
-            <div id="empty-avto">
-              <div><p>Автомобилей ещё нет.</p></div>
-              <button mat-raised-button color="primary" (click)="clickShowAddAvto()">
-                <mat-icon>add</mat-icon>
-                <span>&nbsp;Добавить</span>
-              </button>
-            </div>
-          </div>
-          <div *ngSwitchCase="1" id="onceAvto">
-            <div id="onceAvtoImage">
-              <img [src]="selectedAvto.avatarPath('medium')" />
-            </div>
-            <div id="onceAvtoName">
-              <div>
-                <div>{{selectedAvto.name}}</div>
-                <div class="odo">
-                  <span *ngIf="selectedAvto.odo > 0">Пробег {{ selectedAvto.odo|number }} км</span>
-                </div>
-              </div>
-              <div>
-                <button class="menu" mat-icon-button [matMenuTriggerFor]="menu">
-                  <mat-icon>more_horiz</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="clickShowEditAvto(selectedAvto)">
-                    <mat-icon>edit</mat-icon>
-                    <span>Редактировать</span>
-                  </button>
-                  <button mat-menu-item (click)="clickDeleteAvto(selectedAvto)">
-                    <mat-icon>delete_outline</mat-icon>
-                    <span>Удалить</span>
-                  </button>
-                </mat-menu>
-              </div>
-            </div>
-          </div>
-          <ul *ngSwitchDefault>
-            <li *ngFor="let avto of avtoList">
-              <app-item-avto (eventDelete)="onAvtoDelete($event)" [model]="avto"></app-item-avto>
-            </li>
-          </ul>
-        </ng-container>
-      </div>
+    <ng-container *ngIf="profile!==null">
+      <app-list-avto [avtoList]="avtoList" [selectedAvto]="selectedAvto"></app-list-avto>
       <div id="groups" *ngIf="selectedAvto!==null">
         <div class="title">
           <button color="primary" mat-mini-fab (click)="clickShowAddGroup()">
@@ -66,7 +15,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </ng-container>
   </mat-sidenav>
   <mat-sidenav-content>
     <header *ngIf="profile; else loginHeader">

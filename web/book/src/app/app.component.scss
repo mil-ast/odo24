@@ -95,51 +95,6 @@ header {
     }
 }
 
-#sidenav {
-    min-width:300px;
-    .title {
-        position: relative;
-        padding: 12px 2px 4px 10px;
-        height: 40px;
-        margin:0px;
-        display: grid;
-        grid-template-columns: 50px 1fr;
-        background-color: #292e31;
-        color: #fff;
-
-        h3 {
-            margin-top: 8px;
-        }
-
-        button {
-            top:-5px;
-        }
-    }
-
-    ul li {
-        border-bottom:1px #eee solid;
-    }
-
-    #empty-avto {
-        margin:20px;
-    }
-
-    #onceAvto {
-        margin-top: 20px;
-        #onceAvtoImage {
-            text-align:center;
-        }
-
-        #onceAvtoName {
-            width:240px;
-            margin:auto;
-            padding:10px 0px;
-            display: grid;
-            grid-template-columns: 1fr 40px;
-        }
-    }
-}
-
 .warn {
     color: #ff6e40;
 }

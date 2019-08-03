@@ -1,6 +1,6 @@
 {
   "/api/*": {
-    "target": "http://localhost:8000/",
+    "target": "https://odo24.ru/",
     "secure": false
   },
   "/api/ws/": {
@@ -9,7 +9,7 @@
     "ws" : true
   },
   "/api/images/*" : {
-    "target": "http://localhost:8000/",
+    "target": "https://odo24.ru/",
     "secure": false
   }
 }

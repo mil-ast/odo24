@@ -9,10 +9,8 @@ import { AvtoService } from './_services/avto.service';
 import { GroupService, GroupStruct } from './_services/groups.service';
 import { DialogUpdateGroupComponent } from './shared/dialog-update-group/dialog-update-group.component';
 import { DialogCreateGroupComponent } from './shared/dialog-create-group/dialog-create-group.component';
-import { DialogCreateAvtoComponent } from './shared/dialog-create-avto/dialog-create-avto.component';
 import { ScreenService, SmallScreen, Screen } from './_services/screen.service';
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
-import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 
 @Component({
@@ -39,7 +37,6 @@ export class AppComponent implements OnInit {
   groupList: GroupStruct[] = [];
   selectedAvto: Avto = null;
   selectedGroup: GroupStruct = null;
-  isSync = false;
   profile: Profile = null;
 
   ngOnInit() {
@@ -62,7 +59,6 @@ export class AppComponent implements OnInit {
         return;
       }
 
-      this.fetchAvto();
       this.screenService.getScreen().subscribe(this.configureSideNav.bind(this));
     }, () => {
       this.profile = null;
@@ -118,73 +114,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  clickShowAddAvto(disableClose: boolean = false) {
-    const dialog = this.dialog.open(DialogCreateAvtoComponent, {
-      autoFocus: false,
-      disableClose: disableClose,
-    });
-    dialog.afterClosed().subscribe((data: AvtoStruct) => {
-      if (data) {
-        const avto = new Avto(data);
-        this.avtoList.push(avto);
-        this.avtoService.setSelected(avto);
-      }
-    });
-  }
-
-  clickShowEditAvto(avto: AvtoStruct) {
-    let position = null;
-    if (!this.smallScreen) {
-      position = '40px';
-    }
-    const dialog = this.dialog.open(DialogUpdateAvtoComponent, {
-      autoFocus: false,
-      data: avto,
-      width: '500px',
-      position: {
-        left: position,
-      }
-    });
-    dialog.afterClosed().subscribe();
-  }
-
-  clickDeleteAvto(avto: Avto) {
-    const dialog = this.dialog.open(ConfirmationDialogComponent, {
-      data: {
-        title: 'Удалить авто?',
-        message: 'Удалить авто и всю историю по ней? Восстановление будет невозможным!',
-        type: 'warn'
-      },
-    });
-    dialog.afterClosed().subscribe((ok: boolean) => {
-      if (!ok) {
-        return;
-      }
-
-      this.avtoService.delete(avto.avto_id).subscribe(() => {
-        this.onAvtoDelete(avto);
-      });
-    });
-  }
-
   clickEditGroup(group: GroupStruct) {
     this.dialog.open(DialogUpdateGroupComponent, {
       autoFocus: false,
       data: group
     });
-  }
-
-  // евент удаления авто
-  onAvtoDelete(avto: Avto) {
-    const index = this.avtoList.indexOf(avto);
-    if (index !== -1) {
-      this.avtoList.splice(index, 1);
-      if (this.avtoList.length > 0) {
-        this.avtoService.setSelected(this.avtoList[0]);
-      } else {
-        this.avtoService.setSelected(null);
-      }
-    }
   }
 
   // евент удаления группы
@@ -237,18 +171,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private fetchAvto() {
-    this.avtoService.get().subscribe((list: Avto[]) => {
-      this.avtoList = list || [];
-      if (this.avtoList.length > 0) {
-        this.avtoService.setSelected(list[0]);
-      } else {
-        this.clickShowAddAvto(true);
-      }
 
-      this.isSync = false;
-    });
-  }
 
   private fetchGroups() {
     this.groupList = [];
