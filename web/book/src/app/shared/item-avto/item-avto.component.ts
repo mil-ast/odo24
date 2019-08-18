@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AvtoStruct } from 'src/app/_classes/avto';
+import { AvtoStruct, Avto } from 'src/app/_classes/avto';
 import { AvtoService } from 'src/app/_services/avto.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
@@ -13,8 +13,8 @@ import { DialogUpdateAvtoComponent } from 'src/app/shared/dialog-update-avto/dia
   ]
 })
 export class ItemAvtoComponent {
-  @Input() model: AvtoStruct;
-  @Output() eventDelete: EventEmitter<AvtoStruct> = new EventEmitter();
+  @Input() model: Avto;
+  @Output() eventDelete: EventEmitter<Avto> = new EventEmitter();
   constructor(
     private dialog: MatDialog,
     private avtoService: AvtoService

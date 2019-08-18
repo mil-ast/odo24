@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Avto, AvtoStruct } from 'src/app/_classes/avto';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateAvtoComponent } from '../dialog-create-avto/dialog-create-avto.component';
@@ -27,6 +27,12 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.avtoService.selected.pipe(
+      takeUntil(this.destroy)
+    ).subscribe((avto: Avto) => {
+      this.selectedAvto = avto;
+    });
+
     this.screenService.getScreen().pipe(
       takeUntil(this.destroy)
     ).subscribe(this.configureSideNav.bind(this));

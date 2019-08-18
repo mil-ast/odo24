@@ -8,8 +8,8 @@ import { map } from 'rxjs/operators';
 export class AvtoService {
   private url = '/api/avto';
 
-  private selectedAvto: BehaviorSubject<AvtoStruct> = new BehaviorSubject(null);
-  selected: Observable<AvtoStruct> = this.selectedAvto.asObservable();
+  private selectedAvto: BehaviorSubject<Avto> = new BehaviorSubject(null);
+  selected: Observable<Avto> = this.selectedAvto.asObservable();
 
   constructor(
     private http: HttpClient
@@ -26,8 +26,12 @@ export class AvtoService {
     }));
   }
 
-  create(data: AvtoStruct): Observable<AvtoStruct> {
-    return this.http.post<AvtoStruct>(this.url, data);
+  create(data: AvtoStruct): Observable<Avto> {
+    return this.http.post<AvtoStruct>(this.url, data).pipe(
+      map((item: AvtoStruct) => {
+        return new Avto(item);
+      })
+    );
   }
 
   update(data: FormData): Observable<AvtoStruct> {
@@ -38,7 +42,7 @@ export class AvtoService {
     return this.http.delete(this.url.concat(`?avto_id=${id}`));
   }
 
-  setSelected(avto: AvtoStruct) {
+  setSelected(avto: Avto) {
     this.selectedAvto.next(avto);
   }
   resetSelected(): void {
