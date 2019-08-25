@@ -15,7 +15,7 @@ export class AvtoService {
     private http: HttpClient
   ) { }
 
-  get(): Observable<Avto[]> {
+  getAvto(): Observable<Avto[]> {
     return this.http.get<AvtoStruct[]>(this.url).pipe(map((list: AvtoStruct[]) => {
       list = list || [];
       return list.map((item: AvtoStruct) => {
@@ -44,6 +44,9 @@ export class AvtoService {
 
   setSelected(avto: Avto) {
     this.selectedAvto.next(avto);
+  }
+  getSelected(): Avto {
+    return this.selectedAvto.getValue();
   }
   resetSelected(): void {
     this.selectedAvto.next(null);

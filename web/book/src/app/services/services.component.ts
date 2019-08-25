@@ -1,58 +1,58 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AvtoService } from '../_services/avto.service';
-import { AvtoStruct } from '../_classes/avto';
-import { Subscription } from 'rxjs';
+import { AvtoStruct, Avto } from '../_classes/avto';
+import { Subscription, ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { finalize } from 'rxjs/operators';
-import { ScreenService, Screen, SmallScreen } from '../_services/screen.service';
+import { finalize, tap, takeUntil, take } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
+import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
 
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
-  styleUrls: ['./services.component.scss']
+  styleUrls: [
+    '../shared_styles/aside_content.scss',
+    './services.component.scss',
+  ]
 })
 export class ServicesComponent implements OnInit, OnDestroy {
   serviceList: ServiceStruct[] = [];
-  selectedAvto: AvtoStruct = null;
-  selectedGroup: GroupStruct = null;
+  selectedAvto: Avto;
+  selectedGroup: GroupStruct;
   lastService: ServiceStruct = null;
   isSync = true;
   isLoading = true;
-  screenIsSmall = false;
 
-  private avtoListener: Subscription;
-  private groupListener: Subscription;
-  private screenListener: Subscription;
   private screenIsMobile = false;
+  private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
     private avtoService: AvtoService,
     private groupService: GroupService,
     private serviceService: ServiceService,
     private dialog: MatDialog,
-    private screenService: ScreenService
   ) { }
 
   ngOnInit() {
-    this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
+    combineLatest(
+      this.avtoService.selected,
+      this.groupService.selected
+    ).pipe(
+      takeUntil(this.destroy)
+    ).subscribe(([avto, group]) => {
       this.selectedAvto = avto;
-      this.isSync = false;
-    });
-    this.groupListener = this.groupService.selected.subscribe((group: GroupStruct) => {
       this.selectedGroup = group;
+
       this.loadServices();
     });
-
-    this.screenListener = this.screenService.getScreen().subscribe(this.onResize.bind(this));
   }
 
   ngOnDestroy() {
-    this.avtoListener.unsubscribe();
-    this.groupListener.unsubscribe();
-    this.screenListener.unsubscribe();
+    this.dialog.closeAll();
+    this.destroy.next();
+    this.destroy.complete();
   }
 
   clickShowFormCreateService() {
@@ -84,8 +84,18 @@ export class ServicesComponent implements OnInit, OnDestroy {
     }
   }
 
+  clickShowDialogEditService(service: ServiceStruct) {
+    const config: MatDialogConfig = {
+      minWidth: '600px',
+      autoFocus: false,
+      data: service
+    };
+
+    this.dialog.open(DialogUpdateServiceComponent, config);
+  }
+
   get getLeftDistance(): number {
-    if (this.selectedAvto && this.lastService && this.lastService.next_distance > 0) {
+    /*if (this.selectedAvto && this.lastService && this.lastService.next_distance > 0) {
       const nextOdo = this.lastService.odo + this.lastService.next_distance;
       const leftOdo = nextOdo - this.selectedAvto.odo;
 
@@ -93,13 +103,13 @@ export class ServicesComponent implements OnInit, OnDestroy {
         return 0;
       }
       return leftOdo;
-    }
+    }*/
 
     return 0;
   }
 
   get leftDistanceColorState(): number {
-    if (!this.selectedAvto.odo || !this.lastService || !this.lastService.next_distance) {
+    /*if (!this.selectedAvto.odo || !this.lastService || !this.lastService.next_distance) {
       return 0;
     }
 
@@ -116,7 +126,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       return 2; // warn2
     } else if (59.9) {
       return 1; // warn1
-    }
+    }*/
 
     return 0;
   }
@@ -128,11 +138,17 @@ export class ServicesComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const selectedAvto = this.avtoService.getSelected();
+    const selectedGroup = this.groupService.getSelected();
+
     this.isLoading = true;
-    this.serviceService.get(this.selectedAvto.avto_id, this.selectedGroup.group_id).pipe(
+    this.serviceService.get(selectedAvto.avto_id, selectedGroup.group_id).pipe(
       finalize(() => {
         this.isLoading = false;
-      })
+      }),
+      takeUntil(
+        this.destroy
+      )
     ).subscribe((list: ServiceStruct[]) => {
       this.serviceList = list || [];
 
@@ -146,10 +162,5 @@ export class ServicesComponent implements OnInit, OnDestroy {
     } else {
       this.lastService = null;
     }
-  }
-
-  private onResize(screen: Screen) {
-    this.screenIsMobile = screen.innerWidth < 600;
-    this.screenIsSmall = screen.innerWidth < SmallScreen;
   }
 }

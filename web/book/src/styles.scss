@@ -14,10 +14,10 @@
   font-style: normal;
 }
 ::-webkit-scrollbar { width: 6px; height: 6px;}
-::-webkit-scrollbar-button {  display:none; }
+::-webkit-scrollbar-button { display:none; }
 ::-webkit-scrollbar-track { box-shadow:inset 0 0 6px rgba(0,0,0,0.3) }
 ::-webkit-scrollbar-track-piece { background-color: #ededed;}
-::-webkit-scrollbar-thumb { background-color:#6e6e6e;outline:1px solid #333 }
+::-webkit-scrollbar-thumb { background-color:#c8d0d6; border-radius: 4px; outline:1px solid #333 }
 ::-webkit-scrollbar-corner { background-color: #999;}
 ::-webkit-resizer { background-color: #666;}
 
@@ -28,6 +28,8 @@ html,body {
   font-size:14px;
   width:100%;
   height:100%;
+  background-color: #f2f6fb;
+  color:#374c56;
 }
 *:focus {
   outline: 0;
@@ -47,17 +49,6 @@ a:hover {
 input, textarea {outline:none;}
 input:active, textarea:active {outline:none;}
 :focus {outline:none;}
-.icon {
-  font-family: icon;
-  font-size:24px;
-  text-decoration: none;
-  font-style: normal;
-}
-ul, ol {
-  list-style: none;
-  margin:0px;
-  padding:0px;
-}
 
 .full_width {
   width:100%;
@@ -70,48 +61,8 @@ ul, ol {
   z-index:10;
 }
 
-#sidenav {
-  min-width:300px;
+.icon_button {
   .title {
-    position: relative;
-    padding: 12px 2px 4px 10px;
-    height: 40px;
-    margin:0px;
-    display: grid;
-    grid-template-columns: 50px 1fr;
-    background-color: #292e31;
-    color: #fff;
-
-    h3 {
-      margin-top: 8px;
-    }
-
-    button {
-      top: -4px;
-      background-color: #323b40;
-    }
-  }
-
-  ul li {
-    border-bottom:1px #eee solid;
-  }
-
-  #empty-avto {
-    margin:20px;
-  }
-
-  #onceAvto {
-    margin-top: 20px;
-    #onceAvtoImage {
-      text-align:center;
-    }
-
-    #onceAvtoName {
-      width:240px;
-      margin:auto;
-      padding:10px 0px;
-      display: grid;
-      grid-template-columns: 1fr 40px;
-    }
+    padding: 0px 10px;
   }
 }

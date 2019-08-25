@@ -107,7 +107,7 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
   }
 
   private fetchAvto() {
-    this.avtoService.get().subscribe((list: Avto[]) => {
+    this.avtoService.getAvto().subscribe((list: Avto[]) => {
       this.avtoList = list || [];
       if (this.avtoList.length > 0) {
         this.avtoService.setSelected(list[0]);

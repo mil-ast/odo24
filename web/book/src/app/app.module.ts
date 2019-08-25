@@ -24,7 +24,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 
@@ -45,10 +44,8 @@ import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { OrderPipeModule } from './_pipes/order.pipe.module';
-import { ItemGroupComponent } from './shared/item-group/item-group.component';
 import { DialogUpdateGroupComponent } from './shared/dialog-update-group/dialog-update-group.component';
 import { DialogCreateGroupComponent } from './shared/dialog-create-group/dialog-create-group.component';
-import { ItemAvtoComponent } from './shared/item-avto/item-avto.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
 import { environment } from '../environments/environment';
@@ -56,8 +53,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
-import { ListAvtoComponent } from './shared/list-avto/list-avto.component';
-import { ListGroupsComponent } from './shared/list-groups/list-groups.component';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -67,13 +62,9 @@ registerLocaleData(localeRu, 'ru');
     ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
     ProfileDialogComponent,
-    ItemGroupComponent,
-    ItemAvtoComponent,
     DialogUpdateGroupComponent,
     DialogCreateGroupComponent,
     DialogUpdateAvtoComponent,
-    ListAvtoComponent,
-    ListGroupsComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -88,7 +79,6 @@ registerLocaleData(localeRu, 'ru');
     MatBadgeModule,
     MatIconModule,
     MatFormFieldModule,
-    MatSidenavModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

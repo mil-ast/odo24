@@ -21,6 +21,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
 import { OrderPipeModule } from '../_pipes/order.pipe.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { ListAvtoComponent } from '../shared/list-avto/list-avto.component';
+import { ListGroupsComponent } from '../shared/list-groups/list-groups.component';
+import { ItemGroupComponent } from '../shared/item-group/item-group.component';
+import { ItemAvtoComponent } from '../shared/item-avto/item-avto.component';
+import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
 
 @NgModule({
   declarations: [
@@ -30,11 +36,17 @@ import { OrderPipeModule } from '../_pipes/order.pipe.module';
     DialogCreateAvtoComponent,
     DialogCreateServiceComponent,
     DialogUpdateServiceComponent,
+    ListAvtoComponent,
+    ListGroupsComponent,
+    ItemGroupComponent,
+    ItemAvtoComponent,
   ],
   imports: [
     CommonModule,
     SelectedAvtoModule,
+    MatSidenavModule,
     MatSnackBarModule,
+    SharedUtilsModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatDialogModule,

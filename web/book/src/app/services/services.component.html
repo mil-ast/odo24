@@ -1,4 +1,39 @@
-<div id="content" *ngIf="selectedAvto && !isSync; else emptyBody">
+<div class="aside_content">
+	<aside>
+		<app-list-avto></app-list-avto>
+		<app-list-groups></app-list-groups>
+	</aside>
+	<div class="content">
+		<h1 class="mat-h1">
+			<mat-icon>build</mat-icon>
+			Сервисное обслуживание
+		</h1>
+		<h3 class="mat-h3">{{selectedGroup?.name}}</h3>
+
+		<div id="list_services">
+			<mat-card *ngFor="let service of serviceList">
+				<mat-card-header>
+					<div mat-card-avatar>
+						<button mat-icon-button (click)="clickShowDialogEditService(service)"><mat-icon>edit</mat-icon></button>
+					</div>
+					<mat-card-title>
+						<span class="odo">
+							{{service.odo | number}}
+							<span>км</span>
+						</span>
+						<span class="date">{{service.date | date:'dd MMMM yyyy'}}</span>
+					</mat-card-title>
+					<mat-card-subtitle *ngIf="service.comment">{{ service.comment }}</mat-card-subtitle>
+				</mat-card-header>
+				<mat-card-content>
+					<span>Пробег составил 10 000км</span>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+</div>
+
+<!--<div id="content" *ngIf="selectedAvto && !isSync; else emptyBody">
 	<div id="selected_avto" *ngIf="screenIsSmall">
 		<app-selected-avto [model]="selectedAvto"></app-selected-avto>
 	</div>
@@ -39,3 +74,4 @@
 		<div><p>Для продолжения нужно добавить автомобиль</p></div>
 	</div>
 </ng-template>
+-->

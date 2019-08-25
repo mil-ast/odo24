@@ -70,8 +70,11 @@ export class GroupService {
     return this.http.delete(this.url.concat(`?group_id=${id}`));
   }
 
-  setSelected(avto: GroupStruct) {
-    this.selectedGroup.next(avto);
+  setSelected(group: GroupStruct) {
+    this.selectedGroup.next(group);
+  }
+  getSelected(): GroupStruct {
+    return this.selectedGroup.getValue();
   }
   resetSelected(): void {
     this.selectedGroup.next(null);

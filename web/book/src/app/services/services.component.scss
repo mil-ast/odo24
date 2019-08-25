@@ -1,9 +1,72 @@
 :host {
-    width:100%;
-    height:100%;
-    display: block;
+  width:100%;
+  height:100%;
+  display: block;
 }
 
+h1 {
+  position: relative;
+  padding-left:60px;
+  .mat-icon {
+    position: absolute;
+    top:-10px;
+    left:0px;
+    color: #797f8c;
+    font-size: 2em;
+  }
+}
+h3 {
+  color:#797f8c;
+  padding-left:60px;
+}
+
+.mat-card-header-text {
+  margin: 0px !important;
+}
+
+#list_services {
+  margin-top: 30px;
+  .mat-card:not(:first-child) {
+    margin-top:20px;
+  }
+
+  .mat-card {
+    .mat-card-avatar {
+      position: relative;
+      top:-10px;
+      left:-6px;
+      color:#cbcfd4;
+    }
+
+    &:hover {
+      .mat-card-avatar {
+        color:#00acc1;
+      }
+    }
+  }
+
+
+
+  .mat-card-title {
+    .odo {
+      span {
+        color: #757d82;
+        font-size: 0.8em;
+      }
+    }
+    .date {
+      font-size: 0.7em;
+      position: relative;
+      margin-left: 40px;
+      top: -2px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      color: #657da2;
+      background-color: #e7f1fb;
+    }
+  }
+}
+/*
 #selected_avto {
     box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
     position: relative;
@@ -89,4 +152,4 @@
             top: 120px;
         }
     }
-}
+}*/
