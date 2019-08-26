@@ -4,7 +4,6 @@ import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',

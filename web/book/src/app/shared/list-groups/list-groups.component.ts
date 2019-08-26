@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GroupStruct, GroupService } from 'src/app/_services/groups.service';
 import { AvtoService } from 'src/app/_services/avto.service';
 import { Avto } from 'src/app/_classes/avto';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateGroupComponent } from '../dialog-create-group/dialog-create-group.component';
 import { DialogUpdateGroupComponent } from '../dialog-update-group/dialog-update-group.component';
+import { ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-groups',
   templateUrl: './list-groups.component.html',
 })
-export class ListGroupsComponent implements OnInit {
-  selectedAvto: Avto = null;
+export class ListGroupsComponent implements OnInit, OnDestroy {
   groupList: GroupStruct[] = [];
   selectedGroup: GroupStruct = null;
+  private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
     private groupService: GroupService,
@@ -22,12 +24,19 @@ export class ListGroupsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.avtoService.selected.subscribe((avto: Avto) => {
-      this.selectedAvto = avto;
+    this.avtoService.selected.pipe(
+      takeUntil(this.destroy)
+    ).subscribe((avto: Avto) => {
       if (avto) {
-        this.fetchGroups();
+        this.fetchGroups(avto.avto_id);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.complete();
+    this.dialog.closeAll();
   }
 
   clickShowAddGroup() {
@@ -61,9 +70,9 @@ export class ListGroupsComponent implements OnInit {
     }
   }
 
-  private fetchGroups() {
+  private fetchGroups(avtoID: number) {
     this.groupList = [];
-    this.groupService.get(this.selectedAvto.avto_id).subscribe((list: GroupStruct[]) => {
+    this.groupService.get(avtoID).subscribe((list: GroupStruct[]) => {
       this.groupList = list || [];
       if (this.groupList.length > 0) {
         if (this.selectedGroup) {

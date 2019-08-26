@@ -9,7 +9,6 @@
 			Сервисное обслуживание
 		</h1>
 		<h3 class="mat-h3">{{selectedGroup?.name}}</h3>
-
 		<div id="list_services">
 			<mat-card *ngFor="let service of serviceList">
 				<mat-card-header>
@@ -23,10 +22,9 @@
 						</span>
 						<span class="date">{{service.date | date:'dd MMMM yyyy'}}</span>
 					</mat-card-title>
-					<mat-card-subtitle *ngIf="service.comment">{{ service.comment }}</mat-card-subtitle>
 				</mat-card-header>
 				<mat-card-content>
-					<span>Пробег составил 10 000км</span>
+					<div *ngIf="service.comment">{{ service.comment }}</div>
 				</mat-card-content>
 			</mat-card>
 		</div>

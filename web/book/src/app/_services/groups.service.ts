@@ -71,7 +71,12 @@ export class GroupService {
   }
 
   setSelected(group: GroupStruct) {
-    this.selectedGroup.next(group);
+    const selectedGroup = this.selectedGroup.getValue();
+    const selectedGroupID = selectedGroup ? selectedGroup.group_id : null;
+    const currentGroupID = group ? group.group_id : null;
+    if (selectedGroupID !== currentGroupID) {
+      this.selectedGroup.next(group);
+    }
   }
   getSelected(): GroupStruct {
     return this.selectedGroup.getValue();

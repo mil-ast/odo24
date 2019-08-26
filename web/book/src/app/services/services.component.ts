@@ -5,7 +5,7 @@ import { Subscription, ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { finalize, tap, takeUntil, take } from 'rxjs/operators';
+import { finalize, tap, takeUntil, take, skip } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
 
@@ -42,10 +42,17 @@ export class ServicesComponent implements OnInit, OnDestroy {
     ).pipe(
       takeUntil(this.destroy)
     ).subscribe(([avto, group]) => {
+      if (!avto && !group) {
+        return;
+      }
       this.selectedAvto = avto;
       this.selectedGroup = group;
 
       this.loadServices();
+    }, () => {
+
+    }, () => {
+      console.log('finalize');
     });
   }
 
@@ -53,6 +60,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
     this.dialog.closeAll();
     this.destroy.next();
     this.destroy.complete();
+
+    this.serviceList = [];
   }
 
   clickShowFormCreateService() {
@@ -132,11 +141,13 @@ export class ServicesComponent implements OnInit, OnDestroy {
   }
 
   private loadServices() {
+    
     this.serviceList = [];
     this.lastService = null;
     if (!this.selectedAvto || !this.selectedGroup) {
       return;
     }
+    console.log('loadServices');
 
     const selectedAvto = this.avtoService.getSelected();
     const selectedGroup = this.groupService.getSelected();

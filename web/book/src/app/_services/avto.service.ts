@@ -43,7 +43,12 @@ export class AvtoService {
   }
 
   setSelected(avto: Avto) {
-    this.selectedAvto.next(avto);
+    const selectedAvto = this.selectedAvto.getValue();
+    const selectedAvtoID = selectedAvto ? selectedAvto.avto_id : null;
+    const newAvtoID = avto ? avto.avto_id : null;
+    if (selectedAvtoID !== newAvtoID) {
+      this.selectedAvto.next(avto);
+    }
   }
   getSelected(): Avto {
     return this.selectedAvto.getValue();

@@ -1,0 +1,43 @@
+#cars {
+  margin-bottom:40px;
+}
+
+#onceAvtoImage {
+  text-align: center;
+  margin-bottom: 10px;
+
+  > a {
+    cursor: pointer;
+    img {
+      padding: 20px;
+      border-radius: 4px;
+      background-color: #f2f6fb;
+    }
+  }
+}
+#onceAvtoName {
+  .avto_name {
+    font-size:1.3em;
+  }
+
+  .odo {
+    margin-top:10px;
+    position: relative;
+    .value {
+      padding: 6px 10px;
+      background-color: #d9f7f2;
+      border-radius: 15px;
+      color: #24796a;
+    }
+
+    button {
+      position: absolute;
+      top:-14px;
+      right:0px;
+      color: #cbcfd4;
+      &:hover {
+        color:#00acc1;
+      }
+    }
+  }
+}

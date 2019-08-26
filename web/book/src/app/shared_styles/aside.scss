@@ -1,0 +1,9 @@
+.aside_title {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin-bottom:20px;
+
+  .mat-h1 {
+    padding-top:4px;
+  }
+}

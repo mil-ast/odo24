@@ -1,9 +1,9 @@
 <div id="cars">
-  <div class="title">
+  <div class="aside_title">
+    <h1 class="mat-h1">Мои машины</h1>
     <button title="Добавить авто" color="primary" mat-mini-fab class="mat-elevation-z1" (click)="clickShowAddAvto()">
       <mat-icon>add</mat-icon>
     </button>
-    <h2 class="mat-h2">Мои машины</h2>
   </div>
   <ng-container [ngSwitch]="avtoList.length">
     <div *ngSwitchCase="0">
@@ -17,29 +17,17 @@
     </div>
     <div *ngSwitchCase="1" id="onceAvto">
       <div id="onceAvtoImage">
-        <img [src]="selectedAvto.avatarPath('medium')" />
+        <a (click)="clickShowEditAvto(selectedAvto)"><img [src]="selectedAvto.avatarPath('medium')" /></a>
       </div>
       <div id="onceAvtoName">
         <div>
-          <div>{{selectedAvto.name}}</div>
-          <div class="odo">
-            <span *ngIf="selectedAvto.odo > 0">Пробег {{ selectedAvto.odo|number }} км</span>
-          </div>
-        </div>
-        <div>
-          <button class="menu" mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_horiz</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="clickShowEditAvto(selectedAvto)">
+          <div class="avto_name">{{selectedAvto.name}}</div>
+          <div class="odo" *ngIf="selectedAvto.odo > 0">
+            <span>Пробег <span class="value">{{ selectedAvto.odo|number }} км</span></span>
+            <button mat-icon-button (click)="clickShowEditAvto(selectedAvto)">
               <mat-icon>edit</mat-icon>
-              <span>Редактировать</span>
             </button>
-            <button mat-menu-item (click)="clickDeleteAvto(selectedAvto)">
-              <mat-icon>delete_outline</mat-icon>
-              <span>Удалить</span>
-            </button>
-          </mat-menu>
+          </div>
         </div>
       </div>
     </div>

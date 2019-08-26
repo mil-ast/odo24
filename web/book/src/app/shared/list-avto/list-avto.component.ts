@@ -12,6 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-list-avto',
   templateUrl: './list-avto.component.html',
+  styleUrls: ['../../shared_styles/aside.scss', './list-avto.component.scss'],
 })
 export class ListAvtoComponent implements OnInit, OnDestroy {
   selectedAvto: Avto = null;
