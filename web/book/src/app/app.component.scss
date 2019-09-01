@@ -6,24 +6,18 @@
 }
 
 header {
-  position: fixed;
-  display: flex;
-  top: 30px;
-  right: 40px;
-  z-index: 500;
-  padding: 20px;
-  background-color: #f2f6fb;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  padding: 40px 20px;
   border-radius: 4px;
 
-  > *:not(:first-child) {
-    margin-left:40px;
-  }
-
   nav {
+    grid-column: 1/4;
+    grid-row: 2/3;
+    margin-top: 20px;
     a {
       display:inline-block;
       padding:10px 0px 12px 30px;
-      color:#00acc1;
       text-decoration: none;
       position: relative;
       border-bottom: 1px currentColor solid;
@@ -50,126 +44,36 @@ header {
       }
     }  
   }
+
+  #profile {
+    text-align:right;
+    .title, .icon_more {
+      display: none;
+    }
+  }
 }
-/*
-#container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
 
-header {
-    background-color: #1f2326;
-    height: 110px;
-    display: grid;
-    grid-template-columns: 60px 1fr 100px;
-    grid-template-rows: repeat(2, 55px);
-    position: relative;
-
-    &#login_header {
-        height: 6px;
-    }
-
-    #logo {
-        padding-top: 7px;
-        box-sizing: border-box;
-        text-align: center;
-        background-color: #5890ff;
-        color: #fff;
-    }
-
-    nav {
-        background-color: #292e31;
-        grid-column-start: 1; 
-        grid-column-end: 4; 
-        grid-row-start: 2; 
-        grid-row-end: 3;
-
-        .menu {
-            display: inline-block;
-            width:90px;
-            text-align: center;
-            color: #fff;
-        }
-        a {
-            display:inline-block;
-            padding:20px 20px 20px 50px;
-            color:#e6e6e6;
-            text-decoration: none;
-            position: relative;
-
-            &.selected {
-                color:#e98e69;
-                cursor:default;
-            }
-
-            .mat-icon {
-                position: absolute;
-                top:15px;
-                left:20px;
-            }
-        }
-    }
-
+/*@import url(color.css) screen and (color);*/
+@media (min-width: 420px) {
+  header {
     #profile {
-        text-align:right;
-        a {
-            color: #737373;
-            padding: 20px 18px 10px 40px;
-            display: inline-block;
-            position: relative;
-
-            &::before {
-                font-family:icon;
-                content:"\e853";
-                font-size:24px;
-                position: absolute;
-                top:16px;
-                left:10px;
-            }
-
-            .mat-badge-content {
-                top:5px;
-                right:0px;
-            }
-        }
+      .title, .icon_more {
+        display: inline;
+        padding-left:10px;
+      }
     }
-
-    #logout {
-        color: #e98e69;
-        padding: 10px 0px;
-        text-align: center;
-
-        .mat-icon {
-            position: relative;
-            top:6px;
-        }
-    }
+  }
 }
 
-.warn {
-    color: #ff6e40;
-}
-
-@media only screen and (min-width: 860px) {
-    header {
-        height: 56px;
-        grid-template-columns: 1fr auto 90px;
-        grid-template-rows: none;
-
-        #logo {
-            display: none;
-        }
-
-        nav {
-            grid-column-start: 1; 
-            grid-column-end: 2; 
-            grid-row-start: 1; 
-            grid-row-end: 2;
-        }
+@media (min-width: 660px) {
+  header {
+    padding: 60px 20px;
+    grid-template-columns: auto 1fr auto;
+    nav {
+      grid-column: auto;
+      grid-row: auto;
+      margin-top: 0px;
+      margin-left: 40px;
     }
-
-
-}*/
+  }
+}

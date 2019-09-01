@@ -8,6 +8,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
+import { AsideService } from '../_services/aside.service';
 
 @Component({
   selector: 'app-services',
@@ -29,6 +30,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
+    public asideService: AsideService,
     private avtoService: AvtoService,
     private groupService: GroupService,
     private serviceService: ServiceService,

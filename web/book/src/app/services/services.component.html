@@ -1,8 +1,8 @@
 <div class="aside_content">
-	<aside>
+	<app-aside [class.visible]="asideService.asideVisible | async">
 		<app-list-avto></app-list-avto>
 		<app-list-groups></app-list-groups>
-	</aside>
+	</app-aside>
 	<div class="content">
 		<div class="title">
 			<div>

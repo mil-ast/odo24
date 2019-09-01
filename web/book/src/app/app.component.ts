@@ -4,6 +4,7 @@ import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
+import { AsideService } from './_services/aside.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.c
 })
 export class AppComponent implements OnInit {
   constructor(
+    public asideService: AsideService,
     private dialog: MatDialog,
     private profileService: ProfileService,
   ) { }
@@ -54,6 +56,11 @@ export class AppComponent implements OnInit {
       };
     }
     this.dialog.open(ConfirmEmailDialogComponent, config);
+  }
+
+  toggleAsideMenu() {
+    const currValue = this.asideService.getAsideVslue();
+    this.asideService.setAsideVisible(!currValue);
   }
 
   // выход

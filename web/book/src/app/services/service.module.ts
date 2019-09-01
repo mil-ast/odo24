@@ -27,6 +27,7 @@ import { ListGroupsComponent } from '../shared/list-groups/list-groups.component
 import { ItemGroupComponent } from '../shared/item-group/item-group.component';
 import { ItemAvtoComponent } from '../shared/item-avto/item-avto.component';
 import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
+import { AsideModule } from '../shared/aside/aside.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
   ],
   imports: [
     CommonModule,
+    AsideModule,
     SelectedAvtoModule,
     MatSidenavModule,
     MatSnackBarModule,

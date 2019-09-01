@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  opacity: 0;
+  position: fixed;
+  top: 0px;
+  left:-100%;
+  transition:200ms;
+  width:100%;
+  min-width:300px;
+  max-width:400px;
+  bottom:0px;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto;
+  z-index:99;
+
+  &.visible {
+    opacity: 1;
+    left:0px;
+  }
+}
+
+#actions {
+  margin-bottom: 20px;
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+}
