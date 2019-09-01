@@ -4,13 +4,23 @@
 		<app-list-groups></app-list-groups>
 	</aside>
 	<div class="content">
-		<h1 class="mat-h1">
-			<mat-icon>build</mat-icon>
-			Сервисное обслуживание
-		</h1>
-		<h3 class="mat-h3">{{selectedGroup?.name}}</h3>
+		<div class="title">
+			<div>
+				<div>
+					<h1 class="mat-h1">
+						<mat-icon>build</mat-icon>
+						Сервисное обслуживание
+					</h1>
+				</div>
+				<div class="right_button">
+					<button mat-flat-button color="primary">Добавить</button>
+				</div>
+			</div>
+			<h3 class="mat-h3">{{selectedGroup?.name}}</h3>
+		</div>
+
 		<div id="list_services">
-			<mat-card *ngFor="let service of serviceList">
+			<mat-card *ngFor="let service of serviceList" class="mat-elevation-z0">
 				<mat-card-header>
 					<div mat-card-avatar>
 						<button mat-icon-button (click)="clickShowDialogEditService(service)"><mat-icon>edit</mat-icon></button>
@@ -23,8 +33,8 @@
 						<span class="date">{{service.date | date:'dd MMMM yyyy'}}</span>
 					</mat-card-title>
 				</mat-card-header>
-				<mat-card-content>
-					<div *ngIf="service.comment">{{ service.comment }}</div>
+				<mat-card-content *ngIf="service.comment">
+					<div>{{ service.comment }}</div>
 				</mat-card-content>
 			</mat-card>
 		</div>

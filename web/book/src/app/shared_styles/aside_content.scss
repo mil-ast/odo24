@@ -19,5 +19,15 @@
     padding: 40px;
     box-sizing: border-box;
     overflow: auto;
+
+    > .title {
+      > div {
+        display: flex;
+
+        .right_button {
+          padding-left:20px;
+        }
+      }
+    }
   }
 }

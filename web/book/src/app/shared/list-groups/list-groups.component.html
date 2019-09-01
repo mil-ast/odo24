@@ -1,13 +1,31 @@
-<div id="groups" *ngIf="selectedAvto!==null">
+<div id="groups">
   <div class="title">
-    <button color="primary" mat-mini-fab class="mat-elevation-z1" (click)="clickShowAddGroup()">
+    <button color="primary" mat-mini-fab class="mat-elevation-z0" (click)="clickShowAddGroup()">
       <mat-icon>add</mat-icon>
     </button>
     <h2 class="mat-h2">Группы</h2>
   </div>
   <ul>
     <li *ngFor="let group of groupList">
-      <app-item-group (eventDelete)="onGroupDelete($event)" [model]="group"></app-item-group>
+      <a class="item" (click)="clickSelect(group)" [ngClass]="{'selected' : group.group_id === selected?.group_id}">
+        <span>{{group.name}}</span>
+        <span class="cnt" *ngIf="group.global || group.group_id !== selected?.group_id">{{group.cnt}}</span>
+      </a>
+      <div class="menu" *ngIf="!group.global && group.group_id === selected?.group_id">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="clickEditGroup(group)">
+            <mat-icon>edit</mat-icon>
+            <span>Изменить</span>
+          </button>
+          <button mat-menu-item (click)="clickDeleteGroup(group)">
+            <mat-icon>delete_outline</mat-icon>
+            <span>Удалить</span>
+          </button>
+        </mat-menu>
+      </div>
     </li>
   </ul>
 </div>

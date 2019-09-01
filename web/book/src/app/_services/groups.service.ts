@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 export interface GroupStruct {
     group_id?: number;
@@ -47,7 +47,12 @@ export class GroupService {
         }
         return 0;
       });
-    }));
+    }, tap((list: GroupStruct[]) => {
+      const selectedGroup = this.selectedGroup.getValue();
+      if (list.length > 0 && selectedGroup === null) {
+        this.setSelected(list[0]);
+      }
+    })));
   }
 
   getStats(avtoId: number): Observable<GroupsStats[]> {
@@ -71,12 +76,7 @@ export class GroupService {
   }
 
   setSelected(group: GroupStruct) {
-    const selectedGroup = this.selectedGroup.getValue();
-    const selectedGroupID = selectedGroup ? selectedGroup.group_id : null;
-    const currentGroupID = group ? group.group_id : null;
-    if (selectedGroupID !== currentGroupID) {
-      this.selectedGroup.next(group);
-    }
+    this.selectedGroup.next(group);
   }
   getSelected(): GroupStruct {
     return this.selectedGroup.getValue();
@@ -85,7 +85,7 @@ export class GroupService {
     this.selectedGroup.next(null);
   }
 
-  isSelected(avto: GroupStruct): boolean {
-    return this.selectedGroup.getValue() === avto;
+  isSelected(group: GroupStruct): boolean {
+    return this.selectedGroup.getValue() === group;
   }
 }

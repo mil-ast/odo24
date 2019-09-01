@@ -31,6 +31,10 @@ html,body {
   background-color: #f7fafd;
   color:#374c56;
 }
+body {
+  margin:auto;
+  max-width:1440px;
+}
 *:focus {
   outline: 0;
 }

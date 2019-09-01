@@ -7,23 +7,37 @@ import { DialogCreateGroupComponent } from '../dialog-create-group/dialog-create
 import { DialogUpdateGroupComponent } from '../dialog-update-group/dialog-update-group.component';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-list-groups',
   templateUrl: './list-groups.component.html',
+  styleUrls: ['../../_css/sidenav_menu.scss']
 })
 export class ListGroupsComponent implements OnInit, OnDestroy {
   groupList: GroupStruct[] = [];
-  selectedGroup: GroupStruct = null;
+  selected: GroupStruct = null;
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
     private groupService: GroupService,
     private avtoService: AvtoService,
     private dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
+    this.groupService.selected.pipe(
+      takeUntil(this.destroy)
+    ).subscribe((group: GroupStruct) => {
+      if (group) {
+        console.log(777, group);
+        this.selected = group;
+      }
+    });
+
     this.avtoService.selected.pipe(
       takeUntil(this.destroy)
     ).subscribe((avto: Avto) => {
@@ -51,10 +65,41 @@ export class ListGroupsComponent implements OnInit, OnDestroy {
     });
   }
 
+  clickSelect(group: GroupStruct) {
+    this.groupService.setSelected(group);
+  }
+
   clickEditGroup(group: GroupStruct) {
     this.dialog.open(DialogUpdateGroupComponent, {
       autoFocus: false,
       data: group
+    });
+  }
+
+  clickDeleteGroup(group: GroupStruct) {
+    const dialog = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Удалить группу?',
+        message: 'Удалить группу и все её записи? Восстановление будет невозможым!',
+        type: 'warn'
+      },
+      autoFocus: false,
+    });
+    dialog.afterClosed().subscribe((ok: boolean) => {
+      if (!ok) {
+        return;
+      }
+
+      this.groupService.delete(group.group_id).subscribe(() => {
+        this.snackBar.open('Группа успешно удалена!', 'OK', {
+          duration: 5000,
+        });
+      }, (e: HttpErrorResponse) => {
+        this.snackBar.open('Что-то пошло не так!', 'OK', {
+          duration: 5000,
+          panelClass: 'error',
+        });
+      });
     });
   }
 
@@ -74,20 +119,16 @@ export class ListGroupsComponent implements OnInit, OnDestroy {
     this.groupList = [];
     this.groupService.get(avtoID).subscribe((list: GroupStruct[]) => {
       this.groupList = list || [];
-      if (this.groupList.length > 0) {
-        if (this.selectedGroup) {
-          const group = this.groupList.find((g: GroupStruct) => {
-            return g.group_id === this.selectedGroup.group_id;
-          });
-          if (group) {
-            this.groupService.setSelected(group);
-            return;
-          }
-        }
 
+      if (this.groupList.length === 0) {
+        return;
+      }
+
+      const selectedGroup = this.groupService.getSelected();
+      if (!selectedGroup) {
         this.groupService.setSelected(this.groupList[0]);
       } else {
-        this.groupService.setSelected(null);
+        this.selected = selectedGroup;
       }
     });
   }

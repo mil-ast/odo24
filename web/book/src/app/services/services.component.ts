@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AvtoService } from '../_services/avto.service';
 import { AvtoStruct, Avto } from '../_classes/avto';
-import { Subscription, ReplaySubject, Observable, combineLatest } from 'rxjs';
+import { Subscription, ReplaySubject, Observable, combineLatest, zip } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { finalize, tap, takeUntil, take, skip } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
 
@@ -49,10 +49,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
       this.selectedGroup = group;
 
       this.loadServices();
-    }, () => {
-
-    }, () => {
-      console.log('finalize');
     });
   }
 
