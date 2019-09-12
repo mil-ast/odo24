@@ -4,7 +4,7 @@
   box-sizing: border-box;
 
   > .content {
-    padding: 40px;
+    padding: 40px 20px;
     box-sizing: border-box;
     overflow: auto;
 
@@ -20,8 +20,11 @@
   }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 980px) {
   .aside_content {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+
     > aside {
       display: block;
       padding: 20px;

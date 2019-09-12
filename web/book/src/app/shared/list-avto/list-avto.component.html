@@ -5,36 +5,87 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <ng-container [ngSwitch]="avtoList.length">
-    <div *ngSwitchCase="0">
-      <div id="empty-avto">
-        <div><p>Автомобилей ещё нет.</p></div>
-        <button title="Добавить авто" mat-raised-button color="primary" class="mat-elevation-z0" (click)="clickShowAddAvto()">
-          <mat-icon>add</mat-icon>
-          <span>&nbsp;Добавить</span>
-        </button>
-      </div>
+  <ng-container *ngIf="avtoList.length > 0; else tplEmptyAvto">
+    <div id="onceAvtoImage">
+      <a (click)="clickShowEditAvto(selectedAvto)">
+        <img [src]="selectedAvto.avatarMediumPath" />
+      </a>
     </div>
-    <div *ngSwitchCase="1" id="onceAvto">
-      <div id="onceAvtoImage">
-        <a (click)="clickShowEditAvto(selectedAvto)"><img [src]="selectedAvto.avatarPath('medium')" /></a>
-      </div>
-      <div id="onceAvtoName">
-        <div>
-          <div class="avto_name">{{selectedAvto.name}}</div>
-          <div class="odo" *ngIf="selectedAvto.odo > 0">
-            <span>Пробег <span class="value">{{ selectedAvto.odo|number }} км</span></span>
-            <button mat-icon-button (click)="clickShowEditAvto(selectedAvto)">
+    <div id="onceAvtoName">
+      <div>
+        <div class="avto_name">{{selectedAvto.name}}</div>
+        <div class="odo" *ngIf="selectedAvto.odo > 0">
+          <span>Пробег <span class="value">{{ selectedAvto.odo|number }} км</span></span>
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="clickShowEditAvto()">
               <mat-icon>edit</mat-icon>
+              <span>Изменить</span>
             </button>
-          </div>
+            <button mat-menu-item color="warn" (click)="clickDeleteAvto()">
+              <mat-icon>delete_outline</mat-icon>
+              <span>Удалить</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
     </div>
-    <ul *ngSwitchDefault>
-      <li *ngFor="let avto of avtoList">
-        <app-item-avto (eventDelete)="onAvtoDelete($event)" [model]="avto"></app-item-avto>
+    <ul class="aside_list" *ngIf="avtoList.length > 1">
+      <li *ngFor="let avto of avtoList" [class.selected]="selectedAvto === avto" class="avto">
+        <a (click)="clickSelectAvto(avto, $event)">
+          <img [src]="avto.avatarSmallPath" />
+          <span class="title">
+            <span class="avto_name">{{ avto.name }}</span>
+            <span class="ato_odo">
+              <span class="odo">{{ avto.odo | number }}</span>
+              <span class="prefix">км</span></span>
+          </span>
+        </a>
       </li>
     </ul>
   </ng-container>
+
 </div>
+<ng-template #tplEmptyAvto>
+  <div id="empty-avto">
+    <div><p>Автомобилей ещё нет.</p></div>
+    <button title="Добавить авто" mat-raised-button color="primary" class="mat-elevation-z0" (click)="clickShowAddAvto()">
+      <mat-icon>add</mat-icon>
+      <span>&nbsp;Добавить</span>
+    </button>
+  </div>
+</ng-template>
+<!--<ng-container [ngSwitch]="avtoList.length">
+  <div *ngSwitchCase="0">
+    <div id="empty-avto">
+      <div><p>Автомобилей ещё нет.</p></div>
+      <button title="Добавить авто" mat-raised-button color="primary" class="mat-elevation-z0" (click)="clickShowAddAvto()">
+        <mat-icon>add</mat-icon>
+        <span>&nbsp;Добавить</span>
+      </button>
+    </div>
+  </div>
+  <div *ngSwitchCase="1" id="onceAvto">
+    <div id="onceAvtoImage">
+      <a (click)="clickShowEditAvto(selectedAvto)"><img [src]="selectedAvto.avatarPath('medium')" /></a>
+    </div>
+    <div id="onceAvtoName">
+      <div>
+        <div class="avto_name">{{selectedAvto.name}}</div>
+        <div class="odo" *ngIf="selectedAvto.odo > 0">
+          <span>Пробег <span class="value">{{ selectedAvto.odo|number }} км</span></span>
+          <button mat-icon-button (click)="clickShowEditAvto(selectedAvto)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul *ngSwitchDefault>
+    <li *ngFor="let avto of avtoList">
+      <app-item-avto (eventDelete)="onAvtoDelete($event)" [model]="avto"></app-item-avto>
+    </li>
+  </ul>
+</ng-container>-->

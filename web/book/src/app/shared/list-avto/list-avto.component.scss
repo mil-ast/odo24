@@ -9,13 +9,14 @@
   > a {
     cursor: pointer;
     img {
-      padding: 20px;
-      border-radius: 4px;
-      background-color: #f2f6fb;
+      border-radius: 10px;
     }
   }
 }
 #onceAvtoName {
+  border-bottom: 1px #eee solid;
+  padding-bottom: 40px;
+
   .avto_name {
     font-size:1.3em;
   }
@@ -37,6 +38,36 @@
       color: #cbcfd4;
       &:hover {
         color:#00acc1;
+      }
+    }
+  }
+}
+
+.aside_list {
+  li {
+    a {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap:20px;
+      img {
+        border-radius: 30px;
+        background-color: #f0f7f7;
+      }
+
+      .title {
+        display: grid;
+        gap: 4px;
+        grid-template-rows: auto 1fr;
+
+        .avto_name {
+          padding-top: 10px;
+          color:#35434e;
+          font-size: 1.2em;
+        }
+
+        .ato_odo {
+          color:#89959f;
+        }
       }
     }
   }

@@ -1,6 +1,9 @@
-<div id="actions">
-  <button mat-fab color="warn" (click)="clickClose()">
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
-<ng-content></ng-content>
+<div id="bg" (click)="clickClose()"></div>
+<aside>
+  <div id="actions">
+    <button mat-fab color="warn" (click)="clickClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <ng-content></ng-content>
+</aside>
