@@ -4,20 +4,17 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
-	"os"
-	"os/signal"
 	"runtime"
 	"sto/server/config"
 	"sto/server/handlers"
-	"syscall"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/mil-ast/db"
 	"github.com/mil-ast/sessions"
 )
 
-var VERSION string = "1/0"
+var VERSION string = "2.0.0"
 
 func main() {
 	defer func() {
@@ -57,8 +54,26 @@ func main() {
 	// актуальность сессии
 	sessions.SetMaxLifeTime(time.Hour)
 
+	gin.SetMode(gin.DebugMode) // gin.ReleaseMode
+	r := gin.Default()
+	profileGroup := r.Group("/api/profile")
+	{
+		profileGroup.GET("", handlers.ProfileGet)
+		profileGroup.POST("/login", handlers.Login)
+	}
+
+	if options.App.Server_addr == "" {
+		options.App.Server_addr = "0.0.0.0:8080"
+	}
+
+	fmt.Printf("Addr: %s\r\n", options.App.Server_addr)
+	err = r.Run(options.App.Server_addr)
+	if err != nil {
+		panic(err)
+	}
+
 	// профиль
-	http.HandleFunc("/api/register", handlers.Profile_register)
+	/*http.HandleFunc("/api/register", handlers.Profile_register)
 	http.HandleFunc("/api/profile/login", handlers.ProfileLogin)
 	http.HandleFunc("/api/profile/oauth", handlers.OAuth)
 	http.HandleFunc("/api/profile/logout", handlers.ProfileLogout)
@@ -104,5 +119,5 @@ func main() {
 		MaxHeaderBytes: 1 << 16, // 64mb,
 	}
 
-	log.Fatal(s.ListenAndServe())
+	log.Fatal(s.ListenAndServe())*/
 }
