@@ -2,7 +2,7 @@ package sessions
 
 import (
 	"errors"
-	"sto/server/models"
+	"sto/server/api/models"
 	"sync"
 	"time"
 )
@@ -47,6 +47,12 @@ func (s *Storage) Get(session string) (*models.Profile, error) {
 	profile.LastTime = time.Now()
 
 	return profile, nil
+}
+
+func (s *Storage) Delete(session string) {
+	s.mu.Lock()
+	delete(s.sessions, session)
+	s.mu.Unlock()
 }
 
 func (s *Storage) GetByUserID(userID uint64) (string, *models.Profile) {

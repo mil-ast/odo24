@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"log"
 	"runtime"
+	"sto/server/api/binders"
+	"sto/server/api/handlers"
 	"sto/server/config"
-	"sto/server/handlers"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -56,14 +57,23 @@ func main() {
 
 	gin.SetMode(gin.DebugMode) // gin.ReleaseMode
 	r := gin.Default()
+	// Профиль
 	profileGroup := r.Group("/api/profile")
 	{
-		profileGroup.GET("", handlers.ProfileGet)
+		profileGroup.GET("", binders.GetSession, handlers.ProfileGet)
 		profileGroup.POST("/login", handlers.Login)
+		profileGroup.GET("/logout", handlers.Logout)
+		profileGroup.GET("/register", handlers.Register)
+	}
+
+	// Авто
+	AvtoGroup := r.Group("/api/avto")
+	{
+		AvtoGroup.GET("/get_all", binders.GetSession, handlers.AvtoGetAll)
 	}
 
 	if options.App.Server_addr == "" {
-		options.App.Server_addr = "0.0.0.0:8080"
+		options.App.Server_addr = "127.0.0.1:8080"
 	}
 
 	fmt.Printf("Addr: %s\r\n", options.App.Server_addr)

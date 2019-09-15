@@ -3,7 +3,7 @@ package sessions
 import (
 	"crypto/rand"
 	"errors"
-	"sto/server/models"
+	"sto/server/api/models"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -13,7 +13,7 @@ const (
 	SessionSize     int           = 32
 	SessionID       string        = "odo.s"
 	SessionTimeLife time.Duration = time.Hour * 24 * 91
-	SessionTimeout  time.Duration = time.Second * 10
+	SessionTimeout  time.Duration = time.Hour
 	charts          string        = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 )
 
@@ -62,28 +62,22 @@ func GetSession(c *gin.Context) (*models.Profile, error) {
 	return profile, nil
 }
 
+func DeleteSession(c *gin.Context) {
+	cookie, err := c.Request.Cookie(SessionID)
+	if err != nil {
+		return
+	}
+
+	sesID := cookie.Value
+
+	c.SetCookie(SessionID, "", 0, "/", "odo24.ru", true, true)
+	storage.Delete(sesID)
+}
+
 func getProfileByUUID(uuid string) (models.Profile, error) {
 	var profile models.Profile
 	return profile, nil
 }
-
-/*func DelSession(w http.ResponseWriter, r *http.Request) error {
-	cookie, err := r.Cookie(SessionID)
-	if err != nil {
-		return err
-	}
-
-	key := cookie.Value
-
-	memc.Delete(key)
-	deleteSessionFromoDB(key)
-
-	expires := time.Now()
-	cookie = &http.Cookie{Name: SessionID, Value: "", HttpOnly: true, Expires: expires}
-	http.SetCookie(w, cookie)
-
-	return nil
-}*/
 
 func createSessionID() string {
 	output := make([]byte, SessionSize)

@@ -56,4 +56,3 @@ func Login(login, password string) (*Profile, error) {
 
 	return profile, nil
 }
-
