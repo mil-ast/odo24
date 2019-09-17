@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"odo24/server/api/binders"
+	"odo24/server/api/handlers"
+	"odo24/server/config"
 	"runtime"
-	"sto/server/api/binders"
-	"sto/server/api/handlers"
-	"sto/server/config"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -57,13 +57,14 @@ func main() {
 
 	gin.SetMode(gin.DebugMode) // gin.ReleaseMode
 	r := gin.Default()
+
 	// Профиль
 	profileGroup := r.Group("/api/profile")
 	{
 		profileGroup.GET("", binders.GetSession, handlers.ProfileGet)
 		profileGroup.POST("/login", handlers.Login)
 		profileGroup.GET("/logout", handlers.Logout)
-		profileGroup.GET("/register", handlers.Register)
+		profileGroup.POST("/register", handlers.Register)
 	}
 
 	// Авто

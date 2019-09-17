@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-header>
+    <div mat-card-avatar class="logo"></div>
+    <mat-card-title>Регистрация</mat-card-title>
+    <mat-card-subtitle>Электронная сервисная книжка</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form id="register" (ngSubmit)="submitRegister()" [formGroup]="formRegister" *ngIf="!registered; else reisterSuccessful">
+      <mat-form-field class="merge_columns full_width">
+        <input formControlName="login" matInput placeholder="E-mail" type="email" name="login" required />
+        <mat-error *ngIf="formRegister.hasError('login')">Неправильный формат электронной почты</mat-error>
+      </mat-form-field>
+      <mat-form-field class="full_width">
+        <input  formControlName="password" matInput placeholder="Пароль" type="password" name="password" required />
+        <mat-hint align="start">Придумайте пароль не менее 5 знаков</mat-hint>
+        <mat-error *ngIf="formRegister.hasError('login')">Пароль должен быть не короче 5 знаков</mat-error>
+      </mat-form-field>
+      <mat-form-field class="full_width">
+        <input formControlName="password2" matInput placeholder="Повторите пароль еще раз" type="password" name="password2" required />
+        <mat-error *ngIf="formRegister.hasError('password2')">Пароли не совпадают</mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button *ngIf="!registered" form="register" [disabled]="formRegister.disabled || formRegister.invalid" mat-raised-button color="primary">Зарегистрировать</button>
+    <button *ngIf="registered" form="confirm" mat-raised-button color="primary">Подтвердить</button>
+  </mat-card-actions>
+</mat-card>
+
+<ng-template #reisterSuccessful>
+  <h2 class="mat-h2">Поздравляем!</h2>
+  <p>Вы успешно зарегистрировались в электронной сервисной книже.</p>
+  <p>На вашу электронную почту <strong>{{formRegister.get('login').value}}</strong> был отправлен код подтверждения.
+    Введите его в форму ниже или перейдите по ссылке в полученном письме.</p>
+  <form id="confirm" [formGroup]="formConfirm">
+    <mat-form-field class="merge_columns full_width">
+      <input formControlName="code" matInput placeholder="Код подтверждения" type="number" name="code" required />
+      <mat-error *ngIf="formConfirm.hasError('code')">Неправильный код подтверждения</mat-error>
+    </mat-form-field>
+  </form>
+</ng-template>

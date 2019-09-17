@@ -1,9 +1,9 @@
 package sessions
 
 import (
-	"crypto/rand"
 	"errors"
-	"sto/server/api/models"
+	"odo24/server/api/models"
+	"odo24/server/utils"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +14,6 @@ const (
 	SessionID       string        = "odo.s"
 	SessionTimeLife time.Duration = time.Hour * 24 * 91
 	SessionTimeout  time.Duration = time.Hour
-	charts          string        = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 )
 
 var storage Storage = NewStorage()
@@ -28,19 +27,19 @@ func NewSession(c *gin.Context, profile *models.Profile) error {
 	// Поэтому сперва поищем в хранилище по ID
 	sesID, foundProfile := storage.GetByUserID(profile.UserID)
 	if foundProfile != nil {
-		c.SetCookie(SessionID, sesID, int(SessionTimeout.Seconds()), "/", "odo24.ru", true, true)
+		c.SetCookie(SessionID, sesID, int(SessionTimeout.Seconds()), "/", "", false, true)
 		foundProfile.LastTime = time.Now()
 		return nil
 	}
 
-	sesID = createSessionID()
+	sesID = utils.GenerateRandomString(SessionSize)
 
 	err := storage.Set(sesID, profile)
 	if err != nil {
 		return err
 	}
 
-	c.SetCookie(SessionID, sesID, int(SessionTimeout.Seconds()), "/", "odo24.ru", true, true)
+	c.SetCookie(SessionID, sesID, int(SessionTimeout.Seconds()), "/", "", false, true)
 
 	return nil
 }
@@ -77,22 +76,6 @@ func DeleteSession(c *gin.Context) {
 func getProfileByUUID(uuid string) (models.Profile, error) {
 	var profile models.Profile
 	return profile, nil
-}
-
-func createSessionID() string {
-	output := make([]byte, SessionSize)
-	randomness := make([]byte, SessionSize)
-	_, err := rand.Read(randomness)
-	if err != nil {
-		return ""
-	}
-	l := len(charts)
-	for pos := range output {
-		random := uint8(randomness[pos])
-		randomPos := random % uint8(l)
-		output[pos] = charts[randomPos]
-	}
-	return string(output)
 }
 
 /*func saveSessionToDB(uuid, userAgent string, profile models.Profile) error {

@@ -1,6 +1,10 @@
 {
-  "/api/*": {
+  "/api_test/*": {
     "target": "https://odo24.ru/",
+    "secure": false
+  },
+  "/api/*": {
+    "target": "http://localhost:8000/",
     "secure": false
   },
   "/api/ws/": {

@@ -9,7 +9,6 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from './app.routing';
 import { ServiceModule } from './services/service.module';
-import { HomeModule } from './home/home.module';
 
 // сервисы
 import { ProfileService } from './_services/profile.service';

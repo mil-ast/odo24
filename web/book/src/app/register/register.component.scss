@@ -1,0 +1,26 @@
+:host {
+  margin:auto;
+  max-width:600px;
+  display: block;
+  top:20%;
+  position: relative;
+}
+
+.logo {
+  background-image: url('/assets/icons/logo_48.png');
+  background-size: cover;
+}
+
+#register {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, auto);
+
+  .merge_columns {
+    grid-column: 1 / 3;
+  }
+}
+
+.mat-card-actions {
+  padding-top:20px;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ProfileService } from '../_services/profile.service';
 import { Router } from '@angular/router';
 import { first, takeUntil } from 'rxjs/operators';
@@ -6,13 +6,14 @@ import { OauthService } from './service/oauth.service';
 import { ReplaySubject, Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-home',
-  template: '...',
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
   providers: [
     OauthService,
   ]
 })
-export class HomeComponent implements OnDestroy {
+export class LoginComponent implements OnDestroy {
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(

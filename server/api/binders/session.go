@@ -3,8 +3,8 @@ package binders
 import (
 	"errors"
 	"net/http"
-	"sto/server/api/constants"
-	"sto/server/sessions"
+	"odo24/server/api/constants"
+	"odo24/server/sessions"
 
 	"github.com/gin-gonic/gin"
 )

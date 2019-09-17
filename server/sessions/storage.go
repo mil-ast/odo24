@@ -2,7 +2,7 @@ package sessions
 
 import (
 	"errors"
-	"sto/server/api/models"
+	"odo24/server/api/models"
 	"sync"
 	"time"
 )

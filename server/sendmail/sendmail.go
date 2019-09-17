@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"sto/server/config"
+	"odo24/server/config"
 
 	email "github.com/mil-ast/sendmail"
 )

@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/smtp"
-	"sto/server/config"
+	"odo24/server/config"
 	"strconv"
 	"strings"
 	"time"

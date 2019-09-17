@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"errors"
+	"log"
 	"net/http"
-	"sto/server/api/constants"
-	"sto/server/api/models"
-	"sto/server/sessions"
+	"odo24/server/api/constants"
+	"odo24/server/api/models"
+	"odo24/server/api/services"
+	"odo24/server/sessions"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,12 +26,15 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	profile, err := models.Login(body.Login, body.Password)
+	if !body.IsEmailValid() {
+		c.AbortWithError(http.StatusBadRequest, errors.New("invalid email"))
+		return
+	}
+
+	profile, err := services.Login(body.Login, body.Password)
 	if err != nil {
 		switch err.Error() {
-		case "pq: password error", "pq: user not found", "pq: incorrect password":
-			c.Status(http.StatusForbidden)
-		case "no password is set", "login is not specified":
+		case "pq: login is empty":
 			c.Status(http.StatusBadRequest)
 		default:
 			c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
@@ -59,12 +64,6 @@ func ProfileGet(c *gin.Context) {
 
 // Register регистрация
 func Register(c *gin.Context) {
-	profile, err := sessions.GetSession(c)
-	if err != nil {
-		sessionErrorHandler(c, err)
-		return
-	}
-
 	userAgent := c.Request.Header.Get("user-agent")
 	if userAgent == "" {
 		c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
@@ -72,9 +71,35 @@ func Register(c *gin.Context) {
 	}
 
 	var body models.LoginFromBody
-	err = c.BindJSON(&body)
+	err := c.BindJSON(&body)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	if !body.IsEmailValid() {
+		c.AbortWithError(http.StatusBadRequest, errors.New("invalid email"))
+		return
+	}
+
+	profile, err := services.Register(body.Login, body.Password)
+	if err != nil {
+		log.Println(err)
+		switch err.Error() {
+		case "pq: login is empty", "pq: passwd is empty":
+			c.AbortWithError(http.StatusBadRequest, errors.New(http.StatusText(http.StatusBadRequest)))
+		case "pq: login is exists":
+			c.AbortWithError(http.StatusConflict, errors.New(http.StatusText(http.StatusConflict)))
+		default:
+			c.AbortWithError(http.StatusInternalServerError, errors.New(http.StatusText(http.StatusInternalServerError)))
+		}
+
+		return
+	}
+
+	err = sessions.NewSession(c, profile)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
