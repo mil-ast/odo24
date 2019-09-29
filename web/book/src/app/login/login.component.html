@@ -6,6 +6,9 @@
 		</div>
 	</header>
 	<mat-card>
+		<div>
+			<p><a routerLink="/register">Регистрация</a></p>
+		</div>
 		<mat-card-header>
 			<mat-card-title><span>Войти с помощью:</span></mat-card-title>
 		</mat-card-header>
@@ -39,7 +42,7 @@
 				</div>
 			</div>
 			<mat-divider></mat-divider>
-			<form (ngSubmit)="submitLogin()" [formGroup]="formAuth" id="form-auth">
+			<form (ngSubmit)="submitLogin()" [formGroup]="form" id="form-auth">
 				<h2 class="mat-h2">Или войдите с помощью логина и пароля</h2>
 				<mat-form-field class="full_width">
 					<input formControlName="login" matInput placeholder="Логин" type="email" name="login" required />

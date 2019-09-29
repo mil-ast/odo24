@@ -43,31 +43,26 @@ func Login(login, password string) (*models.Profile, error) {
 }
 
 // Register регистрация
-func Register(login, password string) (*models.Profile, error) {
-	if password == "" {
-		return nil, errors.New("no password is set")
-	}
+func Register(login string) error {
 	if login == "" {
-		return nil, errors.New("login is not specified")
+		return errors.New("login is not specified")
 	}
 
 	conn, err := db.GetConnection()
 	if err != nil {
-		return nil, err
+		return err
 	}
-
-	profile := new(models.Profile)
 
 	code := utils.GenerateRandomNumber(10000, 99999)
 	linkKey := utils.GenerateRandomString(32)
 
-	sqlQuery := "select from profiles.register($1, $2::bytea, $3, $4::varchar(32))"
+	sqlQuery := "select from profiles.register($1, $2, $3::varchar(32))"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
-	_, err = conn.ExecContext(ctx, sqlQuery, login, password, code, linkKey)
+	_, err = conn.ExecContext(ctx, sqlQuery, login, code, linkKey)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return profile, nil
+	return nil
 }

@@ -19,11 +19,9 @@ export class RegisterService {
     private http: HttpClient
   ) { }
 
-  register(login: string, password: string, email: string = null): Observable<Profile> {
+  register(login: string): Observable<Profile> {
     return this.http.post<RegisterResponce>(`${baseURL}/register`, {
       login: login,
-      password: password,
-      email: email,
     }).pipe(map((result: RegisterResponce) => {
       return new Profile(result);
     }));

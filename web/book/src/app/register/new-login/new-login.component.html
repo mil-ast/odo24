@@ -1,0 +1,13 @@
+<h2 class="mat-h2">Регистрация</h2>
+<div>
+  <ng-content></ng-content>
+</div>
+<form id="register" (ngSubmit)="submitRegister()" [formGroup]="form">
+  <mat-form-field class="merge_columns full_width">
+    <input formControlName="login" matInput placeholder="E-mail" type="email" name="login" required />
+    <mat-icon matSuffix>mail_outline</mat-icon>
+    <mat-error *ngIf="form.get('login').hasError('email')">Неправильный формат электронной почты</mat-error>
+    <mat-error *ngIf="form.get('login').hasError('login_busy')">Такой логин уже занят</mat-error>
+  </mat-form-field>
+  <button form="register" [disabled]="form.disabled" mat-raised-button color="primary">Далее</button>
+</form>

@@ -13,6 +13,9 @@ import { CommonModule } from '@angular/common';
 import { RegisterComponent } from './register.component';
 import { RegisterRoutingModule } from './register.router';
 import { RegisterService } from './services/register.service';
+import { ConfirmCodeComponent } from './confirm-code/confirm-code.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { NewLoginComponent } from './new-login/new-login.component';
 
 @NgModule({
   imports: [
@@ -30,6 +33,9 @@ import { RegisterService } from './services/register.service';
   ],
   declarations: [
     RegisterComponent,
+    ConfirmCodeComponent,
+    ResetPasswordComponent,
+    NewLoginComponent,
   ],
   providers: [
     RegisterService,

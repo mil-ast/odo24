@@ -13,50 +13,32 @@ import { Profile } from '../_classes/profile';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  formRegister: FormGroup;
-  formConfirm: FormGroup;
-  registered = false;
+  login: string;
+  code: number;
+  step = 'new-login';
 
   constructor(
     private router: Router,
-    private registerService: RegisterService,
+    
     private profileService: ProfileService,
-  ) {
-    this.formRegister = new FormGroup({
-      login: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('',  [Validators.required, Validators.minLength(5)]),
-      password2: new FormControl(''),
-      email: new FormControl('', Validators.email),
-    }, (fg: FormGroup) => {
-      if (fg.get('password').value !== fg.get('password2').value) {
-        return {
-          password2: true
-        };
-      }
-      return null;
-    });
-
-    this.formConfirm = new FormGroup({
-      code: new FormControl(null, [Validators.required, Validators.min(10000), Validators.max(99999)]),
-    });
-  }
+  ) {}
 
   ngOnInit() {
   }
 
-  submitRegister() {
-    this.formRegister.disable();
+  onLoginEnter(login: string) {
+    this.login = login;
+    this.step = 'confirm-code';
+  }
 
-    const login = this.formRegister.get('login').value;
-    const password = this.formRegister.get('password').value;
-    const email = this.formRegister.get('email').value || null;
+  onCodeEnter(code: number) {
+    console.log(code);
+    this.code = code;
 
-    this.registerService.register(login, password, email).pipe(finalize(() => {
-      this.formRegister.enable();
-    })).subscribe((profile: Profile) => {
-      this.registered = true;
-    }, (err: HttpErrorResponse) => {
+    this.step = 'set-password';
+  }
 
-    });
+  onPasswordEnter() {
+    this.router.navigate(['/login']);
   }
 }

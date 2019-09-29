@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { first, takeUntil } from 'rxjs/operators';
 import { OauthService } from './service/oauth.service';
 import { ReplaySubject, Observable } from 'rxjs';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -16,11 +17,18 @@ import { ReplaySubject, Observable } from 'rxjs';
 export class LoginComponent implements OnDestroy {
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
+  form: FormGroup;
+
   constructor(
     private router: Router,
     private profileService: ProfileService,
     private oauthService: OauthService,
   ) {
+    this.form = new FormGroup({
+      login: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', Validators.required),
+    });
+
     this.getAuthObservable().pipe(
       first(),
       takeUntil(this.destroy)
@@ -34,6 +42,10 @@ export class LoginComponent implements OnDestroy {
   ngOnDestroy() {
     this.destroy.next(null);
     this.destroy.complete();
+  }
+
+  submitLogin() {
+
   }
 
   private getAuthObservable(): Observable<any> {

@@ -70,7 +70,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	var body models.LoginFromBody
+	var body models.RegisterLoginFromBody
 	err := c.BindJSON(&body)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
@@ -82,11 +82,11 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	profile, err := services.Register(body.Login, body.Password)
+	err = services.Register(body.Login)
 	if err != nil {
 		log.Println(err)
 		switch err.Error() {
-		case "pq: login is empty", "pq: passwd is empty":
+		case "pq: login is empty":
 			c.AbortWithError(http.StatusBadRequest, errors.New(http.StatusText(http.StatusBadRequest)))
 		case "pq: login is exists":
 			c.AbortWithError(http.StatusConflict, errors.New(http.StatusText(http.StatusConflict)))
@@ -97,11 +97,5 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	err = sessions.NewSession(c, profile)
-	if err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
-		return
-	}
-
-	c.JSON(200, *profile)
+	c.Status(http.StatusNoContent)
 }

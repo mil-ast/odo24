@@ -1,41 +1,45 @@
-<mat-card>
-  <mat-card-header>
-    <div mat-card-avatar class="logo"></div>
-    <mat-card-title>Регистрация</mat-card-title>
-    <mat-card-subtitle>Электронная сервисная книжка</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <form id="register" (ngSubmit)="submitRegister()" [formGroup]="formRegister" *ngIf="!registered; else reisterSuccessful">
-      <mat-form-field class="merge_columns full_width">
-        <input formControlName="login" matInput placeholder="E-mail" type="email" name="login" required />
-        <mat-error *ngIf="formRegister.hasError('login')">Неправильный формат электронной почты</mat-error>
-      </mat-form-field>
-      <mat-form-field class="full_width">
-        <input  formControlName="password" matInput placeholder="Пароль" type="password" name="password" required />
-        <mat-hint align="start">Придумайте пароль не менее 5 знаков</mat-hint>
-        <mat-error *ngIf="formRegister.hasError('login')">Пароль должен быть не короче 5 знаков</mat-error>
-      </mat-form-field>
-      <mat-form-field class="full_width">
-        <input formControlName="password2" matInput placeholder="Повторите пароль еще раз" type="password" name="password2" required />
-        <mat-error *ngIf="formRegister.hasError('password2')">Пароли не совпадают</mat-error>
-      </mat-form-field>
-    </form>
-  </mat-card-content>
-  <mat-card-actions>
-    <button *ngIf="!registered" form="register" [disabled]="formRegister.disabled || formRegister.invalid" mat-raised-button color="primary">Зарегистрировать</button>
-    <button *ngIf="registered" form="confirm" mat-raised-button color="primary">Подтвердить</button>
-  </mat-card-actions>
-</mat-card>
+<header>
+  <nav>
+    <a routerLink="/login" routerLinkActive="active">
+      <mat-icon>account_circle</mat-icon>
+      <span>Авторизация</span>
+    </a>
+    <a routerLink="/register" routerLinkActive="active">
+      <mat-icon>group_add</mat-icon>
+      <span>Регистрация</span>
+    </a>
+    <a routerLink="/register/repair" routerLinkActive="active">
+      <mat-icon>https</mat-icon>
+      <span>Восстановить пароль</span
+    ></a>
+  </nav>
+</header>
+<div id="content">
+  <aside>
+    <img src="/assets/icons/white/logo_240.png" />
+  </aside>
+  <div>
+    <ng-container [ngSwitch]="step">
+      <app-new-login *ngSwitchDefault (loginEnter)="onLoginEnter($event)">
+        <div class="description">
+          <p class="step">Шаг 1 / 3</p>
+          <p><strong>Введите ваш адрес электронной почты.</strong><br>Чтобы подтвердить, что это ваша почта, на него будет отправлен код подтверждения, который нужно будет указать на 2 этапе.</p>
+        </div>
+      </app-new-login>
 
-<ng-template #reisterSuccessful>
-  <h2 class="mat-h2">Поздравляем!</h2>
-  <p>Вы успешно зарегистрировались в электронной сервисной книже.</p>
-  <p>На вашу электронную почту <strong>{{formRegister.get('login').value}}</strong> был отправлен код подтверждения.
-    Введите его в форму ниже или перейдите по ссылке в полученном письме.</p>
-  <form id="confirm" [formGroup]="formConfirm">
-    <mat-form-field class="merge_columns full_width">
-      <input formControlName="code" matInput placeholder="Код подтверждения" type="number" name="code" required />
-      <mat-error *ngIf="formConfirm.hasError('code')">Неправильный код подтверждения</mat-error>
-    </mat-form-field>
-  </form>
-</ng-template>
+      <app-confirm-code *ngSwitchCase="'confirm-code'" (codeEnter)="onCodeEnter($event)" [login]="login">
+        <div class="description">
+          <p class="step">Шаг 2 / 3</p>
+          <p>На вашу почту отправлен код подтверждения. <strong>Введите полученный код в поле ниже</strong>, чтобы перейти к созданию нового пароля к вашей учетной записи.</p>
+        </div>
+      </app-confirm-code>
+
+      <app-reset-password *ngSwitchCase="'set-password'" (passwordEnter)="onPasswordEnter($event)" [login]="login" [code]="code">
+        <div class="description">
+          <p class="step">Шаг 3 / 3</p>
+          <p><strong>Осталось придумать новый пароль</strong> и регистрация будет завершена! После указания пароля будет открыта страница авторизации.</p>
+        </div>
+      </app-reset-password>
+    </ng-container>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from './app.routing';
 import { ServiceModule } from './services/service.module';
+import { ToastrModule } from 'ngx-toastr';
 
 // сервисы
 import { ProfileService } from './_services/profile.service';
@@ -85,6 +86,9 @@ registerLocaleData(localeRu, 'ru');
     OrderPipeModule,
     SelectedAvtoModule,
     ServiceModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+    }),
     WebBluetoothModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
