@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProfileService } from '../_services/profile.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { RegisterService } from './services/register.service';
-import { finalize } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Profile } from '../_classes/profile';
+import { ProfileService } from '../../_services/profile.service';
 
 @Component({
   selector: 'app-register',

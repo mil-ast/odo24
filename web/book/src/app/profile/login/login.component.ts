@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ProfileService } from '../_services/profile.service';
+import { ProfileService } from '../../_services/profile.service';
 import { Router } from '@angular/router';
 import { first, takeUntil } from 'rxjs/operators';
 import { OauthService } from './service/oauth.service';
