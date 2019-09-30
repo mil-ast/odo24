@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter, ComponentFactoryResolver, NgZone } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, NgZone } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
+import { finalize, first } from 'rxjs/operators';
 import { RegisterService } from '../services/register.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -27,6 +27,10 @@ export class NewLoginComponent implements OnInit {
   ngOnInit() {}
 
   submitRegister() {
+    if (this.form.invalid) {
+      return false;
+    }
+
     this.form.disable();
 
     const login = this.form.get('login').value;
@@ -36,21 +40,20 @@ export class NewLoginComponent implements OnInit {
     })).subscribe(() => {
       this.loginEnter.emit(login);
     }, (err: HttpErrorResponse) => {
-      this.ngZone.onStable.subscribe(() => {
+      this.ngZone.onStable.pipe(
+        first()
+      ).subscribe(() => {
         const control = this.form.get('login');
         control.setErrors({
           login_busy: true
         });
       });
-      this.ngZone.run(() => {
-        const control = this.form.get('login');
-        control.setErrors({
-          login_busy: true
-        });
-        console.log(control);
-      });
-      
-      this.toastr.error('Ошибка при регистрации логина');
+
+      if (err.status === 409) {
+        this.toastr.error(`Логин ${login} уже зарегистрирован.`);
+      } else {
+        this.toastr.error('Ошибка при регистрации логина');
+      }
     });
   }
 }

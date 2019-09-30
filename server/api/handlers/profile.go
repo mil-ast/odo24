@@ -26,12 +26,12 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if !body.IsEmailValid() {
+	if !body.Login.IsEmailValid() {
 		c.AbortWithError(http.StatusBadRequest, errors.New("invalid email"))
 		return
 	}
 
-	profile, err := services.Login(body.Login, body.Password)
+	profile, err := services.Login(body.Login.Login, body.Password)
 	if err != nil {
 		switch err.Error() {
 		case "pq: login is empty":
@@ -70,7 +70,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	var body models.RegisterLoginFromBody
+	var body models.Login
 	err := c.BindJSON(&body)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
@@ -94,6 +94,34 @@ func Register(c *gin.Context) {
 			c.AbortWithError(http.StatusInternalServerError, errors.New(http.StatusText(http.StatusInternalServerError)))
 		}
 
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}
+
+// ConfirmCode Подтверждение почты
+func ConfirmCode(c *gin.Context) {
+	userAgent := c.Request.Header.Get("user-agent")
+	if userAgent == "" {
+		c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
+		return
+	}
+
+	var body models.RegisterConfirmEmailFromBody
+	err := c.BindJSON(&body)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	err = services.ConfirmCode(body.Login.Login, body.Code, body.LinkKey)
+	if err != nil {
+		if err.Error() == "incorrect" {
+			c.AbortWithError(http.StatusBadRequest, err)
+		} else {
+			c.AbortWithError(http.StatusInternalServerError, err)
+		}
 		return
 	}
 

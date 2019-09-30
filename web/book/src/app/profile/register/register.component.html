@@ -1,45 +1,22 @@
-<header>
-  <nav>
-    <a routerLink="/login" routerLinkActive="active">
-      <mat-icon>account_circle</mat-icon>
-      <span>Авторизация</span>
-    </a>
-    <a routerLink="/register" routerLinkActive="active">
-      <mat-icon>group_add</mat-icon>
-      <span>Регистрация</span>
-    </a>
-    <a routerLink="/register/repair" routerLinkActive="active">
-      <mat-icon>https</mat-icon>
-      <span>Восстановить пароль</span
-    ></a>
-  </nav>
-</header>
-<div id="content">
-  <aside>
-    <img src="/assets/icons/white/logo_240.png" />
-  </aside>
-  <div>
-    <ng-container [ngSwitch]="step">
-      <app-new-login *ngSwitchDefault (loginEnter)="onLoginEnter($event)">
-        <div class="description">
-          <p class="step">Шаг 1 / 3</p>
-          <p><strong>Введите ваш адрес электронной почты.</strong><br>Чтобы подтвердить, что это ваша почта, на него будет отправлен код подтверждения, который нужно будет указать на 2 этапе.</p>
-        </div>
-      </app-new-login>
+<ng-container [ngSwitch]="currentStep">
+  <app-new-login *ngSwitchDefault (loginEnter)="onLoginEnter($event)">
+    <div class="description">
+      <p class="step">Шаг 1 / 3</p>
+      <p><strong>Введите ваш адрес электронной почты.</strong><br>Чтобы подтвердить, что это ваша почта, на него будет отправлен код подтверждения, который нужно будет указать на 2 этапе.</p>
+    </div>
+  </app-new-login>
 
-      <app-confirm-code *ngSwitchCase="'confirm-code'" (codeEnter)="onCodeEnter($event)" [login]="login">
-        <div class="description">
-          <p class="step">Шаг 2 / 3</p>
-          <p>На вашу почту отправлен код подтверждения. <strong>Введите полученный код в поле ниже</strong>, чтобы перейти к созданию нового пароля к вашей учетной записи.</p>
-        </div>
-      </app-confirm-code>
+  <app-confirm-code *ngSwitchCase="step.ConfirmCode" (codeEnter)="onCodeEnter($event)" [login]="login">
+    <div class="description">
+      <p class="step">Шаг 2 / 3</p>
+      <p>На вашу почту отправлен код подтверждения. <strong>Введите полученный код в поле ниже</strong>, чтобы перейти к созданию нового пароля к вашей учетной записи.</p>
+    </div>
+  </app-confirm-code>
 
-      <app-reset-password *ngSwitchCase="'set-password'" (passwordEnter)="onPasswordEnter($event)" [login]="login" [code]="code">
-        <div class="description">
-          <p class="step">Шаг 3 / 3</p>
-          <p><strong>Осталось придумать новый пароль</strong> и регистрация будет завершена! После указания пароля будет открыта страница авторизации.</p>
-        </div>
-      </app-reset-password>
-    </ng-container>
-  </div>
-</div>
+  <app-reset-password *ngSwitchCase="step.SetPassword" (passwordEnter)="onPasswordEnter($event)" [login]="login" [code]="code">
+    <div class="description">
+      <p class="step">Шаг 3 / 3</p>
+      <p><strong>Осталось придумать новый пароль</strong> и регистрация будет завершена! После указания пароля будет открыта страница авторизации.</p>
+    </div>
+  </app-reset-password>
+</ng-container>

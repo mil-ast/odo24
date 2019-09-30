@@ -19,11 +19,17 @@ export class RegisterService {
     private http: HttpClient
   ) { }
 
-  register(login: string): Observable<Profile> {
-    return this.http.post<RegisterResponce>(`${baseURL}/register`, {
+  register(login: string): Observable<void> {
+    return this.http.post<void>(`${baseURL}/register`, {
       login: login,
-    }).pipe(map((result: RegisterResponce) => {
-      return new Profile(result);
-    }));
+    });
+  }
+
+  confirmCode(login: string, code?: number, linkKey?: string): Observable<void> {
+    return this.http.post<void>(`${baseURL}/confirm_code`, {
+      login: login,
+      code: code,
+      link_key: linkKey,
+    });
   }
 }

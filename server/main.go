@@ -65,6 +65,7 @@ func main() {
 		profileGroup.POST("/login", handlers.Login)
 		profileGroup.GET("/logout", handlers.Logout)
 		profileGroup.POST("/register", handlers.Register)
+		profileGroup.POST("/confirm_code", handlers.ConfirmCode)
 	}
 
 	// Авто

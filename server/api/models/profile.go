@@ -7,21 +7,22 @@ import (
 
 const RegExpEmail = `^[\w\-\.]+@[\w\-\.]+$`
 
+type Login struct {
+	Login string `json:"login" binding:"required"`
+}
+
 type LoginFromBody struct {
-	Login    string `json:"login"`
+	Login
 	Password string `json:"password"`
 }
 
-type RegisterLoginFromBody struct {
-	Login string `json:"login"`
+type RegisterConfirmEmailFromBody struct {
+	Login
+	Code    *uint32 `json:"code"`
+	LinkKey *string `json:"link_key"`
 }
 
-func (l LoginFromBody) IsEmailValid() bool {
-	re := regexp.MustCompile(RegExpEmail)
-	return re.MatchString(l.Login)
-}
-
-func (l RegisterLoginFromBody) IsEmailValid() bool {
+func (l Login) IsEmailValid() bool {
 	re := regexp.MustCompile(RegExpEmail)
 	return re.MatchString(l.Login)
 }

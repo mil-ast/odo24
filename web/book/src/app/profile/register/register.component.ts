@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProfileService } from '../../_services/profile.service';
+
+ enum Step {
+  NewLogin = 1,
+  ConfirmCode = 2,
+  SetPassword = 3,
+}
 
 @Component({
   selector: 'app-register',
@@ -10,12 +15,11 @@ import { ProfileService } from '../../_services/profile.service';
 export class RegisterComponent implements OnInit {
   login: string;
   code: number;
-  step = 'new-login';
+  step = Step;
+  currentStep: Step = Step.NewLogin;
 
   constructor(
-    private router: Router,
-    
-    private profileService: ProfileService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -23,14 +27,12 @@ export class RegisterComponent implements OnInit {
 
   onLoginEnter(login: string) {
     this.login = login;
-    this.step = 'confirm-code';
+    this.currentStep = Step.ConfirmCode;
   }
 
   onCodeEnter(code: number) {
-    console.log(code);
     this.code = code;
-
-    this.step = 'set-password';
+    this.currentStep = Step.SetPassword;
   }
 
   onPasswordEnter() {

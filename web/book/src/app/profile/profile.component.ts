@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  //styleUrls: ['./register.component.scss']
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
   constructor(
