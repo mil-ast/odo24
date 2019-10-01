@@ -5,6 +5,7 @@ import { first, takeUntil } from 'rxjs/operators';
 import { OauthService } from './service/oauth.service';
 import { ReplaySubject, Observable } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnDestroy {
     private router: Router,
     private profileService: ProfileService,
     private oauthService: OauthService,
+    private toastr: ToastrService,
   ) {
     this.form = new FormGroup({
       login: new FormControl('', [Validators.required, Validators.email]),
@@ -35,7 +37,7 @@ export class LoginComponent implements OnDestroy {
     ).subscribe(() => {
       this.router.navigate(['/service']);
     }, () => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/profile/login']);
     });
   }
 
@@ -45,7 +47,13 @@ export class LoginComponent implements OnDestroy {
   }
 
   submitLogin() {
-
+    const login = this.form.get('login').value;
+    const password = this.form.get('password').value;
+    this.profileService.login(login, password).subscribe(() => {
+      this.router.navigate(['/service']);
+    }, () => {
+      this.toastr.error('Ошибка авторизации');
+    });
   }
 
   private getAuthObservable(): Observable<any> {

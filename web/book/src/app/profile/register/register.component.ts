@@ -36,6 +36,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onPasswordEnter() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/profile/login']);
   }
 }

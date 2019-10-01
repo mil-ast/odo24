@@ -1,38 +1,27 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { RegisterService } from '../services/register.service';
-import { ToastrService } from 'ngx-toastr';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-confirm-code',
   templateUrl: './confirm-code.component.html',
   styleUrls: ['./confirm-code.component.scss']
 })
-export class ConfirmCodeComponent implements OnInit {
+export class ConfirmCodeComponent {
   @Input() login: string;
   @Output() codeEnter: EventEmitter<number> = new EventEmitter();
   form: FormGroup;
 
-  constructor(
-    private registerService: RegisterService,
-    private toastr: ToastrService,
-  ) {
+  constructor() {
     this.form = new FormGroup({
-      code: new FormControl('', Validators.required),
+      code: new FormControl(null, [Validators.required, Validators.min(10000), Validators.max(99999)]),
     });
-  }
-
-  ngOnInit() {
   }
 
   submitConfirmCode() {
+    if (this.form.invalid) {
+      return false;
+    }
     const code = this.form.get('code').value;
-
-    this.registerService.confirmCode(this.login, code, null).subscribe(() => {
-      this.codeEnter.emit(code);
-    }, (err: HttpErrorResponse) => {
-      this.toastr.error('Ошибка при подтверждении почты');
-    });
+    this.codeEnter.emit(code);
   }
 }

@@ -25,9 +25,10 @@ export class RegisterService {
     });
   }
 
-  confirmCode(login: string, code?: number, linkKey?: string): Observable<void> {
-    return this.http.post<void>(`${baseURL}/confirm_code`, {
+  resetPassword(login: string, password: string, code?: number, linkKey: string = null): Observable<void> {
+    return this.http.post<void>(`${baseURL}/reset_password`, {
       login: login,
+      password: password,
       code: code,
       link_key: linkKey,
     });
