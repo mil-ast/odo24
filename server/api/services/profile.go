@@ -63,10 +63,13 @@ func Register(login string) error {
 	return err
 }
 
-// ConfirmCode подтверждение почты
-func ConfirmCode(login string, code *uint32, linkKey *string) error {
+// ResetPassword сброс пароля
+func ResetPassword(login, password string, code *uint32, linkKey *string) error {
 	if login == "" {
 		return errors.New("login is not specified")
+	}
+	if password == "" {
+		return errors.New("password is empty")
 	}
 
 	if code == nil && linkKey == nil {
@@ -78,10 +81,10 @@ func ConfirmCode(login string, code *uint32, linkKey *string) error {
 		return err
 	}
 
-	sqlQuery := "SELECT confirm ok FROM profiles.confirm($1, $2, $3::varchar(32))"
+	sqlQuery := "SELECT reset_password ok FROM profiles.reset_password($1, $2::bytea, $3, $4::varchar(32))"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
-	row := conn.QueryRowContext(ctx, sqlQuery, login, code, linkKey)
+	row := conn.QueryRowContext(ctx, sqlQuery, login, password, code, linkKey)
 
 	var isOk bool
 	err = row.Scan(&isOk)

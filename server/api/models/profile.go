@@ -16,10 +16,11 @@ type LoginFromBody struct {
 	Password string `json:"password"`
 }
 
-type RegisterConfirmEmailFromBody struct {
+type RegisterResetPasswordFromBody struct {
 	Login
-	Code    *uint32 `json:"code"`
-	LinkKey *string `json:"link_key"`
+	Code     *uint32 `json:"code"`
+	LinkKey  *string `json:"link_key"`
+	Password string  `json:"password"`
 }
 
 func (l Login) IsEmailValid() bool {

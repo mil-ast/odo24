@@ -100,22 +100,22 @@ func Register(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
-// ConfirmCode Подтверждение почты
-func ConfirmCode(c *gin.Context) {
+// ResetPassword Сброс пароля
+func ResetPassword(c *gin.Context) {
 	userAgent := c.Request.Header.Get("user-agent")
 	if userAgent == "" {
 		c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
 		return
 	}
 
-	var body models.RegisterConfirmEmailFromBody
+	var body models.RegisterResetPasswordFromBody
 	err := c.BindJSON(&body)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
-	err = services.ConfirmCode(body.Login.Login, body.Code, body.LinkKey)
+	err = services.ResetPassword(body.Login.Login, body.Password, body.Code, body.LinkKey)
 	if err != nil {
 		if err.Error() == "incorrect" {
 			c.AbortWithError(http.StatusBadRequest, err)
