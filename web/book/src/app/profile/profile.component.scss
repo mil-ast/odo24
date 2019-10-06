@@ -148,6 +148,15 @@ footer {
   }
 }
 
+@media (max-width: 820px) {
+  footer {
+    > div {
+      grid-template-columns: repeat(3, auto);
+    }
+  }
+}
+
+
 @media (max-width: 700px) {
   header {
     height: 400px;
@@ -158,6 +167,19 @@ footer {
       margin: auto 20px;
       width: auto;
       left:auto;
+    }
+  }
+
+  footer {
+    > div {
+      grid-template-columns: 150px 1fr;
+      padding: 20px;
+      gap: 0px;
+
+      > div:nth-child(3) {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+      }
     }
   }
 }
@@ -176,6 +198,18 @@ footer {
   #content {
     #outlet {
       margin: auto 10px;
+    }
+  }
+
+  footer {
+    > div {
+      grid-template-columns: 1fr;
+      height:300px;
+
+      > div:nth-child(3) {
+        grid-column: unset;
+        grid-row: unset;
+      }
     }
   }
 }
