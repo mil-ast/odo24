@@ -63,6 +63,27 @@ func Register(login string) error {
 	return err
 }
 
+// PasswordRecovery восстановление пароля
+func PasswordRecovery(login string) error {
+	if login == "" {
+		return errors.New("login is not specified")
+	}
+
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	code := utils.GenerateRandomNumber(10000, 99999)
+	linkKey := utils.GenerateRandomString(32)
+
+	sqlQuery := "SELECT FROM profiles.password_recovery($1, $2, $3::varchar(32))"
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+	_, err = conn.ExecContext(ctx, sqlQuery, login, code, linkKey)
+	return err
+}
+
 // ResetPassword сброс пароля
 func ResetPassword(login, password string, code *uint32, linkKey *string) error {
 	if login == "" {

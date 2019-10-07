@@ -62,10 +62,11 @@ func main() {
 	profileGroup := r.Group("/api/profile")
 	{
 		profileGroup.GET("", binders.GetSession, handlers.ProfileGet)
-		profileGroup.POST("/login", handlers.Login)
+		profileGroup.POST("/login", handlers.CheckUserAgent, handlers.Login)
 		profileGroup.GET("/logout", handlers.Logout)
-		profileGroup.POST("/register", handlers.Register)
-		profileGroup.POST("/reset_password", handlers.ResetPassword)
+		profileGroup.POST("/register", handlers.CheckUserAgent, handlers.Register)
+		profileGroup.POST("/reset_password", handlers.CheckUserAgent, handlers.ResetPassword)
+		profileGroup.POST("/password_recovery", handlers.CheckUserAgent, handlers.PasswordRecovery)
 	}
 
 	// Авто

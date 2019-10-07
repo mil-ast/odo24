@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-confirm-code',
-  templateUrl: './confirm-code.component.html',
+  templateUrl: './confirm-code.component.html'
 })
 export class ConfirmCodeComponent {
   @Input() login: string;

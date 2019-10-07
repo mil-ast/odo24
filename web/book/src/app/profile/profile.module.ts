@@ -17,9 +17,7 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     MatButtonModule,
   ],
-  declarations: [
-    
-  ],
+  declarations: [],
   providers: [
     
   ],

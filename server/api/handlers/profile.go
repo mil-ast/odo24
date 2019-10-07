@@ -13,12 +13,6 @@ import (
 )
 
 func Login(c *gin.Context) {
-	userAgent := c.Request.Header.Get("user-agent")
-	if userAgent == "" {
-		c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
-		return
-	}
-
 	var body models.LoginFromBody
 	err := c.BindJSON(&body)
 	if err != nil {
@@ -64,12 +58,6 @@ func ProfileGet(c *gin.Context) {
 
 // Register регистрация
 func Register(c *gin.Context) {
-	userAgent := c.Request.Header.Get("user-agent")
-	if userAgent == "" {
-		c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
-		return
-	}
-
 	var body models.Login
 	err := c.BindJSON(&body)
 	if err != nil {
@@ -97,6 +85,34 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	c.Status(http.StatusNoContent)
+}
+
+// PasswordRecovery восстановление пароля
+func PasswordRecovery(c *gin.Context) {
+	var body models.Login
+	err := c.BindJSON(&body)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	if !body.IsEmailValid() {
+		c.AbortWithError(http.StatusBadRequest, errors.New("invalid email"))
+		return
+	}
+
+	err = services.PasswordRecovery(body.Login)
+	if err != nil {
+		log.Println(err)
+		switch err.Error() {
+		case "pq: login is empty", "pq: login not found":
+			c.AbortWithError(http.StatusBadRequest, errors.New(http.StatusText(http.StatusBadRequest)))
+		default:
+			c.AbortWithError(http.StatusInternalServerError, errors.New(http.StatusText(http.StatusInternalServerError)))
+		}
+		return
+	}
 	c.Status(http.StatusNoContent)
 }
 

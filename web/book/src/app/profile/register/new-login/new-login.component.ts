@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, NgZone } from '@angular/core';
+import { Component, Output, EventEmitter, NgZone } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { finalize, first } from 'rxjs/operators';
 import { RegisterService } from '../services/register.service';
@@ -8,9 +8,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-new-login',
   templateUrl: './new-login.component.html',
-  styleUrls: ['./new-login.component.scss']
 })
-export class NewLoginComponent implements OnInit {
+export class NewLoginComponent {
   @Output() loginEnter: EventEmitter<string> = new EventEmitter();
   form: FormGroup;
 
@@ -23,8 +22,6 @@ export class NewLoginComponent implements OnInit {
       login: new FormControl('', [Validators.required, Validators.email]),
     });
   }
-
-  ngOnInit() {}
 
   submitRegister() {
     if (this.form.invalid) {

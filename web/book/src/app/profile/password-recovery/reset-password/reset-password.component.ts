@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { RegisterService } from '../services/register.service';
+import { RecoveryService } from '../services/recovery.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -14,7 +14,7 @@ export class ResetPasswordComponent {
 
   form: FormGroup;
   constructor(
-    private registerService: RegisterService,
+    private recoveryService: RecoveryService,
     private toastr: ToastrService,
   ) {
     this.form = new FormGroup({
@@ -37,8 +37,8 @@ export class ResetPasswordComponent {
 
     const password = this.form.get('password').value;
 
-    this.registerService.resetPassword(this.login, password, this.code).subscribe(() => {
-      this.toastr.success('Регистрация завершена!');
+    this.recoveryService.resetPassword(this.login, password, this.code).subscribe(() => {
+      this.toastr.success('Пароль успешно изменён!');
       this.passwordEnter.emit();
     }, () => {
       this.toastr.error('Ошибка при назначении пароля');

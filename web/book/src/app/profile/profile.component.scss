@@ -34,7 +34,7 @@ header {
       }
 
       &.active {
-        color:#ccc;
+        color:#ff906d;
         border-bottom-color: transparent;
         cursor: default;
       }
@@ -143,7 +143,7 @@ footer {
   a {
     border-bottom: 1px currentColor solid;
     &:hover {
-      color:#aaa;
+      color:#fff;
     }
   }
 }
@@ -196,6 +196,7 @@ footer {
   }
 
   #content {
+    margin-top: -200px;
     #outlet {
       margin: auto 10px;
     }

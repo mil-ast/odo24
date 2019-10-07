@@ -1,16 +1,16 @@
 <div>
   <ng-content></ng-content>
 </div>
-<form id="register" (ngSubmit)="submitRegister()" [formGroup]="form">
+<form (ngSubmit)="submitLogin()" [formGroup]="form">
   <div>
     <mat-form-field class="merge_columns">
       <input formControlName="login" matInput placeholder="E-mail" type="email" name="login" required />
       <mat-icon matSuffix>mail_outline</mat-icon>
       <mat-error *ngIf="form.get('login').hasError('email')">Неправильный формат электронной почты</mat-error>
-      <mat-error *ngIf="form.get('login').hasError('login_busy')">Такой логин уже занят</mat-error>
+      <mat-error *ngIf="form.get('login').hasError('login_empty')">Такой логин не существует</mat-error>
     </mat-form-field>
   </div>
   <div>
-    <button form="register" [disabled]="form.disabled" mat-raised-button color="primary">Далее</button>
+    <button [disabled]="form.disabled" mat-raised-button color="primary">Далее</button>
   </div>
 </form>

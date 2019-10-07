@@ -1,26 +1,26 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
- enum Step {
-  NewLogin = 1,
+enum Step {
+  EnterLogin = 1,
   ConfirmCode = 2,
   SetPassword = 3,
 }
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  selector: 'app-password-recovery',
+  templateUrl: './password-recovery.component.html',
+  styleUrls: ['./password-recovery.component.scss']
 })
-export class RegisterComponent {
+export class PasswordRecoveryComponent {
   login: string;
   code: number;
   step = Step;
-  currentStep: Step = Step.NewLogin;
-
+  currentStep: Step = Step.EnterLogin;
+  
   constructor(
     private router: Router
-  ) {}
+  ) { }
 
   onLoginEnter(login: string) {
     this.login = login;
