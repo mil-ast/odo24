@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
  enum Step {
   NewLogin = 1,
@@ -12,15 +12,26 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   login: string;
   code: number;
   step = Step;
   currentStep: Step = Step.NewLogin;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
+
+  ngOnInit() {
+    const paramCode = parseInt(this.route.snapshot.queryParams["code"], 10);
+    const paramLogin = this.route.snapshot.queryParams["login"];
+    if (!isNaN(paramCode) && paramCode > 0 && paramLogin) {
+      this.login = paramLogin;
+      this.code = paramCode;
+      this.currentStep = Step.SetPassword;
+    }
+  }
 
   onLoginEnter(login: string) {
     this.login = login;

@@ -3,7 +3,9 @@ package services
 import (
 	"context"
 	"errors"
+	"log"
 	"odo24/server/api/models"
+	"odo24/server/sendmail"
 	"odo24/server/utils"
 	"time"
 
@@ -60,7 +62,21 @@ func Register(login string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 	_, err = conn.ExecContext(ctx, sqlQuery, login, code, linkKey)
-	return err
+	if err != nil {
+		return err
+	}
+
+	go func() {
+		letter := make(map[string]interface{}, 2)
+		letter["login"] = login
+		letter["code"] = code
+
+		err := sendmail.SendEmail(login, sendmail.TypeConfirmEmail, letter)
+		if err != nil {
+			log.Println(err)
+		}
+	}()
+	return nil
 }
 
 // PasswordRecovery восстановление пароля

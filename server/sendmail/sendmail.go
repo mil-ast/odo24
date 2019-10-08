@@ -1,8 +1,9 @@
 package sendmail
 
 import (
-	"errors"
+	"bytes"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"odo24/server/config"
 
@@ -39,11 +40,11 @@ func init() {
 	templates[TypeRepairConfirmCode] = string(body)
 }
 
-// SendEmail
-func SendEmail(to string, tpl uint8, code uint32) error {
-	body, ok := templates[tpl]
+// SendEmail отправка
+func SendEmail(to string, tplID uint8, params map[string]interface{}) error {
+	templateBody, ok := templates[tplID]
 	if !ok {
-		return errors.New("Template not founc")
+		return fmt.Errorf("Template %d not found", tplID)
 	}
 
 	options := config.GetInstance()
@@ -60,8 +61,16 @@ func SendEmail(to string, tpl uint8, code uint32) error {
 		return err
 	}
 
-	message := fmt.Sprintf(body, options.App.SmtpFrom, to, code)
-	err = client.Send(options.App.SmtpFrom, to, message)
+	templateBody = fmt.Sprintf(templateBody, options.App.SmtpFrom, to)
+
+	buffer := new(bytes.Buffer)
+	t := template.Must(template.New("letter").Parse(templateBody))
+	err = t.Execute(buffer, params)
+	if err != nil {
+		return err
+	}
+
+	err = client.Send(options.App.SmtpFrom, to, buffer.String())
 	if err != nil {
 		return err
 	}
