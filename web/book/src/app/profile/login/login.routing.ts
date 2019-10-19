@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
+  { path: 'oauth', component: LoginComponent },
 ];
 
 @NgModule({

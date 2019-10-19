@@ -5,18 +5,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AsideService {
-  asideVisible: Observable<boolean>;
-  private asideVisible$ = new BehaviorSubject(false);
+  private isScreenMobile = false;
 
   constructor() {
-    this.asideVisible = this.asideVisible$.asObservable();
+    this.isScreenMobile = window.innerWidth < 600;
   }
 
-  setAsideVisible(value: boolean) {
-    this.asideVisible$.next(value);
-  }
-
-  getAsideVslue(): boolean {
-    return this.asideVisible$.getValue();
+  isMobile(): boolean {
+    return this.isScreenMobile;
   }
 }

@@ -63,6 +63,7 @@ func main() {
 	{
 		profileGroup.GET("", binders.GetSession, handlers.ProfileGet)
 		profileGroup.POST("/login", handlers.CheckUserAgent, handlers.Login)
+		profileGroup.GET("/oauth", binders.GetOauthParamsFromQuery, handlers.OAuth)
 		profileGroup.GET("/logout", handlers.Logout)
 		profileGroup.POST("/register", handlers.CheckUserAgent, handlers.Register)
 		profileGroup.POST("/reset_password", handlers.CheckUserAgent, handlers.ResetPassword)

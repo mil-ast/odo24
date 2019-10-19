@@ -20,31 +20,6 @@ header {
     z-index: 2;
     display: flex;
     padding: 40px;
-
-    a {
-      display: inline-block;
-      padding: 10px 0px;
-      position: relative;
-      padding-left: 30px;
-      border-bottom: 1px currentColor solid;
-      color:#fff;
-
-      &:not(:first-child) {
-        margin-left: 30px;
-      }
-
-      &.active {
-        color:#ff906d;
-        border-bottom-color: transparent;
-        cursor: default;
-      }
-
-      .mat-icon {
-        position: absolute;
-        top:5px;
-        left:0px;
-      }
-    }
   }
 }
 
@@ -149,6 +124,9 @@ footer {
 }
 
 @media (max-width: 820px) {
+  header {
+    background-image: url("/assets/images/landing_bg_960.jpg");
+  }
   footer {
     > div {
       grid-template-columns: repeat(3, auto);
@@ -185,6 +163,9 @@ footer {
 }
 
 @media (max-width: 560px) {
+  header {
+    background-image: url("/assets/images/landing_bg_600.jpg");
+  }
   header {
     nav {
       flex-direction: column;

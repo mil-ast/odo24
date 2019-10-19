@@ -1,26 +1,21 @@
 <header *ngIf="profile">
-  <div id="button_menu">
-    <button mat-mini-fab [color]="(asideService.asideVisible | async) ? 'warn' : 'primary'" (click)="toggleAsideMenu()">
-      <mat-icon>{{(asideService.asideVisible | async) ? 'close' : 'menu'}}</mat-icon>
-    </button>
-  </div>
-  <nav>
-    <a routerLink="/service" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">
+  <nav class="navigation">
+    <a routerLink="/service" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
       <mat-icon>build</mat-icon>
       <span>Обслуживание</span>
     </a>
-    <a *ngIf="selectedAvto!==null" routerLink="/documents" routerLinkActive="selected">
+    <a *ngIf="selectedAvto!==null" routerLink="/documents" routerLinkActive="active">
       <mat-icon>folder_open</mat-icon>
       <span>Документы</span>
     </a>
   </nav>
   <div id="profile">
-    <button mat-raised-button [matMenuTriggerFor]="menu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">
+    <button mat-raised-button color="primary" [matMenuTriggerFor]="profileMenu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">
       <mat-icon>account_circle</mat-icon>
       <span class="title">{{ profile.login }}</span>
       <mat-icon class="icon_more">more_horiz</mat-icon>
     </button>
-    <mat-menu #menu="matMenu">
+    <mat-menu #profileMenu="matMenu">
       <button class="warn" (click)="clickShowConfirmEmailDialog()" *ngIf="profile.is_no_confirmed" mat-menu-item>
         <mat-icon>email</mat-icon>
         <span>Подтвердите почту</span>

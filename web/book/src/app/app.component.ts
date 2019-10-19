@@ -57,12 +57,7 @@ export class AppComponent implements OnInit {
     }
     this.dialog.open(ConfirmEmailDialogComponent, config);
   }
-
-  toggleAsideMenu() {
-    const currValue = this.asideService.getAsideVslue();
-    this.asideService.setAsideVisible(!currValue);
-  }
-
+  
   // выход
   clickLogout() {
     this.profile = null;

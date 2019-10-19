@@ -9,6 +9,7 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
 import { AsideService } from '../_services/aside.service';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-services',
@@ -25,6 +26,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
   lastService: ServiceStruct = null;
   isSync = true;
   isLoading = true;
+  isMobile = false;
 
   private screenIsMobile = false;
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -35,7 +37,9 @@ export class ServicesComponent implements OnInit, OnDestroy {
     private groupService: GroupService,
     private serviceService: ServiceService,
     private dialog: MatDialog,
-  ) { }
+  ) {
+    this.isMobile = window.innerWidth < 600;
+  }
 
   ngOnInit() {
     combineLatest(

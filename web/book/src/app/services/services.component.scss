@@ -1,12 +1,13 @@
 :host {
-  width:100%;
-  height:100%;
-  display: block;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
 h1 {
   position: relative;
-  padding-left:60px;
+  padding-left:20px;
   .mat-icon {
     position: absolute;
     top:-10px;

@@ -42,7 +42,7 @@ func (g OAuthGoogleComUser) getToken(code string) (string, error) {
 		GrantType:    "authorization_code",
 		ClientID:     "195955516861.apps.googleusercontent.com",
 		ClientSecret: "AfJ0ysuTZm-F-qWBbjkm6dPm",
-		RedirectURI:  "https://odo24.ru/book/?service=google",
+		RedirectURI:  "https://odo24.ru/book/profile/login/oauth?service=google",
 	}
 	token, err := oauth.GetToken(code)
 	return token.AccessToken, err

@@ -1,9 +1,14 @@
-<div class="aside_content">
-	<app-aside [class.visible]="asideService.asideVisible | async">
+<mat-toolbar color="primary">
+	<button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+	<h1 class="example-app-name">Сервисное обслуживание</h1>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav">
+	<mat-sidenav #snav [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? false : true" fixedTopGap="56">
 		<app-list-avto></app-list-avto>
-		<app-list-groups></app-list-groups>
-	</app-aside>
-	<div class="content">
+	</mat-sidenav>
+
+	<mat-sidenav-content>
 		<div class="title">
 			<div>
 				<div>
@@ -33,26 +38,20 @@
 				<div class="date">{{service.date | date:'dd MMMM yyyy'}}</div>
 				<div>{{ service.comment }}</div>
 			</div>
-			<!--<mat-card *ngFor="let service of serviceList" class="mat-elevation-z1">
-				<mat-card-header>
-					<div mat-card-avatar>
-						<button mat-icon-button (click)="clickShowDialogEditService(service)"><mat-icon>edit</mat-icon></button>
-					</div>
-					<mat-card-title>
-						<span class="odo">
-							{{service.odo | number}}
-							<span>км</span>
-						</span>
-						<span class="date">{{service.date | date:'dd MMMM yyyy'}}</span>
-					</mat-card-title>
-				</mat-card-header>
-				<mat-card-content *ngIf="service.comment">
-					<div>{{ service.comment }}</div>
-				</mat-card-content>
-			</mat-card>-->
 		</div>
+	</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!--<div class="aside_content">
+	<app-aside [class.visible]="asideService.asideVisible | async">
+		<app-list-avto></app-list-avto>
+		<app-list-groups></app-list-groups>
+	</app-aside>
+	<div class="content">
+
 	</div>
 </div>
+-->
 
 <!--<div id="content" *ngIf="selectedAvto && !isSync; else emptyBody">
 	<div id="selected_avto" *ngIf="screenIsSmall">
