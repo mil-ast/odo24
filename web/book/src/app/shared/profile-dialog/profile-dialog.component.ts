@@ -17,13 +17,12 @@ export class ProfileDialogComponent {
     private dialogRef: MatDialogRef<ProfileDialogComponent>,
   ) { }
 
-  submitUpdateFrofile() {
+  submit() {
     if (this.password.length < 5 || this.password !== this.password2) {
       return;
     }
 
-    const req = this.profileService.update({ password: this.password });
-    req.subscribe(() => {
+    this.profileService.passwordUpdate(this.password).subscribe(() => {
       this.password = '';
       this.password2 = '';
 

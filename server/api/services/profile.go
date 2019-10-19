@@ -13,14 +13,7 @@ import (
 )
 
 // Login авторизация
-func Login(login, password string) (*models.Profile, error) {
-	if password == "" {
-		return nil, errors.New("no password is set")
-	}
-	if login == "" {
-		return nil, errors.New("login is not specified")
-	}
-
+func Login(login models.Email, password models.Password) (*models.Profile, error) {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return nil, err
@@ -45,11 +38,7 @@ func Login(login, password string) (*models.Profile, error) {
 }
 
 // Register регистрация
-func Register(login string) error {
-	if login == "" {
-		return errors.New("login is not specified")
-	}
-
+func Register(login models.Email) error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err
@@ -71,7 +60,7 @@ func Register(login string) error {
 		letter["login"] = login
 		letter["code"] = code
 
-		err := sendmail.SendEmail(login, sendmail.TypeConfirmEmail, letter)
+		err := sendmail.SendEmail(string(login), sendmail.TypeConfirmEmail, letter)
 		if err != nil {
 			log.Println(err)
 		}
@@ -80,11 +69,7 @@ func Register(login string) error {
 }
 
 // PasswordRecovery восстановление пароля
-func PasswordRecovery(login string) error {
-	if login == "" {
-		return errors.New("login is not specified")
-	}
-
+func PasswordRecovery(login models.Email) error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err
@@ -100,19 +85,23 @@ func PasswordRecovery(login string) error {
 	return err
 }
 
+// PasswordUpdate изменение пароля из личного кабинета
+func PasswordUpdate(userID uint64, password models.Password) error {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	sqlQuery := "SELECT * FROM profiles.password_update($1, $2::bytea)"
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+
+	_, err = conn.ExecContext(ctx, sqlQuery, userID, password)
+	return err
+}
+
 // ResetPassword сброс пароля
-func ResetPassword(login, password string, code *uint32, linkKey *string) error {
-	if login == "" {
-		return errors.New("login is not specified")
-	}
-	if password == "" {
-		return errors.New("password is empty")
-	}
-
-	if code == nil && linkKey == nil {
-		return errors.New("code and linkKey is empty")
-	}
-
+func ResetPassword(login models.Email, password models.Password, code *uint32, linkKey *string) error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err

@@ -68,6 +68,7 @@ func main() {
 		profileGroup.POST("/register", handlers.CheckUserAgent, handlers.Register)
 		profileGroup.POST("/reset_password", handlers.CheckUserAgent, handlers.ResetPassword)
 		profileGroup.POST("/password_recovery", handlers.CheckUserAgent, handlers.PasswordRecovery)
+		profileGroup.POST("/update_password", binders.GetSession, handlers.PasswordUpdate)
 	}
 
 	// Авто

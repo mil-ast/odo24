@@ -25,7 +25,12 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	profile, err := services.Login(body.Login.Login, body.Password)
+	if !body.Password.IsValid() {
+		c.AbortWithError(http.StatusBadRequest, errors.New("invalid password"))
+		return
+	}
+
+	profile, err := services.Login(body.Login, body.Password)
 	if err != nil {
 		switch err.Error() {
 		case "pq: login is empty":
@@ -58,19 +63,19 @@ func ProfileGet(c *gin.Context) {
 
 // Register регистрация
 func Register(c *gin.Context) {
-	var body models.Login
-	err := c.BindJSON(&body)
+	var body models.EmailFromBody
+	err := c.Bind(&body)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
-	if !body.IsEmailValid() {
+	if !body.Email.IsEmailValid() {
 		c.AbortWithError(http.StatusBadRequest, errors.New("invalid email"))
 		return
 	}
 
-	err = services.Register(body.Login)
+	err = services.Register(body.Email)
 	if err != nil {
 		log.Println(err)
 		switch err.Error() {
@@ -90,19 +95,19 @@ func Register(c *gin.Context) {
 
 // PasswordRecovery восстановление пароля
 func PasswordRecovery(c *gin.Context) {
-	var body models.Login
+	var body models.EmailFromBody
 	err := c.BindJSON(&body)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
-	if !body.IsEmailValid() {
+	if !body.Email.IsEmailValid() {
 		c.AbortWithError(http.StatusBadRequest, errors.New("invalid email"))
 		return
 	}
 
-	err = services.PasswordRecovery(body.Login)
+	err = services.PasswordRecovery(body.Email)
 	if err != nil {
 		log.Println(err)
 		switch err.Error() {
@@ -116,14 +121,33 @@ func PasswordRecovery(c *gin.Context) {
 	c.Status(http.StatusNoContent)
 }
 
-// ResetPassword Сброс пароля
-func ResetPassword(c *gin.Context) {
-	userAgent := c.Request.Header.Get("user-agent")
-	if userAgent == "" {
-		c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
+// PasswordUpdate изменение пароля из личного кабинета
+func PasswordUpdate(c *gin.Context) {
+	profile := c.MustGet(constants.BindProfile).(*models.Profile)
+	body := models.PasswordFromBody{}
+
+	err := c.BindJSON(&body)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
+	if !body.Password.IsValid() {
+		c.AbortWithError(http.StatusBadRequest, errors.New("invalid password"))
+		return
+	}
+
+	err = services.PasswordUpdate(profile.UserID, body.Password)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}
+
+// ResetPassword Сброс пароля
+func ResetPassword(c *gin.Context) {
 	var body models.RegisterResetPasswordFromBody
 	err := c.BindJSON(&body)
 	if err != nil {
@@ -131,7 +155,22 @@ func ResetPassword(c *gin.Context) {
 		return
 	}
 
-	err = services.ResetPassword(body.Login.Login, body.Password, body.Code, body.LinkKey)
+	if !body.Login.IsEmailValid() {
+		c.AbortWithError(http.StatusBadRequest, errors.New("invalid email"))
+		return
+	}
+
+	if !body.Password.IsValid() {
+		c.AbortWithError(http.StatusBadRequest, errors.New("invalid password"))
+		return
+	}
+
+	if body.Code == nil && body.LinkKey == nil {
+		c.AbortWithError(http.StatusBadRequest, errors.New("code and linkKey is emptyd"))
+		return
+	}
+
+	err = services.ResetPassword(body.Login, body.Password, body.Code, body.LinkKey)
 	if err != nil {
 		if err.Error() == "incorrect" {
 			c.AbortWithError(http.StatusBadRequest, err)
