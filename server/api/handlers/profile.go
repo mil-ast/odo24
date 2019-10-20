@@ -42,7 +42,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	err = sessions.NewSession(c, profile)
+	err = sessions.NewSession(c, profile.UserID)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return

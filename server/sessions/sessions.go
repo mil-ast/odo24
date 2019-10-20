@@ -11,16 +11,16 @@ import (
 
 const (
 	sessionID      string        = "sess"
-	SessionTimeout time.Duration = time.Hour * time.Duration(2)
+	SessionTimeout time.Duration = time.Hour * time.Duration(24)
 )
 
-func NewSession(c *gin.Context, profile *models.Profile) error {
-	if profile == nil {
+func NewSession(c *gin.Context, userID uint64) error {
+	if userID == 0 {
 		return errors.New("profile is empty")
 	}
 
 	sess := models.SessionValue{
-		UserID:     profile.UserID,
+		UserID:     userID,
 		Expiration: uint64(time.Now().Add(SessionTimeout).UTC().Unix()),
 	}
 
@@ -38,6 +38,10 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 	cookie, err := c.Request.Cookie(sessionID)
 	if err != nil {
 		return nil, err
+	}
+
+	if cookie.Value == "" {
+		return nil, errors.New("expired")
 	}
 
 	decodedStr, err := hex.DecodeString(cookie.Value)
@@ -66,5 +70,5 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 
 // DeleteSession удаление сессии
 func DeleteSession(c *gin.Context) {
-	c.SetCookie(sessionID, "", 0, "/", "", false, true)
+	c.SetCookie(sessionID, "", 1, "/", "", false, true)
 }
