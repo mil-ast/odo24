@@ -8,6 +8,7 @@ import { DialogUpdateAvtoComponent } from '../dialog-update-avto/dialog-update-a
 import { ReplaySubject, of } from 'rxjs';
 import { takeUntil, mergeMap, map } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-avto',
@@ -27,6 +28,7 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
   constructor(
     private avtoService: AvtoService,
     private dialog: MatDialog,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -110,6 +112,8 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
       } else {
         this.clickShowAddAvto(true);
       }
+    }, () => {
+      this.toastr.error('Произошла ошибка при получении списка авто');
     });
   }
 }

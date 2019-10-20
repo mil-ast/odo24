@@ -7,12 +7,11 @@ import (
 	"odo24/server/api/binders"
 	"odo24/server/api/handlers"
 	"odo24/server/config"
+	"odo24/server/sessions"
 	"runtime"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mil-ast/db"
-	"github.com/mil-ast/sessions"
 )
 
 var VERSION string = "2.0.0"
@@ -52,8 +51,8 @@ func main() {
 	}
 	fmt.Println("OK!")
 
-	// актуальность сессии
-	sessions.SetMaxLifeTime(time.Hour)
+	// ключ шифрования сессии
+	sessions.SetSecretKey(options.App.SessionKey)
 
 	gin.SetMode(gin.DebugMode) // gin.ReleaseMode
 	r := gin.Default()
@@ -74,7 +73,7 @@ func main() {
 	// Авто
 	AvtoGroup := r.Group("/api/avto")
 	{
-		AvtoGroup.GET("/get_all", binders.GetSession, handlers.AvtoGetAll)
+		AvtoGroup.GET("/", binders.GetSession, handlers.AvtoGetAll)
 	}
 
 	if options.App.Server_addr == "" {

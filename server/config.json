@@ -6,7 +6,7 @@
 		"smtp_port" : 465,
 		"smtp_from" : "info@odo24.ru",
 		"smtp_password" : "6PxnwmB4pcPvk8q",
-		"memcached_addr" : "81.177.26.40:11211"
+		"session_key": "uAb37wzprosWUBJAHT4tLgr0DMIHVFfs"
 	},
 	"db" : {
 		"driver_name" : "postgres",

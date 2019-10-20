@@ -9,13 +9,13 @@ import (
 )
 
 func AvtoGetAll(c *gin.Context) {
-	profile := c.MustGet(constants.BindProfile).(*models.Profile)
+	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
 
-	list, err := models.AvtoGetAll(profile.UserID)
+	list, err := models.AvtoGetAll(sess.UserID)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
-	c.JSON(200, list)
+	c.JSON(http.StatusOK, list)
 }

@@ -51,13 +51,22 @@ func Login(c *gin.Context) {
 	c.JSON(200, *profile)
 }
 
+// Logout выход из профиля
 func Logout(c *gin.Context) {
 	sessions.DeleteSession(c)
 	c.Status(http.StatusNoContent)
 }
 
+// ProfileGet получение текущего профиля
 func ProfileGet(c *gin.Context) {
-	profile := c.MustGet(constants.BindProfile).(*models.Profile)
+	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
+
+	profile, err := services.GetProfile(sess.UserID)
+	if err != nil {
+		log.Println(err)
+		c.AbortWithError(http.StatusInternalServerError, errors.New(http.StatusText(http.StatusInternalServerError)))
+		return
+	}
 	c.JSON(200, *profile)
 }
 

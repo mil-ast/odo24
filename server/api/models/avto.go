@@ -17,7 +17,7 @@ func AvtoGetAll(userID uint64) ([]Avto, error) {
 		return nil, err
 	}
 
-	querySQL := `select avto_id, name, odo, avatar from cars.get_all($1)`
+	querySQL := `select avto_id,name,odo,avatar from cars.get_all($1)`
 	rows, err := conn.Query(querySQL, userID)
 	if err != nil {
 		return nil, err

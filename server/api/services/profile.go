@@ -12,6 +12,25 @@ import (
 	"github.com/mil-ast/db"
 )
 
+func GetProfile(userID uint64) (*models.Profile, error) {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	profile := new(models.Profile)
+	sqlQuery := "select user_id,login,confirmed from profiles.get_profile($1);"
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+	row := conn.QueryRowContext(ctx, sqlQuery, userID)
+	err = row.Scan(&profile.UserID, &profile.Login, &profile.Confirmed)
+	if err != nil {
+		return nil, err
+	}
+
+	return profile, nil
+}
+
 // Login авторизация
 func Login(login models.Email, password models.Password) (*models.Profile, error) {
 	conn, err := db.GetConnection()

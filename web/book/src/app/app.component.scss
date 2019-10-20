@@ -10,9 +10,9 @@ header {
   grid-template-columns: auto 1fr;
   padding: 40px 20px;
   border-radius: 4px;
-
+  z-index: 1;
   position: relative;
-  height: 50px;
+  height: 90px;
   background: url("/assets/images/landing_bg.jpg") no-repeat 0px bottom;
   background-size: cover;
 
@@ -61,10 +61,11 @@ header {
 @media (min-width: 660px) {
   header {
     grid-template-columns: auto 1fr auto;
+    height: 50px;
     nav {
       grid-column: auto;
       grid-row: auto;
-      margin-top: 0px;
+      margin-top: 10px;
       margin-left: 40px;
     }
   }

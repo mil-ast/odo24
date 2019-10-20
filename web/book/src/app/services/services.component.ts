@@ -38,7 +38,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     private serviceService: ServiceService,
     private dialog: MatDialog,
   ) {
-    this.isMobile = window.innerWidth < 600;
+    this.isMobile = window.innerWidth < 960;
   }
 
   ngOnInit() {

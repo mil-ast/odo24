@@ -50,7 +50,9 @@
 </div>
 <ng-template #tplEmptyAvto>
   <div id="empty-avto">
-    <div><p>Автомобилей ещё нет.</p></div>
+    <div>
+      <p><mat-icon>not_interested</mat-icon>Автомобилей ещё нет.</p>
+    </div>
     <button title="Добавить авто" mat-raised-button color="primary" class="mat-elevation-z0" (click)="clickShowAddAvto()">
       <mat-icon>add</mat-icon>
       <span>&nbsp;Добавить</span>

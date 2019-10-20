@@ -9,16 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//GetSession получение и проверка сессии
 func GetSession(c *gin.Context) {
-	profile, err := sessions.GetSession(c)
+	session, err := sessions.GetSession(c)
 	if err != nil {
-		if err.Error() == "sess: not found" {
+		switch err.Error() {
+		case "expired", "http: named cookie not present":
 			c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
-		} else {
+		default:
 			c.AbortWithError(http.StatusInternalServerError, err)
 		}
+
 		return
 	}
 
-	c.Set(constants.BindProfile, profile)
+	c.Set(constants.BindProfile, session)
 }
