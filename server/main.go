@@ -32,7 +32,7 @@ func main() {
 	}
 
 	log.Println("Start...")
-	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
 
 	// чтение настроек
 	options := config.GetInstance()

@@ -46,17 +46,20 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 
 	decodedStr, err := hex.DecodeString(cookie.Value)
 	if err != nil {
+		DeleteSession(c)
 		return nil, err
 	}
 
 	value, err := decrypt(decodedStr)
 	if err != nil {
-		return nil, err
+		DeleteSession(c)
+		return nil, errors.New("expired")
 	}
 
 	sess := new(models.SessionValue)
 	err = sess.Parse(value)
 	if err != nil {
+		DeleteSession(c)
 		return nil, err
 	}
 
