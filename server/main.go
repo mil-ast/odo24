@@ -59,21 +59,23 @@ func main() {
 
 	// Профиль
 	profileGroup := r.Group("/api/profile")
+	profileCtrl := handlers.NewProfileController()
 	{
-		profileGroup.GET("", binders.GetSession, handlers.ProfileGet)
-		profileGroup.POST("/login", handlers.CheckUserAgent, handlers.Login)
-		profileGroup.GET("/oauth", binders.GetOauthParamsFromQuery, handlers.OAuth)
-		profileGroup.GET("/logout", handlers.Logout)
-		profileGroup.POST("/register", handlers.CheckUserAgent, handlers.Register)
-		profileGroup.POST("/reset_password", handlers.CheckUserAgent, handlers.ResetPassword)
-		profileGroup.POST("/password_recovery", handlers.CheckUserAgent, handlers.PasswordRecovery)
-		profileGroup.POST("/update_password", binders.GetSession, handlers.PasswordUpdate)
+		profileGroup.GET("", binders.GetSession, profileCtrl.ProfileGet)
+		profileGroup.POST("/login", handlers.CheckUserAgent, profileCtrl.Login)
+		profileGroup.GET("/oauth", binders.GetOauthParamsFromQuery, profileCtrl.OAuth)
+		profileGroup.GET("/logout", profileCtrl.Logout)
+		profileGroup.POST("/register", handlers.CheckUserAgent, profileCtrl.Register)
+		profileGroup.POST("/reset_password", handlers.CheckUserAgent, profileCtrl.ResetPassword)
+		profileGroup.POST("/password_recovery", handlers.CheckUserAgent, profileCtrl.PasswordRecovery)
+		profileGroup.POST("/update_password", binders.GetSession, profileCtrl.PasswordUpdate)
 	}
 
 	// Авто
 	AvtoGroup := r.Group("/api/avto")
 	{
 		AvtoGroup.GET("/", binders.GetSession, handlers.AvtoGetAll)
+		AvtoGroup.POST("/", binders.GetSession, handlers.AvtoGetAll)
 	}
 
 	if options.App.Server_addr == "" {

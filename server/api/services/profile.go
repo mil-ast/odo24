@@ -12,7 +12,14 @@ import (
 	"github.com/mil-ast/db"
 )
 
-func GetProfile(userID uint64) (*models.Profile, error) {
+type ProfileService struct{}
+
+// ProfileService экземпляр сервис Профиля
+func NewProfileService() ProfileService {
+	return ProfileService{}
+}
+
+func (ProfileService) GetProfile(userID uint64) (*models.Profile, error) {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return nil, err
@@ -32,7 +39,7 @@ func GetProfile(userID uint64) (*models.Profile, error) {
 }
 
 // Login авторизация
-func Login(login models.Email, password models.Password) (*models.Profile, error) {
+func (ProfileService) Login(login models.Email, password models.Password) (*models.Profile, error) {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return nil, err
@@ -57,7 +64,7 @@ func Login(login models.Email, password models.Password) (*models.Profile, error
 }
 
 // Register регистрация
-func Register(login models.Email) error {
+func (ProfileService) Register(login models.Email) error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err
@@ -88,7 +95,7 @@ func Register(login models.Email) error {
 }
 
 // PasswordRecovery восстановление пароля
-func PasswordRecovery(login models.Email) error {
+func (ProfileService) PasswordRecovery(login models.Email) error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err
@@ -105,7 +112,7 @@ func PasswordRecovery(login models.Email) error {
 }
 
 // PasswordUpdate изменение пароля из личного кабинета
-func PasswordUpdate(userID uint64, password models.Password) error {
+func (ProfileService) PasswordUpdate(userID uint64, password models.Password) error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err
@@ -120,7 +127,7 @@ func PasswordUpdate(userID uint64, password models.Password) error {
 }
 
 // ResetPassword сброс пароля
-func ResetPassword(login models.Email, password models.Password, code *uint32, linkKey *string) error {
+func (ProfileService) ResetPassword(login models.Email, password models.Password, code *uint32, linkKey *string) error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err

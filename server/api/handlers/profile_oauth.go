@@ -13,7 +13,7 @@ import (
 )
 
 // OAuth авторизация
-func OAuth(c *gin.Context) {
+func (ProfileController) OAuth(c *gin.Context) {
 	queryParams := c.MustGet(constants.BindOAuthQuery).(models.OAuthQueryParams)
 
 	var serviceType oauth.OAuthUserInfo

@@ -12,7 +12,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Login(c *gin.Context) {
+type ProfileController struct{}
+
+// NewProfileController экземпляр контроллера Профиля
+func NewProfileController() ProfileController {
+	return ProfileController{}
+}
+
+func (ProfileController) Login(c *gin.Context) {
 	var body models.LoginFromBody
 	err := c.BindJSON(&body)
 	if err != nil {
@@ -30,7 +37,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	profile, err := services.Login(body.Login, body.Password)
+	profileService := services.NewProfileService()
+	profile, err := profileService.Login(body.Login, body.Password)
 	if err != nil {
 		switch err.Error() {
 		case "pq: login is empty":
@@ -52,16 +60,17 @@ func Login(c *gin.Context) {
 }
 
 // Logout выход из профиля
-func Logout(c *gin.Context) {
+func (ProfileController) Logout(c *gin.Context) {
 	sessions.DeleteSession(c)
 	c.Status(http.StatusNoContent)
 }
 
 // ProfileGet получение текущего профиля
-func ProfileGet(c *gin.Context) {
+func (ProfileController) ProfileGet(c *gin.Context) {
+	profileService := services.NewProfileService()
 	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
 
-	profile, err := services.GetProfile(sess.UserID)
+	profile, err := profileService.GetProfile(sess.UserID)
 	if err != nil {
 		log.Println(err)
 		c.AbortWithError(http.StatusInternalServerError, errors.New(http.StatusText(http.StatusInternalServerError)))
@@ -71,7 +80,7 @@ func ProfileGet(c *gin.Context) {
 }
 
 // Register регистрация
-func Register(c *gin.Context) {
+func (ProfileController) Register(c *gin.Context) {
 	var body models.EmailFromBody
 	err := c.Bind(&body)
 	if err != nil {
@@ -84,7 +93,8 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	err = services.Register(body.Email)
+	profileService := services.NewProfileService()
+	err = profileService.Register(body.Email)
 	if err != nil {
 		log.Println(err)
 		switch err.Error() {
@@ -103,7 +113,7 @@ func Register(c *gin.Context) {
 }
 
 // PasswordRecovery восстановление пароля
-func PasswordRecovery(c *gin.Context) {
+func (ProfileController) PasswordRecovery(c *gin.Context) {
 	var body models.EmailFromBody
 	err := c.BindJSON(&body)
 	if err != nil {
@@ -116,7 +126,8 @@ func PasswordRecovery(c *gin.Context) {
 		return
 	}
 
-	err = services.PasswordRecovery(body.Email)
+	profileService := services.NewProfileService()
+	err = profileService.PasswordRecovery(body.Email)
 	if err != nil {
 		log.Println(err)
 		switch err.Error() {
@@ -131,7 +142,7 @@ func PasswordRecovery(c *gin.Context) {
 }
 
 // PasswordUpdate изменение пароля из личного кабинета
-func PasswordUpdate(c *gin.Context) {
+func (ProfileController) PasswordUpdate(c *gin.Context) {
 	profile := c.MustGet(constants.BindProfile).(*models.Profile)
 	body := models.PasswordFromBody{}
 
@@ -146,7 +157,8 @@ func PasswordUpdate(c *gin.Context) {
 		return
 	}
 
-	err = services.PasswordUpdate(profile.UserID, body.Password)
+	profileService := services.NewProfileService()
+	err = profileService.PasswordUpdate(profile.UserID, body.Password)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
@@ -156,7 +168,7 @@ func PasswordUpdate(c *gin.Context) {
 }
 
 // ResetPassword Сброс пароля
-func ResetPassword(c *gin.Context) {
+func (ProfileController) ResetPassword(c *gin.Context) {
 	var body models.RegisterResetPasswordFromBody
 	err := c.BindJSON(&body)
 	if err != nil {
@@ -179,7 +191,8 @@ func ResetPassword(c *gin.Context) {
 		return
 	}
 
-	err = services.ResetPassword(body.Login, body.Password, body.Code, body.LinkKey)
+	profileService := services.NewProfileService()
+	err = profileService.ResetPassword(body.Login, body.Password, body.Code, body.LinkKey)
 	if err != nil {
 		if err.Error() == "incorrect" {
 			c.AbortWithError(http.StatusBadRequest, err)
