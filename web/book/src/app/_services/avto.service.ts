@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AvtoService {
-  private url = '/api/avto';
+  private url = '/api/auto';
 
   private selectedAvto: BehaviorSubject<Avto> = new BehaviorSubject(null);
   selected: Observable<Avto> = this.selectedAvto.asObservable();
@@ -39,7 +39,7 @@ export class AvtoService {
   }
 
   delete(id: number) {
-    return this.http.delete(this.url.concat(`?avto_id=${id}`));
+    return this.http.delete(`${this.url}/${id}`);
   }
 
   setSelected(avto: Avto) {

@@ -72,10 +72,12 @@ func main() {
 	}
 
 	// Авто
-	AvtoGroup := r.Group("/api/avto")
+	autoGroup := r.Group("/api/auto").Use(binders.GetSession)
+	autoCtrl := handlers.NewAutoController()
 	{
-		AvtoGroup.GET("/", binders.GetSession, handlers.AvtoGetAll)
-		AvtoGroup.POST("/", binders.GetSession, handlers.AvtoGetAll)
+		autoGroup.GET("/", autoCtrl.GetAll)
+		autoGroup.POST("/", autoCtrl.Create)
+		autoGroup.DELETE("/:auto_id", autoCtrl.Delete)
 	}
 
 	if options.App.Server_addr == "" {

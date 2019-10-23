@@ -4,7 +4,6 @@ export interface AvtoStruct {
   name: string;
   odo: number;
   avatar?: boolean;
-  public?: boolean;
 }
 
 export class Avto {

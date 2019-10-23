@@ -28,11 +28,11 @@ export class DialogCreateAvtoComponent {
       odo: this.form.get('odo').value
     };
     this.avtoService.create(data).subscribe((avto: AvtoStruct) => {
-      this.dialogRef.close(avto);
-
       this.snackBar.open('Авто успешно добавлена!', 'OK', {
         duration: 5000,
       });
+
+      this.dialogRef.close(avto);
     }, (e: HttpErrorResponse) => {
       console.error(e);
       this.snackBar.open('Что-то пошло не так!', 'OK', {

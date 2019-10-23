@@ -45,3 +45,37 @@ func (s AutoService) GetAll() ([]models.Auto, error) {
 
 	return result, nil
 }
+
+// Create создать авто
+func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	avto := models.Auto{
+		Name: name,
+		Odo:  odo,
+	}
+
+	querySQL := `select avto_id,avatar from cars.createavto($1,$2,$3);`
+	row := conn.QueryRow(querySQL, name, odo, s.UserID)
+	err = row.Scan(&avto.AvtoID, &avto.Avatar)
+	if err != nil {
+		return nil, err
+	}
+
+	return &avto, nil
+}
+
+// Delete удаление авто
+func (s AutoService) Delete(autoID uint64) error {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	querySQL := `call cars.deleteavto($1,$2)`
+	_, err = conn.Exec(querySQL, autoID, s.UserID)
+	return err
+}
