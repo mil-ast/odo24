@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+
+const mobileWidth = 960;
 
 @Injectable({
   providedIn: 'root'
 })
 export class AsideService {
-  private isScreenMobile = false;
-
-  constructor() {
-    this.isScreenMobile = window.innerWidth < 600;
-  }
+  constructor() {}
 
   isMobile(): boolean {
-    return this.isScreenMobile;
+    return window.innerWidth < mobileWidth;
   }
 }

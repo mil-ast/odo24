@@ -4,11 +4,9 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 export interface GroupStruct {
-    group_id?: number;
-    name: string;
-    order?: number;
-    global?: boolean;
-    cnt?: number;
+    group_id: number;
+    group_name: string;
+    sort: number;
 }
 export interface GroupsStats {
     group_id?: number;
@@ -32,21 +30,7 @@ export class GroupService {
         avto_id: `${avtoId}`
       }
     }).pipe(map((list: GroupStruct[]) => {
-      list = list || [];
-      return list.sort((a: GroupStruct, b: GroupStruct) => {
-        if (a.global && !b.global) {
-          return -1;
-        } else if (!a.global && b.global) {
-          return 1;
-        }
-
-        if (a.order > b.order) {
-          return 1;
-        } else if (a.order < b.order) {
-          return -1;
-        }
-        return 0;
-      });
+      return (list || []).sort((a: GroupStruct, b: GroupStruct) => a.sort - b.sort);
     }, tap((list: GroupStruct[]) => {
       const selectedGroup = this.selectedGroup.getValue();
       if (list.length > 0 && selectedGroup === null) {

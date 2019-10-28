@@ -1,15 +1,16 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { AvtoService } from '../_services/avto.service';
-import { AvtoStruct, Avto } from '../_classes/avto';
-import { Subscription, ReplaySubject, Observable, combineLatest, zip } from 'rxjs';
+import { Component, OnInit, OnDestroy} from '@angular/core';
+import { AutoService } from '../_services/avto.service';
+import { Auto } from '../_classes/auto';
+import { ReplaySubject, combineLatest, zip, of } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil, filter, mergeMap } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
 import { AsideService } from '../_services/aside.service';
-import { MediaMatcher } from '@angular/cdk/layout';
+import { ToastrService } from 'ngx-toastr';
+import { MatSelectChange } from '@angular/material';
 
 @Component({
   selector: 'app-services',
@@ -20,38 +21,52 @@ import { MediaMatcher } from '@angular/cdk/layout';
   ]
 })
 export class ServicesComponent implements OnInit, OnDestroy {
+  groups: GroupStruct[] = [];
   serviceList: ServiceStruct[] = [];
-  selectedAvto: Avto;
+  selectedAuto: Auto;
   selectedGroup: GroupStruct;
   lastService: ServiceStruct = null;
   isSync = true;
   isLoading = true;
   isMobile = false;
 
-  private screenIsMobile = false;
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
-    public asideService: AsideService,
-    private avtoService: AvtoService,
+    private asideService: AsideService,
+    private autoService: AutoService,
     private groupService: GroupService,
     private serviceService: ServiceService,
     private dialog: MatDialog,
+    private toastr: ToastrService,
   ) {
-    this.isMobile = window.innerWidth < 960;
+    this.isMobile = this.asideService.isMobile();
   }
 
   ngOnInit() {
+    this.autoService.selected.pipe(
+      filter((selectedAvto: Auto) => selectedAvto !== null),
+      mergeMap((selectedAvto: Auto) => {
+        return this.groupService.get(selectedAvto.auto_id);
+      }),
+      takeUntil(this.destroy)
+    ).subscribe((groups: GroupStruct[]) => {
+      this.groups = groups || [];
+    }, () => {
+      this.toastr.error('Произошла ошибка!');
+    });
+
     combineLatest(
-      this.avtoService.selected,
+      this.autoService.selected,
       this.groupService.selected
     ).pipe(
       takeUntil(this.destroy)
-    ).subscribe(([avto, group]) => {
-      if (!avto && !group) {
+    ).subscribe(([auto, group]) => {
+      if (!auto && !group) {
         return;
       }
-      this.selectedAvto = avto;
+
+      this.selectedAuto = auto;
       this.selectedGroup = group;
 
       this.loadServices();
@@ -71,7 +86,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       minWidth: '600px',
       autoFocus: false,
     };
-    if (this.screenIsMobile) {
+    if (this.isMobile) {
       config.minWidth = '98%';
       config.position = {
         top: '4px'
@@ -103,6 +118,13 @@ export class ServicesComponent implements OnInit, OnDestroy {
     };
 
     this.dialog.open(DialogUpdateServiceComponent, config);
+  }
+
+  onGroupChange(select: MatSelectChange) {
+    const selectedGroup = this.groups.find((g: GroupStruct) => g.group_id === select.value);
+    if (selectedGroup) {
+      this.groupService.setSelected(selectedGroup);
+    }
   }
 
   get getLeftDistance(): number {
@@ -146,16 +168,16 @@ export class ServicesComponent implements OnInit, OnDestroy {
     
     this.serviceList = [];
     this.lastService = null;
-    if (!this.selectedAvto || !this.selectedGroup) {
+    if (!this.selectedAuto || !this.selectedGroup) {
       return;
     }
     console.log('loadServices');
 
-    const selectedAvto = this.avtoService.getSelected();
+    const selectedAvto = this.autoService.getSelected();
     const selectedGroup = this.groupService.getSelected();
 
     this.isLoading = true;
-    this.serviceService.get(selectedAvto.avto_id, selectedGroup.group_id).pipe(
+    this.serviceService.get(selectedAvto.auto_id, selectedGroup.group_id).pipe(
       finalize(() => {
         this.isLoading = false;
       }),

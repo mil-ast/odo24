@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AvtoStruct } from '../../_classes/avto';
+import { AutoStruct } from '../../_classes/auto';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogUpdateAvtoComponent } from 'src/app/shared/dialog-update-avto/dialog-update-avto.component';
 
@@ -9,7 +9,7 @@ import { DialogUpdateAvtoComponent } from 'src/app/shared/dialog-update-avto/dia
   styleUrls: ['./selected-avto.component.scss']
 })
 export class SelectedAvtoComponent {
-  @Input() model: AvtoStruct;
+  @Input() model: AutoStruct;
 
   constructor(
     private dialog: MatDialog,

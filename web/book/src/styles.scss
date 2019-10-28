@@ -93,6 +93,14 @@ input:active, textarea:active {outline:none;}
   }
 }
 
+.page_title_block {
+  > .title {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+  }
+}
+
 .sidenav {
   .mat-sidenav {
     width:400px;

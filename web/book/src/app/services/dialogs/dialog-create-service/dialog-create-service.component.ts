@@ -3,9 +3,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import * as moment from 'moment';
-import { AvtoService } from 'src/app/_services/avto.service';
+import { AutoService } from 'src/app/_services/avto.service';
 import { first } from 'rxjs/operators';
-import { AvtoStruct } from 'src/app/_classes/avto';
+import { AutoStruct } from 'src/app/_classes/auto';
 import { ServiceService, ServiceStruct } from 'src/app/_services/service.service';
 import { GroupStruct, GroupService } from 'src/app/_services/groups.service';
 
@@ -17,14 +17,14 @@ import { GroupStruct, GroupService } from 'src/app/_services/groups.service';
 export class DialogCreateServiceComponent implements OnInit {
   form: FormGroup;
   private selectegGroup: GroupStruct;
-  private selectegAvto: AvtoStruct;
+  private selectegAvto: AutoStruct;
 
   constructor(
     private dialogRef: MatDialogRef<DialogCreateServiceComponent>,
     private snackBar: MatSnackBar,
     private serviceService: ServiceService,
     private groupService: GroupService,
-    private avtoService: AvtoService,
+    private avtoService: AutoService,
   ) { }
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class DialogCreateServiceComponent implements OnInit {
       comment: new FormControl(''),
     });
 
-    this.avtoService.selected.pipe(first()).subscribe((avto: AvtoStruct) => {
+    this.avtoService.selected.pipe(first()).subscribe((avto: AutoStruct) => {
       this.selectegAvto = avto;
       this.form.patchValue({
         odo: avto.odo,

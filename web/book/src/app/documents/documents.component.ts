@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AvtoStruct } from '../_classes/avto';
+import { AutoStruct } from '../_classes/auto';
 import { Subscription } from 'rxjs';
-import { AvtoService } from '../_services/avto.service';
+import { AutoService } from '../_services/avto.service';
 import { DocumentsService, Document } from './services/documents.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogCreateDocComponent } from './dialogs/dialog-create-doc/dialog-create-doc.component';
@@ -15,7 +15,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class DocumentsComponent implements OnInit, OnDestroy {
   remindList: Document[] = [];
-  selectedAvto: AvtoStruct = null;
+  selectedAvto: AutoStruct = null;
   screenIsMobile = false;
   screenIsSmall = false;
   isSync = true;
@@ -25,7 +25,7 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   private screenListener: Subscription;
 
   constructor(
-    private avtoService: AvtoService,
+    private avtoService: AutoService,
     private remindingService: DocumentsService,
     private dialog: MatDialog,
     private screenService: ScreenService,
@@ -34,7 +34,7 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.screenListener = this.screenService.getScreen().subscribe(this.onResize.bind(this));
 
-    this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
+    this.avtoListener = this.avtoService.selected.subscribe((avto: AutoStruct) => {
       this.isSync = false;
       this.selectedAvto = avto;
       this.fetch();

@@ -2,8 +2,8 @@ import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { AvtoService } from 'src/app/_services/avto.service';
-import { AvtoStruct, Avto } from 'src/app/_classes/avto';
+import { AutoService } from 'src/app/_services/avto.service';
+import { AutoStruct, Auto } from 'src/app/_classes/auto';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil, mergeMap, map } from 'rxjs/operators';
 import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
@@ -22,10 +22,10 @@ export class DialogUpdateAvtoComponent implements OnDestroy {
 
   constructor(
     private dialogRef: MatDialogRef<DialogUpdateAvtoComponent>,
-    private avtoService: AvtoService,
+    private avtoService: AutoService,
     private snackBar: MatSnackBar,
     private ble: BluetoothCore,
-    @Inject(MAT_DIALOG_DATA) public data: Avto,
+    @Inject(MAT_DIALOG_DATA) public data: Auto,
   ) {
     this.form = new FormGroup({
       name: new FormControl(data.name, Validators.required),
@@ -43,7 +43,7 @@ export class DialogUpdateAvtoComponent implements OnDestroy {
 
     const formData = new FormData();
     formData.append('name', this.form.value.name);
-    formData.append('avto_id', this.data.avto_id.toString());
+    formData.append('avto_id', this.data.auto_id.toString());
     formData.append('odo', (this.form.value.odo | 0).toString());
 
     if (this.uploaded_file !== null) {
@@ -52,7 +52,7 @@ export class DialogUpdateAvtoComponent implements OnDestroy {
 
     this.avtoService.update(formData).pipe(
       takeUntil(this.destroy),
-    ).subscribe((res: AvtoStruct) => {
+    ).subscribe((res: AutoStruct) => {
       this.data.update(res.name, res.odo, res.avatar);
 
       this.snackBar.open('Изменения успешно сохранены!', 'OK', {

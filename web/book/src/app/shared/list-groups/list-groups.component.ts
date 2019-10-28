@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GroupStruct, GroupService } from 'src/app/_services/groups.service';
-import { AvtoService } from 'src/app/_services/avto.service';
-import { Avto } from 'src/app/_classes/avto';
+import { AutoService } from 'src/app/_services/avto.service';
+import { Auto } from 'src/app/_classes/auto';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateGroupComponent } from '../dialog-create-group/dialog-create-group.component';
 import { DialogUpdateGroupComponent } from '../dialog-update-group/dialog-update-group.component';
@@ -23,7 +23,7 @@ export class ListGroupsComponent implements OnInit, OnDestroy {
 
   constructor(
     private groupService: GroupService,
-    private avtoService: AvtoService,
+    private avtoService: AutoService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
   ) { }
@@ -40,9 +40,9 @@ export class ListGroupsComponent implements OnInit, OnDestroy {
 
     this.avtoService.selected.pipe(
       takeUntil(this.destroy)
-    ).subscribe((avto: Avto) => {
+    ).subscribe((avto: Auto) => {
       if (avto) {
-        this.fetchGroups(avto.avto_id);
+        this.fetchGroups(avto.auto_id);
       }
     });
   }

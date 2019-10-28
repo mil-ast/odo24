@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AvtoStruct, Avto } from 'src/app/_classes/avto';
-import { AvtoService } from 'src/app/_services/avto.service';
+import { AutoStruct, Auto } from 'src/app/_classes/auto';
+import { AutoService } from 'src/app/_services/avto.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from 'src/app/shared/dialog-update-avto/dialog-update-avto.component';
@@ -13,16 +13,16 @@ import { DialogUpdateAvtoComponent } from 'src/app/shared/dialog-update-avto/dia
   ]
 })
 export class ItemAvtoComponent {
-  @Input() model: Avto;
-  @Output() eventDelete: EventEmitter<Avto> = new EventEmitter();
+  @Input() model: Auto;
+  @Output() eventDelete: EventEmitter<Auto> = new EventEmitter();
   constructor(
     private dialog: MatDialog,
-    private avtoService: AvtoService
+    private avtoService: AutoService
   ) { }
 
   get imageURL(): string {
     if (this.model.avatar) {
-      return `/api/images/small/${this.model.avto_id}.jpg`;
+      return `/api/images/small/${this.model.auto_id}.jpg`;
     }
     return '/assets/images/no_photo_small.png';
   }
@@ -58,7 +58,7 @@ export class ItemAvtoComponent {
         return;
       }
 
-      this.avtoService.delete(this.model.avto_id).subscribe(() => {
+      this.avtoService.delete(this.model.auto_id).subscribe(() => {
         this.eventDelete.emit(this.model);
       });
     });

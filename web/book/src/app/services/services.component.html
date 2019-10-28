@@ -9,19 +9,26 @@
 	</mat-sidenav>
 
 	<mat-sidenav-content>
-		<div class="title">
-			<div>
-				<div>
-					<h1 class="mat-h1">
-						<mat-icon>build</mat-icon>
-						Сервисное обслуживание
-					</h1>
-				</div>
+		<div class="page_title_block">
+			<div class="title">
 				<div class="right_button">
-					<button mat-flat-button color="primary">Добавить</button>
+					<button mat-mini-fab color="primary">
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
+				<div>
+					<h1 class="mat-h1">Сервисное обслуживание</h1>
 				</div>
 			</div>
-			<h3 class="mat-h3">{{selectedGroup?.name}}</h3>
+			<mat-divider></mat-divider>
+			<div>
+				<mat-form-field>
+					<mat-label>Группа</mat-label>
+					<mat-select (selectionChange)="onGroupChange($event)">
+						<mat-option *ngFor="let g of groups" [value]="g.group_id">{{g.group_name}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
 		</div>
 
 		<div id="list_services">

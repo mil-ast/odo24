@@ -13,8 +13,10 @@ import {
   MatMenuModule,
   MatDatepickerModule,
   MatToolbarModule,
+  MatSelectModule,
+  MatDividerModule,
 } from '@angular/material';
-import { AvtoService } from '../_services/avto.service';
+import { AutoService } from '../_services/avto.service';
 import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module';
 import { GroupService } from '../_services/groups.service';
 import { ItemServiceComponent } from './item-service/item-service.component';
@@ -56,14 +58,16 @@ import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
     MatInputModule,
     MatIconModule,
     MatMenuModule,
+    MatSelectModule,
     MatDatepickerModule,
     MatToolbarModule,
+    MatDividerModule,
     FormsModule,
     ReactiveFormsModule,
     OrderPipeModule,
   ],
   providers: [
-    AvtoService,
+    AutoService,
     GroupService,
     ServiceService,
   ],

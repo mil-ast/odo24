@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AvtoStruct } from 'src/app/_classes/avto';
+import { AutoStruct } from 'src/app/_classes/auto';
 import { DocumentsService, Document } from '../../services/documents.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -19,7 +19,7 @@ export class DialogCreateDocComponent {
     private remindingService: DocumentsService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<DialogCreateDocComponent>,
-    @Inject(MAT_DIALOG_DATA) public avto: AvtoStruct,
+    @Inject(MAT_DIALOG_DATA) public avto: AutoStruct,
   ) {
     this.form = new FormGroup({
       event_type: new FormControl('insurance', Validators.required),

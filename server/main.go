@@ -80,6 +80,13 @@ func main() {
 		autoGroup.DELETE("/:auto_id", autoCtrl.Delete)
 	}
 
+	// Группы
+	groupGroup := r.Group("/api/groups").Use(binders.GetSession)
+	groupCtrl := handlers.NewGroupsController()
+	{
+		groupGroup.GET("/", groupCtrl.GetAll)
+	}
+
 	if options.App.Server_addr == "" {
 		options.App.Server_addr = "127.0.0.1:8080"
 	}

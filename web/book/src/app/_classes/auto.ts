@@ -1,4 +1,4 @@
-export interface AvtoStruct {
+export interface AutoStruct {
   avto_id?: number;
   user_id?: number;
   name: string;
@@ -6,15 +6,15 @@ export interface AvtoStruct {
   avatar?: boolean;
 }
 
-export class Avto {
-  avto_id: number;
+export class Auto {
+  auto_id: number;
   name: string;
   odo: number;
   avatar: boolean;
   private cache: number;
 
-  constructor(data: AvtoStruct) {
-    this.avto_id = data.avto_id;
+  constructor(data: AutoStruct) {
+    this.auto_id = data.avto_id;
     this.update(data.name, data.odo, data.avatar);
   }
 
@@ -29,13 +29,13 @@ export class Avto {
     if (!this.avatar) {
       return '/assets/images/no_photo_small.png';
     }
-    return `/api/images/small/${this.avto_id}.jpg?t=${this.cache}`;
+    return `/api/images/small/${this.auto_id}.jpg?t=${this.cache}`;
   }
 
   get avatarMediumPath(): string {
     if (!this.avatar) {
       return '/assets/images/no_photo.png';
     }
-    return `/api/images/medium/${this.avto_id}.jpg?t=${this.cache}`;
+    return `/api/images/medium/${this.auto_id}.jpg?t=${this.cache}`;
   }
 }
