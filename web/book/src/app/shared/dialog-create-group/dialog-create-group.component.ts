@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { GroupService, GroupStruct } from 'src/app/_services/groups.service';
+import { GroupService, GroupStruct, GroupStructModify } from 'src/app/_services/groups.service';
 
 @Component({
   selector: 'app-dialog-create-group',
@@ -21,8 +21,8 @@ export class DialogCreateGroupComponent {
   });
 
   submit() {
-    const data: GroupStruct = {
-      name: this.form.get('name').value,
+    const data: GroupStructModify = {
+      group_name: this.form.get('name').value,
     };
     this.groupService.create(data).subscribe((group: GroupStruct) => {
       this.dialogRef.close(group);

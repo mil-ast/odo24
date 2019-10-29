@@ -17,6 +17,18 @@ h3 {
   margin: 0px !important;
 }
 
+#title_header {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+
+  #select_group {
+    display: grid;
+    grid-template-columns: 300px 1fr auto;
+    gap: 20px;
+  }
+}
+
 #list_services {
   margin-top: 30px;
   .mat-card:not(:first-child) {

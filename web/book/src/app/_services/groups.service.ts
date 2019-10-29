@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 export interface GroupStruct {
-    group_id: number;
-    group_name: string;
-    sort: number;
+  group_id: number;
+  group_name: string;
+  sort: number;
 }
-export interface GroupsStats {
-    group_id?: number;
-    cnt?: number;
+export interface GroupStructModify {
+  group_name: string;
+  sort?: number;
 }
 
 @Injectable()
@@ -29,29 +29,23 @@ export class GroupService {
       params: {
         avto_id: `${avtoId}`
       }
-    }).pipe(map((list: GroupStruct[]) => {
-      return (list || []).sort((a: GroupStruct, b: GroupStruct) => a.sort - b.sort);
-    }, tap((list: GroupStruct[]) => {
-      const selectedGroup = this.selectedGroup.getValue();
-      if (list.length > 0 && selectedGroup === null) {
-        this.setSelected(list[0]);
+    }).pipe(
+      map((list: GroupStruct[]) => {
+        const sorted = (list || []).sort((a: GroupStruct, b: GroupStruct) => a.sort - b.sort);
+        const selectedGroup = this.selectedGroup.getValue();
+        if (list.length > 0 && selectedGroup === null) {
+          this.setSelected(list[0]);
+        }
+        return sorted;
       }
-    })));
+    ));
   }
 
-  getStats(avtoId: number): Observable<GroupsStats[]> {
-    return this.http.get<GroupsStats[]>(`${this.url}/stats`, {
-      params: {
-        avto_id: avtoId.toString()
-      }
-    });
-  }
-
-  create(data: GroupStruct) {
+  create(data: GroupStructModify) {
     return this.http.post(this.url, data);
   }
 
-  update(data: GroupStruct) {
+  update(data: GroupStructModify) {
     return this.http.put(this.url, data);
   }
 

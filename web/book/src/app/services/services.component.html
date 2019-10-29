@@ -9,25 +9,26 @@
 	</mat-sidenav>
 
 	<mat-sidenav-content>
-		<div class="page_title_block">
-			<div class="title">
-				<div class="right_button">
+		<div id="title_header">
+			<div id="select_group">
+				<div>
+					<mat-form-field class="full_width">
+						<mat-label>Группа</mat-label>
+						<mat-select [(ngModel)]="selectedGroup.group_id" (selectionChange)="onGroupChange($event)">
+							<mat-option *ngFor="let g of groups" [value]="g.group_id">{{g.group_name}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div>
+					<button mat-icon-button>
+						<mat-icon>build</mat-icon>
+					</button>
+				</div>
+				<div>
 					<button mat-mini-fab color="primary">
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
-				<div>
-					<h1 class="mat-h1">Сервисное обслуживание</h1>
-				</div>
-			</div>
-			<mat-divider></mat-divider>
-			<div>
-				<mat-form-field>
-					<mat-label>Группа</mat-label>
-					<mat-select (selectionChange)="onGroupChange($event)">
-						<mat-option *ngFor="let g of groups" [value]="g.group_id">{{g.group_name}}</mat-option>
-					</mat-select>
-				</mat-form-field>
 			</div>
 		</div>
 

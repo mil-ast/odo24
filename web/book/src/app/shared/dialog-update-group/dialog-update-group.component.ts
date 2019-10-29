@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { GroupService, GroupStruct } from 'src/app/_services/groups.service';
+import { GroupService, GroupStruct, GroupStructModify } from 'src/app/_services/groups.service';
 
 @Component({
   selector: 'app-dialog-update-group',
@@ -15,20 +15,19 @@ export class DialogUpdateGroupComponent {
     private dialogRef: MatDialogRef<DialogUpdateGroupComponent>,
     private snackBar: MatSnackBar,
     private groupService: GroupService,
-    @Inject(MAT_DIALOG_DATA) public data: GroupStruct,
+    @Inject(MAT_DIALOG_DATA) public data: GroupStructModify,
   ) {
     this.form = new FormGroup({
-      name : new FormControl(data.name, Validators.required),
+      name : new FormControl(data.group_name, Validators.required),
     });
   }
 
   submit() {
-    const data: GroupStruct = {
-      group_id: this.data.group_id,
-      name: this.form.get('name').value,
+    const data: GroupStructModify = {
+      group_name: this.form.get('name').value,
     };
     this.groupService.update(data).subscribe((group: GroupStruct) => {
-      this.data.name = group.name;
+      this.data.group_name = data.group_name;
       this.dialogRef.close(group);
 
       this.snackBar.open('Группа успешно сохранена!', 'OK', {

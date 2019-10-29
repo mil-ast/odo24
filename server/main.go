@@ -87,6 +87,13 @@ func main() {
 		groupGroup.GET("/", groupCtrl.GetAll)
 	}
 
+	// Сервисы
+	servicesGroup := r.Group("/api/services").Use(binders.GetSession)
+	serviceCtrl := handlers.NewServicesController()
+	{
+		servicesGroup.GET("/", serviceCtrl.Get)
+	}
+
 	if options.App.Server_addr == "" {
 		options.App.Server_addr = "127.0.0.1:8080"
 	}

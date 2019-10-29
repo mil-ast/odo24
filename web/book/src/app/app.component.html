@@ -4,10 +4,6 @@
       <mat-icon>build</mat-icon>
       <span>Обслуживание</span>
     </a>
-    <a *ngIf="selectedAvto!==null" routerLink="/documents" routerLinkActive="active">
-      <mat-icon>folder_open</mat-icon>
-      <span>Документы</span>
-    </a>
   </nav>
   <div id="profile">
     <button mat-raised-button color="primary" [matMenuTriggerFor]="profileMenu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">

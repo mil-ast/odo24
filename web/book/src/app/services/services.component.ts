@@ -11,20 +11,22 @@ import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/di
 import { AsideService } from '../_services/aside.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatSelectChange } from '@angular/material';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
-  styleUrls: [
-    '../shared_styles/aside_content.scss',
-    './services.component.scss',
-  ]
+  styleUrls: ['./services.component.scss']
 })
 export class ServicesComponent implements OnInit, OnDestroy {
   groups: GroupStruct[] = [];
   serviceList: ServiceStruct[] = [];
   selectedAuto: Auto;
-  selectedGroup: GroupStruct;
+  selectedGroup: GroupStruct = {
+    group_id: null,
+    group_name: null,
+    sort: null,
+  };
   lastService: ServiceStruct = null;
   isSync = true;
   isLoading = true;
@@ -41,6 +43,10 @@ export class ServicesComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
   ) {
     this.isMobile = this.asideService.isMobile();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
   }
 
   ngOnInit() {
@@ -66,8 +72,13 @@ export class ServicesComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.selectedAuto = auto;
-      this.selectedGroup = group;
+      if (auto) {
+        this.selectedAuto = auto;
+      }
+
+      if (group) {
+        this.selectedGroup = group;
+      }
 
       this.loadServices();
     });
@@ -165,19 +176,17 @@ export class ServicesComponent implements OnInit, OnDestroy {
   }
 
   private loadServices() {
-    
-    this.serviceList = [];
-    this.lastService = null;
-    if (!this.selectedAuto || !this.selectedGroup) {
+    const selectedAutoID = this.selectedAuto.auto_id;
+    const selectedGroupID = this.selectedGroup.group_id;
+
+    if (!selectedAutoID || !selectedGroupID) {
       return;
     }
-    console.log('loadServices');
-
-    const selectedAvto = this.autoService.getSelected();
-    const selectedGroup = this.groupService.getSelected();
+    this.serviceList = [];
+    this.lastService = null;
 
     this.isLoading = true;
-    this.serviceService.get(selectedAvto.auto_id, selectedGroup.group_id).pipe(
+    this.serviceService.get(selectedAutoID, selectedGroupID).pipe(
       finalize(() => {
         this.isLoading = false;
       }),
