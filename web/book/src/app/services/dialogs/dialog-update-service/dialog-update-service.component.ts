@@ -23,9 +23,9 @@ export class DialogUpdateServiceComponent implements OnInit {
     this.form = new FormGroup({
       odo: new FormControl(this.data.odo, [Validators.required, Validators.min(0)]),
       next_distance: new FormControl(this.data.next_distance, Validators.min(0)),
-      date: new FormControl(this.data.date, Validators.required),
+      dt: new FormControl(this.data.dt, Validators.required),
       price: new FormControl(this.data.price, Validators.min(0)),
-      comment: new FormControl(this.data.comment),
+      comment: new FormControl(this.data.description),
     });
   }
 
@@ -34,18 +34,15 @@ export class DialogUpdateServiceComponent implements OnInit {
       service_id: this.data.service_id,
       odo: this.form.get('odo').value,
       next_distance: this.form.get('next_distance').value,
-      date: this.form.get('date').value.format('YYYY-MM-DD'),
+      dt: this.form.get('dt').value.format('YYYY-MM-DD'),
       price: this.form.get('price').value,
-      comment: this.form.get('comment').value,
+      description: this.form.get('description').value,
     };
 
     this.serviceService.update(data).subscribe((service: ServiceStruct) => {
-      this.data = Object.assign(this.data, service);
-
       this.snackBar.open('Запись успешно изменена!', 'OK');
       this.dialogRef.close();
-    }, (err) => {
-      console.error(err);
+    }, () => {
       this.snackBar.open('Что-то пошло не так!', 'OK', {
         panelClass: 'error',
       });

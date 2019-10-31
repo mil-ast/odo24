@@ -25,7 +25,7 @@
 					</button>
 				</div>
 				<div>
-					<button mat-mini-fab color="primary">
+					<button mat-mini-fab color="primary" (click)="clickShowFormCreateService()">
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
@@ -33,19 +33,7 @@
 		</div>
 
 		<div id="list_services">
-			<div class="service" *ngFor="let service of serviceList" class="mat-elevation-z1">
-				<div mat-card-avatar>
-					<button mat-icon-button (click)="clickShowDialogEditService(service)"><mat-icon>edit</mat-icon></button>
-				</div>
-				<div>
-					<span class="odo">
-						{{service.odo | number}}
-						<span>км</span>
-					</span>
-				</div>
-				<div class="date">{{service.date | date:'dd MMMM yyyy'}}</div>
-				<div>{{ service.comment }}</div>
-			</div>
+			<app-item-service *ngFor="let service of serviceList" [model]="service"></app-item-service>
 		</div>
 	</mat-sidenav-content>
 </mat-sidenav-container>

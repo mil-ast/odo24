@@ -21,8 +21,8 @@ func (ServicesController) Get(c *gin.Context) {
 	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
 
 	model := struct {
-		AutoID  int64 `form:"auto_id"`
-		GroupID int64 `form:"group_id"`
+		AutoID  int64 `form:"auto_id" binding:"required"`
+		GroupID int64 `form:"group_id" binding:"required"`
 	}{}
 
 	err := c.BindQuery(&model)

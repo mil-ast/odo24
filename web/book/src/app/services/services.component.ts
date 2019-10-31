@@ -7,7 +7,6 @@ import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { finalize, takeUntil, filter, mergeMap } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
-import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
 import { AsideService } from '../_services/aside.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatSelectChange } from '@angular/material';
@@ -96,11 +95,16 @@ export class ServicesComponent implements OnInit, OnDestroy {
     const config: MatDialogConfig = {
       minWidth: '600px',
       autoFocus: false,
+      data: {
+        auto_id: this.selectedAuto.auto_id,
+        group_id: this.selectedGroup.group_id,
+        odo: this.selectedAuto.odo,
+      }
     };
     if (this.isMobile) {
       config.minWidth = '98%';
       config.position = {
-        top: '4px'
+        top: '1%'
       };
     }
 
@@ -108,7 +112,9 @@ export class ServicesComponent implements OnInit, OnDestroy {
     dialog.afterClosed().subscribe((service: ServiceStruct) => {
       if (service) {
         this.serviceList.unshift(service);
-        this.selectLastService();
+
+        this.serviceList = this.serviceService.sort(this.serviceList);
+        this.lastService = this.serviceService.getLastSorted(this.serviceList);
       }
     });
   }
@@ -117,18 +123,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
     const index = this.serviceList.indexOf(service);
     if (index !== -1) {
       this.serviceList.splice(index, 1);
-      this.selectLastService();
+      this.lastService = this.serviceService.getLastSorted(this.serviceList);
     }
-  }
-
-  clickShowDialogEditService(service: ServiceStruct) {
-    const config: MatDialogConfig = {
-      minWidth: '600px',
-      autoFocus: false,
-      data: service
-    };
-
-    this.dialog.open(DialogUpdateServiceComponent, config);
   }
 
   onGroupChange(select: MatSelectChange) {
@@ -187,24 +183,10 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     this.serviceService.get(selectedAutoID, selectedGroupID).pipe(
-      finalize(() => {
-        this.isLoading = false;
-      }),
-      takeUntil(
-        this.destroy
-      )
+      finalize(() => { this.isLoading = false; }),
+      takeUntil(this.destroy)
     ).subscribe((list: ServiceStruct[]) => {
       this.serviceList = list || [];
-
-      this.selectLastService();
     });
-  }
-
-  private selectLastService() {
-    if (this.serviceList.length > 0) {
-      this.lastService = this.serviceList[0];
-    } else {
-      this.lastService = null;
-    }
   }
 }

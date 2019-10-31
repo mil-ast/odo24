@@ -31,42 +31,8 @@ h3 {
 
 #list_services {
   margin-top: 30px;
-  .mat-card:not(:first-child) {
-    margin-top:20px;
-  }
 
-  .mat-card {
-    background-color: #fdfeff;
-    .mat-card-avatar {
-      position: relative;
-      top:-10px;
-      left:-6px;
-      color:#cbcfd4;
-    }
-
-    &:hover {
-      .mat-card-avatar {
-        color:#00acc1;
-      }
-    }
-  }
-
-  .mat-card-title {
-    .odo {
-      span {
-        color: #757d82;
-        font-size: 0.8em;
-      }
-    }
-    .date {
-      font-size: 0.7em;
-      position: relative;
-      margin-left: 40px;
-      top: -2px;
-      padding: 4px 10px;
-      border-radius: 12px;
-      color: #657da2;
-      background-color: #e7f1fb;
-    }
+  app-item-service:not(:first-child) {
+    border-top: 1px #eee solid;
   }
 }

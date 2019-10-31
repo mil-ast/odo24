@@ -6,6 +6,7 @@ import { DialogUpdateServiceComponent } from '../dialogs/dialog-update-service/d
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 import { ScreenService, Screen } from 'src/app/_services/screen.service';
 import { first } from 'rxjs/operators';
+import { AsideService } from 'src/app/_services/aside.service';
 
 @Component({
   selector: 'app-item-service',
@@ -17,30 +18,31 @@ import { first } from 'rxjs/operators';
 export class ItemServiceComponent {
   @Input() model: ServiceStruct;
   @Output() eventOnDelete: EventEmitter<ServiceStruct> = new EventEmitter();
+  isMobile = false;
 
   constructor(
     private serviceService: ServiceService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private screenService: ScreenService
-  ) { }
+    private asideService: AsideService,
+  ) {
+    this.isMobile = this.asideService.isMobile();
+  }
 
   clickEdit() {
-    this.screenService.getScreen().pipe(first()).subscribe((screen: Screen) => {
-      const config: MatDialogConfig = {
-        minWidth: '600px',
-        autoFocus: false,
-        data: this.model
+    const config: MatDialogConfig = {
+      minWidth: '600px',
+      autoFocus: false,
+      data: this.model
+    };
+    if (this.isMobile) {
+      config.minWidth = '98%';
+      config.position = {
+        top: '1%'
       };
-      if (screen.innerWidth < 600) {
-        config.minWidth = '98%';
-        config.position = {
-          top: '4px'
-        };
-      }
+    }
 
-      this.dialog.open(DialogUpdateServiceComponent, config);
-    });
+    this.dialog.open(DialogUpdateServiceComponent, config);
   }
 
   clickDelete() {

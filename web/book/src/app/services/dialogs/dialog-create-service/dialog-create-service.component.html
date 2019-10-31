@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Добавить запись</h2>
+<h2 mat-dialog-title>Добавить сервисное обслуживание</h2>
 <mat-dialog-content>
-  <form id="form" [formGroup]="form" (ngSubmit)="submit()">
+  <form id="form" class="columns" [formGroup]="form" (ngSubmit)="submit()">
     <div>
       <mat-form-field class="full_width">
         <input matInput placeholder="Пробег" formControlName="odo" type="number" min="0" required />
@@ -26,9 +26,9 @@
         <mat-hint align="start">рублей</mat-hint>
       </mat-form-field>
       </div>
-    <div class="comment">
+    <div class="comment full_rows">
       <mat-form-field class="full_width">
-        <textarea #formComment matInput placeholder="Примечание" formControlName="comment" maxlength="1000"></textarea>
+        <textarea #formComment matInput placeholder="Примечание" formControlName="description" maxlength="1000"></textarea>
         <mat-hint align="end">{{formComment.value.length}} / 1000</mat-hint>
       </mat-form-field>
     </div>
