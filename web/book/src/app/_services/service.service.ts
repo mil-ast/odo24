@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MatSortHeader } from '@angular/material';
 
 export interface Service {
   odo?: number;
@@ -40,8 +39,8 @@ export class ServiceService {
     return this.http.post<ServiceStruct>(this.url, data);
   }
 
-  update(data: ServiceStruct): Observable<ServiceStruct> {
-    return this.http.put<ServiceStruct>(this.url, data);
+  update(serviceID: number, body: Service): Observable<void> {
+    return this.http.put<void>(`${this.url}/${serviceID}`, body);
   }
 
   delete(id: number): Observable<void> {

@@ -19,7 +19,7 @@ func NewServicesService(userID uint64) ServicesService {
 }
 
 // Get список сервисов
-func (g ServicesService) Get(autoID, groupID int64) ([]models.Service, error) {
+func (g ServicesService) Get(autoID, groupID uint64) ([]models.Service, error) {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return nil, err
@@ -44,4 +44,16 @@ func (g ServicesService) Get(autoID, groupID int64) ([]models.Service, error) {
 	}
 
 	return result, nil
+}
+
+// Update редактирование сервиса
+func (g ServicesService) Update(serviceID uint64, odo, nextDistance *uint32, dt, descript *string, price *uint32) error {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	querySQL := `CALL services.update_service($1, $2, $3, $4, $5, $6, $7)`
+	_, err = conn.Exec(querySQL, serviceID, g.UserID, odo, nextDistance, dt, descript, price)
+	return err
 }

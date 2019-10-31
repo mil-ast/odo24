@@ -92,6 +92,7 @@ func main() {
 	serviceCtrl := handlers.NewServicesController()
 	{
 		servicesGroup.GET("/", serviceCtrl.Get)
+		servicesGroup.PUT("/:service_id", serviceCtrl.Update)
 	}
 
 	if options.App.Server_addr == "" {
