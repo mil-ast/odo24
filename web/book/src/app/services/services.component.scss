@@ -27,6 +27,13 @@ h3 {
     grid-template-columns: 300px 1fr auto;
     gap: 20px;
   }
+
+  #group_config_btn {
+    color:#ccc;
+    &:hover {
+      color:#333;
+    }
+  }
 }
 
 app-groups-config {
