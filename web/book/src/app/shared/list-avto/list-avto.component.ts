@@ -14,7 +14,6 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-list-avto',
   templateUrl: './list-avto.component.html',
   styleUrls: [
-    '../../shared_styles/aside.scss',
     '../../shared_styles/aside_list.scss',
     './list-avto.component.scss'
   ],

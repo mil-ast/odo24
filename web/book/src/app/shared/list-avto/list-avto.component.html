@@ -1,52 +1,53 @@
 <div id="cars">
-  <div class="aside_title">
+  <mat-toolbar class="toolbar_title_button">
     <h1 class="mat-h1">Мои машины</h1>
     <button title="Добавить авто" color="primary" mat-mini-fab class="mat-elevation-z0" (click)="clickShowAddAvto()">
       <mat-icon>add</mat-icon>
     </button>
-  </div>
-  <ng-container *ngIf="avtoList.length > 0; else tplEmptyAvto">
-    <div id="onceAvtoImage">
-      <a (click)="clickShowEditAvto(selectedAvto)">
-        <img [src]="selectedAvto.avatarMediumPath" />
-      </a>
-    </div>
-    <div id="onceAvtoName">
-      <div>
-        <div class="avto_name">{{selectedAvto.name}}</div>
-        <div class="odo" *ngIf="selectedAvto.odo > 0">
-          <span>Пробег <span class="value">{{ selectedAvto.odo|number }} км</span></span>
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>menu</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="clickShowEditAvto()">
-              <mat-icon>edit</mat-icon>
-              <span>Изменить</span>
+  </mat-toolbar>
+  <div id="cars_container">
+    <ng-container *ngIf="avtoList.length > 0; else tplEmptyAvto">
+      <div id="onceAvtoImage">
+        <a (click)="clickShowEditAvto(selectedAvto)">
+          <img [src]="selectedAvto.avatarMediumPath" />
+        </a>
+      </div>
+      <div id="onceAvtoName">
+        <div>
+          <div class="avto_name">{{selectedAvto.name}}</div>
+          <div class="odo" *ngIf="selectedAvto.odo > 0">
+            <span>Пробег <span class="value">{{ selectedAvto.odo|number }} км</span></span>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>menu</mat-icon>
             </button>
-            <button mat-menu-item color="warn" (click)="clickDeleteAvto()">
-              <mat-icon>delete_outline</mat-icon>
-              <span>Удалить</span>
-            </button>
-          </mat-menu>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="clickShowEditAvto()">
+                <mat-icon>edit</mat-icon>
+                <span>Изменить</span>
+              </button>
+              <button mat-menu-item color="warn" (click)="clickDeleteAvto()">
+                <mat-icon>delete_outline</mat-icon>
+                <span>Удалить</span>
+              </button>
+            </mat-menu>
+          </div>
         </div>
       </div>
-    </div>
-    <ul class="aside_list" *ngIf="avtoList.length > 1">
-      <li *ngFor="let avto of avtoList" [class.selected]="selectedAvto === avto" class="avto">
-        <a (click)="clickSelectAvto(avto, $event)">
-          <img [src]="avto.avatarSmallPath" />
-          <span class="title">
-            <span class="avto_name">{{ avto.name }}</span>
-            <span class="ato_odo">
-              <span class="odo">{{ avto.odo | number }}</span>
-              <span class="prefix">км</span></span>
-          </span>
-        </a>
-      </li>
-    </ul>
-  </ng-container>
-
+      <ul class="aside_list" *ngIf="avtoList.length > 1">
+        <li *ngFor="let avto of avtoList" [class.selected]="selectedAvto === avto" class="avto">
+          <a (click)="clickSelectAvto(avto, $event)">
+            <img [src]="avto.avatarSmallPath" />
+            <span class="title">
+              <span class="avto_name">{{ avto.name }}</span>
+              <span class="ato_odo">
+                <span class="odo">{{ avto.odo | number }}</span>
+                <span class="prefix">км</span></span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </ng-container>
+  </div>
 </div>
 <ng-template #tplEmptyAvto>
   <div id="empty-avto">

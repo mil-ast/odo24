@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { GroupService, GroupStruct, GroupStructModify } from 'src/app/_services/groups.service';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dialog-create-group',
@@ -11,7 +12,7 @@ import { GroupService, GroupStruct, GroupStructModify } from 'src/app/_services/
 export class DialogCreateGroupComponent {
   constructor(
     private dialogRef: MatDialogRef<DialogCreateGroupComponent>,
-    private snackBar: MatSnackBar,
+    private toastr: ToastrService,
     private groupService: GroupService,
   ) { }
 
@@ -26,15 +27,10 @@ export class DialogCreateGroupComponent {
     this.groupService.create(data).subscribe((group: GroupStruct) => {
       this.dialogRef.close(group);
 
-      this.snackBar.open('Группа успешно добавлена!', 'OK', {
-        duration: 5000,
-      });
-    }, (e) => {
+      this.toastr.success('Группа успешно добавлена!', null, {timeOut: 3000});
+    }, (e: HttpErrorResponse) => {
       console.error(e);
-      this.snackBar.open('Что-то пошло не так!', 'OK', {
-        duration: 5000,
-        panelClass: 'error',
-      });
+      this.toastr.error('Не удалось удалить группу :(');
     });
 
     return false;

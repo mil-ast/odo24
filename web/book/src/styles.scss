@@ -96,14 +96,9 @@ input:active, textarea:active {outline:none;}
 .sidenav {
   .mat-sidenav {
     width:400px;
-    
-    .mat-drawer-inner-container {
-      padding: 20px;
-      box-sizing: border-box;
-    }
   }
   .mat-sidenav-content {
-    padding: 20px;
+    padding: 12px 20px 20px 20px;
   }
 }
 
@@ -117,6 +112,12 @@ input:active, textarea:active {outline:none;}
 .icon_button {
   .title {
     padding: 0px 10px;
+  }
+}
+
+.toolbar_title_button {
+  button {
+    margin-left: auto;
   }
 }
 

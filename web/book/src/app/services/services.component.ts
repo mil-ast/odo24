@@ -27,7 +27,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     sort: null,
   };
   lastService: ServiceStruct = null;
-  isGroupConfig = true;
+  isGroupConfig = false;
   isLoading = true;
   isMobile = false;
 
