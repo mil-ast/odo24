@@ -90,6 +90,8 @@ registerLocaleData(localeRu, 'ru');
     ServiceModule,
     ToastrModule.forRoot({
       timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
     }),
     WebBluetoothModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),

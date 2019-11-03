@@ -15,6 +15,7 @@ import {
   MatToolbarModule,
   MatSelectModule,
   MatDividerModule,
+  MatListModule,
 } from '@angular/material';
 import { AutoService } from '../_services/avto.service';
 import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module';
@@ -31,6 +32,8 @@ import { ListGroupsComponent } from '../shared/list-groups/list-groups.component
 import { ItemGroupComponent } from '../shared/item-group/item-group.component';
 import { ItemAvtoComponent } from '../shared/item-avto/item-avto.component';
 import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
+import { GroupsConfigComponent } from './groups-config/groups-config.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,7 @@ import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
     ListGroupsComponent,
     ItemGroupComponent,
     ItemAvtoComponent,
+    GroupsConfigComponent,
   ],
   imports: [
     CommonModule,
@@ -60,8 +64,10 @@ import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
     MatMenuModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatListModule,
     MatToolbarModule,
     MatDividerModule,
+    DragDropModule,
     FormsModule,
     ReactiveFormsModule,
     OrderPipeModule,

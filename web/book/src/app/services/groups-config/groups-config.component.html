@@ -1,0 +1,34 @@
+<mat-toolbar>
+  <button id="new_group" mat-raised-button color="primary" (click)="clickNewGroup()">
+    <mat-icon>add</mat-icon>
+    <span>Добавить группу</span>
+  </button>
+  <button id="close" title="Закрыть" mat-icon-button color="warn" (click)="clickClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+<div>
+  <mat-list cdkDropList (cdkDropListDropped)="drop($event)">
+    <ng-container *ngFor="let g of groups; let i = index">
+      <mat-divider *ngIf="i > 0"></mat-divider>
+      <mat-list-item cdkDrag>
+        <mat-menu #appMenu="matMenu">
+          <button mat-menu-item (click)="clickEditGroup(g)">
+            <mat-icon>edit</mat-icon>
+            <span>Переименовать</span>
+          </button>
+          <button mat-menu-item (click)="clickDeleteGroup(g)">
+            <mat-icon>delete</mat-icon>
+            <span>Удалить</span>
+          </button>
+        </mat-menu>
+        <div class="group">
+          <div>{{g.group_name}}</div>
+          <button class="menu_button" mat-icon-button [matMenuTriggerFor]="appMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </ng-container>
+  </mat-list>
+</div>

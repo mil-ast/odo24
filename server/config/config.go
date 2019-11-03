@@ -9,7 +9,8 @@ import (
 const CONFIG_FILE_NAME string = "config.json"
 
 type Configuration struct {
-	App struct {
+	Production bool `json:"production"`
+	App        struct {
 		Version      string
 		Server_addr  string `json:"server_addr"`
 		ImageMagick  string `json:"imageMagick"`

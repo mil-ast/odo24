@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { GroupService, GroupStruct, GroupStructModify } from 'src/app/_services/groups.service';
@@ -13,7 +13,6 @@ export class DialogCreateGroupComponent {
     private dialogRef: MatDialogRef<DialogCreateGroupComponent>,
     private snackBar: MatSnackBar,
     private groupService: GroupService,
-    @Inject(MAT_DIALOG_DATA) data: any,
   ) { }
 
   form: FormGroup = new FormGroup({

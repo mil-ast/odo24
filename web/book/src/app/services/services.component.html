@@ -9,18 +9,19 @@
 	</mat-sidenav>
 
 	<mat-sidenav-content>
+		<app-groups-config *ngIf="isGroupConfig" (close)="toggleGroupConfig()" [groups]="groups" class="mat-elevation-z8"></app-groups-config>
 		<div id="title_header">
 			<div id="select_group">
 				<div>
 					<mat-form-field class="full_width">
 						<mat-label>Группа</mat-label>
-						<mat-select [(ngModel)]="selectedGroup.group_id" (selectionChange)="onGroupChange($event)">
+						<mat-select [value]="selectedGroup.group_id" (selectionChange)="onGroupChange($event)">
 							<mat-option *ngFor="let g of groups" [value]="g.group_id">{{g.group_name}}</mat-option>
 						</mat-select>
 					</mat-form-field>
 				</div>
 				<div>
-					<button mat-icon-button>
+					<button mat-icon-button (click)="toggleGroupConfig()">
 						<mat-icon>build</mat-icon>
 					</button>
 				</div>
@@ -33,7 +34,7 @@
 		</div>
 
 		<div id="list_services">
-			<app-item-service *ngFor="let service of serviceList" [model]="service"></app-item-service>
+			<app-item-service *ngFor="let service of serviceList" [model]="service" (eventOnDelete)="onDeleteService($event)"></app-item-service>
 		</div>
 	</mat-sidenav-content>
 </mat-sidenav-container>

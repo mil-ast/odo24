@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { GroupService, GroupStruct, GroupStructModify } from 'src/app/_services/groups.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-update-group',
@@ -13,9 +13,9 @@ export class DialogUpdateGroupComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DialogUpdateGroupComponent>,
-    private snackBar: MatSnackBar,
+    private toastr: ToastrService,
     private groupService: GroupService,
-    @Inject(MAT_DIALOG_DATA) public data: GroupStructModify,
+    @Inject(MAT_DIALOG_DATA) public data: GroupStruct,
   ) {
     this.form = new FormGroup({
       name : new FormControl(data.group_name, Validators.required),
@@ -26,19 +26,14 @@ export class DialogUpdateGroupComponent {
     const data: GroupStructModify = {
       group_name: this.form.get('name').value,
     };
-    this.groupService.update(data).subscribe((group: GroupStruct) => {
+    this.groupService.update(this.data.group_id, data).subscribe(() => {
       this.data.group_name = data.group_name;
-      this.dialogRef.close(group);
+      this.dialogRef.close();
 
-      this.snackBar.open('Группа успешно сохранена!', 'OK', {
-        duration: 5000,
-      });
+      this.toastr.success('Изменения сохранены!');
     }, (e) => {
       console.error(e);
-      this.snackBar.open('Что-то пошло не так!', 'OK', {
-        duration: 5000,
-        panelClass: 'error',
-      });
+      this.toastr.error('Ошибка при сохранении группы');
     });
 
     return false;

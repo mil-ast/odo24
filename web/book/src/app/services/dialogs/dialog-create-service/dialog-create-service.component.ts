@@ -52,8 +52,10 @@ export class DialogCreateServiceComponent implements OnInit {
       description: this.form.get('description').value,
     };
 
-    this.serviceService.create(data).subscribe((service: ServiceStruct) => {
+    this.serviceService.create(data).subscribe((result: {service_id: number}) => {
       this.toastr.success('Запись успешно добавлена!');
+
+      const service: ServiceStruct = {...data, service_id: result.service_id};
       this.dialogRef.close(service);
     }, (err) => {
       console.error(err);

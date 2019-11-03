@@ -1,12 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ServiceStruct, ServiceService } from 'src/app/_services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogUpdateServiceComponent } from '../dialogs/dialog-update-service/dialog-update-service.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
-import { ScreenService, Screen } from 'src/app/_services/screen.service';
-import { first } from 'rxjs/operators';
 import { AsideService } from 'src/app/_services/aside.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-item-service',
@@ -22,9 +20,9 @@ export class ItemServiceComponent {
 
   constructor(
     private serviceService: ServiceService,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
     private asideService: AsideService,
+    private dialog: MatDialog,
+    private toastr: ToastrService,
   ) {
     this.isMobile = this.asideService.isMobile();
   }
@@ -57,16 +55,17 @@ export class ItemServiceComponent {
       if (!ok) {
         return;
       }
+      this.deleteService();
+    });
+  }
 
-      this.serviceService.delete(this.model.service_id).subscribe(() => {
-        this.eventOnDelete.emit(this.model);
-        this.snackBar.open('Запись успешно изменена!', 'OK');
-      }, (err) => {
-        console.error(err);
-        this.snackBar.open('Что-то пошло не так!', 'OK', {
-          panelClass: 'error',
-        });
-      });
+  private deleteService() {
+    this.serviceService.delete(this.model.service_id).subscribe(() => {
+      this.eventOnDelete.emit(this.model);
+      this.toastr.success('Сервис успешно удалён!');
+    }, (err) => {
+      console.error(err);
+      this.toastr.error('Ошибка удаления сервиса');
     });
   }
 }

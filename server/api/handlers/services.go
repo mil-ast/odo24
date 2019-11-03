@@ -42,6 +42,41 @@ func (ServicesController) Get(c *gin.Context) {
 	c.JSON(http.StatusOK, list)
 }
 
+// Create сервис
+func (ServicesController) Create(c *gin.Context) {
+	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
+
+	model := struct {
+		AutoID       uint64  `json:"auto_id" binding:"required"`
+		GroupID      uint64  `json:"group_id" binding:"required"`
+		Odo          *uint32 `json:"odo"`
+		NextDistance *uint32 `json:"next_distance"`
+		Dt           *string `json:"dt"`
+		Description  *string `json:"description"`
+		Price        *uint32 `json:"price"`
+	}{}
+
+	err := c.BindJSON(&model)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	servicesService := services.NewServicesService(sess.UserID)
+	serviceID, err := servicesService.Create(model.AutoID, model.GroupID, model.Odo, model.NextDistance, model.Dt, model.Description, model.Price)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	res := struct {
+		ServiceID *uint64 `json:"service_id"`
+	}{
+		ServiceID: serviceID,
+	}
+	c.JSON(http.StatusCreated, res)
+}
+
 // Update сервис
 func (ServicesController) Update(c *gin.Context) {
 	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
@@ -69,6 +104,27 @@ func (ServicesController) Update(c *gin.Context) {
 
 	servicesService := services.NewServicesService(sess.UserID)
 	err = servicesService.Update(serviceID, model.Odo, model.NextDistance, model.Dt, model.Description, model.Price)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}
+
+// Delete сервис
+func (ServicesController) Delete(c *gin.Context) {
+	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
+
+	serviceIDParam := c.Param("service_id")
+	serviceID, err := strconv.ParseUint(serviceIDParam, 10, 64)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	servicesService := services.NewServicesService(sess.UserID)
+	err = servicesService.Delete(serviceID)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return

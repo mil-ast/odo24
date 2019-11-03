@@ -10,12 +10,12 @@ export interface GroupStruct {
 }
 export interface GroupStructModify {
   group_name: string;
-  sort?: number;
 }
 
 @Injectable()
 export class GroupService {
-  private url = '/api/groups';
+  private readonly url = '/api/groups';
+  private readonly urlGroup = '/api/group';
 
   private selectedGroup: BehaviorSubject<GroupStruct> = new BehaviorSubject(null);
   selected: Observable<GroupStruct> = this.selectedGroup.asObservable();
@@ -41,16 +41,21 @@ export class GroupService {
     ));
   }
 
+  saveNewSort(groups: GroupStruct[]): Observable<void> {
+    const body = (groups || []).map((group: GroupStruct) => group.group_id);
+    return this.http.put<void>(`${this.url}/sort`, body);
+  }
+
   create(data: GroupStructModify) {
     return this.http.post(this.url, data);
   }
 
-  update(data: GroupStructModify) {
-    return this.http.put(this.url, data);
+  update(groupID: number, data: GroupStructModify) {
+    return this.http.put(`${this.urlGroup}/${groupID}`, data);
   }
 
-  delete(id: number) {
-    return this.http.delete(this.url.concat(`?group_id=${id}`));
+  delete(groupID: number) {
+    return this.http.delete(`${this.urlGroup}/${groupID}`);
   }
 
   setSelected(group: GroupStruct) {

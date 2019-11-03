@@ -43,8 +43,8 @@ export class ServiceService {
     return this.http.put<void>(`${this.url}/${serviceID}`, body);
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(this.url.concat(`?service_id=${id}`));
+  delete(serviceID: number): Observable<void> {
+    return this.http.delete<void>(`${this.url}/${serviceID}`);
   }
 
   sort(data: ServiceStruct[]): ServiceStruct[] {

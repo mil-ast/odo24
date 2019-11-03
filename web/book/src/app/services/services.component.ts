@@ -27,7 +27,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     sort: null,
   };
   lastService: ServiceStruct = null;
-  isSync = true;
+  isGroupConfig = true;
   isLoading = true;
   isMobile = false;
 
@@ -119,7 +119,11 @@ export class ServicesComponent implements OnInit, OnDestroy {
     });
   }
 
-  onServiceDelete(service: ServiceStruct) {
+  toggleGroupConfig() {
+    this.isGroupConfig = !this.isGroupConfig;
+  }
+
+  onDeleteService(service: ServiceStruct) {
     const index = this.serviceList.indexOf(service);
     if (index !== -1) {
       this.serviceList.splice(index, 1);
@@ -131,6 +135,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     const selectedGroup = this.groups.find((g: GroupStruct) => g.group_id === select.value);
     if (selectedGroup) {
       this.groupService.setSelected(selectedGroup);
+      console.log(selectedGroup);
     }
   }
 

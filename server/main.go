@@ -54,7 +54,12 @@ func main() {
 	// ключ шифрования сессии
 	sessions.SetSecretKey(options.App.SessionKey)
 
-	gin.SetMode(gin.DebugMode) // gin.ReleaseMode
+	if options.Production {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
+
 	r := gin.Default()
 
 	// Профиль
@@ -81,10 +86,17 @@ func main() {
 	}
 
 	// Группы
-	groupGroup := r.Group("/api/groups").Use(binders.GetSession)
+	groupGroups := r.Group("/api/groups").Use(binders.GetSession)
 	groupCtrl := handlers.NewGroupsController()
 	{
-		groupGroup.GET("/", groupCtrl.GetAll)
+		groupGroups.GET("/", groupCtrl.GetAll)
+		groupGroups.POST("/", groupCtrl.Create)
+		groupGroups.PUT("/sort", groupCtrl.SortUpdate)
+	}
+	groupGroup := r.Group("/api/group").Use(binders.GetSession, binders.GetGroupIDFromParam)
+	{
+		groupGroup.PUT("/:group_id", groupCtrl.Update)
+		groupGroup.DELETE("/:group_id", groupCtrl.Delete)
 	}
 
 	// Сервисы
@@ -92,7 +104,9 @@ func main() {
 	serviceCtrl := handlers.NewServicesController()
 	{
 		servicesGroup.GET("/", serviceCtrl.Get)
+		servicesGroup.POST("/", serviceCtrl.Create)
 		servicesGroup.PUT("/:service_id", serviceCtrl.Update)
+		servicesGroup.DELETE("/:service_id", serviceCtrl.Delete)
 	}
 
 	if options.App.Server_addr == "" {
