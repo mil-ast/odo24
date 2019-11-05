@@ -50,9 +50,9 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.autoService.selected.pipe(
-      filter((selectedAvto: Auto) => selectedAvto !== null),
-      mergeMap((selectedAvto: Auto) => {
-        return this.groupService.get(selectedAvto.auto_id);
+      filter((selectedAuto: Auto) => selectedAuto !== null),
+      mergeMap((selectedAuto: Auto) => {
+        return this.groupService.get(selectedAuto.auto_id);
       }),
       takeUntil(this.destroy)
     ).subscribe((groups: GroupStruct[]) => {
@@ -191,7 +191,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
       finalize(() => { this.isLoading = false; }),
       takeUntil(this.destroy)
     ).subscribe((list: ServiceStruct[]) => {
-      this.serviceList = list || [];
+      this.serviceList = this.serviceService.sort(list || [])
+      this.lastService = this.serviceService.getLastSorted(this.serviceList);
     });
   }
 }

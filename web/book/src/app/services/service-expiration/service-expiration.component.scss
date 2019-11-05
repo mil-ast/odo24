@@ -1,0 +1,37 @@
+#info {
+  background-color: #f5f5f5;
+  padding:20px;
+  margin-bottom: 20px;
+  border: 1px #eee solid;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+
+  &.ok {
+    background-color: #ecffee;
+  }
+  &.low {
+    background-color: #f8ffdd;
+  }
+  &.medium {
+    background-color: #fffcdd;
+  }
+  &.high {
+    background-color: #ffcccc;
+  }
+
+  > div > div {
+    display: grid;
+    grid-template-columns: 230px auto;
+    gap:10p;
+    &:first-child {
+      margin-bottom:10px;
+    }
+
+    .unit {
+      padding-left:6px;
+      opacity: 0.6;
+    }
+  }
+}

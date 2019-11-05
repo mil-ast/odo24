@@ -45,9 +45,7 @@ app-groups-config {
 }
 
 #list_services {
-  margin-top: 30px;
-
-  app-item-service:not(:first-child) {
-    border-top: 1px #eee solid;
+  app-item-service {
+    border-bottom: 1px #eee solid;
   }
 }
