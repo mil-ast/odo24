@@ -82,7 +82,11 @@ func main() {
 	{
 		autoGroup.GET("/", autoCtrl.GetAll)
 		autoGroup.POST("/", autoCtrl.Create)
-		autoGroup.DELETE("/:auto_id", autoCtrl.Delete)
+	}
+	autoItemGroup := r.Group("/api/auto_item/:auto_id").Use(binders.GetSession, binders.GetAutoIDFromParam)
+	{
+		autoItemGroup.PUT("/", autoCtrl.Update)
+		autoItemGroup.DELETE("/", autoCtrl.Delete)
 	}
 
 	// Группы

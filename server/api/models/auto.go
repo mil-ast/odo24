@@ -12,7 +12,7 @@ type AutoCreateBody struct {
 	Odo  uint32 `json:"odo"`
 }
 
-type BindingAutoCreate struct {
-	Name string `json:"name"`
-	Odo  uint32 `json:"odo"`
+type AutoUpdateBody struct {
+	Name string `form:"name" binding:"required"`
+	Odo  uint32 `form:"odo"`
 }

@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class AutoService {
   private url = '/api/auto';
+  private urlItem = '/api/auto_item';
 
   private selectedAuto: BehaviorSubject<Auto> = new BehaviorSubject(null);
   selected: Observable<Auto> = this.selectedAuto.asObservable();
@@ -39,12 +40,12 @@ export class AutoService {
     );
   }
 
-  update(data: FormData): Observable<AutoStruct> {
-    return this.http.put<AutoStruct>(this.url, data);
+  update(autoID: number, data: FormData): Observable<AutoStruct> {
+    return this.http.put<AutoStruct>(`${this.urlItem}/${autoID}/`, data);
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`);
+    return this.http.delete(`${this.url}/${id}/`);
   }
 
   setSelected(auto: Auto) {

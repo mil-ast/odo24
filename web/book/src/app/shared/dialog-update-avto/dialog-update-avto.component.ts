@@ -5,8 +5,9 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AutoService } from 'src/app/_services/avto.service';
 import { AutoStruct, Auto } from 'src/app/_classes/auto';
 import { ReplaySubject } from 'rxjs';
-import { takeUntil, mergeMap, map } from 'rxjs/operators';
+import { takeUntil, mergeMap, map, finalize } from 'rxjs/operators';
 import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-update-avto',
@@ -23,8 +24,7 @@ export class DialogUpdateAvtoComponent implements OnDestroy {
   constructor(
     private dialogRef: MatDialogRef<DialogUpdateAvtoComponent>,
     private avtoService: AutoService,
-    private snackBar: MatSnackBar,
-    private ble: BluetoothCore,
+    private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: Auto,
   ) {
     this.form = new FormGroup({
@@ -43,31 +43,25 @@ export class DialogUpdateAvtoComponent implements OnDestroy {
 
     const formData = new FormData();
     formData.append('name', this.form.value.name);
-    formData.append('avto_id', this.data.auto_id.toString());
     formData.append('odo', (this.form.value.odo | 0).toString());
 
+    let avatar = !!this.data.avatar;
     if (this.uploaded_file !== null) {
       formData.append('file', this.uploaded_file, this.uploaded_file.name);
+      avatar = true;
     }
 
-    this.avtoService.update(formData).pipe(
+    this.avtoService.update(this.data.auto_id, formData).pipe(
+      finalize(() => { this.form.enable(); }),
       takeUntil(this.destroy),
-    ).subscribe((res: AutoStruct) => {
-      this.data.update(res.name, res.odo, res.avatar);
+    ).subscribe(() => {
+      this.data.update(this.form.value.name, this.form.value.odo, avatar);
 
-      this.snackBar.open('Изменения успешно сохранены!', 'OK', {
-        duration: 5000,
-      });
-
-      this.dialogRef.close(this.data);
+      this.toastr.success('Изменения успешно сохранены!');
+      this.dialogRef.close();
     }, (err) => {
       console.error(err);
-      this.snackBar.open('Что-то пошло не так!', 'OK', {
-        duration: 5000,
-        panelClass: 'error',
-      });
-
-      this.form.enable();
+      this.toastr.error('Произошла ошибка при сохранении авто');
     });
 
     return false;
