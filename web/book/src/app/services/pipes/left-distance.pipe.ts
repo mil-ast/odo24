@@ -7,10 +7,10 @@ import { Auto } from 'src/app/_classes/auto';
 })
 export class LeftDistancePipe implements PipeTransform {
 
-  transform(selectedAuto: Auto, lastService: ServiceStruct): number {
-    if (selectedAuto && lastService && lastService.next_distance > 0) {
+  transform(odo: number, lastService: ServiceStruct): number {
+    if (odo && lastService && lastService.next_distance > 0) {
       const nextOdo = lastService.odo + lastService.next_distance;
-      const leftOdo = nextOdo - selectedAuto.odo;
+      const leftOdo = nextOdo - odo;
 
       if (leftOdo < 0) {
         return 0;

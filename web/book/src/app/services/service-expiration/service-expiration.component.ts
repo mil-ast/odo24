@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Auto } from 'src/app/_classes/auto';
 import { ServiceStruct } from 'src/app/_services/service.service';
+import { AutoService } from 'src/app/_services/avto.service';
 
 @Component({
   selector: 'app-service-expiration',
@@ -10,9 +11,14 @@ import { ServiceStruct } from 'src/app/_services/service.service';
 export class ServiceExpirationComponent implements OnInit {
   @Input() selectedAuto: Auto;
   @Input() lastService: ServiceStruct;
-  constructor() { }
+  constructor(
+    private autoService: AutoService,
+  ) { }
 
   ngOnInit() {
+    /*this.autoService.onUpdateAuto.subscribe((autoID: number) => {
+
+    });*/
   }
 
   get getLeftDistance(): number {
@@ -20,10 +26,7 @@ export class ServiceExpirationComponent implements OnInit {
       const nextOdo = this.lastService.odo + this.lastService.next_distance;
       const leftOdo = nextOdo - this.selectedAuto.odo;
 
-      if (leftOdo < 0) {
-        return 0;
-      }
-      return leftOdo;
+      return leftOdo > 0 ? leftOdo : 0;
     }
 
     return 0;

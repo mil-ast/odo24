@@ -34,7 +34,7 @@
 		</div>
 
 		<div id="list_services">
-			<app-service-expiration [selectedAuto]="selectedAuto" [lastService]="lastService"></app-service-expiration>
+			<app-service-expiration *ngIf="lastService && lastService.next_distance" [selectedAuto]="selectedAuto" [lastService]="lastService"></app-service-expiration>
 			<app-item-service *ngFor="let service of serviceList" [model]="service" (eventOnDelete)="onDeleteService($event)"></app-item-service>
 		</div>
 	</mat-sidenav-content>

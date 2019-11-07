@@ -76,7 +76,7 @@ func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
 }
 
 // Update создать авто
-func (s AutoService) Update(autoID uint64, name string, odo uint32, avatar bool) error {
+func (s AutoService) Update(autoID uint64, name string, odo uint32, avatar *bool) error {
 	conn, err := db.GetConnection()
 	if err != nil {
 		return err

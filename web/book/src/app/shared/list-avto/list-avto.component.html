@@ -8,7 +8,7 @@
   <div id="cars_container">
     <ng-container *ngIf="avtoList.length > 0; else tplEmptyAvto">
       <div id="onceAvtoImage">
-        <a (click)="clickShowEditAvto(selectedAvto)">
+        <a (click)="clickShowEditAvto()">
           <img [src]="selectedAvto.avatarMediumPath" />
         </a>
       </div>

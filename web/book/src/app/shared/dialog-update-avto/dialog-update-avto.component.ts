@@ -1,11 +1,10 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AutoService } from 'src/app/_services/avto.service';
-import { AutoStruct, Auto } from 'src/app/_classes/auto';
+import { Auto } from 'src/app/_classes/auto';
 import { ReplaySubject } from 'rxjs';
-import { takeUntil, mergeMap, map, finalize } from 'rxjs/operators';
+import { takeUntil, finalize } from 'rxjs/operators';
 import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 import { ToastrService } from 'ngx-toastr';
 

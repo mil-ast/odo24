@@ -60,12 +60,11 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
   }
 
   clickShowEditAvto() {
-    const dialog = this.dialog.open(DialogUpdateAvtoComponent, {
+    this.dialog.open(DialogUpdateAvtoComponent, {
       autoFocus: false,
       data: this.selectedAvto,
       width: '500px',
     });
-    dialog.afterClosed().subscribe();
   }
 
   clickDeleteAvto() {

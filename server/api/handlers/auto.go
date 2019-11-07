@@ -71,7 +71,7 @@ func (AutoController) Update(c *gin.Context) {
 	autoID := c.MustGet(constants.BindAutoID).(uint64)
 	autoService := services.NewAutoService(sess.UserID)
 
-	var avatar bool = false
+	var avatar *bool
 	file, err := c.FormFile("file")
 	if err == nil {
 		err = autoService.FileUpload(autoID, file)
@@ -80,7 +80,8 @@ func (AutoController) Update(c *gin.Context) {
 			return
 		}
 
-		avatar = true
+		avatar = new(bool)
+		*avatar = true
 	}
 
 	err = autoService.Update(autoID, model.Name, model.Odo, avatar)

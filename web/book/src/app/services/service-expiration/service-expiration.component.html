@@ -1,9 +1,9 @@
-<div id="info" [class]="selectedAuto | distanceLevel:lastService">
+<div id="info" [class]="selectedAuto.odo | distanceLevel:lastService">
   <mat-icon>notifications</mat-icon>
   <div>
     <div>
       <span class="title">До следующей замены осталось</span>
-      <span><strong>{{selectedAuto | leftDistance:lastService | number}}</strong><span class="unit">км</span></span>
+      <span><strong>{{selectedAuto.odo | leftDistance:lastService | number}}</strong><span class="unit">км</span></span>
     </div>
     <div>
       <span class="title">Пробег составит</span>
