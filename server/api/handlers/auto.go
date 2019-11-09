@@ -91,66 +91,28 @@ func (AutoController) Update(c *gin.Context) {
 	}
 
 	c.Status(http.StatusNoContent)
+}
 
-	/*
-			r.ParseForm()
-		r.ParseMultipartForm(32 << 20)
+// UpdateODO изменение пробега авто
+func (AutoController) UpdateODO(c *gin.Context) {
+	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
 
-		var (
-			form_name    string = r.FormValue("name")
-			form_odo     string = r.FormValue("odo")
-			form_avto_id string = r.FormValue("avto_id")
-		)
+	model := models.AutoUpdateODOBody{}
+	if err := c.Bind(&model); err != nil {
+		c.String(http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		return
+	}
 
-		avto_id, err := strconv.ParseUint(form_avto_id, 10, 64)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
+	autoID := c.MustGet(constants.BindAutoID).(uint64)
+	autoService := services.NewAutoService(sess.UserID)
 
-		odo, err := strconv.ParseUint(form_odo, 10, 32)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-		}
+	err := autoService.UpdateODO(autoID, model.Odo)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
 
-		avto := models.Avto{
-			AvtoID: avto_id,
-			Name:   form_name,
-			Odo:    uint32(odo),
-			UserID: profile.User_id,
-		}
-
-		file, handler, err := r.FormFile("file")
-		if err == nil {
-			defer file.Close()
-
-			err = avto.FileUpload(file, handler)
-			if err != nil {
-				log.Println(err)
-				http.Error(w, http.StatusText(500), 500)
-			}
-
-			avto.Avatar = true
-		}
-
-		err = avto.Update()
-		if err != nil {
-			CheckStatusCode(w, err)
-			return
-		}
-
-		data, err := json.Marshal(avto)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, http.StatusText(500), 500)
-			return
-		}
-
-		w.WriteHeader(202)
-		w.Write(data)
-	*/
+	c.Status(http.StatusNoContent)
 }
 
 // Delete удаление авто

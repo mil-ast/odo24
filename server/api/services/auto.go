@@ -75,7 +75,7 @@ func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
 	return &avto, nil
 }
 
-// Update создать авто
+// Update изменить авто
 func (s AutoService) Update(autoID uint64, name string, odo uint32, avatar *bool) error {
 	conn, err := db.GetConnection()
 	if err != nil {
@@ -84,6 +84,22 @@ func (s AutoService) Update(autoID uint64, name string, odo uint32, avatar *bool
 
 	querySQL := `call cars.updateavto($1,$2,$3,$4,$5)`
 	_, err = conn.Exec(querySQL, autoID, s.UserID, odo, name, avatar)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// UpdateODO изменить пробег авто
+func (s AutoService) UpdateODO(autoID uint64, odo uint32) error {
+	conn, err := db.GetConnection()
+	if err != nil {
+		return err
+	}
+
+	querySQL := `call cars.updateodo($1,$2,$3)`
+	_, err = conn.Exec(querySQL, autoID, s.UserID, odo)
 	if err != nil {
 		return err
 	}

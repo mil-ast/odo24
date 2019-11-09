@@ -9,6 +9,7 @@ import { ReplaySubject, of } from 'rxjs';
 import { takeUntil, mergeMap, map } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { DialogUpdateAvtoOdoComponent } from '../dialog-update-avto-odo/dialog-update-avto-odo.component';
 
 @Component({
   selector: 'app-list-avto',
@@ -110,6 +111,14 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
       }
     }, () => {
       this.toastr.error('Произошла ошибка при получении списка авто');
+    });
+  }
+
+  clickEditOdo(el: MouseEvent) {
+    el.preventDefault();
+
+    this.dialog.open(DialogUpdateAvtoOdoComponent, {
+      data: this.selectedAvto
     });
   }
 }

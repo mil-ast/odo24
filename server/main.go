@@ -86,6 +86,7 @@ func main() {
 	autoItemGroup := r.Group("/api/auto_item/:auto_id").Use(binders.GetSession, binders.GetAutoIDFromParam)
 	{
 		autoItemGroup.PUT("/", autoCtrl.Update)
+		autoItemGroup.PUT("/odo", autoCtrl.UpdateODO)
 		autoItemGroup.DELETE("/", autoCtrl.Delete)
 	}
 

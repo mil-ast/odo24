@@ -16,3 +16,7 @@ type AutoUpdateBody struct {
 	Name string `form:"name" binding:"required"`
 	Odo  uint32 `form:"odo"`
 }
+
+type AutoUpdateODOBody struct {
+	Odo  uint32 `json:"odo"`
+}

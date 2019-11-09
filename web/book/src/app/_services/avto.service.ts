@@ -44,6 +44,12 @@ export class AutoService {
     return this.http.put<AutoStruct>(`${this.urlItem}/${autoID}/`, data);
   }
 
+  updateODO(autoID: number, odo: number): Observable<void> {
+    return this.http.put<void>(`${this.urlItem}/${autoID}/odo`, {
+      odo: odo
+    });
+  }
+
   delete(id: number) {
     return this.http.delete(`${this.url}/${id}/`);
   }
