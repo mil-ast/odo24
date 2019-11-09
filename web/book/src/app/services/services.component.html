@@ -34,62 +34,24 @@
 		</div>
 
 		<div id="list_services">
-			<app-service-expiration *ngIf="lastService && lastService.next_distance" [selectedAuto]="selectedAuto" [lastService]="lastService"></app-service-expiration>
-			<app-item-service *ngFor="let service of serviceList" [model]="service" (eventOnDelete)="onDeleteService($event)"></app-item-service>
+			<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+			<ng-container *ngIf="serviceList.length > 0; else emptyServices">
+				<app-service-expiration *ngIf="lastService && lastService.next_distance" [selectedAuto]="selectedAuto" [lastService]="lastService"></app-service-expiration>
+				<app-item-service *ngFor="let service of serviceList" [model]="service" (eventOnDelete)="onDeleteService($event)"></app-item-service>
+			</ng-container>
 		</div>
 	</mat-sidenav-content>
 </mat-sidenav-container>
 
-<!--<div class="aside_content">
-	<app-aside [class.visible]="asideService.asideVisible | async">
-		<app-list-avto></app-list-avto>
-		<app-list-groups></app-list-groups>
-	</app-aside>
-	<div class="content">
-
-	</div>
-</div>
--->
-
-<!--<div id="content" *ngIf="selectedAvto && !isSync; else emptyBody">
-	<div id="selected_avto" *ngIf="screenIsSmall">
-		<app-selected-avto [model]="selectedAvto"></app-selected-avto>
-	</div>
-	<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-	<div id="services" *ngIf="selectedGroup">
-		<div id="selected_group">
-			<h2 class="mat-h2">{{selectedGroup.name}}</h2>
-			<div>
-				<button mat-icon-button id="add_service" (click)="clickShowFormCreateService()">
-					<mat-icon>add</mat-icon>
-				</button>
-			</div>
-		</div>
-		<ul id="services_list" *ngIf="serviceList.length > 0; else emptyServices">
-			<li id="left-distance" *ngIf="lastService && lastService.next_distance" [ngClass]="{'warn1' : leftDistanceColorState===1, 'warn2' : leftDistanceColorState===2, 'err' : leftDistanceColorState===3}">
-				<mat-icon>notifications</mat-icon>
-				<span>До следующей замены осталось</span>
-				<span><strong>{{getLeftDistance | number}}</strong> км</span>
-				<span id="next_odo_title">Пробег составит</span>
-				<span id="next_odo_value">{{lastService.next_distance | number}} км</span>
-			</li>
-			<li *ngFor="let s of serviceList">
-				<app-item-service [model]="s" (eventOnDelete)="onServiceDelete($event)"></app-item-service>
-			</li>
-		</ul>
-	</div>
-</div>
-
 <ng-template #emptyServices>
 	<div id="empty-services" *ngIf="!isLoading">
 		<div><p>Записей ещё нет.</p></div>
-		<button mat-raised-button color="primary" (click)="clickShowFormCreateService()">Добавить новую запись</button>
+		<div>
+			<button mat-raised-button color="primary" (click)="clickShowFormCreateService()">
+				<mat-icon>add</mat-icon>
+				<span>Добавить</span>
+			</button>
+			<span> новую запись в журнал</span>
+		</div>
 	</div>
 </ng-template>
-
-<ng-template #emptyBody>
-	<div id="empty-services">
-		<div><p>Для продолжения нужно добавить автомобиль</p></div>
-	</div>
-</ng-template>
--->

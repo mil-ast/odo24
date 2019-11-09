@@ -28,7 +28,6 @@ import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/di
 import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/dialog-update-service.component';
 import { OrderPipeModule } from '../_pipes/order.pipe.module';
 import { ListAvtoComponent } from '../shared/list-avto/list-avto.component';
-import { ListGroupsComponent } from '../shared/list-groups/list-groups.component';
 import { ItemGroupComponent } from '../shared/item-group/item-group.component';
 import { ItemAvtoComponent } from '../shared/item-avto/item-avto.component';
 import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
@@ -47,7 +46,6 @@ import { DistanceLevelPipe } from './pipes/distance-level.pipe';
     DialogCreateServiceComponent,
     DialogUpdateServiceComponent,
     ListAvtoComponent,
-    ListGroupsComponent,
     ItemGroupComponent,
     ItemAvtoComponent,
     GroupsConfigComponent,

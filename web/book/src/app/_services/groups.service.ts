@@ -24,12 +24,8 @@ export class GroupService {
     private http: HttpClient
   ) { }
 
-  get(avtoId: number = 0): Observable<GroupStruct[]> {
-    return this.http.get<GroupStruct[]>(this.url, {
-      params: {
-        avto_id: `${avtoId}`
-      }
-    }).pipe(
+  get(): Observable<GroupStruct[]> {
+    return this.http.get<GroupStruct[]>(this.url).pipe(
       map((list: GroupStruct[]) => {
         const sorted = (list || []).sort((a: GroupStruct, b: GroupStruct) => a.sort - b.sort);
         const selectedGroup = this.selectedGroup.getValue();

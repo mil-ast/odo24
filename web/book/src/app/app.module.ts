@@ -50,7 +50,7 @@ import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confir
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
 import { environment } from '../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
 import { ProfileComponent } from './profile/profile.component';
@@ -71,8 +71,7 @@ registerLocaleData(localeRu, 'ru');
     DialogUpdateAvtoOdoComponent,
   ],
   imports: [
-    // BrowserAnimationsModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     BrowserModule,
     CommonModule,
     MatInputModule,

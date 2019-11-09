@@ -5,7 +5,7 @@ import { ReplaySubject, combineLatest, zip, of } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { finalize, takeUntil, filter, mergeMap } from 'rxjs/operators';
+import { finalize, takeUntil, filter, mergeMap, mergeMapTo } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { AsideService } from '../_services/aside.service';
 import { ToastrService } from 'ngx-toastr';
@@ -44,21 +44,12 @@ export class ServicesComponent implements OnInit, OnDestroy {
     this.isMobile = this.asideService.isMobile();
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
-  }
-
   ngOnInit() {
-    this.autoService.selected.pipe(
-      filter((selectedAuto: Auto) => selectedAuto !== null),
-      mergeMap((selectedAuto: Auto) => {
-        return this.groupService.get(selectedAuto.auto_id);
-      }),
-      takeUntil(this.destroy)
-    ).subscribe((groups: GroupStruct[]) => {
+    this.groupService.get().subscribe((groups: GroupStruct[]) => {
       this.groups = groups || [];
-    }, () => {
-      this.toastr.error('Произошла ошибка!');
+    }, (err) => {
+      console.error(err);
+      this.toastr.error('Не удалось получить список групп');
     });
 
     combineLatest(
@@ -67,10 +58,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
     ).pipe(
       takeUntil(this.destroy)
     ).subscribe(([auto, group]) => {
-      if (!auto && !group) {
-        return;
-      }
-
       if (auto) {
         this.selectedAuto = auto;
       }
@@ -79,7 +66,10 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.selectedGroup = group;
       }
 
-      this.loadServices();
+      if (auto !== null && group !== null) {
+        console.log('loadServices');
+        this.loadServices();
+      }
     });
   }
 
@@ -88,7 +78,13 @@ export class ServicesComponent implements OnInit, OnDestroy {
     this.destroy.next();
     this.destroy.complete();
 
+    this.selectedAuto = null;
+
     this.serviceList = [];
+  }
+  
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
   }
 
   clickShowFormCreateService() {
@@ -137,43 +133,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
       this.groupService.setSelected(selectedGroup);
       console.log(selectedGroup);
     }
-  }
-
-  get getLeftDistance(): number {
-    /*if (this.selectedAvto && this.lastService && this.lastService.next_distance > 0) {
-      const nextOdo = this.lastService.odo + this.lastService.next_distance;
-      const leftOdo = nextOdo - this.selectedAvto.odo;
-
-      if (leftOdo < 0) {
-        return 0;
-      }
-      return leftOdo;
-    }*/
-
-    return 0;
-  }
-
-  get leftDistanceColorState(): number {
-    /*if (!this.selectedAvto.odo || !this.lastService || !this.lastService.next_distance) {
-      return 0;
-    }
-
-    const nextOdo = this.lastService.odo + this.lastService.next_distance;
-    const leftDistance = nextOdo - this.selectedAvto.odo;
-    if (leftDistance < 0) {
-      return 3; // err
-    }
-
-    const percent = (100 / this.lastService.next_distance) * (this.selectedAvto.odo - this.lastService.odo);
-    if (percent > 89.9) {
-      return 3; // err
-    } else if (percent > 69.9) {
-      return 2; // warn2
-    } else if (59.9) {
-      return 1; // warn1
-    }*/
-
-    return 0;
   }
 
   private loadServices() {
