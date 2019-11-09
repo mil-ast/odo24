@@ -22,8 +22,12 @@
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="clickShowEditAvto()">
+                <mat-icon>directions_car</mat-icon>
+                <span>Редактировать авто</span>
+              </button>
+              <button mat-menu-item (click)="clickEditOdo($event)">
                 <mat-icon>edit</mat-icon>
-                <span>Изменить</span>
+                <span>Изменить пробег</span>
               </button>
               <button mat-menu-item color="warn" (click)="clickDeleteAvto()">
                 <mat-icon>delete_outline</mat-icon>
