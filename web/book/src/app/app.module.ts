@@ -44,8 +44,6 @@ import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { OrderPipeModule } from './_pipes/order.pipe.module';
-import { DialogUpdateGroupComponent } from './shared/dialog-update-group/dialog-update-group.component';
-import { DialogCreateGroupComponent } from './shared/dialog-create-group/dialog-create-group.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
 import { environment } from '../environments/environment';
@@ -64,8 +62,6 @@ registerLocaleData(localeRu, 'ru');
     ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
     ProfileDialogComponent,
-    DialogUpdateGroupComponent,
-    DialogCreateGroupComponent,
     DialogUpdateAvtoComponent,
     ProfileComponent,
     DialogUpdateAvtoOdoComponent,
@@ -114,8 +110,6 @@ registerLocaleData(localeRu, 'ru');
     ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
     ProfileDialogComponent,
-    DialogUpdateGroupComponent,
-    DialogCreateGroupComponent,
     DialogUpdateAvtoComponent,
     DialogUpdateAvtoOdoComponent,
   ],

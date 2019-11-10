@@ -5,6 +5,10 @@
 
   li {
     border-radius: 10px;
+
+    &:hover {
+      background-color: #fbfdfd;
+    }
     &:not(:first-child) {
       margin-top:10px;
     }

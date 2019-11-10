@@ -8,7 +8,7 @@
   <div id="cars_container">
     <ng-container *ngIf="avtoList.length > 0; else tplEmptyAvto">
       <div id="onceAvtoImage">
-        <a (click)="clickShowEditAvto()">
+        <a href="/" (click)="clickShowEditAvto($event)">
           <img [src]="selectedAvto.avatarMediumPath" />
         </a>
       </div>
@@ -21,7 +21,7 @@
               <mat-icon>menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="clickShowEditAvto()">
+              <button mat-menu-item (click)="clickShowEditAvto($event)">
                 <mat-icon>directions_car</mat-icon>
                 <span>Редактировать авто</span>
               </button>
@@ -39,7 +39,7 @@
       </div>
       <ul class="aside_list" *ngIf="avtoList.length > 1">
         <li *ngFor="let avto of avtoList" [class.selected]="selectedAvto === avto" class="avto">
-          <a (click)="clickSelectAvto(avto, $event)">
+          <a href="/" (click)="clickSelectAvto(avto, $event)">
             <img [src]="avto.avatarSmallPath" />
             <span class="title">
               <span class="avto_name">{{ avto.name }}</span>

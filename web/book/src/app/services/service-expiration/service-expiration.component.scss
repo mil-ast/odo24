@@ -35,3 +35,13 @@
     }
   }
 }
+
+@media (max-width: 460px) {
+  #info {
+    display: block;
+
+    .mat-icon {
+      display: none;
+    }
+  }
+}

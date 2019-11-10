@@ -5,6 +5,7 @@ import (
 	"errors"
 	"odo24/server/api/models"
 	"time"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -73,5 +74,14 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 
 // DeleteSession удаление сессии
 func DeleteSession(c *gin.Context) {
-	c.SetCookie(sessionID, "", 1, "/", "", false, true)
+	cookie := &http.Cookie{
+			Name:     sessionID,
+			Value:    "",
+			Path:     "/",
+			Expires: time.Unix(0, 0),
+			HttpOnly: true,
+	}
+
+	http.SetCookie(c.Writer, cookie)
+	// c.SetCookie(sessionID, "", 0, "/", "", false, true)
 }

@@ -13,6 +13,11 @@ h3 {
   padding-left:60px;
 }
 
+.mat-sidenav-content {
+  display: grid;
+  grid-template-rows: 70px 1fr;
+}
+
 .mat-card-header-text {
   margin: 0px !important;
 }
@@ -45,7 +50,18 @@ app-groups-config {
 }
 
 #list_services {
+  app-scroll-container {
+    padding-bottom: 70px;
+  }
   app-item-service {
     border-bottom: 1px #eee solid;
+  }
+}
+
+@media (max-width: 460px) {
+  #title_header {
+    #select_group {
+      grid-template-columns: 1fr 50px auto;
+    }
   }
 }

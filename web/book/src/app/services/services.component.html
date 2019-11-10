@@ -5,6 +5,12 @@
 
 <mat-sidenav-container class="sidenav">
 	<mat-sidenav #snav [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? false : true" [fixedInViewport]="isMobile" fixedTopGap="0">
+		<div id="sidenav_close">
+			<button mat-button color="warn" (click)="snav.toggle()">
+				<mat-icon>close</mat-icon>
+				<span>Закрыть</span>
+			</button>
+		</div>
 		<app-list-avto></app-list-avto>
 	</mat-sidenav>
 
@@ -34,11 +40,13 @@
 		</div>
 
 		<div id="list_services">
-			<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-			<ng-container *ngIf="serviceList.length > 0; else emptyServices">
-				<app-service-expiration *ngIf="lastService && lastService.next_distance" [selectedAuto]="selectedAuto" [lastService]="lastService"></app-service-expiration>
-				<app-item-service *ngFor="let service of serviceList" [model]="service" (eventOnDelete)="onDeleteService($event)"></app-item-service>
-			</ng-container>
+			<app-scroll-container>
+				<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+				<ng-container *ngIf="serviceList.length > 0; else emptyServices">
+					<app-service-expiration *ngIf="lastService && lastService.next_distance" [selectedAuto]="selectedAuto" [lastService]="lastService"></app-service-expiration>
+					<app-item-service *ngFor="let service of serviceList" [model]="service" (eventOnDelete)="onDeleteService($event)"></app-item-service>
+				</ng-container>
+			</app-scroll-container>
 		</div>
 	</mat-sidenav-content>
 </mat-sidenav-container>

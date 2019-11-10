@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Profile } from '../_classes/profile';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError, tap, finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -44,11 +44,9 @@ export class ProfileService {
   }
 
   logout() {
-    const req = this.http.get(`${this.baseURL}/logout`);
-    req.subscribe(() => { }, (err) => {
-      console.error(err);
-    });
-    this.exit();
+    this.http.get(`${this.baseURL}/logout`).pipe(finalize(() => {
+      this.exit();
+    })).subscribe();
   }
 
   update(data: any) {

@@ -3,7 +3,7 @@ import { GroupStruct, GroupService } from 'src/app/_services/groups.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
-import { DialogUpdateGroupComponent } from '../dialog-update-group/dialog-update-group.component';
+import { DialogUpdateGroupComponent } from '../../services/dialogs/dialog-update-group/dialog-update-group.component';
 
 @Component({
   selector: 'app-item-group',

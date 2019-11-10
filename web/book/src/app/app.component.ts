@@ -5,6 +5,8 @@ import { Profile } from './_classes/profile';
 import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 import { AsideService } from './_services/aside.service';
+import { AutoService } from './_services/avto.service';
+import { GroupService } from './_services/groups.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,8 @@ export class AppComponent implements OnInit {
     public asideService: AsideService,
     private dialog: MatDialog,
     private profileService: ProfileService,
+    private autoService: AutoService,
+    private groupService: GroupService,
   ) { }
 
   smallScreen = false;
@@ -62,6 +66,9 @@ export class AppComponent implements OnInit {
   clickLogout() {
     this.profile = null;
     this.profileService.logout();
+
+    this.autoService.setSelected(null);
+    this.groupService.setSelected(null);
     return false;
   }
 }

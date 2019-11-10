@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Auto, AutoStruct } from 'src/app/_classes/auto';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateAvtoComponent } from '../dialog-create-avto/dialog-create-avto.component';
@@ -10,6 +10,7 @@ import { takeUntil, mergeMap, map } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { DialogUpdateAvtoOdoComponent } from '../dialog-update-avto-odo/dialog-update-avto-odo.component';
+import { AsideService } from 'src/app/_services/aside.service';
 
 @Component({
   selector: 'app-list-avto',
@@ -22,14 +23,18 @@ import { DialogUpdateAvtoOdoComponent } from '../dialog-update-avto-odo/dialog-u
 export class ListAvtoComponent implements OnInit, OnDestroy {
   selectedAvto: Auto = null;
   avtoList: Auto[] = [];
+  isMobile = false;
 
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
+    private asideService: AsideService,
     private avtoService: AutoService,
     private dialog: MatDialog,
     private toastr: ToastrService,
-  ) { }
+  ) {
+    this.isMobile = this.asideService.isMobile();
+  }
 
   ngOnInit() {
     this.avtoService.selected.pipe(
@@ -60,7 +65,8 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
     });
   }
 
-  clickShowEditAvto() {
+  clickShowEditAvto(el: MouseEvent) {
+    el.preventDefault();
     this.dialog.open(DialogUpdateAvtoComponent, {
       autoFocus: false,
       data: this.selectedAvto,
@@ -93,14 +99,29 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
         }
       }
     }, (err: HttpErrorResponse) => {
-      // TODO
-      // this.
+      console.error(err);
+      this.toastr.error('Произошла ошибка при удалении авто');
     });
   }
 
   clickSelectAvto(avto: Auto, event: MouseEvent) {
     event.preventDefault();
     this.avtoService.setSelected(avto);
+
+    if (this.isMobile) {
+      this.asideService.sidenavClose();
+    }
+  }
+
+  clickEditOdo(el: MouseEvent) {
+    el.preventDefault();
+
+    this.dialog.open(DialogUpdateAvtoOdoComponent, {
+      data: this.selectedAvto,
+      position: {
+        left: '20%'
+      }
+    });
   }
 
   private fetchAvto() {
@@ -111,14 +132,6 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
       }
     }, () => {
       this.toastr.error('Произошла ошибка при получении списка авто');
-    });
-  }
-
-  clickEditOdo(el: MouseEvent) {
-    el.preventDefault();
-
-    this.dialog.open(DialogUpdateAvtoOdoComponent, {
-      data: this.selectedAvto
     });
   }
 }

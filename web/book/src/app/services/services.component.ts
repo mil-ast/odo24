@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { AutoService } from '../_services/avto.service';
 import { Auto } from '../_classes/auto';
 import { ReplaySubject, combineLatest, zip, of } from 'rxjs';
@@ -9,7 +9,7 @@ import { finalize, takeUntil, filter, mergeMap, mergeMapTo } from 'rxjs/operator
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { AsideService } from '../_services/aside.service';
 import { ToastrService } from 'ngx-toastr';
-import { MatSelectChange } from '@angular/material';
+import { MatSelectChange, MatSidenav } from '@angular/material';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
@@ -31,6 +31,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
   isLoading = true;
   isMobile = false;
 
+  @ViewChild('snav', {static: true}) private sidenav: MatSidenav;
+
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
@@ -45,6 +47,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.asideService.setSidenav(this.sidenav);
+
     this.groupService.get().subscribe((groups: GroupStruct[]) => {
       this.groups = groups || [];
     }, (err) => {
@@ -67,7 +71,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
       }
 
       if (auto !== null && group !== null) {
-        console.log('loadServices');
         this.loadServices();
       }
     });
@@ -79,8 +82,11 @@ export class ServicesComponent implements OnInit, OnDestroy {
     this.destroy.complete();
 
     this.selectedAuto = null;
+    this.selectedGroup = null;
 
     this.serviceList = [];
+
+    this.asideService.setSidenav(null);
   }
   
   drop(event: CdkDragDrop<string[]>) {

@@ -94,6 +94,19 @@ input:active, textarea:active {outline:none;}
 }
 
 .sidenav {
+  #sidenav_close {
+    display: none;
+    height: 60px;
+    text-align: right;
+    background-color: #f5f5f5;
+
+    button {
+      position: fixed;
+      right: 20px;
+      top: 12px;
+      z-index: 3;
+    }
+  }
   .mat-sidenav {
     width:400px;
   }
@@ -125,4 +138,15 @@ input:active, textarea:active {outline:none;}
   color: #fff;
   background: #242729;
   background: linear-gradient(22deg, rgb(35, 38, 40) 0%, rgb(42, 47, 50) 100%);
+}
+
+@media (max-width: 420px) {
+  .sidenav {
+    #sidenav_close {
+      display: block;
+    }
+    .mat-sidenav {
+      width:100%;
+    }
+  }
 }

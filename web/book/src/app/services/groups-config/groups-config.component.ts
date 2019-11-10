@@ -4,9 +4,9 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material';
-import { DialogUpdateGroupComponent } from 'src/app/shared/dialog-update-group/dialog-update-group.component';
+import { DialogUpdateGroupComponent } from 'src/app/services/dialogs/dialog-update-group/dialog-update-group.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
-import { DialogCreateGroupComponent } from 'src/app/shared/dialog-create-group/dialog-create-group.component';
+import { DialogCreateGroupComponent } from 'src/app/services/dialogs/dialog-create-group/dialog-create-group.component';
 
 @Component({
   selector: 'app-groups-config',
