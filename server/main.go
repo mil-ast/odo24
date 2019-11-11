@@ -94,7 +94,7 @@ func main() {
 	autoImagesGroup := r.Group("/api/images").Use(binders.GetSession)
 	autoImagesCtrl := handlers.NewAutoImagesController()
 	{
-		autoImagesGroup.GET("/", autoImagesCtrl.GetImage)
+		autoImagesGroup.GET("/:size/:file", autoImagesCtrl.GetImage)
 	}
 
 	// Группы

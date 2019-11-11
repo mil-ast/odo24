@@ -1,12 +1,10 @@
 package handlers
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,13 +18,10 @@ func NewAutoImagesController() AutoImagesController {
 
 // GetImage фото авто
 func (AutoImagesController) GetImage(c *gin.Context) {
-	urlPart := strings.Split(c.Request.URL.Path, "/")
-	if len(urlPart) < 5 {
-		c.AbortWithError(http.StatusBadRequest, errors.New("Not found"))
-		return
-	}
+	size := c.Param("size")
+	fileName := c.Param("file")
 
-	filePath := fmt.Sprintf("./fileuploads/%s/%s", urlPart[3], urlPart[4])
+	filePath := fmt.Sprintf("./fileuploads/%s/%s", size, fileName)
 
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {
