@@ -35,7 +35,7 @@ func (a OAuth) GetUser() (Profile, error) {
 		return profile, err
 	}
 
-	sqlQuery := "select user_id,login from profiles.oauthgetprofile($1);"
+	sqlQuery := "select user_id,login from profiles.oauth_getprofile($1);"
 	row := conn.QueryRow(sqlQuery, email)
 	err = row.Scan(&profile.UserID, &profile.Login)
 	if err != nil {

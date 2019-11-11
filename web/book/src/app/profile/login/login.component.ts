@@ -19,6 +19,7 @@ export class LoginComponent implements OnDestroy {
   private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   form: FormGroup;
+  loginError = false;
 
   constructor(
     private router: Router,
@@ -47,12 +48,13 @@ export class LoginComponent implements OnDestroy {
   }
 
   submitLogin() {
+    this.loginError = false;
     const login = this.form.get('login').value;
     const password = this.form.get('password').value;
     this.profileService.login(login, password).subscribe(() => {
       this.router.navigate(['/service']);
     }, () => {
-      this.toastr.error('Ошибка авторизации');
+      this.loginError = true;
     });
   }
 

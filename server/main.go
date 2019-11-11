@@ -90,6 +90,13 @@ func main() {
 		autoItemGroup.DELETE("/", autoCtrl.Delete)
 	}
 
+	// фото авто
+	autoImagesGroup := r.Group("/api/images").Use(binders.GetSession)
+	autoImagesCtrl := handlers.NewAutoImagesController()
+	{
+		autoImagesGroup.GET("/", autoImagesCtrl.GetImage)
+	}
+
 	// Группы
 	groupGroups := r.Group("/api/groups").Use(binders.GetSession)
 	groupCtrl := handlers.NewGroupsController()
