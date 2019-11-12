@@ -1,6 +1,6 @@
 {
   "/api/images/*" : {
-    "target": "https://odo24.ru/",
+    "target": "http://localhost:8000",
     "secure": false
   },
   "/api/*": {
