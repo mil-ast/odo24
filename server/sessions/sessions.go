@@ -12,7 +12,7 @@ import (
 
 const (
 	sessionID      string        = "sess"
-	SessionTimeout time.Duration = time.Hour * time.Duration(24)
+	SessionTimeout time.Duration = time.Hour * time.Duration(24*31)
 )
 
 func NewSession(c *gin.Context, userID uint64) error {
@@ -83,5 +83,4 @@ func DeleteSession(c *gin.Context) {
 	}
 
 	http.SetCookie(c.Writer, cookie)
-	// c.SetCookie(sessionID, "", 0, "/", "", false, true)
 }

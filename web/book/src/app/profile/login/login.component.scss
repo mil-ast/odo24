@@ -19,7 +19,7 @@
     .social_btn {
       display: inline-block;
       position: relative;
-      padding: 6px 10px 10px 10px;
+      padding: 15px;
 
       &:hover {
         box-shadow: 0px 0px 6px rgba(0,0,0,0.1);
@@ -28,12 +28,11 @@
       .title {
         color: #333;
         padding-left: 38px;
-        padding-top: 7px;
         display: inline-block;
       }
       .social_icon {
         position: absolute;
-        top: 5px;
+        top: 8px;
         left:10px;
         background-color: #fff;
         display: inline-block;
@@ -60,123 +59,22 @@
   }
 }
 
-/*:host {
-    display:grid;
-    position:relative;
-    font-size:14px;
-    grid-template-rows: 1fr 60px;
-}
-
-#title {
-    text-align: center;
-}
-
-.mat-card-header {
-    margin-bottom: 20px;
-}
-
-#incorrect {
-    color: #d34a12;
-    position: relative;
-}
-#incorrect .mat-icon {
-    position:absolute;
-    top: 6px;
-    left:0px;
-}
-.error__message {
-    display: inline-block;
-    padding:10px 0px 0px 30px;
-}
-
-.mat-card-actions {
-    text-align: center;
-}
-
-#oauth {
-    padding:20px 0px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-
-    #oauth_links {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 4px;
-    }
-
-    .social_btn {
-        display: grid;
-        grid-template-columns: 40px 1fr;
-        position: relative;
-        height:30px;
-        border-radius: 2px;
-        text-align: center;
-        color:#fff;
-        opacity: 0.8;
-        transition: 200ms;
-        padding: 0px 10px 0px 10px;
-
-        &:hover {
-            opacity: 1;
-        }
-
-        > .social_icon {
-            padding-top: 3px;
-        }
-
-        > .social_icon, > .title {
-            display: inline-block;
-            margin: auto;
-        }
-
-        > .title {
-            margin-left: 0px;
-        }
-    }
-
-    #oauth_yandex .social_btn {
-        background-color: #f00;
-    }
-    #oauth_mailru .social_btn {
-        background-color: #005ff9;
-    }
-    #oauth_google .social_btn {
-        background-color: #dc4b38;
-    }
-}
-
-#form-auth {
-    margin-top: 60px;
-}
-
-footer {
-    position: relative;
-    background-color: #1f2326;
-    color:#777;
-    text-align: center;
-}
-footer .year {
-    display: inline-block;
-    padding-top:22px;
-}
-
-@media (max-width: 520px) {
-    #login {
-        width:90%;
-        margin-top: 50px;
-    }
-
-    h1 {
-        font-size: 1.4em;
-    }
-
+@media (max-width: 660px) {
+  #forms {
     #oauth {
-        padding: 0px;
-        #oauth_links {
-            display: block;
-             > div:not(:last-child) {
-                 padding-bottom:10px;
-             }
+      > div {
+        display: block;
+
+        > div:not(:first-child) {
+          margin-left:0px;
+          margin-top: 10px;
+          border-top: 1px #eee solid;
         }
+      }
+
+      .social_btn {
+        margin-top: 10px;
+      }
     }
-}*/
+  }
+}
