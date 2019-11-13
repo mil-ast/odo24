@@ -32,7 +32,7 @@
 					</button>
 				</div>
 				<div>
-					<button mat-mini-fab color="primary" (click)="clickShowFormCreateService()">
+					<button [disabled]="!selectedAuto" mat-mini-fab color="primary" (click)="clickShowFormCreateService()">
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
@@ -52,7 +52,7 @@
 </mat-sidenav-container>
 
 <ng-template #emptyServices>
-	<div id="empty-services" *ngIf="!isLoading">
+	<div id="empty-services" *ngIf="!isLoading && selectedAuto">
 		<div><p>Записей ещё нет.</p></div>
 		<div>
 			<button mat-raised-button color="primary" (click)="clickShowFormCreateService()">

@@ -55,5 +55,9 @@
     "protractor": "^5.4.2",
     "ts-node": "~8.2.0",
     "tslint": "~5.17.0"
-  }
+  },
+  "browserslist": [
+    "last 2 version",
+    "> 1%"
+  ]
 }

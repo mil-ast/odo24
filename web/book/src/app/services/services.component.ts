@@ -28,7 +28,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
   };
   lastService: ServiceStruct = null;
   isGroupConfig = false;
-  isLoading = true;
+  isLoading = false;
   isMobile = false;
 
   @ViewChild('snav', {static: true}) private sidenav: MatSidenav;

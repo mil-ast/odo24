@@ -3,9 +3,9 @@ package sessions
 import (
 	"encoding/hex"
 	"errors"
+	"net/http"
 	"odo24/server/api/models"
 	"time"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -75,11 +75,11 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 // DeleteSession удаление сессии
 func DeleteSession(c *gin.Context) {
 	cookie := &http.Cookie{
-			Name:     sessionID,
-			Value:    "",
-			Path:     "/",
-			Expires: time.Unix(0, 0),
-			HttpOnly: true,
+		Name:     sessionID,
+		Value:    "",
+		Path:     "/",
+		Expires:  time.Unix(0, 0),
+		HttpOnly: true,
 	}
 
 	http.SetCookie(c.Writer, cookie)
