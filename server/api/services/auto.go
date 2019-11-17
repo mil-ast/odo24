@@ -32,22 +32,22 @@ func (s AutoService) GetAll() ([]models.Auto, error) {
 		return nil, err
 	}
 
-	querySQL := `select avto_id,name,odo,avatar from cars.get_all($1)`
+	querySQL := `select auto_id,name,odo,avatar from cars.get_all($1)`
 	rows, err := conn.Query(querySQL, s.UserID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var avto models.Auto
+	var auto models.Auto
 	var result []models.Auto
 	for rows.Next() {
-		avto = models.Auto{}
-		err = rows.Scan(&avto.AvtoID, &avto.Name, &avto.Odo, &avto.Avatar)
+		auto = models.Auto{}
+		err = rows.Scan(&auto.AutoID, &auto.Name, &auto.Odo, &auto.Avatar)
 		if err != nil {
 			return nil, err
 		}
-		result = append(result, avto)
+		result = append(result, auto)
 	}
 
 	return result, nil
@@ -60,19 +60,19 @@ func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
 		return nil, err
 	}
 
-	avto := models.Auto{
+	auto := models.Auto{
 		Name: name,
 		Odo:  odo,
 	}
 
-	querySQL := `select avto_id,avatar from cars.createavto($1,$2,$3);`
+	querySQL := `select auto_id,avatar from cars.createauto($1,$2,$3);`
 	row := conn.QueryRow(querySQL, name, odo, s.UserID)
-	err = row.Scan(&avto.AvtoID, &avto.Avatar)
+	err = row.Scan(&auto.AutoID, &auto.Avatar)
 	if err != nil {
 		return nil, err
 	}
 
-	return &avto, nil
+	return &auto, nil
 }
 
 // Update изменить авто
@@ -82,7 +82,7 @@ func (s AutoService) Update(autoID uint64, name string, odo uint32, avatar *bool
 		return err
 	}
 
-	querySQL := `call cars.updateavto($1,$2,$3,$4,$5)`
+	querySQL := `call cars.updateauto($1,$2,$3,$4,$5)`
 	_, err = conn.Exec(querySQL, autoID, s.UserID, odo, name, avatar)
 	if err != nil {
 		return err
@@ -114,7 +114,7 @@ func (s AutoService) Delete(autoID uint64) error {
 		return err
 	}
 
-	querySQL := `call cars.deleteavto($1,$2)`
+	querySQL := `call cars.deleteauto($1,$2)`
 	_, err = conn.Exec(querySQL, autoID, s.UserID)
 	return err
 }

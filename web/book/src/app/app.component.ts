@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ProfileService } from './_services/profile.service';
 import { Profile } from './_classes/profile';
-import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 import { AsideService } from './_services/aside.service';
 import { AutoService } from './_services/avto.service';
@@ -41,25 +40,6 @@ export class AppComponent implements OnInit {
       },
       autoFocus: false,
     });
-  }
-
-  clickShowConfirmEmailDialog() {
-    const config: MatDialogConfig = {
-      autoFocus: false,
-      data: this.profile,
-    };
-    if (this.smallScreen) {
-      config.minWidth = '98%';
-      config.position = {
-        top: '4px'
-      };
-    } else {
-      config.position = {
-        top: '80px',
-        right: '40px'
-      };
-    }
-    this.dialog.open(ConfirmEmailDialogComponent, config);
   }
   
   // выход

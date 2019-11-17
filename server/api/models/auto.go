@@ -1,7 +1,7 @@
 package models
 
 type Auto struct {
-	AvtoID uint64 `json:"avto_id"`
+	AutoID uint64 `json:"auto_id"`
 	Name   string `json:"name"`
 	Odo    uint32 `json:"odo"`
 	Avatar bool   `json:"avatar"`
@@ -18,5 +18,5 @@ type AutoUpdateBody struct {
 }
 
 type AutoUpdateODOBody struct {
-	Odo  uint32 `json:"odo"`
+	Odo uint32 `json:"odo"`
 }

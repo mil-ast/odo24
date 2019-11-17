@@ -21,7 +21,7 @@ export class AutoService {
       const autoList = (list || []).map((item: AutoStruct) => {
         return new Auto(item);
       }).sort((left: AutoStruct, right: AutoStruct) => {
-        return left.avto_id > right.avto_id ? -1 : 1;
+        return left.auto_id > right.auto_id ? -1 : 1;
       });
 
       if (autoList.length > 0) {
@@ -51,7 +51,7 @@ export class AutoService {
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}/`);
+    return this.http.delete(`${this.urlItem}/${id}/`);
   }
 
   setSelected(auto: Auto) {

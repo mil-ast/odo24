@@ -34,7 +34,7 @@ export class DialogCreateDocComponent {
     const dateFrom = moment(this.form.value.date_start).format('YYYY-MM-DD');
     const dateTo = moment(this.form.value.date_end).format('YYYY-MM-DD');
 
-    const avtoID = this.avto ? this.avto.avto_id : null;
+    const avtoID = this.avto ? this.avto.auto_id : null;
     const data = {
       avto_id: avtoID,
       event_type: this.form.value.event_type,

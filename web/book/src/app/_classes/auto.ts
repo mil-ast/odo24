@@ -1,5 +1,5 @@
 export interface AutoStruct {
-  avto_id?: number;
+  auto_id?: number;
   user_id?: number;
   name: string;
   odo: number;
@@ -14,7 +14,7 @@ export class Auto {
   private cache: number;
 
   constructor(data: AutoStruct) {
-    this.auto_id = data.avto_id;
+    this.auto_id = data.auto_id;
     this.update(data.name, data.odo, data.avatar);
   }
 

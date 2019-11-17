@@ -25,6 +25,6 @@ export class SelectedAvtoComponent {
   }
 
   get iconURL(): string {
-    return `/api/images/small/${this.model.avto_id}.jpg?t=1`;
+    return `/api/images/small/${this.model.auto_id}.jpg?t=1`;
   }
 }

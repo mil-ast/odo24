@@ -42,7 +42,6 @@ export const DATE_FORMATS = {
 import { registerLocaleData, CommonModule } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
-import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { OrderPipeModule } from './_pipes/order.pipe.module';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
@@ -59,7 +58,6 @@ registerLocaleData(localeRu, 'ru');
 @NgModule({
   declarations: [
     AppComponent,
-    ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
     ProfileDialogComponent,
     DialogUpdateAvtoComponent,
@@ -107,7 +105,6 @@ registerLocaleData(localeRu, 'ru');
     SelectedAvtoModule,
   ],
   entryComponents: [
-    ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
     ProfileDialogComponent,
     DialogUpdateAvtoComponent,

@@ -5,7 +5,7 @@ Subject: Регистрация в автомобильной электронн
 Content-Type: text/html; charset="UTF-8"
 
 <p>Для подтверждения текущего E-mail введите в форму на сайте этот код подтверждения: <strong>{{.code}}</strong></p>
-<p>Так же можно подтвердить почту, пройдя по <a href="https://odo24.ru/profile/register?login={{.login}}&code={{.code}}">этой ссылке</a>.</p>
+<p>Так же можно подтвердить почту, пройдя по <a href="https://odo24.ru/book/profile/register?login={{.login}}&code={{.code}}">этой ссылке</a>.</p>
 <p>С уважением, команда <a href="https://odo24.ru">odo24.ru</a></p>
 <p>
     Письмо сформировано автоматически, отвечать на него не нужно.
