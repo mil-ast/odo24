@@ -7,13 +7,12 @@
 }
 
 header {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   padding: 40px 20px;
+  display: grid;
   border-radius: 4px;
   z-index: 1;
   position: relative;
-  height: 90px;
   background: url("/assets/images/landing_bg.jpg") no-repeat 0px bottom;
   background-size: cover;
 
@@ -28,11 +27,11 @@ header {
     background-color: rgba(31,35,38,0.8);
   }
 
-
   nav {
-    grid-column: 1/4;
-    grid-row: 2/3;
-    margin-top: 20px;
+    grid-column: auto;
+    grid-row: auto;
+    margin-top: 10px;
+    margin-left: 40px;
     z-index:2;
     font-size:1.2em;
   }
@@ -42,31 +41,33 @@ header {
     text-align:right;
     padding-top: 7px;
     .title, .icon_more {
-      display: none;
+      display: inline;
+      padding-left:10px;
     }
   }
 }
 
-@media (min-width: 420px) {
+@media (max-width: 660px) {
+  header {
+    grid-template-columns: auto 1fr;
+    padding: 20px;
+    nav {
+      margin-left: 20px;
+      margin-top: 20px;
+    }
+
+    #profile {
+      padding-top: 15px;
+    }
+  }
+}
+
+@media (max-width: 420px) {
   header {
     #profile {
       .title, .icon_more {
-        display: inline;
-        padding-left:10px;
+        display: none;
       }
-    }
-  }
-}
-
-@media (min-width: 660px) {
-  header {
-    grid-template-columns: auto 1fr auto;
-    height: 50px;
-    nav {
-      grid-column: auto;
-      grid-row: auto;
-      margin-top: 10px;
-      margin-left: 40px;
     }
   }
 }

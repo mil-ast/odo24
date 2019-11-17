@@ -13,6 +13,10 @@ h3 {
   padding-left:60px;
 }
 
+.page-name {
+  margin-left:10px;
+}
+
 .mat-sidenav-content {
   display: grid;
   grid-template-rows: 70px 1fr;
@@ -61,7 +65,12 @@ app-groups-config {
 @media (max-width: 460px) {
   #title_header {
     #select_group {
-      grid-template-columns: 1fr 50px auto;
+      grid-template-columns: 1fr auto auto;
+      gap: 2px;
     }
+  }
+
+  .page-name {
+    font-size: 0.9em;
   }
 }

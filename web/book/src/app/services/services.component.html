@@ -1,16 +1,10 @@
 <mat-toolbar color="primary">
-	<button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-	<h1 class="example-app-name">Сервисное обслуживание</h1>
+	<button mat-icon-button [color]="snav.opened && isMobile ? 'warn' : 'primary'" (click)="snav.toggle()"><mat-icon>{{snav.opened && isMobile ? 'close' : 'menu'}}</mat-icon></button>
+	<h1 class="page-name">Сервисное обслуживание</h1>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav">
-	<mat-sidenav #snav [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? false : true" [fixedInViewport]="isMobile" fixedTopGap="0">
-		<div id="sidenav_close">
-			<button mat-button color="warn" (click)="snav.toggle()">
-				<mat-icon>close</mat-icon>
-				<span>Закрыть</span>
-			</button>
-		</div>
+	<mat-sidenav #snav [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? false : true">
 		<app-list-avto></app-list-avto>
 	</mat-sidenav>
 

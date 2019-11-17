@@ -43,5 +43,9 @@
     .mat-icon {
       display: none;
     }
+
+    > div > div {
+      grid-template-columns: none;
+    }
   }
 }
