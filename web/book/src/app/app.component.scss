@@ -64,6 +64,7 @@ header {
 
 @media (max-width: 420px) {
   header {
+    padding: 10px 20px;
     #profile {
       .title, .icon_more {
         display: none;

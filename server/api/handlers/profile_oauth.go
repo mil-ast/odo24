@@ -7,6 +7,7 @@ import (
 	"odo24/server/api/constants"
 	"odo24/server/api/models"
 	"odo24/server/oauth"
+	"odo24/server/sendmail"
 	"odo24/server/sessions"
 
 	"github.com/gin-gonic/gin"
@@ -34,7 +35,7 @@ func (ProfileController) OAuth(c *gin.Context) {
 		Code: queryParams.Code,
 	}
 
-	profile, err := token.GetUser()
+	profile, passwd, err := token.GetUser()
 	if err != nil {
 		if err.Error() == oauth.ErrAuthError {
 			c.AbortWithError(http.StatusBadRequest, err)
@@ -51,5 +52,19 @@ func (ProfileController) OAuth(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, profile)
+	// новый
+	if passwd != nil {
+		go func(login models.Email, pwd models.Password) {
+			letter := make(map[string]interface{}, 2)
+			letter["login"] = login
+			letter["password"] = pwd
+
+			err := sendmail.SendEmail(string(login), sendmail.TypeRegisterFromOAUTH, letter)
+			if err != nil {
+				log.Println(err)
+			}
+		}(profile.Login, *passwd)
+	}
+
+	c.JSON(http.StatusOK, profile)
 }

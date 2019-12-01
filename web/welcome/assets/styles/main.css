@@ -1,0 +1,147 @@
+html,body {
+  margin:0px;
+  padding:0px;
+  font-family: 'Istok Web', sans-serif;
+  font-size:16px;
+  color:#212a31;
+  width:100%;
+  background-color: #f9f9f9;
+}
+body {
+  max-width: 1440px;
+  margin: 40px auto;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+  background-color: #fff;
+  color:#333;
+}
+*:focus {
+  outline: 0;
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+}
+button:focus, input:focus, a:focus {
+  text-decoration: none !important;
+  outline: none !important;
+}
+a, a:active, a:focus { outline: none; text-decoration: none; color:#2867b3; }
+input, textarea {outline:none;}
+input:active, textarea:active {outline:none;}
+:focus {outline:none;}
+a:hover {
+  color:#1f3856;
+}
+
+.data {
+  padding: 60px;
+}
+.orange {
+  color:#fd8000;
+}
+
+header {
+  padding: 60px;
+  display: flex;
+}
+
+#logo {
+  font-size: 2.5em;
+}
+#logo > a {
+  color:#333;
+}
+
+header nav {
+  margin-left: auto;
+}
+
+header nav a {
+  display: inline-block;
+  padding: 8px 10px;
+  position: relative;
+  font-size: 1.2em;
+  padding: 8px 10px 8px 40px;
+}
+header nav a:not(:first-child) {
+  margin-left: 40px;
+}
+header nav a.selected {
+  color:#4e4e4e;
+  cursor: default;
+}
+
+header nav a .material-icons {
+  position: absolute;
+  top:9px;
+  left:10px;
+}
+
+article {
+  display: flex;
+  margin-bottom: 120px;
+}
+
+article > div:last-child {
+  margin-left: auto;
+}
+
+article > div:last-child img {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+
+}
+article > div:first-child img {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+#title h1 {
+  font-weight: bold;
+  font-size:4em;
+}
+#title h1 span {
+  display: block;
+}
+
+#services h3 {
+  font-size: 1.6em;
+}
+
+#services ul {
+  list-style: none;
+  padding:0px;
+}
+
+#services ul li{
+  list-style: none;
+  position: relative;
+  padding-left: 60px;
+}
+
+#services ul li:before {
+  position: absolute;
+  top: 6px;
+  left: 0px;
+  content: "";
+  background: #fd8000;
+  display: block;
+  margin: 5px 10px;
+  line-height: 40px;
+  width: 30px;
+  height: 2px;
+}
+
+#register h3 {
+  font-size: 1.6em;
+  display: block;
+  padding-top: 0px;
+  margin-top: 0px;
+}
+
+#register #money_off {
+  margin-top: 40px;
+}
+
+#register #money_off .material-icons {
+  font-size:3em;
+}

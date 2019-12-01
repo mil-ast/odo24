@@ -14,6 +14,7 @@ import (
 const (
 	TypeConfirmEmail uint8 = iota
 	TypeRepairConfirmCode
+	TypeRegisterFromOAUTH
 )
 
 var templates map[uint8]string

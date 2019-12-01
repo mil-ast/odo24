@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"odo24/server/oauth"
+	"odo24/server/utils"
 
 	"github.com/mil-ast/db"
 )
@@ -17,30 +18,40 @@ type OAuth struct {
 	Code string
 }
 
-func (a OAuth) GetUser() (Profile, error) {
+func (a OAuth) GetUser() (Profile, *Password, error) {
 	profile := Profile{
 		Confirmed: true,
 	}
 
 	email, err := a.Type.Auth(a.Code)
 	if err != nil {
-		return profile, err
+		return profile, nil, err
 	}
 	if email == "" {
-		return profile, errors.New(oauth.ErrAuthError)
+		return profile, nil, errors.New(oauth.ErrAuthError)
 	}
 
 	conn, err := db.GetConnection()
 	if err != nil {
-		return profile, err
+		return profile, nil, err
 	}
 
-	sqlQuery := "select user_id,login from profiles.oauth_getprofile($1);"
-	row := conn.QueryRow(sqlQuery, email)
-	err = row.Scan(&profile.UserID, &profile.Login)
+	newPassword := utils.GenerateRandomString(8)
+
+	var isNew bool
+	var resultPassword *Password
+
+	sqlQuery := "select user_id,login,is_new from profiles.oauth_getprofile($1,$2);"
+	row := conn.QueryRow(sqlQuery, email, newPassword)
+	err = row.Scan(&profile.UserID, &profile.Login, &isNew)
 	if err != nil {
-		return profile, err
+		return profile, resultPassword, err
 	}
 
-	return profile, nil
+	if isNew {
+		pwd := Password(newPassword)
+		resultPassword = &pwd
+	}
+
+	return profile, resultPassword, nil
 }
