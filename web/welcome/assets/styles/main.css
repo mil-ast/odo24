@@ -24,12 +24,13 @@ button:focus, input:focus, a:focus {
   text-decoration: none !important;
   outline: none !important;
 }
-a, a:active, a:focus { outline: none; text-decoration: none; color:#2867b3; }
+a, a:active, a:focus { outline: none; text-decoration: none; color:#2867b3; border-bottom:1px transparent solid; display: inline-block; }
 input, textarea {outline:none;}
 input:active, textarea:active {outline:none;}
 :focus {outline:none;}
 a:hover {
-  color:#1f3856;
+  color:#0074ff;
+  border-bottom-color:currentColor;
 }
 
 .data {
@@ -61,6 +62,7 @@ header nav a {
   position: relative;
   font-size: 1.2em;
   padding: 8px 10px 8px 40px;
+  border: none;
 }
 header nav a:not(:first-child) {
   margin-left: 40px;
@@ -68,6 +70,9 @@ header nav a:not(:first-child) {
 header nav a.selected {
   color:#4e4e4e;
   cursor: default;
+}
+header nav a:not(.selected):hover span {
+  border-bottom: 2px currentColor solid;
 }
 
 header nav a .material-icons {
@@ -78,7 +83,12 @@ header nav a .material-icons {
 
 article {
   display: flex;
-  margin-bottom: 120px;
+  margin-bottom: 60px;
+}
+
+article.gray {
+  background-color: #f9f9f9;
+  padding:160px 0px;
 }
 
 article > div:last-child {
@@ -131,17 +141,149 @@ article > div:first-child img {
   height: 2px;
 }
 
+#register {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
 #register h3 {
   font-size: 1.6em;
   display: block;
   padding-top: 0px;
   margin-top: 0px;
 }
-
-#register #money_off {
-  margin-top: 40px;
+#register h3:not(:first-child) {
+  margin-top: 60px;
 }
 
-#register #money_off .material-icons {
-  font-size:3em;
+article#register > div:last-child {
+  margin-left: 0px;
+}
+
+#register > div:first-child {
+  width:30%;
+}
+#register > div:first-child .material-icons {
+  font-size:14em;
+  color: #cacaca;
+}
+
+#register #free {
+  display: flex;
+}
+
+#register #free .material-icons {
+  font-size: 3em;
+  margin-top: 15px;
+  padding-right: 40px;
+}
+
+#register #oauth {
+  display: flex;
+}
+
+#register .oauth-btn:first-child {
+  margin-left: -15px;
+}
+#register .oauth-btn {
+  display: inline-block;
+  position: relative;
+  padding: 10px 15px;
+  display: flex;
+  border-radius: 8px;
+  margin-left:40px;
+  width:110px;
+  border:none;
+}
+#register .oauth-btn:hover {
+  background-color: #f9f9f9;
+}
+
+#register .oauth-btn .icon {
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#register .oauth-btn#oauth-yandex .icon {
+  background-image: url(/assets/images/oauth/yandex.png);
+}
+#register .oauth-btn#oauth-google .icon {
+  background-image: url(/assets/images/oauth/google.png);
+}
+#register .oauth-btn#oauth-mail .icon {
+  background-image: url(/assets/images/oauth/mailru.png);
+}
+
+#register .oauth-btn span {
+  padding:5px 0px 0px 20px;
+  color: #333;
+}
+
+#register #free {
+  margin-top: 80px;
+  color: #777;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+footer {
+  position: relative;
+}
+
+footer > div {
+  font-size:14px;
+  background-color: #1f2326;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 200px;
+  position: relative;
+  color: #777;
+  margin-top: 100px;
+  display: grid;
+  gap: 40px;
+  grid-template-columns: repeat(2,200px) 1fr;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+footer .column > div {
+  padding: 20px 0 0 30px;
+  position: relative;
+}
+
+footer .column {
+  display: flex;
+  flex-direction: column;
+}
+
+footer a {
+  border-bottom: 1px solid currentColor;
+}
+
+footer a, footer span {
+  padding: 4px;
+  color: inherit;
+}
+
+footer > div .column > div #vk_icon,
+footer > div .column > div .material-icons {
+  position: absolute;
+  top:22px;
+  left: 0;
+}
+
+footer > div .column > div #vk_icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url(/assets/images/vk.svg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+footer a:hover {
+  color:#eee;
 }
