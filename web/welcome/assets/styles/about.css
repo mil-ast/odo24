@@ -1,0 +1,17 @@
+h1, h2 {
+  font-weight: normal;
+}
+
+h1 {
+  font-size:2.4em;
+}
+h2 {
+  font-size:1.6em;
+}
+
+article {
+  padding:0px 60px;
+}
+article:not(:first-child) {
+  margin-top:40px;
+}

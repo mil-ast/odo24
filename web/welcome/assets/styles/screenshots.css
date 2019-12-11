@@ -1,0 +1,84 @@
+h1, h2 {
+  font-weight: normal;
+}
+
+h1 {
+  font-size:2.4em;
+}
+h2 {
+  font-size:1.6em;
+}
+
+article {
+  padding:0px 60px;
+}
+article:not(:first-child) {
+  margin-top:80px;
+}
+
+.screen {
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width:100%;
+  height: 913px;
+}
+.screen.right {
+  background-position: top right;
+}
+
+#screen-main {
+  background-image: url("/assets/images/screens/screen1_850.jpg");
+}
+
+#screen-groups {
+  background-image: url("/assets/images/screens/screen2_850.jpg");
+}
+
+#screen-service {
+  background-image: url("/assets/images/screens/screen3_850.jpg");
+}
+
+
+#oauth {
+  display: flex;
+}
+
+#oauth .oauth-btn:first-child {
+  margin-left: -15px;
+}
+#oauth .oauth-btn {
+  display: inline-block;
+  position: relative;
+  padding: 10px 15px;
+  display: flex;
+  border-radius: 8px;
+  margin-left:40px;
+  width:110px;
+  border:none;
+}
+#oauth .oauth-btn:hover {
+  background-color: #f9f9f9;
+}
+
+#oauth .oauth-btn .icon {
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#oauth .oauth-btn#oauth-yandex .icon {
+  background-image: url(/assets/images/oauth/yandex.png);
+}
+#oauth .oauth-btn#oauth-google .icon {
+  background-image: url(/assets/images/oauth/google.png);
+}
+#oauth .oauth-btn#oauth-mail .icon {
+  background-image: url(/assets/images/oauth/mailru.png);
+}
+
+#oauth .oauth-btn span {
+  padding:5px 0px 0px 20px;
+  color: #333;
+}
