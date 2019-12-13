@@ -12,6 +12,15 @@ h2 {
 article {
   padding:0px 60px;
 }
-article:not(:first-child) {
-  margin-top:40px;
+
+@media (max-width: 650px) {
+  article {
+    padding: 0px 40px;
+  }
+}
+
+@media (max-width: 520px) {
+  article {
+    padding: 0px 20px;
+  }
 }

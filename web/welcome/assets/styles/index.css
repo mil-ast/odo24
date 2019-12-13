@@ -6,6 +6,7 @@ article {
 article.gray {
   background-color: #f9f9f9;
   padding:70px 0px;
+  margin-bottom: 0px;
 }
 
 #img_header, #img_about {
@@ -30,7 +31,6 @@ article.gray {
 }
 
 #title h1 {
-  font-weight: bold;
   font-size:4em;
 }
 #title h1 span {
@@ -158,15 +158,14 @@ article#register > div:last-child {
   border-radius: 10px;
 }
 
-@media (max-width: 1400px) {
-  body {
-    margin-bottom:0px;
-  }
-}
 @media (max-width: 900px) {
-  header {
-    display: block;
-  };
+  article.gray {
+    padding: 0px;
+  }
+  article {
+    margin-bottom: 0px;
+  }
+
   #img_header {
     background-image: url('/assets/images/header_500.jpg');
   }
@@ -177,33 +176,10 @@ article#register > div:last-child {
   #title h1 {
     font-size: 2.8em;
   }
-
-  .data {
-    padding: 40px;
-  }
-
-  footer > div {
-    grid-template-columns: repeat(2,140px) 1fr;
-    gap: 20px;
-  }
 }
 
 
 @media (max-width: 750px) {
-  header nav a {
-    display: block;
-  }
-  header nav {
-    margin-top: 40px;
-  }
-  header nav a:not(:first-child) {
-    margin-left: 0px;
-  }
-
-  header nav a .material-icons {
-    left:0px;
-  }
-
   #register {
     flex-direction: row-reverse;
   }
@@ -226,8 +202,16 @@ article#register > div:last-child {
 }
 
 @media (max-width: 650px) {
-  header {
-    padding: 40px;
+  article {
+    margin-bottom: 50px;
+  }
+  article.gray {
+    padding:40px 0px;
+    margin-bottom: 40px;
+  }
+
+  .data {
+    padding: 0px 40px;
   }
 
   #img_header {
@@ -238,7 +222,7 @@ article#register > div:last-child {
   }
 
   #img_header, #img_about {
-    background-position: 40px 0px;
+    background-position: center;
   }
 
   #title, #services {
@@ -270,33 +254,23 @@ article#register > div:last-child {
     right:0px;
     width: 240px;
   }
-
-  footer > div {
-    grid-template-columns: auto;
-    height: auto;
-    gap: 0px;
+  
+  #register_oauth {
+    position: relative;
+    z-index: 2;
   }
 }
 
 @media (max-width: 520px) {
-  header, .data {
-    padding: 20px;
+  h1, h2, h3 {
+    margin-bottom: 20px;
   }
-
-  article.gray {
-    padding:0px;
-  }
-
   #title h1 {
     font-size:1.6em;
   }
 
   #title h1 span {
     display: inline;
-  }
-
-  #img_header, #img_about {
-    background-position: 20px 0px;
   }
 
   #register .oauth-btn:not(:first-child) {

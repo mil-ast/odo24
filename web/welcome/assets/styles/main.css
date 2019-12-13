@@ -33,6 +33,11 @@ a:hover {
   border-bottom-color:currentColor;
 }
 
+h1, h2, h3 {
+  padding: 0px;
+  margin:0px;
+  font-weight: normal;
+}
 p {
   line-height: 30px;
 }
@@ -143,4 +148,63 @@ footer > div .column > div #vk_icon {
 
 footer a:hover {
   color:#eee;
+}
+
+@media (max-width: 1400px) {
+  body {
+    margin:0px;
+  }
+}
+
+@media (max-width: 900px) {
+  header {
+    display: block;
+  };
+
+  .data {
+    padding: 40px;
+  }
+
+  footer > div {
+    grid-template-columns: repeat(2,140px) 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 750px) {
+  header nav a {
+    display: block;
+  }
+  header nav {
+    margin-top: 40px;
+  }
+  header nav a:not(:first-child) {
+    margin-left: 0px;
+  }
+
+  header nav a .material-icons {
+    left:0px;
+  }
+}
+
+@media (max-width: 650px) {
+  header {
+    padding: 40px;
+  }
+
+  footer > div {
+    grid-template-columns: auto;
+    height: auto;
+    gap: 0px;
+  }
+}
+
+@media (max-width: 520px) {
+  header, .data {
+    padding: 20px;
+  }
+
+  article.gray {
+    padding:0px;
+  }
 }
