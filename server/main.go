@@ -4,20 +4,17 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
-	"os"
-	"os/signal"
+	"odo24/server/api/binders"
+	"odo24/server/api/handlers"
+	"odo24/server/config"
+	"odo24/server/sessions"
 	"runtime"
-	"sto/server/config"
-	"sto/server/handlers"
-	"syscall"
-	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/mil-ast/db"
-	"github.com/mil-ast/sessions"
 )
 
-var VERSION string = "1/0"
+var VERSION string = "2.0.0"
 
 func main() {
 	defer func() {
@@ -35,7 +32,7 @@ func main() {
 	}
 
 	log.Println("Start...")
-	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
 
 	// чтение настроек
 	options := config.GetInstance()
@@ -54,11 +51,88 @@ func main() {
 	}
 	fmt.Println("OK!")
 
-	// актуальность сессии
-	sessions.SetMaxLifeTime(time.Hour)
+	// ключ шифрования сессии
+	sessions.SetSecretKey(options.App.SessionKey)
+
+	if options.Production {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
+
+	r := gin.Default()
+
+	// Профиль
+	profileGroup := r.Group("/api/profile")
+	profileCtrl := handlers.NewProfileController()
+	{
+		profileGroup.GET("", binders.GetSession, profileCtrl.ProfileGet)
+		profileGroup.POST("/login", handlers.CheckUserAgent, profileCtrl.Login)
+		profileGroup.GET("/oauth", binders.GetOauthParamsFromQuery, profileCtrl.OAuth)
+		profileGroup.GET("/logout", profileCtrl.Logout)
+		profileGroup.POST("/register", handlers.CheckUserAgent, profileCtrl.Register)
+		profileGroup.POST("/reset_password", handlers.CheckUserAgent, profileCtrl.ResetPassword)
+		profileGroup.POST("/password_recovery", handlers.CheckUserAgent, profileCtrl.PasswordRecovery)
+		profileGroup.POST("/update_password", binders.GetSession, profileCtrl.PasswordUpdate)
+	}
+
+	// Авто
+	autoGroup := r.Group("/api/auto").Use(binders.GetSession)
+	autoCtrl := handlers.NewAutoController()
+	{
+		autoGroup.GET("/", autoCtrl.GetAll)
+		autoGroup.POST("/", autoCtrl.Create)
+	}
+	autoItemGroup := r.Group("/api/auto_item/:auto_id").Use(binders.GetSession, binders.GetAutoIDFromParam)
+	{
+		autoItemGroup.PUT("/", autoCtrl.Update)
+		autoItemGroup.PUT("/odo", autoCtrl.UpdateODO)
+		autoItemGroup.DELETE("/", autoCtrl.Delete)
+	}
+
+	// фото авто
+	autoImagesGroup := r.Group("/api/images").Use(binders.GetSession)
+	autoImagesCtrl := handlers.NewAutoImagesController()
+	{
+		autoImagesGroup.GET("/:size/:file", autoImagesCtrl.GetImage)
+	}
+
+	// Группы
+	groupGroups := r.Group("/api/groups").Use(binders.GetSession)
+	groupCtrl := handlers.NewGroupsController()
+	{
+		groupGroups.GET("/", groupCtrl.GetAll)
+		groupGroups.POST("/", groupCtrl.Create)
+		groupGroups.PUT("/sort", groupCtrl.SortUpdate)
+	}
+	groupGroup := r.Group("/api/group").Use(binders.GetSession, binders.GetGroupIDFromParam)
+	{
+		groupGroup.PUT("/:group_id", groupCtrl.Update)
+		groupGroup.DELETE("/:group_id", groupCtrl.Delete)
+	}
+
+	// Сервисы
+	servicesGroup := r.Group("/api/services").Use(binders.GetSession)
+	serviceCtrl := handlers.NewServicesController()
+	{
+		servicesGroup.GET("/", serviceCtrl.Get)
+		servicesGroup.POST("/", serviceCtrl.Create)
+		servicesGroup.PUT("/:service_id", serviceCtrl.Update)
+		servicesGroup.DELETE("/:service_id", serviceCtrl.Delete)
+	}
+
+	if options.App.Server_addr == "" {
+		options.App.Server_addr = "127.0.0.1:8080"
+	}
+
+	fmt.Printf("Addr: %s\r\n", options.App.Server_addr)
+	err = r.Run(options.App.Server_addr)
+	if err != nil {
+		panic(err)
+	}
 
 	// профиль
-	http.HandleFunc("/api/register", handlers.Profile_register)
+	/*http.HandleFunc("/api/register", handlers.Profile_register)
 	http.HandleFunc("/api/profile/login", handlers.ProfileLogin)
 	http.HandleFunc("/api/profile/oauth", handlers.OAuth)
 	http.HandleFunc("/api/profile/logout", handlers.ProfileLogout)
@@ -104,5 +178,5 @@ func main() {
 		MaxHeaderBytes: 1 << 16, // 64mb,
 	}
 
-	log.Fatal(s.ListenAndServe())
+	log.Fatal(s.ListenAndServe())*/
 }

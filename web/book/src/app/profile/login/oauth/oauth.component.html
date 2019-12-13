@@ -1,0 +1,11 @@
+<div id="oauth">
+  <img width="100" src="/assets/icons/oauth.svg" />
+  <div id="progress_bar" *ngIf="isError">
+    <mat-progress-bar *ngIf="!isError; else tplError" mode="indeterminate"></mat-progress-bar>
+  </div>
+</div>
+<ng-template #tplError>
+  <div id="error" class="mat-error">
+    <p>Ошибка при входе через OAuth</p>
+  </div>
+</ng-template>

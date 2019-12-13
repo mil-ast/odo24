@@ -1,0 +1,80 @@
+#forms {
+  form {
+    button {
+      min-width: 180px;
+    }
+  }
+
+  #oauth {
+    margin-top: 40px;
+    > div {
+      display: flex;
+      margin-left:-10px;
+      
+      > div:not(:first-child) {
+        margin-left:40px;
+      }
+    }
+
+    .social_btn {
+      display: inline-block;
+      position: relative;
+      padding: 15px;
+
+      &:hover {
+        box-shadow: 0px 0px 6px rgba(0,0,0,0.1);
+      }
+
+      .title {
+        color: #333;
+        padding-left: 38px;
+        display: inline-block;
+      }
+      .social_icon {
+        position: absolute;
+        top: 8px;
+        left:10px;
+        background-color: #fff;
+        display: inline-block;
+        width:30px;
+        height:30px;
+      }
+    }
+
+    #oauth_yandex {
+      .social_icon {
+        background: url("/assets/images/oauth/yandex.png") no-repeat center center;
+      }
+    }
+    #oauth_google {
+      .social_icon {
+        background: url("/assets/images/oauth/google.png") no-repeat center center;
+      }
+    }
+    #oauth_mailru {
+      .social_icon {
+        background: url("/assets/images/oauth/mailru.png") no-repeat center center;
+      }
+    }
+  }
+}
+
+@media (max-width: 660px) {
+  #forms {
+    #oauth {
+      > div {
+        display: block;
+
+        > div:not(:first-child) {
+          margin-left:0px;
+          margin-top: 10px;
+          border-top: 1px #eee solid;
+        }
+      }
+
+      .social_btn {
+        margin-top: 10px;
+      }
+    }
+  }
+}

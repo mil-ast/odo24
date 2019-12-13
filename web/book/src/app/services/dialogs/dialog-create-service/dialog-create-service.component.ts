@@ -1,69 +1,65 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import * as moment from 'moment';
-import { AvtoService } from 'src/app/_services/avto.service';
+import { AutoService } from 'src/app/_services/avto.service';
 import { first } from 'rxjs/operators';
-import { AvtoStruct } from 'src/app/_classes/avto';
-import { ServiceService, ServiceStruct } from 'src/app/_services/service.service';
+import { AutoStruct } from 'src/app/_classes/auto';
+import { ServiceService, ServiceStruct, ServiceCreate } from 'src/app/_services/service.service';
 import { GroupStruct, GroupService } from 'src/app/_services/groups.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-create-service',
   templateUrl: './dialog-create-service.component.html',
-  styleUrls: ['../../../_css/dialogs_form.scss']
+  styleUrls: [
+    '../../../_css/dialogs_form.scss'
+  ]
 })
 export class DialogCreateServiceComponent implements OnInit {
   form: FormGroup;
-  private selectegGroup: GroupStruct;
-  private selectegAvto: AvtoStruct;
 
   constructor(
     private dialogRef: MatDialogRef<DialogCreateServiceComponent>,
-    private snackBar: MatSnackBar,
+    private toastr: ToastrService,
     private serviceService: ServiceService,
-    private groupService: GroupService,
-    private avtoService: AvtoService,
+    @Inject(MAT_DIALOG_DATA) private data: {
+      auto_id: number,
+      group_id: number,
+      odo: number,
+    },
   ) { }
 
   ngOnInit() {
     this.form = new FormGroup({
-      odo: new FormControl(null, [Validators.required, Validators.min(0)]),
+      odo: new FormControl(this.data.odo, [Validators.required, Validators.min(0)]),
       next_distance: new FormControl(null, Validators.min(0)),
       date: new FormControl(moment(), Validators.required),
       price: new FormControl(null, Validators.min(0)),
-      comment: new FormControl(''),
-    });
-
-    this.avtoService.selected.pipe(first()).subscribe((avto: AvtoStruct) => {
-      this.selectegAvto = avto;
-      this.form.patchValue({
-        odo: avto.odo,
-      });
-    });
-
-    this.groupService.selected.pipe(first()).subscribe((group: GroupStruct) => {
-      this.selectegGroup = group || null;
+      description: new FormControl(''),
     });
   }
 
   submit() {
-    const data: ServiceStruct = {
-      avto_id: this.selectegAvto.avto_id,
-      group_id: this.selectegGroup.group_id,
+    const data: ServiceCreate = {
+      auto_id: this.data.auto_id,
+      group_id: this.data.group_id,
       odo: this.form.get('odo').value,
       next_distance: this.form.get('next_distance').value,
-      date: this.form.get('date').value.format('YYYY-MM-DD'),
+      dt: this.form.get('date').value.format('YYYY-MM-DD'),
       price: this.form.get('price').value,
-      comment: this.form.get('comment').value,
+      description: this.form.get('description').value,
     };
 
-    this.serviceService.create(data).subscribe((service: ServiceStruct) => {
-      this.snackBar.open('Запись успешно добавлена!', 'OK');
+    this.serviceService.create(data).subscribe((result: {service_id: number}) => {
+      this.toastr.success('Запись успешно добавлена!');
+
+      const service: ServiceStruct = {...data, service_id: result.service_id};
       this.dialogRef.close(service);
     }, (err) => {
       console.error(err);
+      this.toastr.error('Произошла ошибка при добавлении сервиса');
     });
 
     return false;

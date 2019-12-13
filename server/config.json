@@ -1,4 +1,5 @@
 {
+	"production": false,
 	"app" : {
 		"server_addr" : "127.0.0.1:8000",
 		"imageMagick" : "magick",
@@ -6,13 +7,13 @@
 		"smtp_port" : 465,
 		"smtp_from" : "info@odo24.ru",
 		"smtp_password" : "6PxnwmB4pcPvk8q",
-		"memcached_addr" : "81.177.26.40:11211"
+		"session_key": "iVBORw0KGgoAAAANSUhEUgAAAGQAAABk"
 	},
 	"db" : {
 		"driver_name" : "postgres",
 		"name" : "cars",
-		"data_source" : "host=81.177.26.40 port=5432 user=pavel password=Dhfuytghjqltn1 dbname=postgres sslmode=disable",
-		"max_idle_conns" : 100,
-		"max_open_conns" : 50
+		"data_source" : "host=81.177.26.40 port=5432 user=pavel password=Dhfuytghjqltn1 dbname=odo24 sslmode=disable",
+		"max_idle_conns" : 10,
+		"max_open_conns" : 5
 	}
 }

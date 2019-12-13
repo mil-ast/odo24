@@ -9,7 +9,7 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from './app.routing';
 import { ServiceModule } from './services/service.module';
-import { HomeModule } from './home/home.module';
+import { ToastrModule } from 'ngx-toastr';
 
 // сервисы
 import { ProfileService } from './_services/profile.service';
@@ -24,7 +24,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 
@@ -43,12 +42,7 @@ export const DATE_FORMATS = {
 import { registerLocaleData, CommonModule } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
-import { ConfirmEmailDialogComponent } from './shared/confirm-email-dialog/confirm-email-dialog.component';
 import { OrderPipeModule } from './_pipes/order.pipe.module';
-import { ItemGroupComponent } from './shared/item-group/item-group.component';
-import { DialogUpdateGroupComponent } from './shared/dialog-update-group/dialog-update-group.component';
-import { DialogCreateGroupComponent } from './shared/dialog-create-group/dialog-create-group.component';
-import { ItemAvtoComponent } from './shared/item-avto/item-avto.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
 import { environment } from '../environments/environment';
@@ -56,20 +50,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.component';
 import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
+import { ProfileComponent } from './profile/profile.component';
+import { DialogUpdateAvtoOdoComponent } from './shared/dialog-update-avto-odo/dialog-update-avto-odo.component';
 
 registerLocaleData(localeRu, 'ru');
 
 @NgModule({
   declarations: [
     AppComponent,
-    ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
     ProfileDialogComponent,
-    ItemGroupComponent,
-    ItemAvtoComponent,
-    DialogUpdateGroupComponent,
-    DialogCreateGroupComponent,
     DialogUpdateAvtoComponent,
+    ProfileComponent,
+    DialogUpdateAvtoOdoComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -84,7 +77,6 @@ registerLocaleData(localeRu, 'ru');
     MatBadgeModule,
     MatIconModule,
     MatFormFieldModule,
-    MatSidenavModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -92,6 +84,11 @@ registerLocaleData(localeRu, 'ru');
     OrderPipeModule,
     SelectedAvtoModule,
     ServiceModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
     WebBluetoothModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
@@ -108,12 +105,10 @@ registerLocaleData(localeRu, 'ru');
     SelectedAvtoModule,
   ],
   entryComponents: [
-    ConfirmEmailDialogComponent,
     ConfirmationDialogComponent,
     ProfileDialogComponent,
-    DialogUpdateGroupComponent,
-    DialogCreateGroupComponent,
     DialogUpdateAvtoComponent,
+    DialogUpdateAvtoOdoComponent,
   ],
   bootstrap: [AppComponent]
 })

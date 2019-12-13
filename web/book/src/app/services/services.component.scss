@@ -1,92 +1,76 @@
 :host {
-    width:100%;
-    height:100%;
-    display: block;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
-#selected_avto {
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
-    position: relative;
-    z-index: 5;
+h1 {
+  position: relative;
+}
+h3 {
+  color:#797f8c;
+  padding-left:60px;
 }
 
-#services {
-    position: absolute;
-    top: 170px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    overflow: auto;
-    background-color: #fff;
+.page-name {
+  margin-left:10px;
+}
 
-    #selected_group {
-        display: grid;
-        grid-template-columns: 1fr 50px;
-        padding-top: 16px;
-        h2 {
-            padding-left:20px;
-        }
+.mat-sidenav-content {
+  display: grid;
+  grid-template-rows: 70px 1fr;
+}
 
-        #add_service {
-            position: relative;
-            top:-6px;
-        }
+.mat-card-header-text {
+  margin: 0px !important;
+}
+
+#title_header {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  gap: 20px;
+
+  #select_group {
+    display: grid;
+    grid-template-columns: 300px 1fr auto;
+    gap: 20px;
+  }
+
+  #group_config_btn {
+    color:#ccc;
+    &:hover {
+      color:#333;
     }
-
-    #left-distance {
-        height: 72px;
-        position: relative;
-        border-top: 1px #e6e6e6 solid;
-        display: grid;
-        grid-template-columns: 50px 230px 1fr;
-        background-color: #ddffe1;
-
-        #next_odo_title {
-            grid-column-start: 2; 
-            grid-column-end: 3; 
-            grid-row-start: 2; 
-            grid-row-end: 3;
-        }
-
-        #next_odo_value {
-            grid-column-start: 3; 
-            grid-column-end: 4; 
-            grid-row-start: 2; 
-            grid-row-end: 3;
-        }
-
-        .mat-icon {
-            position: relative;
-            top: 7px;
-            left: 14px;
-        }
-
-        &.warn1 {
-            background-color: #f8ffdd;
-        }
-        &.warn2 {
-            background-color: #fffcdd;
-        }
-        
-        &.err {
-            background-color: #ffdddd;
-        }
-        
-        & span {
-            padding: 10px 0px 10px 0px;
-        }
-    }
+  }
 }
 
-#empty-services {
-    padding:20px;
+app-groups-config {
+  position: absolute;
+  z-index:99;
+  top:0px;
+  left:0px;
+  background-color: #fff;
 }
 
-@media only screen and (min-width: 860px) {
-    #services {
-        top: 56px;
-        #services_list {
-            top: 120px;
-        }
+#list_services {
+  app-scroll-container {
+    padding-bottom: 70px;
+  }
+  app-item-service {
+    border-bottom: 1px #eee solid;
+  }
+}
+
+@media (max-width: 460px) {
+  #title_header {
+    #select_group {
+      grid-template-columns: 1fr auto auto;
+      gap: 2px;
     }
+  }
+
+  .page-name {
+    font-size: 0.9em;
+  }
 }

@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { ServiceService, ServiceStruct } from 'src/app/_services/service.service';
+import { ServiceService, ServiceStruct, Service } from 'src/app/_services/service.service';
+import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dialog-update-service',
@@ -14,41 +15,42 @@ export class DialogUpdateServiceComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<DialogUpdateServiceComponent>,
-    private snackBar: MatSnackBar,
+    private toastr: ToastrService,
     private serviceService: ServiceService,
-    @Inject(MAT_DIALOG_DATA) public data: ServiceStruct,
+    @Inject(MAT_DIALOG_DATA) public service: ServiceStruct,
   ) { }
 
   ngOnInit() {
     this.form = new FormGroup({
-      odo: new FormControl(this.data.odo, [Validators.required, Validators.min(0)]),
-      next_distance: new FormControl(this.data.next_distance, Validators.min(0)),
-      date: new FormControl(this.data.date, Validators.required),
-      price: new FormControl(this.data.price, Validators.min(0)),
-      comment: new FormControl(this.data.comment),
+      odo: new FormControl(this.service.odo, [Validators.required, Validators.min(0)]),
+      next_distance: new FormControl(this.service.next_distance, Validators.min(0)),
+      dt: new FormControl(moment(this.service.dt), Validators.required),
+      price: new FormControl(this.service.price, Validators.min(0)),
+      description: new FormControl(this.service.description),
     });
   }
 
   submit() {
-    const data: ServiceStruct = {
-      service_id: this.data.service_id,
+    const data: Service = {
       odo: this.form.get('odo').value,
       next_distance: this.form.get('next_distance').value,
-      date: this.form.get('date').value.format('YYYY-MM-DD'),
+      dt: this.form.get('dt').value.format('YYYY-MM-DD'),
       price: this.form.get('price').value,
-      comment: this.form.get('comment').value,
+      description: this.form.get('description').value,
     };
 
-    this.serviceService.update(data).subscribe((service: ServiceStruct) => {
-      this.data = Object.assign(this.data, service);
+    this.serviceService.update(this.service.service_id, data).subscribe(() => {
+      this.toastr.success('Запись успешно изменена!');
 
-      this.snackBar.open('Запись успешно изменена!', 'OK');
+      this.service.odo = data.odo;
+      this.service.next_distance = data.next_distance;
+      this.service.dt = data.dt;
+      this.service.price = data.price;
+      this.service.description = data.description;
+      
       this.dialogRef.close();
-    }, (err) => {
-      console.error(err);
-      this.snackBar.open('Что-то пошло не так!', 'OK', {
-        panelClass: 'error',
-      });
+    }, () => {
+      this.toastr.error('Что-то пошло не так!');
     });
 
     return false;

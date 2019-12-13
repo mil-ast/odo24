@@ -1,0 +1,139 @@
+h1, h2 {
+  font-weight: normal;
+}
+
+h1 {
+  font-size:2.4em;
+}
+h2 {
+  font-size:1.6em;
+}
+
+article {
+  padding:0px 60px;
+  margin-bottom: 40px;
+}
+
+.screen {
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width:870px;
+  height: 913px;
+}
+.screen.right {
+  background-position: top right;
+}
+
+#screen-main {
+  background-image: url("/static/images/screens/screen1_850.jpg");
+}
+
+#screen-groups {
+  background-image: url("/static/images/screens/screen2_850.jpg");
+}
+
+#screen-service {
+  background-image: url("/static/images/screens/screen3_850.jpg");
+}
+
+
+#oauth {
+  display: flex;
+}
+
+#oauth .oauth-btn:first-child {
+  margin-left: -15px;
+}
+#oauth .oauth-btn {
+  display: inline-block;
+  position: relative;
+  padding: 10px 15px;
+  display: flex;
+  border-radius: 8px;
+  margin-left:40px;
+  width:110px;
+  border:none;
+}
+#oauth .oauth-btn:hover {
+  background-color: #f9f9f9;
+}
+
+#oauth .oauth-btn .icon {
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#oauth .oauth-btn#oauth-yandex .icon {
+  background-image: url(/static/images/oauth/yandex.png);
+}
+#oauth .oauth-btn#oauth-google .icon {
+  background-image: url(/static/images/oauth/google.png);
+}
+#oauth .oauth-btn#oauth-mail .icon {
+  background-image: url(/static/images/oauth/mailru.png);
+}
+
+#oauth .oauth-btn span {
+  padding:5px 0px 0px 20px;
+  color: #333;
+}
+
+@media (max-width: 980px) {
+  .screen {
+    width:600px;
+    height: 630px;
+  }
+
+  #screen-main {
+    background-image: url("/static/images/screens/screen1_600.jpg");
+  }
+  
+  #screen-groups {
+    background-image: url("/static/images/screens/screen2_600.jpg");
+  }
+  
+  #screen-service {
+    background-image: url("/static/images/screens/screen3_600.jpg");
+  }
+}
+
+@media (max-width: 700px) {
+  .screen {
+    width:300px;
+    height: 315px;
+  }
+
+  #screen-main {
+    background-image: url("/static/images/screens/screen1_300.jpg");
+  }
+  
+  #screen-groups {
+    background-image: url("/static/images/screens/screen2_300.jpg");
+  }
+  
+  #screen-service {
+    background-image: url("/static/images/screens/screen3_300.jpg");
+  }
+}
+
+@media (max-width: 650px) {
+  article {
+    padding: 0px 40px;
+  }
+  #oauth {
+    flex-direction: column;
+  }
+
+  #oauth .oauth-btn {
+    margin-left: -15px;
+  }
+}
+
+@media (max-width: 520px) {
+  article {
+    padding: 0px 20px;
+  }
+}

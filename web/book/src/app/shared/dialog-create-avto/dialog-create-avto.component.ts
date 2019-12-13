@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { AvtoService } from 'src/app/_services/avto.service';
-import { AvtoStruct } from 'src/app/_classes/avto';
+import { AutoService } from 'src/app/_services/avto.service';
+import { AutoStruct } from 'src/app/_classes/auto';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -14,7 +14,7 @@ export class DialogCreateAvtoComponent {
   constructor(
     private dialogRef: MatDialogRef<DialogCreateAvtoComponent>,
     private snackBar: MatSnackBar,
-    private avtoService: AvtoService,
+    private avtoService: AutoService,
   ) { }
 
   form: FormGroup = new FormGroup({
@@ -23,16 +23,16 @@ export class DialogCreateAvtoComponent {
   });
 
   submit() {
-    const data: AvtoStruct = {
+    const data: AutoStruct = {
       name: this.form.get('name').value,
       odo: this.form.get('odo').value
     };
-    this.avtoService.create(data).subscribe((avto: AvtoStruct) => {
-      this.dialogRef.close(avto);
-
+    this.avtoService.create(data).subscribe((avto: AutoStruct) => {
       this.snackBar.open('Авто успешно добавлена!', 'OK', {
         duration: 5000,
       });
+
+      this.dialogRef.close(avto);
     }, (e: HttpErrorResponse) => {
       console.error(e);
       this.snackBar.open('Что-то пошло не так!', 'OK', {

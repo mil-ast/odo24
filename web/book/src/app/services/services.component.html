@@ -1,41 +1,59 @@
-<div id="content" *ngIf="selectedAvto && !isSync; else emptyBody">
-	<div id="selected_avto" *ngIf="screenIsSmall">
-		<app-selected-avto [model]="selectedAvto"></app-selected-avto>
-	</div>
-	<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-	<div id="services" *ngIf="selectedGroup">
-		<div id="selected_group">
-			<h2 class="mat-h2">{{selectedGroup.name}}</h2>
-			<div>
-				<button mat-icon-button id="add_service" (click)="clickShowFormCreateService()">
-					<mat-icon>add</mat-icon>
-				</button>
+<mat-toolbar color="primary">
+	<button mat-icon-button [color]="snav.opened && isMobile ? 'warn' : 'primary'" (click)="snav.toggle()"><mat-icon>{{snav.opened && isMobile ? 'close' : 'menu'}}</mat-icon></button>
+	<h1 class="page-name">Сервисное обслуживание</h1>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav">
+	<mat-sidenav #snav [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? false : true">
+		<app-list-avto></app-list-avto>
+	</mat-sidenav>
+
+	<mat-sidenav-content>
+		<app-groups-config *ngIf="isGroupConfig" (close)="toggleGroupConfig()" [groups]="groups" class="mat-elevation-z8"></app-groups-config>
+		<div id="title_header">
+			<div id="select_group">
+				<div>
+					<mat-form-field class="full_width">
+						<mat-label>Группа</mat-label>
+						<mat-select [value]="selectedGroup.group_id" (selectionChange)="onGroupChange($event)">
+							<mat-option *ngFor="let g of groups" [value]="g.group_id">{{g.group_name}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div>
+					<button id="group_config_btn" mat-icon-button (click)="toggleGroupConfig()">
+						<mat-icon>build</mat-icon>
+					</button>
+				</div>
+				<div>
+					<button [disabled]="!selectedAuto" mat-mini-fab color="primary" (click)="clickShowFormCreateService()">
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
 			</div>
 		</div>
-		<ul id="services_list" *ngIf="serviceList.length > 0; else emptyServices">
-			<li id="left-distance" *ngIf="lastService && lastService.next_distance" [ngClass]="{'warn1' : leftDistanceColorState===1, 'warn2' : leftDistanceColorState===2, 'err' : leftDistanceColorState===3}">
-				<mat-icon>notifications</mat-icon>
-				<span>До следующей замены осталось</span>
-				<span><strong>{{getLeftDistance | number}}</strong> км</span>
-				<span id="next_odo_title">Пробег составит</span>
-				<span id="next_odo_value">{{lastService.next_distance | number}} км</span>
-			</li>
-			<li *ngFor="let s of serviceList">
-				<app-item-service [model]="s" (eventOnDelete)="onServiceDelete($event)"></app-item-service>
-			</li>
-		</ul>
-	</div>
-</div>
+
+		<div id="list_services">
+			<app-scroll-container>
+				<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+				<ng-container *ngIf="serviceList.length > 0; else emptyServices">
+					<app-service-expiration *ngIf="lastService && lastService.next_distance" [selectedAuto]="selectedAuto" [lastService]="lastService"></app-service-expiration>
+					<app-item-service *ngFor="let service of serviceList" [model]="service" (eventOnDelete)="onDeleteService($event)"></app-item-service>
+				</ng-container>
+			</app-scroll-container>
+		</div>
+	</mat-sidenav-content>
+</mat-sidenav-container>
 
 <ng-template #emptyServices>
-	<div id="empty-services" *ngIf="!isLoading">
+	<div id="empty-services" *ngIf="!isLoading && selectedAuto">
 		<div><p>Записей ещё нет.</p></div>
-		<button mat-raised-button color="primary" (click)="clickShowFormCreateService()">Добавить новую запись</button>
-	</div>
-</ng-template>
-
-<ng-template #emptyBody>
-	<div id="empty-services">
-		<div><p>Для продолжения нужно добавить автомобиль</p></div>
+		<div>
+			<button mat-raised-button color="primary" (click)="clickShowFormCreateService()">
+				<mat-icon>add</mat-icon>
+				<span>Добавить</span>
+			</button>
+			<span> новую запись в журнал</span>
+		</div>
 	</div>
 </ng-template>

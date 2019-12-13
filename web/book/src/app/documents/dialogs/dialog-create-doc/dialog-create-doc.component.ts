@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AvtoStruct } from 'src/app/_classes/avto';
+import { AutoStruct } from 'src/app/_classes/auto';
 import { DocumentsService, Document } from '../../services/documents.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -19,7 +19,7 @@ export class DialogCreateDocComponent {
     private remindingService: DocumentsService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<DialogCreateDocComponent>,
-    @Inject(MAT_DIALOG_DATA) public avto: AvtoStruct,
+    @Inject(MAT_DIALOG_DATA) public avto: AutoStruct,
   ) {
     this.form = new FormGroup({
       event_type: new FormControl('insurance', Validators.required),
@@ -34,7 +34,7 @@ export class DialogCreateDocComponent {
     const dateFrom = moment(this.form.value.date_start).format('YYYY-MM-DD');
     const dateTo = moment(this.form.value.date_end).format('YYYY-MM-DD');
 
-    const avtoID = this.avto ? this.avto.avto_id : null;
+    const avtoID = this.avto ? this.avto.auto_id : null;
     const data = {
       avto_id: avtoID,
       event_type: this.form.value.event_type,

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>ODO24 &mdash; электронная сервисная книжка автомобиля</title>
+  <base href="/">
+  <link rel="stylesheet" href="/static/styles/main.css"/>
+  <link rel="stylesheet" href="/static/styles/index.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,maximum-scale=1,initial-scale=1,user-scalable=no">
+  <meta name="description" content="Сервисная книжка автомобиля онлайн. Ведите учёт сервисного обслуживания вашего автомобиля в цифровом виде.">
+  <meta name="theme-color" content="#db805c" />
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Istok+Web" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div id="logo">
+      <span>ODO24</span><span class="orange">.ru</span>
+    </div>
+    <nav>
+      <a href="/book/profile/login">
+        <i class="material-icons">account_circle</i>
+        <span>Авторизация</span>
+      </a>
+      <a class="selected_off" href="/screenshots.html">
+        <i class="material-icons">image</i>
+        <span>Скриншоты</span>
+      </a>
+      <a href="/about.html">
+        <i class="material-icons">info</i>
+        <span>О проекте</span>
+      </a>
+    </nav>
+  </header>
+  <article id="title">
+    <div class="data">
+      <h1>
+        <span>Электронная</span>
+        <span>сервисная</span>
+        <span>книжка</span>
+      </h1>
+      <div>
+        <p>Ведение учёта сервисного обслуживания вашего автомобиля в электронном виде.</p>
+      </div>
+    </div>
+    <div id="img_header"></div>
+  </article>
+  <article class="gray" id="services">
+    <div id="img_about"></div>
+    <div class="data">
+      <div>
+        <h3>Пользуясь электронной книжкой вы сможете вести учёт ремонта и замены:</h3>
+      </div>
+      <ul>
+        <li>Моторного масло</li>
+        <li>Трансмиссионного масло</li>
+        <li>Фильтров и других расходников</li>
+        <li>Охлаждающей, тормозной и прочих жидкостей</li>
+        <li>Свечей и многого другого</li>
+      </ul>
+      <p>
+        Вся история обслуживания Вашего авто находится в электронном виде и не стоит опасаться, что она потеряется или закончится.
+      </p>
+    </div>
+  </article>
+  <article id="register" class="data">
+    <div id="bg_how_to_reg">
+      <i class="material-icons">how_to_reg</i>
+    </div>
+    <div id="register_oauth">
+      <h3>Войти / зарегистрироваться через:</h3>
+      <div id="oauth">
+        <a id="oauth-yandex" class="oauth-btn" href="https://oauth.yandex.ru/authorize?response_type=code&client_id=591440f4698d49158536afd3e276b829&redirect_uri=https://odo24.ru/book/profile/login/oauth?service=yandex.ru">
+          <i class="icon"></i>
+          <span>Яндекс</span>
+        </a>
+        <a id="oauth-google" class="oauth-btn" href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://odo24.ru/book/profile/login/oauth?service=google&response_type=code&client_id=195955516861.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile">
+          <i class="icon"></i>
+          <span>Google</span>
+        </a>
+        <a id="oauth-mail" class="oauth-btn" href="https://oauth.mail.ru/login?client_id=65ff8fc8b7ea4b409f61a465790f80b1&response_type=code&scope=userinfo&state=790f80b1&redirect_uri=https://odo24.ru/book/profile/login/oauth?service=mail.ru">
+          <i class="icon"></i>
+          <span>Mail</span>
+        </a>
+      </div>
+      <h4>Не ищу лёгких путей</h4>
+      <p>Чтобы зарегистрироваться в сервисной книжке, перейдите в раздел <a href="/book/profile/register">регистрация</a>.</p>
+      <p>А если забыли пароль, можно восстановить его <a href="/book/profile/password_recovery">здесь</a>.</p>
+      <div id="free">
+        <i class="material-icons">money_off</i>
+        <p>Сервис бесплатный и нет никакой рекламы.<br>Почему это так можно ознакомиться <a href="/about.html">здесь</a>.</p>
+      </div>
+    </div>
+  </article>
+  <footer>
+    <div>
+      <div class="column">
+        <div>2019 odo24.ru</div>
+      </div>
+      <div class="column">
+        <div>
+          <i class="material-icons">email</i>
+          <a href="mailto:info@odo24.ru">info@odo24.ru</a>
+        </div>
+        <div>
+          <i id="vk_icon"></i>
+          <a href="https://vk.com/odo24" target="_blank">Сообщество</a>
+        </div>
+      </div>
+      <div class="column">
+        <div>
+          <a href="https://connect.yandex.ru/forms/5c72d4e419621d1db9afacf1/" target="_blank">Форма обратной связи</a>
+        </div>
+        <div>
+          <a href="https://odo24.ru/confidential.html" target="_blank">Политика конфиденциальности</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

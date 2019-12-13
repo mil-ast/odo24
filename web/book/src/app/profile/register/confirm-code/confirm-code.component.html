@@ -1,0 +1,11 @@
+<div>
+  <ng-content></ng-content>
+</div>
+<form id="register" (ngSubmit)="submitConfirmCode()" [formGroup]="form">
+  <mat-form-field class="merge_columns full_width">
+    <input formControlName="code" matInput placeholder="Код подтверждения" type="number" name="code" required />
+    <mat-icon matSuffix>fingerprint</mat-icon>
+    <mat-error *ngIf="form.hasError('code')">Неправильный код</mat-error>
+  </mat-form-field>
+  <button form="register" [disabled]="form.disabled" mat-raised-button color="primary">Далее</button>
+</form>

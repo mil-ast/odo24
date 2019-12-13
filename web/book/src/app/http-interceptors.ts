@@ -24,7 +24,7 @@ export class HTTPRequestsInterceptor implements HttpInterceptor {
       switch (err.status) {
         case 401: case 403:
           this.profileService.exit();
-          this.router.navigate(['/']);
+          this.router.navigate(['/profile/login']);
       }
     }));
   }

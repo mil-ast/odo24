@@ -1,0 +1,23 @@
+<h1 class="mat-h1">Регистрация</h1>
+<ng-container [ngSwitch]="currentStep">
+  <app-new-login *ngSwitchDefault (loginEnter)="onLoginEnter($event)">
+    <div class="description">
+      <p class="step">Шаг 1 / 3</p>
+      <p><strong>Введите ваш адрес электронной почты.</strong><br>Чтобы подтвердить, что это ваша почта, на него будет отправлен код подтверждения, который нужно будет указать на 2 этапе.</p>
+    </div>
+  </app-new-login>
+
+  <app-confirm-code *ngSwitchCase="step.ConfirmCode" (codeEnter)="onCodeEnter($event)" [login]="login">
+    <div class="description">
+      <p class="step">Шаг 2 / 3</p>
+      <p>На вашу почту отправлен код подтверждения. <strong>Введите полученный код в поле ниже</strong>, чтобы перейти к созданию нового пароля к вашей учетной записи.</p>
+    </div>
+  </app-confirm-code>
+
+  <app-reset-password *ngSwitchCase="step.SetPassword" (passwordEnter)="onPasswordEnter($event)" [login]="login" [code]="code">
+    <div class="description">
+      <p class="step">Шаг 3 / 3</p>
+      <p><strong>Осталось придумать новый пароль</strong> и регистрация будет завершена! После указания пароля будет открыта страница авторизации.</p>
+    </div>
+  </app-reset-password>
+</ng-container>

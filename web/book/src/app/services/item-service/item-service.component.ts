@@ -1,11 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ServiceStruct, ServiceService } from 'src/app/_services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogUpdateServiceComponent } from '../dialogs/dialog-update-service/dialog-update-service.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
-import { ScreenService, Screen } from 'src/app/_services/screen.service';
-import { first } from 'rxjs/operators';
+import { AsideService } from 'src/app/_services/aside.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-item-service',
@@ -17,30 +16,31 @@ import { first } from 'rxjs/operators';
 export class ItemServiceComponent {
   @Input() model: ServiceStruct;
   @Output() eventOnDelete: EventEmitter<ServiceStruct> = new EventEmitter();
+  isMobile = false;
 
   constructor(
     private serviceService: ServiceService,
+    private asideService: AsideService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private screenService: ScreenService
-  ) { }
+    private toastr: ToastrService,
+  ) {
+    this.isMobile = this.asideService.isMobile();
+  }
 
   clickEdit() {
-    this.screenService.getScreen().pipe(first()).subscribe((screen: Screen) => {
-      const config: MatDialogConfig = {
-        minWidth: '600px',
-        autoFocus: false,
-        data: this.model
+    const config: MatDialogConfig = {
+      minWidth: '600px',
+      autoFocus: false,
+      data: this.model
+    };
+    if (this.isMobile) {
+      config.minWidth = '98%';
+      config.position = {
+        top: '1%'
       };
-      if (screen.innerWidth < 600) {
-        config.minWidth = '98%';
-        config.position = {
-          top: '4px'
-        };
-      }
+    }
 
-      this.dialog.open(DialogUpdateServiceComponent, config);
-    });
+    this.dialog.open(DialogUpdateServiceComponent, config);
   }
 
   clickDelete() {
@@ -55,16 +55,17 @@ export class ItemServiceComponent {
       if (!ok) {
         return;
       }
+      this.deleteService();
+    });
+  }
 
-      this.serviceService.delete(this.model.service_id).subscribe(() => {
-        this.eventOnDelete.emit(this.model);
-        this.snackBar.open('Запись успешно изменена!', 'OK');
-      }, (err) => {
-        console.error(err);
-        this.snackBar.open('Что-то пошло не так!', 'OK', {
-          panelClass: 'error',
-        });
-      });
+  private deleteService() {
+    this.serviceService.delete(this.model.service_id).subscribe(() => {
+      this.eventOnDelete.emit(this.model);
+      this.toastr.success('Сервис успешно удалён!');
+    }, (err) => {
+      console.error(err);
+      this.toastr.error('Ошибка удаления сервиса');
     });
   }
 }

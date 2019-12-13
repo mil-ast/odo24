@@ -1,4 +1,8 @@
 {
+  "/api/images/*" : {
+    "target": "http://localhost:8000",
+    "secure": false
+  },
   "/api/*": {
     "target": "http://localhost:8000/",
     "secure": false
@@ -7,9 +11,5 @@
     "target": "ws://localhost:8000/",
     "secure": false,
     "ws" : true
-  },
-  "/api/images/*" : {
-    "target": "http://localhost:8000/",
-    "secure": false
   }
 }

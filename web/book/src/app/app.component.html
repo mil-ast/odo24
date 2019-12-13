@@ -1,112 +1,28 @@
-<mat-sidenav-container id="container" autosize>
-  <mat-sidenav #snav mode="push" [autoFocus]="false" id="sidenav">
-    <div *ngIf="profile!==null">
-      <div id="cars">
-        <div class="title">
-          <button color="primary" mat-mini-fab (click)="clickShowAddAvto()">
-            <mat-icon>add</mat-icon>
-          </button>
-          <h2 class="mat-h2">Мои машины</h2>
-        </div>
-        <ng-container [ngSwitch]="avtoList.length">
-          <div *ngSwitchCase="0">
-            <div id="empty-avto">
-              <div><p>Автомобилей ещё нет.</p></div>
-              <button mat-raised-button color="primary" (click)="clickShowAddAvto()">
-                <mat-icon>add</mat-icon>
-                <span>&nbsp;Добавить</span>
-              </button>
-            </div>
-          </div>
-          <div *ngSwitchCase="1" id="onceAvto">
-            <div id="onceAvtoImage">
-              <img [src]="selectedAvto.avatarPath('medium')" />
-            </div>
-            <div id="onceAvtoName">
-              <div>
-                <div>{{selectedAvto.name}}</div>
-                <div class="odo">
-                  <span *ngIf="selectedAvto.odo > 0">Пробег {{ selectedAvto.odo|number }} км</span>
-                </div>
-              </div>
-              <div>
-                <button class="menu" mat-icon-button [matMenuTriggerFor]="menu">
-                  <mat-icon>more_horiz</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="clickShowEditAvto(selectedAvto)">
-                    <mat-icon>edit</mat-icon>
-                    <span>Редактировать</span>
-                  </button>
-                  <button mat-menu-item (click)="clickDeleteAvto(selectedAvto)">
-                    <mat-icon>delete_outline</mat-icon>
-                    <span>Удалить</span>
-                  </button>
-                </mat-menu>
-              </div>
-            </div>
-          </div>
-          <ul *ngSwitchDefault>
-            <li *ngFor="let avto of avtoList">
-              <app-item-avto (eventDelete)="onAvtoDelete($event)" [model]="avto"></app-item-avto>
-            </li>
-          </ul>
-        </ng-container>
-      </div>
-      <div id="groups" *ngIf="selectedAvto!==null">
-        <div class="title">
-          <button color="primary" mat-mini-fab (click)="clickShowAddGroup()">
-            <mat-icon>add</mat-icon>
-          </button>
-          <h2 class="mat-h2">Группы</h2>
-        </div>
-        <ul>
-          <li *ngFor="let group of groupList">
-            <app-item-group (eventDelete)="onGroupDelete($event)" [model]="group"></app-item-group>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <header *ngIf="profile; else loginHeader">
-      <div id="logo">
-        <button mat-icon-button (click)="snav.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-      </div>
-      <nav>
-        <a routerLink="/service" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">Обслуживание</a>
-        <a *ngIf="selectedAvto!==null" routerLink="/documents" routerLinkActive="selected">Документы</a>
-      </nav>
-      <div id="profile">
-        <a [matMenuTriggerFor]="menu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">{{ profile.login }}</a>
-        <mat-menu #menu="matMenu">
-          <button class="warn" (click)="clickShowConfirmEmailDialog()" *ngIf="profile.is_no_confirmed" mat-menu-item>
-            <mat-icon>email</mat-icon>
-            <span>Подтвердите почту</span>
-          </button>
-          <button mat-menu-item (click)="clickShowChangePasswordDialog()">
-            <mat-icon>lock</mat-icon>
-            <span>Изменить пароль</span>
-          </button>
-          <button mat-menu-item (click)="clickLogout()">
-            <mat-icon>exit_to_app</mat-icon>
-            <span>Выход</span>
-          </button>
-        </mat-menu>
-      </div>
-      <a id="logout" href="/logout" (click)="clickLogout()">
+<header *ngIf="profile">
+  <nav class="navigation">
+    <a routerLink="/service" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <mat-icon>build</mat-icon>
+      <span>Обслуживание</span>
+    </a>
+  </nav>
+  <div id="profile">
+    <button mat-raised-button color="primary" [matMenuTriggerFor]="profileMenu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">
+      <mat-icon>account_circle</mat-icon>
+      <span class="title">{{ profile.login }}</span>
+      <mat-icon class="icon_more">more_horiz</mat-icon>
+    </button>
+    <mat-menu #profileMenu="matMenu">
+      <button mat-menu-item (click)="clickShowChangePasswordDialog()">
+        <mat-icon>lock</mat-icon>
+        <span>Изменить пароль</span>
+      </button>
+      <button mat-menu-item (click)="clickLogout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Выход</span>
-      </a>
-    </header>
-    <div id="app">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
-
-<ng-template #loginHeader>
-  <header id="login_header"></header>
-</ng-template>
+      </button>
+    </mat-menu>
+  </div>
+</header>
+<div id="router">
+  <router-outlet></router-outlet>
+</div>

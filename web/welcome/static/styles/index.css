@@ -1,0 +1,283 @@
+
+article {
+  margin-bottom: 60px;
+}
+
+article.gray {
+  background-color: #f9f9f9;
+  padding:70px 0px;
+  margin-bottom: 0px;
+}
+
+#img_header, #img_about {
+  background-position: 40% 50%;
+  background-repeat: no-repeat;
+}
+
+#img_header {
+  background-image: url('/static/images/header_800.jpg');
+}
+#img_about {
+  background-image: url('/static/images/about_800.jpg');
+}
+
+#title, #services {
+  display: grid;
+  gap: 20px;
+}
+
+#title {
+  grid-template-columns: auto 40%;
+}
+
+#title h1 {
+  font-size:4em;
+}
+#title h1 span {
+  display: block;
+}
+
+#services {
+  grid-template-columns: 40% auto;
+}
+
+#services h3 {
+  font-size: 1.6em;
+}
+
+#services ul {
+  list-style: none;
+  padding:0px;
+}
+
+#services ul li{
+  list-style: none;
+  position: relative;
+  padding-left: 60px;
+}
+
+#services ul li:before {
+  position: absolute;
+  top: 6px;
+  left: 0px;
+  content: "";
+  background: #fd8000;
+  display: block;
+  margin: 5px 10px;
+  line-height: 40px;
+  width: 30px;
+  height: 2px;
+}
+
+#register {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  display: flex;
+}
+#register h3 {
+  font-size: 1.6em;
+  display: block;
+  padding-top: 0px;
+  margin-top: 0px;
+}
+#register h4 {
+  margin-top: 60px;
+  font-size: 1.3em;
+}
+
+article#register > div:last-child {
+  margin-left: 0px;
+}
+
+#register > div:first-child {
+  width:30%;
+}
+#register > div:first-child .material-icons {
+  font-size:14em;
+  color: #cacaca;
+}
+
+#register #free {
+  display: flex;
+}
+
+#register #free .material-icons {
+  font-size: 3em;
+  margin-top: 15px;
+  padding-right: 40px;
+}
+
+#register #oauth {
+  display: flex;
+}
+
+#register .oauth-btn:first-child {
+  margin-left: -15px;
+}
+#register .oauth-btn {
+  display: inline-block;
+  position: relative;
+  padding: 10px 15px;
+  display: flex;
+  border-radius: 8px;
+  margin-left:40px;
+  width:110px;
+  border:none;
+}
+#register .oauth-btn:hover {
+  background-color: #f9f9f9;
+}
+
+#register .oauth-btn .icon {
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#register .oauth-btn#oauth-yandex .icon {
+  background-image: url(/static/images/oauth/yandex.png);
+}
+#register .oauth-btn#oauth-google .icon {
+  background-image: url(/static/images/oauth/google.png);
+}
+#register .oauth-btn#oauth-mail .icon {
+  background-image: url(/static/images/oauth/mailru.png);
+}
+
+#register .oauth-btn span {
+  padding:5px 0px 0px 20px;
+  color: #333;
+}
+
+#register #free {
+  margin-top: 80px;
+  color: #777;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+  article.gray {
+    padding: 0px;
+  }
+  article {
+    margin-bottom: 0px;
+  }
+
+  #img_header {
+    background-image: url('/static/images/header_500.jpg');
+  }
+  #img_about {
+    background-image: url('/static/images/about_500.jpg');
+  }
+
+  #title h1 {
+    font-size: 2.8em;
+  }
+}
+
+
+@media (max-width: 750px) {
+  #register {
+    flex-direction: row-reverse;
+  }
+
+  #register > div:first-child {
+    width: 30%;
+    opacity: 0.2;
+  }
+
+  #register #oauth {
+    flex-direction: column;
+  }
+
+  #register .oauth-btn:first-child {
+    margin-left: 0px;
+  }
+  #register .oauth-btn {
+    margin-left:0px;
+  }
+}
+
+@media (max-width: 650px) {
+  article {
+    margin-bottom: 50px;
+  }
+  article.gray {
+    padding:40px 0px;
+    margin-bottom: 40px;
+  }
+
+  .data {
+    padding: 0px 40px;
+  }
+
+  #img_header {
+    background-image: url('/static/images/header_300.jpg');
+  }
+  #img_about {
+    background-image: url('/static/images/about_300.jpg');
+  }
+
+  #img_header, #img_about {
+    background-position: center;
+  }
+
+  #title, #services {
+    grid-template-columns: auto;
+  }
+
+  #title {
+    grid-template-rows: auto 169px;
+  }
+
+  #services {
+    grid-template-rows: auto 200px;
+  }
+
+  #services #img_about {
+    grid-row: 2 / 3;
+  }
+  #services .data {
+    grid-row: 1 / 2;
+  }
+
+  #register {
+    position: relative;
+  }
+  #register #bg_how_to_reg {
+    position: absolute;
+    z-index:1;
+    top:60px;
+    right:0px;
+    width: 240px;
+  }
+  
+  #register_oauth {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+@media (max-width: 520px) {
+  h1, h2, h3 {
+    margin-bottom: 20px;
+  }
+  #title h1 {
+    font-size:1.6em;
+  }
+
+  #title h1 span {
+    display: inline;
+  }
+
+  #register .oauth-btn:not(:first-child) {
+    margin-top: 20px;
+  }
+
+  #register #free .material-icons {
+    display: none;
+  }
+}

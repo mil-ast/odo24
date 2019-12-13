@@ -1,0 +1,23 @@
+.aside_list {
+  list-style: none;
+  padding:0px;
+  margin:40px 0 0 0;
+
+  li {
+    border-radius: 10px;
+
+    &:hover {
+      background-color: #fbfdfd;
+    }
+    &:not(:first-child) {
+      margin-top:10px;
+    }
+    &.selected {
+      background-color: #f0f7f7;
+    }
+
+    a {
+      padding:6px;
+    }
+  }
+}

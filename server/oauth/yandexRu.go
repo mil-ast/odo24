@@ -42,7 +42,7 @@ func (y OAuthYandexRuUser) getToken(code string) (string, error) {
 		GrantType:    "authorization_code",
 		ClientID:     "591440f4698d49158536afd3e276b829",
 		ClientSecret: "9fca96127b324a68a1edcf16de351080",
-		RedirectURI:  "https://odo24.ru/book/?service=yandex.ru",
+		RedirectURI:  "https://odo24.ru/book/profile/login/oauth?service=yandex.ru",
 	}
 	token, err := oauth.GetToken(code)
 	return token.AccessToken, err

@@ -1,0 +1,41 @@
+.aside_content {
+  width:100%;
+  height:100%;
+  box-sizing: border-box;
+
+  > .content {
+    padding: 40px 20px;
+    box-sizing: border-box;
+    overflow: auto;
+
+    > .title {
+      > div {
+        display: flex;
+
+        .right_button {
+          padding-left:20px;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 980px) {
+  .aside_content {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+
+    > aside {
+      display: block;
+      padding: 20px;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .aside_content {
+    > aside {
+      padding: 40px;
+    }
+  }
+}

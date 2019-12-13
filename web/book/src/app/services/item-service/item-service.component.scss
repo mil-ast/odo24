@@ -1,12 +1,7 @@
 :host {
     display: grid;
     grid-template-columns: 140px 160px 1fr 50px;
-    border-top: 1px #ececec solid;
     padding:10px 0px;
-}
-
-.odo, .comment {
-    padding-left:20px;
 }
 
 .odo {

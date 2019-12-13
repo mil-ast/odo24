@@ -1,51 +1,75 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AvtoStruct, Avto } from '../_classes/avto';
+import { AutoStruct, Auto } from '../_classes/auto';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class AvtoService {
-  private url = '/api/avto';
+export class AutoService {
+  private url = '/api/auto';
+  private urlItem = '/api/auto_item';
 
-  private selectedAvto: BehaviorSubject<AvtoStruct> = new BehaviorSubject(null);
-  selected: Observable<AvtoStruct> = this.selectedAvto.asObservable();
+  private selectedAuto: BehaviorSubject<Auto> = new BehaviorSubject(null);
+  selected: Observable<Auto> = this.selectedAuto.asObservable();
 
   constructor(
     private http: HttpClient
   ) { }
 
-  get(): Observable<Avto[]> {
-    return this.http.get<AvtoStruct[]>(this.url).pipe(map((list: AvtoStruct[]) => {
-      list = list || [];
-      return list.map((item: AvtoStruct) => {
-        return new Avto(item);
-      }).sort((left: AvtoStruct, right: AvtoStruct) => {
-        return left.avto_id > right.avto_id ? -1 : 1;
+  getAuto(): Observable<Auto[]> {
+    return this.http.get<AutoStruct[]>(this.url).pipe(map((list: AutoStruct[]) => {
+      const autoList = (list || []).map((item: AutoStruct) => {
+        return new Auto(item);
+      }).sort((left: AutoStruct, right: AutoStruct) => {
+        return left.auto_id > right.auto_id ? -1 : 1;
       });
+
+      if (autoList.length > 0) {
+        this.selectedAuto.next(autoList[0]);
+      }
+
+      return autoList;
     }));
   }
 
-  create(data: AvtoStruct): Observable<AvtoStruct> {
-    return this.http.post<AvtoStruct>(this.url, data);
+  create(data: AutoStruct): Observable<Auto> {
+    return this.http.post<AutoStruct>(this.url, data).pipe(
+      map((item: AutoStruct) => {
+        return new Auto(item);
+      })
+    );
   }
 
-  update(data: FormData): Observable<AvtoStruct> {
-    return this.http.put<AvtoStruct>(this.url, data);
+  update(autoID: number, data: FormData): Observable<AutoStruct> {
+    return this.http.put<AutoStruct>(`${this.urlItem}/${autoID}/`, data);
+  }
+
+  updateODO(autoID: number, odo: number): Observable<void> {
+    return this.http.put<void>(`${this.urlItem}/${autoID}/odo`, {
+      odo: odo
+    });
   }
 
   delete(id: number) {
-    return this.http.delete(this.url.concat(`?avto_id=${id}`));
+    return this.http.delete(`${this.urlItem}/${id}/`);
   }
 
-  setSelected(avto: AvtoStruct) {
-    this.selectedAvto.next(avto);
+  setSelected(auto: Auto) {
+    const selectedAuto = this.selectedAuto.getValue();
+    const selectedAutoID = selectedAuto ? selectedAuto.auto_id : null;
+    const newAutoID = auto ? auto.auto_id : null;
+    if (selectedAutoID !== newAutoID) {
+      this.selectedAuto.next(auto);
+    }
+  }
+  getSelected(): Auto {
+    return this.selectedAuto.getValue();
   }
   resetSelected(): void {
-    this.selectedAvto.next(null);
+    this.selectedAuto.next(null);
   }
 
-  isSelected(avto: AvtoStruct): boolean {
-    return this.selectedAvto.getValue() === avto;
+  isSelected(auto: AutoStruct): boolean {
+    return this.selectedAuto.getValue() === auto;
   }
 }

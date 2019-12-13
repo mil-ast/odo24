@@ -1,0 +1,71 @@
+<header>
+  <nav class="navigation">
+    <a routerLink="/profile/login" routerLinkActive="active">
+      <mat-icon>account_circle</mat-icon>
+      <span>Авторизация</span>
+    </a>
+    <a routerLink="/profile/register" routerLinkActive="active">
+      <mat-icon>group_add</mat-icon>
+      <span>Регистрация</span>
+    </a>
+    <a routerLink="/profile/password_recovery" routerLinkActive="active">
+      <mat-icon>https</mat-icon>
+      <span>Восстановить пароль</span
+    ></a>
+  </nav>
+</header>
+<div id="content">
+  <div id="outlet" class="mat-elevation-z8">
+    <router-outlet></router-outlet>
+  </div>
+  <div id="promo">
+    <article>
+      <h2 class="mat-h2">
+        <mat-icon>wifi</mat-icon><span>Сервисная книжка онлайн</span>
+      </h2>
+      <p class="promo_descript">Вся история обслуживания Вашего авто находится в электронном виде и не стоит опасаться, что она потеряется или закончится</p>
+    </article>
+    <article>
+      <h2 class="mat-h2">
+        <mat-icon>date_range</mat-icon><span>Планирование обслуживания</span>
+      </h2>
+      <p class="promo_descript">Вы всегда можете узнать, сколько осталось до следующего обслуживания вашего авто, а так же всегда видеть сколько осталось до следующей замены</p>
+    </article>
+    <!--<article>
+      <h2 class="mat-h2">
+        <mat-icon>bookmark_border</mat-icon><span>Важные напоминания</span>
+      </h2>
+      <p class="promo_descript">Теперь можно добавлять напоминания о завершении действия страховки или водительского удостоверения, чтобы однажды это не стало для вас неприятным сюрпризом</p>
+    </article>-->
+    <article>
+      <h2 class="mat-h2">
+        <mat-icon>credit_card</mat-icon><span>Сервис бесплатный</span>
+      </h2><p class="promo__descript">Данной электронной сервисной книжкой можно пользоваться абсолютно бесплатно и здень не найдёте назойливой рекламы</p>
+    </article>
+  </div>
+</div>
+<footer>
+  <div>
+    <div class="column">
+      <div>2019 odo24.ru</div>
+    </div>
+    <div class="column">
+      <div>
+        <mat-icon>email</mat-icon>
+        <a href="mailto:info@odo24.ru">info@odo24.ru</a>
+      </div>
+      <div>
+        <i id="vk_icon"></i>
+        <a target="_blank" href="https://vk.com/odo24">Сообщество</a>
+      </div>
+    </div>
+    <div class="column">
+      <div>
+        <a target="_blank" href="https://connect.yandex.ru/forms/5c72d4e419621d1db9afacf1/">Форма обратной связи</a>
+      </div>
+      <div>
+        <a target="_blank" href="https://odo24.ru/confidential.html">Политика конфиденциальности</a>
+      </div>
+    </div>
+  </div>
+</footer>

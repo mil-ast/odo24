@@ -1,13 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AvtoService } from '../_services/avto.service';
-import { AvtoStruct } from '../_classes/avto';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import { AutoService } from '../_services/avto.service';
+import { Auto } from '../_classes/auto';
+import { ReplaySubject, combineLatest, zip, of } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from '../_services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { finalize } from 'rxjs/operators';
-import { ScreenService, Screen, SmallScreen } from '../_services/screen.service';
+import { finalize, takeUntil, filter, mergeMap, mergeMapTo } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
+import { AsideService } from '../_services/aside.service';
+import { ToastrService } from 'ngx-toastr';
+import { MatSelectChange, MatSidenav } from '@angular/material';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-services',
@@ -15,55 +18,95 @@ import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/di
   styleUrls: ['./services.component.scss']
 })
 export class ServicesComponent implements OnInit, OnDestroy {
+  groups: GroupStruct[] = [];
   serviceList: ServiceStruct[] = [];
-  selectedAvto: AvtoStruct = null;
-  selectedGroup: GroupStruct = null;
+  selectedAuto: Auto;
+  selectedGroup: GroupStruct = {
+    group_id: null,
+    group_name: null,
+    sort: null,
+  };
   lastService: ServiceStruct = null;
-  isSync = true;
-  isLoading = true;
-  screenIsSmall = false;
+  isGroupConfig = false;
+  isLoading = false;
+  isMobile = false;
 
-  private avtoListener: Subscription;
-  private groupListener: Subscription;
-  private screenListener: Subscription;
-  private screenIsMobile = false;
+  @ViewChild('snav', {static: true}) private sidenav: MatSidenav;
+
+  private destroy: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
-    private avtoService: AvtoService,
+    private asideService: AsideService,
+    private autoService: AutoService,
     private groupService: GroupService,
     private serviceService: ServiceService,
     private dialog: MatDialog,
-    private screenService: ScreenService
-  ) { }
+    private toastr: ToastrService,
+  ) {
+    this.isMobile = this.asideService.isMobile();
+  }
 
   ngOnInit() {
-    this.avtoListener = this.avtoService.selected.subscribe((avto: AvtoStruct) => {
-      this.selectedAvto = avto;
-      this.isSync = false;
-    });
-    this.groupListener = this.groupService.selected.subscribe((group: GroupStruct) => {
-      this.selectedGroup = group;
-      this.loadServices();
+    this.asideService.setSidenav(this.sidenav);
+
+    this.groupService.get().subscribe((groups: GroupStruct[]) => {
+      this.groups = groups || [];
+    }, (err) => {
+      console.error(err);
+      this.toastr.error('Не удалось получить список групп');
     });
 
-    this.screenListener = this.screenService.getScreen().subscribe(this.onResize.bind(this));
+    combineLatest(
+      this.autoService.selected,
+      this.groupService.selected
+    ).pipe(
+      takeUntil(this.destroy)
+    ).subscribe(([auto, group]) => {
+      if (auto) {
+        this.selectedAuto = auto;
+      }
+
+      if (group) {
+        this.selectedGroup = group;
+      }
+
+      if (auto !== null && group !== null) {
+        this.loadServices();
+      }
+    });
   }
 
   ngOnDestroy() {
-    this.avtoListener.unsubscribe();
-    this.groupListener.unsubscribe();
-    this.screenListener.unsubscribe();
+    this.dialog.closeAll();
+    this.destroy.next();
+    this.destroy.complete();
+
+    this.selectedAuto = null;
+    this.selectedGroup = null;
+
+    this.serviceList = [];
+
+    this.asideService.setSidenav(null);
+  }
+  
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
   }
 
   clickShowFormCreateService() {
     const config: MatDialogConfig = {
       minWidth: '600px',
       autoFocus: false,
+      data: {
+        auto_id: this.selectedAuto.auto_id,
+        group_id: this.selectedGroup.group_id,
+        odo: this.selectedAuto.odo,
+      }
     };
-    if (this.screenIsMobile) {
+    if (this.isMobile) {
       config.minWidth = '98%';
       config.position = {
-        top: '4px'
+        top: '1%'
       };
     }
 
@@ -71,85 +114,50 @@ export class ServicesComponent implements OnInit, OnDestroy {
     dialog.afterClosed().subscribe((service: ServiceStruct) => {
       if (service) {
         this.serviceList.unshift(service);
-        this.selectLastService();
+
+        this.serviceList = this.serviceService.sort(this.serviceList);
+        this.lastService = this.serviceService.getLastSorted(this.serviceList);
       }
     });
   }
 
-  onServiceDelete(service: ServiceStruct) {
+  toggleGroupConfig() {
+    this.isGroupConfig = !this.isGroupConfig;
+  }
+
+  onDeleteService(service: ServiceStruct) {
     const index = this.serviceList.indexOf(service);
     if (index !== -1) {
       this.serviceList.splice(index, 1);
-      this.selectLastService();
+      this.lastService = this.serviceService.getLastSorted(this.serviceList);
     }
   }
 
-  get getLeftDistance(): number {
-    if (this.selectedAvto && this.lastService && this.lastService.next_distance > 0) {
-      const nextOdo = this.lastService.odo + this.lastService.next_distance;
-      const leftOdo = nextOdo - this.selectedAvto.odo;
-
-      if (leftOdo < 0) {
-        return 0;
-      }
-      return leftOdo;
+  onGroupChange(select: MatSelectChange) {
+    const selectedGroup = this.groups.find((g: GroupStruct) => g.group_id === select.value);
+    if (selectedGroup) {
+      this.groupService.setSelected(selectedGroup);
+      console.log(selectedGroup);
     }
-
-    return 0;
-  }
-
-  get leftDistanceColorState(): number {
-    if (!this.selectedAvto.odo || !this.lastService || !this.lastService.next_distance) {
-      return 0;
-    }
-
-    const nextOdo = this.lastService.odo + this.lastService.next_distance;
-    const leftDistance = nextOdo - this.selectedAvto.odo;
-    if (leftDistance < 0) {
-      return 3; // err
-    }
-
-    const percent = (100 / this.lastService.next_distance) * (this.selectedAvto.odo - this.lastService.odo);
-    if (percent > 89.9) {
-      return 3; // err
-    } else if (percent > 69.9) {
-      return 2; // warn2
-    } else if (59.9) {
-      return 1; // warn1
-    }
-
-    return 0;
   }
 
   private loadServices() {
-    this.serviceList = [];
-    this.lastService = null;
-    if (!this.selectedAvto || !this.selectedGroup) {
+    const selectedAutoID = this.selectedAuto.auto_id;
+    const selectedGroupID = this.selectedGroup.group_id;
+
+    if (!selectedAutoID || !selectedGroupID) {
       return;
     }
+    this.serviceList = [];
+    this.lastService = null;
 
     this.isLoading = true;
-    this.serviceService.get(this.selectedAvto.avto_id, this.selectedGroup.group_id).pipe(
-      finalize(() => {
-        this.isLoading = false;
-      })
+    this.serviceService.get(selectedAutoID, selectedGroupID).pipe(
+      finalize(() => { this.isLoading = false; }),
+      takeUntil(this.destroy)
     ).subscribe((list: ServiceStruct[]) => {
-      this.serviceList = list || [];
-
-      this.selectLastService();
+      this.serviceList = this.serviceService.sort(list || [])
+      this.lastService = this.serviceService.getLastSorted(this.serviceList);
     });
-  }
-
-  private selectLastService() {
-    if (this.serviceList.length > 0) {
-      this.lastService = this.serviceList[0];
-    } else {
-      this.lastService = null;
-    }
-  }
-
-  private onResize(screen: Screen) {
-    this.screenIsMobile = screen.innerWidth < 600;
-    this.screenIsSmall = screen.innerWidth < SmallScreen;
   }
 }
