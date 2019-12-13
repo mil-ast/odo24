@@ -26,15 +26,15 @@ article {
 }
 
 #screen-main {
-  background-image: url("/assets/images/screens/screen1_850.jpg");
+  background-image: url("/static/images/screens/screen1_850.jpg");
 }
 
 #screen-groups {
-  background-image: url("/assets/images/screens/screen2_850.jpg");
+  background-image: url("/static/images/screens/screen2_850.jpg");
 }
 
 #screen-service {
-  background-image: url("/assets/images/screens/screen3_850.jpg");
+  background-image: url("/static/images/screens/screen3_850.jpg");
 }
 
 
@@ -67,13 +67,13 @@ article {
 }
 
 #oauth .oauth-btn#oauth-yandex .icon {
-  background-image: url(/assets/images/oauth/yandex.png);
+  background-image: url(/static/images/oauth/yandex.png);
 }
 #oauth .oauth-btn#oauth-google .icon {
-  background-image: url(/assets/images/oauth/google.png);
+  background-image: url(/static/images/oauth/google.png);
 }
 #oauth .oauth-btn#oauth-mail .icon {
-  background-image: url(/assets/images/oauth/mailru.png);
+  background-image: url(/static/images/oauth/mailru.png);
 }
 
 #oauth .oauth-btn span {
@@ -88,15 +88,15 @@ article {
   }
 
   #screen-main {
-    background-image: url("/assets/images/screens/screen1_600.jpg");
+    background-image: url("/static/images/screens/screen1_600.jpg");
   }
   
   #screen-groups {
-    background-image: url("/assets/images/screens/screen2_600.jpg");
+    background-image: url("/static/images/screens/screen2_600.jpg");
   }
   
   #screen-service {
-    background-image: url("/assets/images/screens/screen3_600.jpg");
+    background-image: url("/static/images/screens/screen3_600.jpg");
   }
 }
 
@@ -107,15 +107,15 @@ article {
   }
 
   #screen-main {
-    background-image: url("/assets/images/screens/screen1_300.jpg");
+    background-image: url("/static/images/screens/screen1_300.jpg");
   }
   
   #screen-groups {
-    background-image: url("/assets/images/screens/screen2_300.jpg");
+    background-image: url("/static/images/screens/screen2_300.jpg");
   }
   
   #screen-service {
-    background-image: url("/assets/images/screens/screen3_300.jpg");
+    background-image: url("/static/images/screens/screen3_300.jpg");
   }
 }
 

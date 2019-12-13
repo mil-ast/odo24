@@ -141,7 +141,7 @@ footer > div .column > div #vk_icon {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background-image: url(/assets/images/vk.svg);
+  background-image: url(/static/images/vk.svg);
   background-size: 100%;
   background-repeat: no-repeat;
 }
