@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /confidential.html
+sitemap: https://odo24.ru/sitemap.xml
