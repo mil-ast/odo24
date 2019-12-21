@@ -54,9 +54,6 @@ app-groups-config {
 }
 
 #list_services {
-  app-scroll-container {
-    padding-bottom: 70px;
-  }
   app-item-service {
     border-bottom: 1px #eee solid;
   }
@@ -67,6 +64,7 @@ app-groups-config {
     #select_group {
       grid-template-columns: 1fr auto auto;
       gap: 2px;
+      margin-right: 20px;
     }
   }
 

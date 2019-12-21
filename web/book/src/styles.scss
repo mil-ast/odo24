@@ -140,7 +140,14 @@ input:active, textarea:active {outline:none;}
   background: linear-gradient(22deg, rgb(35, 38, 40) 0%, rgb(42, 47, 50) 100%);
 }
 
+.scroll-box {
+  padding-bottom: 20px;
+}
+
 @media (max-width: 420px) {
+  .sidenav .mat-sidenav-content {
+    padding-right:0px;
+  }
   .sidenav {
     #sidenav_close {
       display: block;
