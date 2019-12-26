@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"html/template"
 	"io/ioutil"
-	"log"
 	"odo24/server/config"
 
 	email "github.com/mil-ast/sendmail"
@@ -65,8 +64,6 @@ func SendEmail(to string, tplID uint8, params map[string]interface{}) error {
 	}
 
 	templateBody = fmt.Sprintf(templateBody, options.App.SmtpFrom, to)
-
-	log.Println(777, templateBody)
 
 	buffer := new(bytes.Buffer)
 	t := template.Must(template.New("letter").Parse(templateBody))
