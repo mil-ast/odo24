@@ -22,23 +22,24 @@ var templates map[uint8]string
 func init() {
 	templates = make(map[uint8]string)
 
+	files := map[uint8]string{
+		TypeConfirmEmail:      "confirm_email",
+		TypeRepairConfirmCode: "confirm_repair_code",
+		TypeRegisterFromOAUTH: "oauth_register",
+	}
+
 	var (
 		body []byte
 		err  error
 	)
-	// TypeConfirmEmail
-	body, err = ioutil.ReadFile("./sendmail/confirm_email.eml")
-	if err != nil {
-		panic(err)
-	}
-	templates[TypeConfirmEmail] = string(body)
 
-	// TypeRepairConfirmCode
-	body, err = ioutil.ReadFile("./sendmail/confirm_repair_code.eml")
-	if err != nil {
-		panic(err)
+	for index, fileName := range files {
+		body, err = ioutil.ReadFile(fmt.Sprintf("./sendmail/%s.eml", fileName))
+		if err != nil {
+			panic(err)
+		}
+		templates[index] = string(body)
 	}
-	templates[TypeRepairConfirmCode] = string(body)
 }
 
 // SendEmail отправка

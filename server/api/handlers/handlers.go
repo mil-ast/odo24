@@ -22,3 +22,7 @@ func CheckUserAgent(c *gin.Context) {
 		return
 	}
 }
+
+func Ping(c *gin.Context) {
+	c.String(http.StatusOK, http.StatusText(http.StatusOK))
+}

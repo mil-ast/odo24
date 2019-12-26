@@ -62,6 +62,8 @@ func main() {
 
 	r := gin.Default()
 
+	r.GET("/api/ping", handlers.Ping)
+
 	// Профиль
 	profileGroup := r.Group("/api/profile")
 	profileCtrl := handlers.NewProfileController()
