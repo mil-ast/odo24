@@ -1,4 +1,5 @@
 #!/bin/bash
 
-cd /opt/sto/server
-nohup ./sto > "/var/log/sto/$(date '+%Y.%m.%d').out" &
+cd /opt/odo24/server
+mkdir -p  /var/log/odo24
+nohup ./sto > "/var/log/odo24/$(date '+%Y.%m.%d').out" &

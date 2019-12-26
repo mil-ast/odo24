@@ -19,7 +19,8 @@ const (
 
 var templates map[uint8]string
 
-func init() {
+// InitSendmail инициализация почтовика
+func InitSendmail() {
 	templates = make(map[uint8]string)
 
 	files := map[uint8]string{
@@ -51,19 +52,17 @@ func SendEmail(to string, tplID uint8, params map[string]interface{}) error {
 
 	options := config.GetInstance()
 
-	host := email.Host{
-		Host:     options.App.SmtpHost,
-		Port:     options.App.SmtpPort,
-		Login:    options.App.SmtpFrom,
-		Password: options.App.SmtpPassword,
-	}
-
-	client, err := email.NewClient(host)
+	client, err := email.NewClient(email.Host{
+		Host:     options.App.SMTPHost,
+		Port:     options.App.SMTPPort,
+		Login:    options.App.SMTPFrom,
+		Password: options.App.SMTPPassword,
+	})
 	if err != nil {
 		return err
 	}
 
-	templateBody = fmt.Sprintf(templateBody, options.App.SmtpFrom, to)
+	templateBody = fmt.Sprintf(templateBody, options.App.SMTPFrom, to)
 
 	buffer := new(bytes.Buffer)
 	t := template.Must(template.New("letter").Parse(templateBody))
@@ -72,7 +71,7 @@ func SendEmail(to string, tplID uint8, params map[string]interface{}) error {
 		return err
 	}
 
-	err = client.Send(options.App.SmtpFrom, to, buffer.String())
+	err = client.Send(options.App.SMTPFrom, to, buffer.String())
 	if err != nil {
 		return err
 	}

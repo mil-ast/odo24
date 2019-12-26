@@ -5,25 +5,21 @@ import (
 	"errors"
 	"log"
 	"odo24/server/api/models"
+	"odo24/server/db"
 	"odo24/server/sendmail"
 	"odo24/server/utils"
 	"time"
-
-	"github.com/mil-ast/db"
 )
 
 type ProfileService struct{}
 
-// ProfileService экземпляр сервис Профиля
+// NewProfileService экземпляр сервис Профиля
 func NewProfileService() ProfileService {
 	return ProfileService{}
 }
 
 func (ProfileService) GetProfile(userID uint64) (*models.Profile, error) {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return nil, err
-	}
+	conn := db.Conn()
 
 	profile := new(models.Profile)
 	sqlQuery := "select user_id,login,confirmed from profiles.get_profile($1);"
@@ -40,10 +36,7 @@ func (ProfileService) GetProfile(userID uint64) (*models.Profile, error) {
 
 // Login авторизация
 func (ProfileService) Login(login models.Email, password models.Password) (*models.Profile, error) {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return nil, err
-	}
+	conn := db.Conn()
 
 	profile := new(models.Profile)
 
@@ -65,10 +58,7 @@ func (ProfileService) Login(login models.Email, password models.Password) (*mode
 
 // Register регистрация
 func (ProfileService) Register(login models.Email) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	code := utils.GenerateRandomNumber(10000, 99999)
 	linkKey := utils.GenerateRandomString(32)
@@ -96,10 +86,7 @@ func (ProfileService) Register(login models.Email) error {
 
 // PasswordRecovery восстановление пароля
 func (ProfileService) PasswordRecovery(login models.Email) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	code := utils.GenerateRandomNumber(10000, 99999)
 	linkKey := utils.GenerateRandomString(32)
@@ -113,10 +100,7 @@ func (ProfileService) PasswordRecovery(login models.Email) error {
 
 // PasswordUpdate изменение пароля из личного кабинета
 func (ProfileService) PasswordUpdate(userID uint64, password models.Password) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	sqlQuery := "SELECT * FROM profiles.password_update($1, $2::bytea)"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
@@ -128,10 +112,7 @@ func (ProfileService) PasswordUpdate(userID uint64, password models.Password) er
 
 // ResetPassword сброс пароля
 func (ProfileService) ResetPassword(login models.Email, password models.Password, code *uint32, linkKey *string) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	sqlQuery := "SELECT reset_password ok FROM profiles.reset_password($1, $2::bytea, $3, $4::varchar(32))"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)

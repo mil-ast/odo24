@@ -2,10 +2,9 @@ package services
 
 import (
 	"odo24/server/api/models"
+	"odo24/server/db"
 
 	"github.com/lib/pq"
-
-	"github.com/mil-ast/db"
 )
 
 // GroupsService сервис групп
@@ -22,10 +21,7 @@ func NewGroupsService(userID uint64) GroupsService {
 
 // GetAll список групп пользователя
 func (g GroupsService) GetAll() ([]models.Group, error) {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return nil, err
-	}
+	conn := db.Conn()
 
 	querySQL := `select group_id,group_name,sort from service_groups.getforuser($1)`
 	rows, err := conn.Query(querySQL, g.UserID)
@@ -50,10 +46,7 @@ func (g GroupsService) GetAll() ([]models.Group, error) {
 
 // Create создать группу
 func (g GroupsService) Create(groupName string) (*models.Group, error) {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return nil, err
-	}
+	conn := db.Conn()
 
 	querySQL := `select group_id,sort from service_groups.new_group($1,$2)`
 	row := conn.QueryRow(querySQL, g.UserID, groupName)
@@ -75,13 +68,10 @@ func (g GroupsService) Create(groupName string) (*models.Group, error) {
 
 // Update изменить группу
 func (g GroupsService) Update(groupID uint64, groupName string) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	querySQL := `call service_groups.update_group($1,$2,$3)`
-	_, err = conn.Exec(querySQL, groupID, g.UserID, groupName)
+	_, err := conn.Exec(querySQL, groupID, g.UserID, groupName)
 	if err != nil {
 		return err
 	}
@@ -91,10 +81,7 @@ func (g GroupsService) Update(groupID uint64, groupName string) error {
 
 // Delete удалить группу
 func (g GroupsService) Delete(groupID uint64) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	querySQL := `call service_groups.delete_group($1,$2)`
 	_, err = conn.Exec(querySQL, groupID, g.UserID)
@@ -111,10 +98,7 @@ func (g GroupsService) SortUpdate(sortedGroups []uint64) error {
 		return nil
 	}
 
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	var arr = pq.Int64Array{}
 	for _, groupID := range sortedGroups {

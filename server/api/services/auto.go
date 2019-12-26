@@ -7,10 +7,9 @@ import (
 	"mime/multipart"
 	"odo24/server/api/models"
 	"odo24/server/config"
+	"odo24/server/db"
 	"os"
 	"os/exec"
-
-	"github.com/mil-ast/db"
 )
 
 // AutoService сервис Авто
@@ -27,10 +26,7 @@ func NewAutoService(userID uint64) AutoService {
 
 // GetAll получить все авто
 func (s AutoService) GetAll() ([]models.Auto, error) {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return nil, err
-	}
+	conn := db.Conn()
 
 	querySQL := `select auto_id,name,odo,avatar from cars.get_all($1)`
 	rows, err := conn.Query(querySQL, s.UserID)
@@ -55,10 +51,7 @@ func (s AutoService) GetAll() ([]models.Auto, error) {
 
 // Create создать авто
 func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return nil, err
-	}
+	conn := db.Conn()
 
 	auto := models.Auto{
 		Name: name,
@@ -67,7 +60,7 @@ func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
 
 	querySQL := `select auto_id,avatar from cars.createauto($1,$2,$3);`
 	row := conn.QueryRow(querySQL, name, odo, s.UserID)
-	err = row.Scan(&auto.AutoID, &auto.Avatar)
+	err := row.Scan(&auto.AutoID, &auto.Avatar)
 	if err != nil {
 		return nil, err
 	}
@@ -77,45 +70,28 @@ func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
 
 // Update изменить авто
 func (s AutoService) Update(autoID uint64, name string, odo uint32, avatar *bool) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	querySQL := `call cars.updateauto($1,$2,$3,$4,$5)`
-	_, err = conn.Exec(querySQL, autoID, s.UserID, odo, name, avatar)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	_, err := conn.Exec(querySQL, autoID, s.UserID, odo, name, avatar)
+	return err
 }
 
 // UpdateODO изменить пробег авто
 func (s AutoService) UpdateODO(autoID uint64, odo uint32) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	querySQL := `call cars.updateodo($1,$2,$3)`
-	_, err = conn.Exec(querySQL, autoID, s.UserID, odo)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	_, err := conn.Exec(querySQL, autoID, s.UserID, odo)
+	return err
 }
 
 // Delete удаление авто
 func (s AutoService) Delete(autoID uint64) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	querySQL := `call cars.deleteauto($1,$2)`
-	_, err = conn.Exec(querySQL, autoID, s.UserID)
+	_, err := conn.Exec(querySQL, autoID, s.UserID)
 	return err
 }
 

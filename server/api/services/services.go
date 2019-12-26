@@ -2,8 +2,7 @@ package services
 
 import (
 	"odo24/server/api/models"
-
-	"github.com/mil-ast/db"
+	"odo24/server/db"
 )
 
 // ServicesService сервис сервисов
@@ -20,10 +19,7 @@ func NewServicesService(userID uint64) ServicesService {
 
 // Get список сервисов
 func (g ServicesService) Get(autoID, groupID uint64) ([]models.Service, error) {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return nil, err
-	}
+	conn := db.Conn()
 
 	querySQL := `select service_id,odo,next_distance,dt,description,price from services.get_all($1,$2,$3)`
 	rows, err := conn.Query(querySQL, g.UserID, autoID, groupID)
@@ -48,10 +44,7 @@ func (g ServicesService) Get(autoID, groupID uint64) ([]models.Service, error) {
 
 // Create создание сервиса
 func (g ServicesService) Create(autoID, groupID uint64, odo, nextDistance *uint32, dt, descript *string, price *uint32) (*uint64, error) {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return nil, err
-	}
+	conn := db.Conn()
 
 	querySQL := `select service_id from services.create_service($1, $2, $3, $4, $5, $6, $7, $8)`
 	row := conn.QueryRow(querySQL, autoID, g.UserID, groupID, odo, nextDistance, dt, descript, price)
@@ -64,10 +57,7 @@ func (g ServicesService) Create(autoID, groupID uint64, odo, nextDistance *uint3
 
 // Update редактирование сервиса
 func (g ServicesService) Update(serviceID uint64, odo, nextDistance *uint32, dt, descript *string, price *uint32) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 	querySQL := `CALL services.update_service($1, $2, $3, $4, $5, $6, $7)`
 	_, err = conn.Exec(querySQL, serviceID, g.UserID, odo, nextDistance, dt, descript, price)
 	return err
@@ -75,10 +65,7 @@ func (g ServicesService) Update(serviceID uint64, odo, nextDistance *uint32, dt,
 
 // Delete удаление сервиса
 func (g ServicesService) Delete(serviceID uint64) error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 	querySQL := `CALL services.delete_service($1, $2)`
 	_, err = conn.Exec(querySQL, serviceID, g.UserID)
 	return err
