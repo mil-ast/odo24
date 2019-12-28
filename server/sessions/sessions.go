@@ -65,6 +65,7 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 	}
 
 	if !token.Verify(secretKey) {
+		DeleteSession(c)
 		return nil, errors.New(errExpired)
 	}
 
@@ -72,6 +73,7 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 
 	now := time.Now().UTC().Unix()
 	if claims.Expiration < uint64(now) {
+		DeleteSession(c)
 		return nil, errors.New(errExpired)
 	}
 
