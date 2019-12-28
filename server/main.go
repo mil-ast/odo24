@@ -22,11 +22,11 @@ func main() {
 		}
 	}()
 
-	verPtr := flag.Bool("version", false, "Print version")
+	versionPtr := flag.Bool("version", false, "Print version")
 	flag.Parse()
 
 	fmt.Printf("Version: %s; %s\n", VERSION, runtime.Version())
-	if *verPtr == true {
+	if *versionPtr == true {
 		return
 	}
 
@@ -36,7 +36,7 @@ func main() {
 	// чтение настроек
 	options := config.ReadConfig()
 
-	log.Print("Create DB connection... ")
+	fmt.Print("Create DB connection... ")
 	err := db.CreateConnection(db.Options{
 		DriverName:       options.Db.DriverName,
 		ConnectionString: options.Db.ConnectionString,

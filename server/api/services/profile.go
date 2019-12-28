@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+// ProfileService Профиль пользователя
 type ProfileService struct{}
 
 // NewProfileService экземпляр сервис Профиля
@@ -18,6 +19,7 @@ func NewProfileService() ProfileService {
 	return ProfileService{}
 }
 
+// GetProfile получение модели авторизированного пользователя
 func (ProfileService) GetProfile(userID uint64) (*models.Profile, error) {
 	conn := db.Conn()
 
@@ -26,7 +28,7 @@ func (ProfileService) GetProfile(userID uint64) (*models.Profile, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 	row := conn.QueryRowContext(ctx, sqlQuery, userID)
-	err = row.Scan(&profile.UserID, &profile.Login, &profile.Confirmed)
+	err := row.Scan(&profile.UserID, &profile.Login, &profile.Confirmed)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +46,7 @@ func (ProfileService) Login(login models.Email, password models.Password) (*mode
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 	row := conn.QueryRowContext(ctx, sqlQuery, login, password)
-	err = row.Scan(&profile.UserID, &profile.Login, &profile.Confirmed)
+	err := row.Scan(&profile.UserID, &profile.Login, &profile.Confirmed)
 	if err != nil {
 		return nil, err
 	}
@@ -66,21 +68,21 @@ func (ProfileService) Register(login models.Email) error {
 	sqlQuery := "SELECT FROM profiles.register($1, $2, $3::varchar(32))"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
-	_, err = conn.ExecContext(ctx, sqlQuery, login, code, linkKey)
+	_, err := conn.ExecContext(ctx, sqlQuery, login, code, linkKey)
 	if err != nil {
 		return err
 	}
 
-	go func() {
+	go func(l models.Email, c uint32) {
 		letter := make(map[string]interface{}, 2)
-		letter["login"] = login
-		letter["code"] = code
+		letter["login"] = l
+		letter["code"] = c
 
-		err := sendmail.SendEmail(string(login), sendmail.TypeConfirmEmail, letter)
+		err := sendmail.SendEmail(string(l), sendmail.TypeConfirmEmail, letter)
 		if err != nil {
 			log.Println(err)
 		}
-	}()
+	}(login, code)
 	return nil
 }
 
@@ -94,7 +96,7 @@ func (ProfileService) PasswordRecovery(login models.Email) error {
 	sqlQuery := "SELECT FROM profiles.password_recovery($1, $2, $3::varchar(32))"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
-	_, err = conn.ExecContext(ctx, sqlQuery, login, code, linkKey)
+	_, err := conn.ExecContext(ctx, sqlQuery, login, code, linkKey)
 	return err
 }
 
@@ -106,7 +108,7 @@ func (ProfileService) PasswordUpdate(userID uint64, password models.Password) er
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 
-	_, err = conn.ExecContext(ctx, sqlQuery, userID, password)
+	_, err := conn.ExecContext(ctx, sqlQuery, userID, password)
 	return err
 }
 
@@ -120,7 +122,7 @@ func (ProfileService) ResetPassword(login models.Email, password models.Password
 	row := conn.QueryRowContext(ctx, sqlQuery, login, password, code, linkKey)
 
 	var isOk bool
-	err = row.Scan(&isOk)
+	err := row.Scan(&isOk)
 	if err != nil {
 		return err
 	}

@@ -50,15 +50,12 @@ func (g GroupsService) Create(groupName string) (*models.Group, error) {
 
 	querySQL := `select group_id,sort from service_groups.new_group($1,$2)`
 	row := conn.QueryRow(querySQL, g.UserID, groupName)
-	if err != nil {
-		return nil, err
-	}
 
 	var model = models.Group{
 		Name: groupName,
 	}
 
-	err = row.Scan(&model.GroupID, &model.Sort)
+	err := row.Scan(&model.GroupID, &model.Sort)
 	if err != nil {
 		return nil, err
 	}
@@ -72,11 +69,7 @@ func (g GroupsService) Update(groupID uint64, groupName string) error {
 
 	querySQL := `call service_groups.update_group($1,$2,$3)`
 	_, err := conn.Exec(querySQL, groupID, g.UserID, groupName)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 // Delete удалить группу
@@ -84,12 +77,8 @@ func (g GroupsService) Delete(groupID uint64) error {
 	conn := db.Conn()
 
 	querySQL := `call service_groups.delete_group($1,$2)`
-	_, err = conn.Exec(querySQL, groupID, g.UserID)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	_, err := conn.Exec(querySQL, groupID, g.UserID)
+	return err
 }
 
 // SortUpdate сохранить новую сортировку
@@ -106,10 +95,6 @@ func (g GroupsService) SortUpdate(sortedGroups []uint64) error {
 	}
 
 	querySQL := `call Service_Groups.Update_Sort($1,$2)`
-	_, err = conn.Exec(querySQL, g.UserID, arr)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	_, err := conn.Exec(querySQL, g.UserID, arr)
+	return err
 }

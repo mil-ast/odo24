@@ -50,7 +50,7 @@ func (g ServicesService) Create(autoID, groupID uint64, odo, nextDistance *uint3
 	row := conn.QueryRow(querySQL, autoID, g.UserID, groupID, odo, nextDistance, dt, descript, price)
 
 	var serviceID uint64
-	err = row.Scan(&serviceID)
+	err := row.Scan(&serviceID)
 
 	return &serviceID, err
 }
@@ -59,7 +59,7 @@ func (g ServicesService) Create(autoID, groupID uint64, odo, nextDistance *uint3
 func (g ServicesService) Update(serviceID uint64, odo, nextDistance *uint32, dt, descript *string, price *uint32) error {
 	conn := db.Conn()
 	querySQL := `CALL services.update_service($1, $2, $3, $4, $5, $6, $7)`
-	_, err = conn.Exec(querySQL, serviceID, g.UserID, odo, nextDistance, dt, descript, price)
+	_, err := conn.Exec(querySQL, serviceID, g.UserID, odo, nextDistance, dt, descript, price)
 	return err
 }
 
@@ -67,6 +67,6 @@ func (g ServicesService) Update(serviceID uint64, odo, nextDistance *uint32, dt,
 func (g ServicesService) Delete(serviceID uint64) error {
 	conn := db.Conn()
 	querySQL := `CALL services.delete_service($1, $2)`
-	_, err = conn.Exec(querySQL, serviceID, g.UserID)
+	_, err := conn.Exec(querySQL, serviceID, g.UserID)
 	return err
 }

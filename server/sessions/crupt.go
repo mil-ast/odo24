@@ -1,6 +1,6 @@
 package sessions
 
-import (
+/*import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
@@ -50,3 +50,4 @@ func decrypt(message []byte) ([]byte, error) {
 	}
 	return data, nil
 }
+*/

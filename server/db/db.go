@@ -3,6 +3,8 @@ package db
 import (
 	"database/sql"
 	"time"
+
+	_ "github.com/lib/pq"
 )
 
 var conn *sql.DB
