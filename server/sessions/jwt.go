@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"hash"
+	"log"
 	"odo24/server/api/models"
 	"strings"
 )
@@ -42,15 +43,17 @@ func (t *Token) Verify(secret []byte) bool {
 	switch t.Algorithm {
 	case HS256:
 		h = hmac.New(sha256.New, secret)
-		break
 	case HS512:
 		h = hmac.New(sha512.New, secret)
-		break
 	default:
 		return false
 	}
 
-	h.Write(t.body)
+	_, err := h.Write(t.body)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
 	expectedMAC := h.Sum(nil)
 	return hmac.Equal(t.Signature, expectedMAC)
 }
@@ -80,15 +83,17 @@ func NewToken(algorithm string, secret []byte, claims models.SessionValue) (*str
 	switch algorithm {
 	case HS256:
 		h = hmac.New(sha256.New, secret)
-		break
 	case HS512:
 		h = hmac.New(sha512.New, secret)
-		break
 	default:
 		return nil, errors.New(errUnrecognizedAlgorithm)
 	}
 
-	h.Write([]byte(jwtStr))
+	_, err = h.Write([]byte(jwtStr))
+	if err != nil {
+		return nil, err
+	}
+
 	macSig := h.Sum(nil)
 	b64Sig := base64.RawURLEncoding.EncodeToString(macSig)
 

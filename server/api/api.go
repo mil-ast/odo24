@@ -9,11 +9,12 @@ import (
 
 // InitHandlers API приложения
 func InitHandlers(production bool) *gin.Engine {
-	if production {
-		gin.SetMode(gin.ReleaseMode)
-	} else {
-		gin.SetMode(gin.DebugMode)
+	mode := gin.ReleaseMode
+	if !production {
+		mode = gin.DebugMode
 	}
+
+	gin.SetMode(mode)
 
 	r := gin.Default()
 	r.GET("/api/ping", handlers.Ping)

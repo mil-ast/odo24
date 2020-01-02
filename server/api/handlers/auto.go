@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AutoController контроллер
 type AutoController struct{}
 
 // NewAutoController экземпляр контроллера Автомобилей
@@ -44,7 +45,7 @@ func (AutoController) Create(c *gin.Context) {
 	}
 
 	if len(model.Name) < 3 {
-		c.AbortWithError(http.StatusBadRequest, errors.New("car name too short"))
+		c.AbortWithError(http.StatusBadRequest, errors.New("the name is too short"))
 		return
 	}
 

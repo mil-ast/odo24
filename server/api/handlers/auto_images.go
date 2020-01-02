@@ -9,9 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AutoImagesController контроллер
 type AutoImagesController struct{}
 
-// AutoImagesController экземпляр контроллера изображений авто
+// NewAutoImagesController экземпляр контроллера изображений авто
 func NewAutoImagesController() AutoImagesController {
 	return AutoImagesController{}
 }
