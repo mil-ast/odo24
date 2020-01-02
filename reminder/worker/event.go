@@ -7,7 +7,7 @@ import (
 	"sto/reminder/config"
 	"sto/reminder/sendmail"
 
-	"github.com/mil-ast/db"
+	"odo24/server/db"
 	email "github.com/mil-ast/sendmail"
 )
 
@@ -85,10 +85,7 @@ func (event Event) send(client email.Client) error {
 
 // send
 func (event Event) comlete() error {
-	conn, err := db.GetConnection()
-	if err != nil {
-		return err
-	}
+	conn := db.Conn()
 
 	_, err = conn.Exec("update reminding.reminding set is_closed=true where id=$1", event.ID)
 	return err

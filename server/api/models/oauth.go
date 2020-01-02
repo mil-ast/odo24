@@ -5,7 +5,7 @@ import (
 	"odo24/server/oauth"
 	"odo24/server/utils"
 
-	"github.com/mil-ast/db"
+	"odo24/server/db"
 )
 
 type OAuthQueryParams struct {
@@ -31,10 +31,7 @@ func (a OAuth) GetUser() (Profile, *Password, error) {
 		return profile, nil, errors.New(oauth.ErrAuthError)
 	}
 
-	conn, err := db.GetConnection()
-	if err != nil {
-		return profile, nil, err
-	}
+	conn := db.Conn()
 
 	newPassword := utils.GenerateRandomString(8)
 

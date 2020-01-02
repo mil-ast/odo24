@@ -2,51 +2,47 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 )
 
-const CONFIG_FILE_NAME string = "config.json"
+const configFilName string = "config.json"
 
+// Configuration структура конфига
 type Configuration struct {
 	Production bool `json:"production"`
 	App        struct {
-		Version      string
-		Server_addr  string `json:"server_addr"`
+		ServerAddr   string `json:"server_addr"`
 		ImageMagick  string `json:"imageMagick"`
-		SmtpHost     string `json:"smtp_host"`
-		SmtpPort     uint16 `json:"smtp_port"`
-		SmtpFrom     string `json:"smtp_from"`
-		SmtpPassword string `json:"smtp_password"`
+		SMTPHost     string `json:"smtp_host"`
+		SMTPPort     uint16 `json:"smtp_port"`
+		SMTPFrom     string `json:"smtp_from"`
+		SMTPPassword string `json:"smtp_password"`
 		SessionKey   string `json:"session_key"`
-	}
+	} `json:"app"`
 	Db struct {
-		Driver_name, Name, Data_source, Timeout string
-		Max_idle_conns                          int
-		Max_open_conns                          int
-	}
+		DriverName       string `json:"driver_name"`
+		ConnectionString string `json:"connection_string"`
+		MaxIdleConns     int    `json:"max_idle_conns"`
+		MaxOpenConns     int    `json:"max_open_conns"`
+	} `json:"db"`
 }
 
 var cfg *Configuration
 
-func init() {
+// ReadConfig чтение файла настроек
+func ReadConfig() Configuration {
 	cfg = new(Configuration)
 	cfg.read()
+	return *cfg
 }
 
-func GetInstance() *Configuration {
-	return cfg
+// GetInstance получить настройки
+func GetInstance() Configuration {
+	return *cfg
 }
 
 func (cfg *Configuration) read() {
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println("Configuration error:", err)
-		}
-	}()
-
-	// чтение и парсинг файла настроек
-	body, err := ioutil.ReadFile(CONFIG_FILE_NAME)
+	body, err := ioutil.ReadFile(configFilName)
 	if err != nil {
 		panic(err)
 	}

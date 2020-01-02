@@ -6,8 +6,8 @@ import (
 )
 
 type SessionValue struct {
-	UserID     uint64
-	Expiration uint64
+	UserID     uint64 `json:"id"`
+	Expiration uint64 `json:"exp"`
 }
 
 func (s SessionValue) Bytes() []byte {

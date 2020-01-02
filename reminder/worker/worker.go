@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/mil-ast/db"
+	"odo24/server/db"
 )
 
 const TickTimeout = time.Minute * 10

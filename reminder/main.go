@@ -9,7 +9,7 @@ import (
 	"sto/reminder/worker"
 	"syscall"
 
-	"github.com/mil-ast/db"
+	"odo24/server/db"
 )
 
 func main() {

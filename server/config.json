@@ -11,9 +11,8 @@
 	},
 	"db" : {
 		"driver_name" : "postgres",
-		"name" : "cars",
-		"data_source" : "host=81.177.26.40 port=5432 user=pavel password=Dhfuytghjqltn1 dbname=odo24 sslmode=disable",
-		"max_idle_conns" : 10,
-		"max_open_conns" : 5
+		"connection_string" : "host=81.177.26.40 port=5432 dbname=odo24 user=pavel password=Dhfuytghjqltn1 sslmode=disable",
+		"max_idle_conns" : 50,
+		"max_open_conns" : 50
 	}
 }

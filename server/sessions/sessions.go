@@ -1,7 +1,6 @@
 package sessions
 
 import (
-	"encoding/hex"
 	"errors"
 	"net/http"
 	"odo24/server/api/models"
@@ -11,10 +10,23 @@ import (
 )
 
 const (
-	sessionID      string        = "sess"
+	sessionID string = "Authorization"
+	// SessionTimeout время актуальности токена
 	SessionTimeout time.Duration = time.Hour * time.Duration(24*31)
 )
 
+const (
+	errExpired = "expired"
+)
+
+var secretKey []byte
+
+// SetSecretKey ключ шифрования с конфига
+func SetSecretKey(key string) {
+	secretKey = []byte(key)
+}
+
+// NewSession создание новой сессии
 func NewSession(c *gin.Context, userID uint64) error {
 	if userID == 0 {
 		return errors.New("profile is empty")
@@ -25,16 +37,17 @@ func NewSession(c *gin.Context, userID uint64) error {
 		Expiration: uint64(time.Now().Add(SessionTimeout).UTC().Unix()),
 	}
 
-	sessionValue, err := encrypt(sess.Bytes())
+	token, err := NewToken(HS256, secretKey, sess)
 	if err != nil {
 		return err
 	}
 
-	c.SetCookie(sessionID, hex.EncodeToString(sessionValue), int(SessionTimeout.Seconds()), "/", "", false, true)
+	c.SetCookie(sessionID, *token, int(SessionTimeout.Seconds()), "/", "", false, true)
 
 	return nil
 }
 
+// GetSession получение и валидация сессии
 func GetSession(c *gin.Context) (*models.SessionValue, error) {
 	cookie, err := c.Request.Cookie(sessionID)
 	if err != nil {
@@ -42,34 +55,29 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 	}
 
 	if cookie.Value == "" {
-		return nil, errors.New("expired")
+		return nil, errors.New(errExpired)
 	}
 
-	decodedStr, err := hex.DecodeString(cookie.Value)
+	token, err := ParseToken(cookie.Value)
 	if err != nil {
 		DeleteSession(c)
-		return nil, err
+		return nil, errors.New(errExpired)
 	}
 
-	value, err := decrypt(decodedStr)
-	if err != nil {
+	if !token.Verify(secretKey) {
 		DeleteSession(c)
-		return nil, errors.New("expired")
+		return nil, errors.New(errExpired)
 	}
 
-	sess := new(models.SessionValue)
-	err = sess.Parse(value)
-	if err != nil {
-		DeleteSession(c)
-		return nil, err
-	}
+	claims := token.Claims
 
 	now := time.Now().UTC().Unix()
-	if sess.Expiration < uint64(now) {
-		return nil, errors.New("expired")
+	if claims.Expiration < uint64(now) {
+		DeleteSession(c)
+		return nil, errors.New(errExpired)
 	}
 
-	return sess, nil
+	return &claims, nil
 }
 
 // DeleteSession удаление сессии
