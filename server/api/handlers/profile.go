@@ -19,6 +19,7 @@ func NewProfileController() ProfileController {
 	return ProfileController{}
 }
 
+// Login авторизация через логин/пароль
 func (ProfileController) Login(c *gin.Context) {
 	var body models.LoginFromBody
 	err := c.BindJSON(&body)
