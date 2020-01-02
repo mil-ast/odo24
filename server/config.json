@@ -6,12 +6,12 @@
 		"smtp_host" : "smtp.yandex.ru",
 		"smtp_port" : 465,
 		"smtp_from" : "info@odo24.ru",
-		"smtp_password" : "6PxnwmB4pcPvk8q",
-		"session_key": "iVBORw0KGgoAAAANSUhEUgAAAGQAAABk"
+		"smtp_password" : "password",
+		"session_key": "0xDeadBeef"
 	},
 	"db" : {
 		"driver_name" : "postgres",
-		"connection_string" : "host=81.177.26.40 port=5432 dbname=odo24 user=pavel password=Dhfuytghjqltn1 sslmode=disable",
+		"connection_string" : "host=localhost port=5432 dbname=odo24 user=login password=pwd sslmode=disable",
 		"max_idle_conns" : 50,
 		"max_open_conns" : 50
 	}
