@@ -24,7 +24,7 @@ func (ProfileService) GetProfile(userID uint64) (*models.Profile, error) {
 	conn := db.Conn()
 
 	profile := new(models.Profile)
-	sqlQuery := "select user_id,login,confirmed from profiles.get_profile($1);"
+	sqlQuery := "SELECT user_id,login,confirmed FROM profiles.get_profile($1);"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 	row := conn.QueryRowContext(ctx, sqlQuery, userID)
@@ -42,7 +42,7 @@ func (ProfileService) Login(login models.Email, password models.Password) (*mode
 
 	profile := new(models.Profile)
 
-	sqlQuery := "select user_id,login,confirmed from profiles.login($1, $2::bytea);"
+	sqlQuery := "SELECT user_id,login,confirmed FROM profiles.login($1, $2::bytea);"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 	row := conn.QueryRowContext(ctx, sqlQuery, login, password)

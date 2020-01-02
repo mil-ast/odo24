@@ -28,7 +28,7 @@ func NewAutoService(userID uint64) AutoService {
 func (s AutoService) GetAll() ([]models.Auto, error) {
 	conn := db.Conn()
 
-	querySQL := `select auto_id,name,odo,avatar from cars.get_all($1)`
+	querySQL := `SELECT auto_id,name,odo,avatar FROM cars.get_all($1)`
 	rows, err := conn.Query(querySQL, s.UserID)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
 		Odo:  odo,
 	}
 
-	querySQL := `select auto_id,avatar from cars.createauto($1,$2,$3);`
+	querySQL := `SELECT auto_id,avatar FROM cars.createauto($1,$2,$3);`
 	row := conn.QueryRow(querySQL, name, odo, s.UserID)
 	err := row.Scan(&auto.AutoID, &auto.Avatar)
 	if err != nil {
@@ -72,7 +72,7 @@ func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
 func (s AutoService) Update(autoID uint64, name string, odo uint32, avatar *bool) error {
 	conn := db.Conn()
 
-	querySQL := `call cars.updateauto($1,$2,$3,$4,$5)`
+	querySQL := `CALL cars.updateauto($1,$2,$3,$4,$5)`
 	_, err := conn.Exec(querySQL, autoID, s.UserID, odo, name, avatar)
 	return err
 }
@@ -81,7 +81,7 @@ func (s AutoService) Update(autoID uint64, name string, odo uint32, avatar *bool
 func (s AutoService) UpdateODO(autoID uint64, odo uint32) error {
 	conn := db.Conn()
 
-	querySQL := `call cars.updateodo($1,$2,$3)`
+	querySQL := `CALL cars.updateodo($1,$2,$3)`
 	_, err := conn.Exec(querySQL, autoID, s.UserID, odo)
 	return err
 }
@@ -90,7 +90,7 @@ func (s AutoService) UpdateODO(autoID uint64, odo uint32) error {
 func (s AutoService) Delete(autoID uint64) error {
 	conn := db.Conn()
 
-	querySQL := `call cars.deleteauto($1,$2)`
+	querySQL := `CALL cars.deleteauto($1,$2)`
 	_, err := conn.Exec(querySQL, autoID, s.UserID)
 	return err
 }

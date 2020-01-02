@@ -21,7 +21,7 @@ func NewServicesService(userID uint64) ServicesService {
 func (g ServicesService) Get(autoID, groupID uint64) ([]models.Service, error) {
 	conn := db.Conn()
 
-	querySQL := `select service_id,odo,next_distance,dt,description,price from services.get_all($1,$2,$3)`
+	querySQL := `SELECT service_id,odo,next_distance,dt,description,price FROM services.get_all($1,$2,$3)`
 	rows, err := conn.Query(querySQL, g.UserID, autoID, groupID)
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (g ServicesService) Get(autoID, groupID uint64) ([]models.Service, error) {
 func (g ServicesService) Create(autoID, groupID uint64, odo, nextDistance *uint32, dt, descript *string, price *uint32) (*uint64, error) {
 	conn := db.Conn()
 
-	querySQL := `select service_id from services.create_service($1, $2, $3, $4, $5, $6, $7, $8)`
+	querySQL := `SELECT service_id FROM services.create_service($1, $2, $3, $4, $5, $6, $7, $8)`
 	row := conn.QueryRow(querySQL, autoID, g.UserID, groupID, odo, nextDistance, dt, descript, price)
 
 	var serviceID uint64
