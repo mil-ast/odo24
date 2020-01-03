@@ -29,7 +29,6 @@ import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/di
 import { OrderPipeModule } from '../_pipes/order.pipe.module';
 import { ListAvtoComponent } from '../shared/list-avto/list-avto.component';
 import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
-import { GroupsConfigComponent } from './groups-config/groups-config.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ServiceExpirationComponent } from './service-expiration/service-expiration.component';
 import { LeftDistancePipe } from './pipes/left-distance.pipe';
@@ -49,7 +48,6 @@ import { DialogConfigGroupsComponent } from './dialogs/dialog-config-groups/dial
     DialogUpdateGroupComponent,
     DialogCreateGroupComponent,
     ListAvtoComponent,
-    GroupsConfigComponent,
     ServiceExpirationComponent,
     LeftDistancePipe,
     DistanceLevelPipe,

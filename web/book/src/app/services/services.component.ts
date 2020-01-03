@@ -28,7 +28,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
     sort: null,
   };
   lastService: ServiceStruct = null;
-  isGroupConfig = false;
   isLoading = false;
   isMobile = false;
 
@@ -123,10 +122,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
   }
 
   toggleGroupConfig() {
-    // this.isGroupConfig = !this.isGroupConfig;
     this.dialog.open(DialogConfigGroupsComponent, {
       data: this.groups,
-      width: '600px',
       backdropClass: 'transparent',
     });
   }
