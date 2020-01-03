@@ -36,6 +36,7 @@ import { LeftDistancePipe } from './pipes/left-distance.pipe';
 import { DistanceLevelPipe } from './pipes/distance-level.pipe';
 import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog-update-group.component';
 import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
+import { DialogConfigGroupsComponent } from './dialogs/dialog-config-groups/dialog-config-groups.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,8 @@ import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog
     ServiceExpirationComponent,
     LeftDistancePipe,
     DistanceLevelPipe,
+    DialogConfigGroupsComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -87,6 +90,7 @@ import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog
     DialogUpdateServiceComponent,
     DialogUpdateGroupComponent,
     DialogCreateGroupComponent,
+    DialogConfigGroupsComponent,
   ]
 })
 export class ServiceModule {}

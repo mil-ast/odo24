@@ -129,6 +129,11 @@ input:active, textarea:active {outline:none;}
 }
 
 .toolbar_title_button {
+  display: flex;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  height: 120px;
+  background-color: #fdfdfd;
   button {
     margin-left: auto;
   }

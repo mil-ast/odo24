@@ -1,0 +1,49 @@
+:host {
+  max-height:90%;
+  min-width:280px;
+  overflow: auto;
+}
+
+#close {
+  margin-left: auto;
+}
+
+.mat-list-item {
+  position: relative;
+  cursor: move;
+  .group {
+    width:100%;
+  }
+
+  .menu_button {
+    position: absolute;
+    top:3px;
+    right:0px;
+    opacity: 0.4;
+  }
+
+  &:hover {
+    .menu_button {
+      opacity: 1;
+    }
+  }
+}
+
+.cdk-drag-preview {
+  background-color: #fff;
+  padding: 6px 0px 0px 10px;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+.mat-list.cdk-drop-list-dragging .mat-list-item:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

@@ -1,10 +1,10 @@
 <div id="cars">
-  <mat-toolbar class="toolbar_title_button">
+  <div class="toolbar_title_button">
     <h1 class="mat-h1">Мои машины</h1>
     <button title="Добавить авто" color="primary" mat-mini-fab class="mat-elevation-z0" (click)="clickShowAddAvto()">
       <mat-icon>add</mat-icon>
     </button>
-  </mat-toolbar>
+  </div>
   <div id="cars_container">
     <ng-container *ngIf="avtoList.length > 0; else tplEmptyAvto">
       <div id="onceAvtoImage">
