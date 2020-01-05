@@ -1,7 +1,8 @@
 :host {
   display: grid;
   grid-template-columns: 140px 160px 1fr 50px;
-  padding:10px 0px;
+  border-bottom: 1px #eee solid;
+  padding: 20px;
 }
 
 .odo {

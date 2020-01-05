@@ -30,6 +30,7 @@ h3 {
   display: grid;
   grid-template-rows: repeat(2, auto);
   gap: 20px;
+  padding: 20px;
 
   #select_group {
     display: grid;
@@ -43,21 +44,6 @@ h3 {
     &:hover {
       color:#333;
     }
-  }
-}
-
-app-groups-config {
-  position: absolute;
-  z-index:99;
-  top:0px;
-  left:0px;
-  background-color: #fff;
-}
-
-#list_services {
-  app-item-service {
-    border-bottom: 1px #eee solid;
-    padding: 20px 0px;
   }
 }
 
