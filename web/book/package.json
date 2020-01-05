@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --live-reload true --proxy-config proxy.json",
@@ -26,13 +26,13 @@
     "@angular/router": "^8.2.14",
     "@angular/service-worker": "^8.2.14",
     "@manekinekko/angular-web-bluetooth": "^7.0.0",
-    "core-js": "^3.6.0",
+    "core-js": "^3.6.1",
     "g": "^2.0.1",
     "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
     "ngx-toastr": "^10.2.0",
-    "rxjs": "^6.5.3",
-    "typescript": "^3.5.3",
+    "rxjs": "^6.5.4",
+    "typescript": "3.5.3",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
@@ -42,7 +42,7 @@
     "@angular/language-service": "^8.2.14",
     "@types/jasmine": "^3.5.0",
     "@types/jasminewd2": "^2.0.8",
-    "@types/node": "^12.12.21",
+    "@types/node": "^12.12.24",
     "@types/web-bluetooth": "0.0.4",
     "codelyzer": "~5.0.1",
     "jasmine-core": "~3.4.0",
@@ -51,7 +51,7 @@
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "^2.1.1",
     "karma-jasmine": "~2.0.1",
-    "karma-jasmine-html-reporter": "^1.4.2",
+    "karma-jasmine-html-reporter": "^1.5.1",
     "protractor": "^5.4.2",
     "ts-node": "~8.2.0",
     "tslint": "~5.17.0"

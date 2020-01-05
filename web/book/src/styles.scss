@@ -110,9 +110,6 @@ input:active, textarea:active {outline:none;}
   .mat-sidenav {
     width:400px;
   }
-  .mat-sidenav-content {
-    padding: 18px 20px 20px 20px;
-  }
 }
 
 .mat-drawer-container {
@@ -129,6 +126,11 @@ input:active, textarea:active {outline:none;}
 }
 
 .toolbar_title_button {
+  display: flex;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  height: 120px;
+  background-color: #fdfdfd;
   button {
     margin-left: auto;
   }

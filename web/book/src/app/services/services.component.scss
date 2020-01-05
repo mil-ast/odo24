@@ -19,7 +19,7 @@ h3 {
 
 .mat-sidenav-content {
   display: grid;
-  grid-template-rows: 70px 1fr;
+  grid-template-rows: 120px 1fr;
 }
 
 .mat-card-header-text {
@@ -30,11 +30,13 @@ h3 {
   display: grid;
   grid-template-rows: repeat(2, auto);
   gap: 20px;
+  padding: 20px;
 
   #select_group {
     display: grid;
     grid-template-columns: 300px 1fr auto;
     gap: 20px;
+    padding-top: 20px;
   }
 
   #group_config_btn {
@@ -42,20 +44,6 @@ h3 {
     &:hover {
       color:#333;
     }
-  }
-}
-
-app-groups-config {
-  position: absolute;
-  z-index:99;
-  top:0px;
-  left:0px;
-  background-color: #fff;
-}
-
-#list_services {
-  app-item-service {
-    border-bottom: 1px #eee solid;
   }
 }
 

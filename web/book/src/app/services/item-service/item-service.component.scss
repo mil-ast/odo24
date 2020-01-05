@@ -1,7 +1,8 @@
 :host {
   display: grid;
   grid-template-columns: 140px 160px 1fr 50px;
-  padding:10px 0px;
+  border-bottom: 1px #eee solid;
+  padding: 20px;
 }
 
 .odo {
@@ -21,7 +22,7 @@
 }
 
 .comment {
-  grid-column: 1 / 3;
+  grid-column: 1 / 4;
   grid-row: 2 / 3;
   color:#777;
   padding-top: 5px;
@@ -36,7 +37,8 @@
   grid-row: 1 / 2;
 
   > div {
-    background-color: #faf9ff;
+    background-color: #07bfb7;
+    color:#fff;
     display: inline;
     padding: 5px 10px;
     border-radius: 4px;
@@ -69,6 +71,9 @@
   .price {
     grid-column: 1 / 4;
     grid-row: 3 / 4;
-    padding: 8px 0px 0px 0px;
+    padding: 15px 0px 0px 0px;
+  }
+  .comment {
+    grid-column: 1 / 3;
   }
 }

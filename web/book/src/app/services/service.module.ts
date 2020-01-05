@@ -29,13 +29,13 @@ import { DialogUpdateServiceComponent } from './dialogs/dialog-update-service/di
 import { OrderPipeModule } from '../_pipes/order.pipe.module';
 import { ListAvtoComponent } from '../shared/list-avto/list-avto.component';
 import { SharedUtilsModule } from '../shared_modules/utils/shared-utils.modue';
-import { GroupsConfigComponent } from './groups-config/groups-config.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ServiceExpirationComponent } from './service-expiration/service-expiration.component';
 import { LeftDistancePipe } from './pipes/left-distance.pipe';
 import { DistanceLevelPipe } from './pipes/distance-level.pipe';
 import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog-update-group.component';
 import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
+import { DialogConfigGroupsComponent } from './dialogs/dialog-config-groups/dialog-config-groups.component';
 
 @NgModule({
   declarations: [
@@ -48,10 +48,11 @@ import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog
     DialogUpdateGroupComponent,
     DialogCreateGroupComponent,
     ListAvtoComponent,
-    GroupsConfigComponent,
     ServiceExpirationComponent,
     LeftDistancePipe,
     DistanceLevelPipe,
+    DialogConfigGroupsComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -87,6 +88,7 @@ import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog
     DialogUpdateServiceComponent,
     DialogUpdateGroupComponent,
     DialogCreateGroupComponent,
+    DialogConfigGroupsComponent,
   ]
 })
 export class ServiceModule {}

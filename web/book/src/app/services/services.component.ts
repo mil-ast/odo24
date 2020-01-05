@@ -11,6 +11,7 @@ import { AsideService } from '../_services/aside.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatSelectChange, MatSidenav } from '@angular/material';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { DialogConfigGroupsComponent } from './dialogs/dialog-config-groups/dialog-config-groups.component';
 
 @Component({
   selector: 'app-services',
@@ -27,7 +28,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
     sort: null,
   };
   lastService: ServiceStruct = null;
-  isGroupConfig = false;
   isLoading = false;
   isMobile = false;
 
@@ -122,7 +122,10 @@ export class ServicesComponent implements OnInit, OnDestroy {
   }
 
   toggleGroupConfig() {
-    this.isGroupConfig = !this.isGroupConfig;
+    this.dialog.open(DialogConfigGroupsComponent, {
+      data: this.groups,
+      backdropClass: 'transparent',
+    });
   }
 
   onDeleteService(service: ServiceStruct) {
