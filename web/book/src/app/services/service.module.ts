@@ -21,7 +21,7 @@ import { AutoService } from '../_services/avto.service';
 import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module';
 import { GroupService } from '../_services/groups.service';
 import { ItemServiceComponent } from './item-service/item-service.component';
-import { ServiceService } from '../_services/service.service';
+import { ServiceService } from './services/service.service';
 import { DialogCreateAvtoComponent } from '../shared/dialog-create-avto/dialog-create-avto.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';

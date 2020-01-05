@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ServiceStruct, ServiceService } from 'src/app/_services/service.service';
+import { ServiceStruct, ServiceService } from 'src/app/services/services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogUpdateServiceComponent } from '../dialogs/dialog-update-service/dialog-update-service.component';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';

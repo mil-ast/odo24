@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { AutoService } from '../_services/avto.service';
 import { Auto } from '../_classes/auto';
-import { ReplaySubject, combineLatest, zip, of } from 'rxjs';
+import { ReplaySubject, combineLatest } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
-import { ServiceService, ServiceStruct } from '../_services/service.service';
+import { ServiceService, ServiceStruct } from './services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { finalize, takeUntil, filter, mergeMap, mergeMapTo } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { AsideService } from '../_services/aside.service';
 import { ToastrService } from 'ngx-toastr';
@@ -83,7 +83,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     this.selectedAuto = null;
     this.selectedGroup = null;
-
     this.serviceList = [];
 
     this.asideService.setSidenav(null);
@@ -140,7 +139,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
     const selectedGroup = this.groups.find((g: GroupStruct) => g.group_id === select.value);
     if (selectedGroup) {
       this.groupService.setSelected(selectedGroup);
-      console.log(selectedGroup);
     }
   }
 

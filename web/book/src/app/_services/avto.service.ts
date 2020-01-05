@@ -6,8 +6,8 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AutoService {
-  private url = '/api/auto';
-  private urlItem = '/api/auto_item';
+  private readonly url = '/api/auto';
+  private readonly urlItem = '/api/auto_item';
 
   private selectedAuto: BehaviorSubject<Auto> = new BehaviorSubject(null);
   selected: Observable<Auto> = this.selectedAuto.asObservable();
@@ -20,9 +20,7 @@ export class AutoService {
     return this.http.get<AutoStruct[]>(this.url).pipe(map((list: AutoStruct[]) => {
       const autoList = (list || []).map((item: AutoStruct) => {
         return new Auto(item);
-      }).sort((left: AutoStruct, right: AutoStruct) => {
-        return left.auto_id > right.auto_id ? -1 : 1;
-      });
+      }).sort((left: AutoStruct, right: AutoStruct) => left.auto_id > right.auto_id ? -1 : 1);
 
       if (autoList.length > 0) {
         this.selectedAuto.next(autoList[0]);
@@ -34,9 +32,7 @@ export class AutoService {
 
   create(data: AutoStruct): Observable<Auto> {
     return this.http.post<AutoStruct>(this.url, data).pipe(
-      map((item: AutoStruct) => {
-        return new Auto(item);
-      })
+      map((item: AutoStruct) => new Auto(item))
     );
   }
 
@@ -50,8 +46,8 @@ export class AutoService {
     });
   }
 
-  delete(id: number) {
-    return this.http.delete(`${this.urlItem}/${id}/`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.urlItem}/${id}/`);
   }
 
   setSelected(auto: Auto) {
@@ -61,15 +57,5 @@ export class AutoService {
     if (selectedAutoID !== newAutoID) {
       this.selectedAuto.next(auto);
     }
-  }
-  getSelected(): Auto {
-    return this.selectedAuto.getValue();
-  }
-  resetSelected(): void {
-    this.selectedAuto.next(null);
-  }
-
-  isSelected(auto: AutoStruct): boolean {
-    return this.selectedAuto.getValue() === auto;
   }
 }

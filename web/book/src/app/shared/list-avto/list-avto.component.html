@@ -9,13 +9,13 @@
     <ng-container *ngIf="avtoList.length > 0; else tplEmptyAvto">
       <div id="onceAvtoImage">
         <a href="/" (click)="clickShowEditAvto($event)">
-          <img [src]="selectedAvto.avatarMediumPath" />
+          <img *ngIf="selectedAvto !== null" [src]="selectedAvto.avatarMediumPath" />
         </a>
       </div>
       <div id="onceAvtoName">
         <div>
-          <div class="avto_name">{{selectedAvto.name}}</div>
-          <div class="odo" *ngIf="selectedAvto.odo > 0">
+          <div class="avto_name">{{selectedAvto?.name}}</div>
+          <div class="odo" *ngIf="selectedAvto">
             <span>Пробег <a href="/" (click)="clickEditOdo($event)" class="value">{{ selectedAvto.odo|number }} км</a></span>
             <button mat-icon-button [matMenuTriggerFor]="menu">
               <mat-icon>menu</mat-icon>
@@ -43,7 +43,7 @@
             <img [src]="avto.avatarSmallPath" />
             <span class="title">
               <span class="avto_name">{{ avto.name }}</span>
-              <span class="ato_odo">
+              <span class="avto_odo">
                 <span class="odo">{{ avto.odo | number }}</span>
                 <span class="prefix">км</span></span>
             </span>

@@ -22,8 +22,7 @@ export interface ServiceCreate extends Service {
 
 @Injectable()
 export class ServiceService {
-  private url = '/api/services';
-  private lastService: ServiceStruct = null;
+  private readonly url = '/api/services';
 
   constructor(
     private http: HttpClient

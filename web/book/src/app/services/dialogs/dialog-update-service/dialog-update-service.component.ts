@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { ServiceService, ServiceStruct, Service } from 'src/app/_services/service.service';
+import { ServiceService, ServiceStruct, Service } from 'src/app/services/services/service.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -12,8 +12,7 @@ import { DialogCreateGroupComponent } from '../dialog-create-group/dialog-create
   templateUrl: './dialog-config-groups.component.html',
   styleUrls: ['./dialog-config-groups.component.scss']
 })
-export class DialogConfigGroupsComponent implements OnInit {
-
+export class DialogConfigGroupsComponent {
   constructor(
     private groupService: GroupService,
     private dialog: MatDialog,
@@ -21,11 +20,9 @@ export class DialogConfigGroupsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public groups: GroupStruct[],
   ) { }
 
-  ngOnInit() {
-  }
-
   drop(event: CdkDragDrop<GroupStruct[]>) {
     moveItemInArray(this.groups, event.previousIndex, event.currentIndex);
+
     this.groupService.saveNewSort(this.groups).subscribe({error: (err: HttpErrorResponse) => {
       console.log(err);
       this.toastr.error('Не удалось сохранить сортировку :(');

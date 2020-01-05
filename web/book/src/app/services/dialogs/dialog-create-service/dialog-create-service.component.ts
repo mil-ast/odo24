@@ -1,13 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import * as moment from 'moment';
-import { AutoService } from 'src/app/_services/avto.service';
-import { first } from 'rxjs/operators';
-import { AutoStruct } from 'src/app/_classes/auto';
-import { ServiceService, ServiceStruct, ServiceCreate } from 'src/app/_services/service.service';
-import { GroupStruct, GroupService } from 'src/app/_services/groups.service';
+import { ServiceService, ServiceStruct, ServiceCreate } from 'src/app/services/services/service.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

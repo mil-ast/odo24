@@ -42,29 +42,19 @@ export class GroupService {
     return this.http.put<void>(`${this.url}/sort`, body);
   }
 
-  create(data: GroupStructModify) {
-    return this.http.post(this.url, data);
+  create(data: GroupStructModify): Observable<GroupStruct> {
+    return this.http.post<GroupStruct>(this.url, data);
   }
 
-  update(groupID: number, data: GroupStructModify) {
-    return this.http.put(`${this.urlGroup}/${groupID}`, data);
+  update(groupID: number, data: GroupStructModify): Observable<void> {
+    return this.http.put<void>(`${this.urlGroup}/${groupID}`, data);
   }
 
-  delete(groupID: number) {
-    return this.http.delete(`${this.urlGroup}/${groupID}`);
+  delete(groupID: number): Observable<void> {
+    return this.http.delete<void>(`${this.urlGroup}/${groupID}`);
   }
 
   setSelected(group: GroupStruct) {
     this.selectedGroup.next(group);
-  }
-  getSelected(): GroupStruct {
-    return this.selectedGroup.getValue();
-  }
-  resetSelected(): void {
-    this.selectedGroup.next(null);
-  }
-
-  isSelected(group: GroupStruct): boolean {
-    return this.selectedGroup.getValue() === group;
   }
 }

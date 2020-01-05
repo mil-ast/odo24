@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ServiceStruct } from 'src/app/_services/service.service';
+import { ServiceStruct } from 'src/app/services/services/service.service';
 import { Auto } from 'src/app/_classes/auto';
 
 @Pipe({

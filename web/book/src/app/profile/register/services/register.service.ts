@@ -1,15 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Profile } from 'src/app/_classes/profile';
-import { map } from 'rxjs/operators';
-
-interface RegisterResponce {
-  user_id: number;
-  login: string;
-  email?: boolean;
-  confirmed?: boolean;
-}
 
 const baseURL = '/api/profile';
 
