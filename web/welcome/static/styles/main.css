@@ -137,17 +137,27 @@ footer > div .column > div .material-icons {
   left: 0;
 }
 
-footer > div .column > div #vk_icon {
+footer > div .column > div #vk_icon,
+footer #github {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background-image: url(/static/images/vk.svg);
   background-size: 100%;
   background-repeat: no-repeat;
 }
 
+footer > div .column > div #vk_icon {
+  background-image: url("/static/images/vk.svg");
+}
+
 footer a:hover {
   color:#eee;
+}
+
+footer #github {
+  background-image: url("/static/images/github.svg");
+  position: relative;
+  top:8px;
 }
 
 @media (max-width: 1400px) {
