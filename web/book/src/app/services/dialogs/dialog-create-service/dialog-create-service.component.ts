@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-dialog-create-service',
   templateUrl: './dialog-create-service.component.html',
   styleUrls: [
-    '../../../_css/dialogs_form.scss'
+    '../../../shared_styles/dialogs_form.scss'
   ]
 })
 export class DialogCreateServiceComponent implements OnInit {

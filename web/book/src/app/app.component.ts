@@ -6,6 +6,7 @@ import { ProfileDialogComponent } from './shared/profile-dialog/profile-dialog.c
 import { AsideService } from './_services/aside.service';
 import { AutoService } from './_services/avto.service';
 import { GroupService } from './_services/groups.service';
+import { AppUpdateService } from './_services/app-update.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { GroupService } from './_services/groups.service';
 export class AppComponent implements OnInit {
   constructor(
     public asideService: AsideService,
+    private appUpdate: AppUpdateService,
     private dialog: MatDialog,
     private profileService: ProfileService,
     private autoService: AutoService,
