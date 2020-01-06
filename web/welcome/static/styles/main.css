@@ -89,6 +89,9 @@ header nav a .material-icons {
   top:9px;
   left:10px;
 }
+header nav a:active, header nav a:focus {
+  border:none;
+}
 
 footer {
   position: relative;
