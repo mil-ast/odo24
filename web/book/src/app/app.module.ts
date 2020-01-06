@@ -1,21 +1,16 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AppComponent } from './app.component';
 import { AuthGuard } from './auth.guard';
 import { httpInterceptorProviders } from './http-interceptors';
-// модули
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from './app.routing';
 import { ServiceModule } from './services/service.module';
 import { ToastrModule } from 'ngx-toastr';
-
-// сервисы
 import { ProfileService } from './_services/profile.service';
 import { MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -41,7 +36,6 @@ export const DATE_FORMATS = {
 
 import { registerLocaleData, CommonModule } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
-import { SelectedAvtoModule } from './shared/selected-avto/selected-avto.module';
 import { OrderPipeModule } from './_pipes/order.pipe.module';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { DialogUpdateAvtoComponent } from './shared/dialog-update-avto/dialog-update-avto.component';
@@ -82,7 +76,6 @@ registerLocaleData(localeRu, 'ru');
     HttpClientModule,
     AppRoutingModule,
     OrderPipeModule,
-    SelectedAvtoModule,
     ServiceModule,
     ToastrModule.forRoot({
       timeOut: 10000,
@@ -102,7 +95,6 @@ registerLocaleData(localeRu, 'ru');
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000}}
   ],
   exports : [
-    SelectedAvtoModule,
   ],
   entryComponents: [
     ConfirmationDialogComponent,
@@ -112,4 +104,4 @@ registerLocaleData(localeRu, 'ru');
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

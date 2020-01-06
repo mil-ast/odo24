@@ -18,7 +18,6 @@ import {
   MatListModule,
 } from '@angular/material';
 import { AutoService } from '../_services/avto.service';
-import { SelectedAvtoModule } from '../shared/selected-avto/selected-avto.module';
 import { GroupService } from '../_services/groups.service';
 import { ItemServiceComponent } from './item-service/item-service.component';
 import { ServiceService } from './services/service.service';
@@ -56,7 +55,6 @@ import { DialogConfigGroupsComponent } from './dialogs/dialog-config-groups/dial
   ],
   imports: [
     CommonModule,
-    SelectedAvtoModule,
     MatSidenavModule,
     MatSnackBarModule,
     SharedUtilsModule,
