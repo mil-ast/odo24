@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// OAuthMailRuUserInfo ответ
 type OAuthMailRuUserInfo struct {
 	Gender    string `json:"gender"`
 	Name      string `json:"name"`
@@ -18,36 +19,39 @@ type OAuthMailRuUserInfo struct {
 	Email     string `json:"email"`
 }
 
+// OAuthMailRuUser клиент
 type OAuthMailRuUser struct {
-	token string
+	params OAuthParams
 }
 
+// NewOAuthMailRuUser новый клиент
+func NewOAuthMailRuUser(tokenURL, grantType, clientID, clientSecret, redirectURI string) OAuthMailRuUser {
+	params := OAuthParams{
+		TokenURL:     tokenURL,
+		GrantType:    grantType,
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		RedirectURI:  redirectURI,
+	}
+	return OAuthMailRuUser{
+		params: params,
+	}
+}
+
+// Auth выполнение авторизации
 func (m OAuthMailRuUser) Auth(code string) (string, error) {
-	token, err := m.getToken(code)
+	token, err := m.params.GetToken(code)
 	if err != nil {
-		log.Println(err)
 		return "", err
 	}
 
-	email, err := m.getUser(token)
+	email, err := m.getUser(token.AccessToken)
 	if err != nil {
 		log.Println(err)
 		return "", err
 	}
 
 	return email, nil
-}
-
-func (m OAuthMailRuUser) getToken(code string) (string, error) {
-	oauth := OAuthParams{
-		TokenURL:     "https://oauth.mail.ru/token",
-		GrantType:    "authorization_code",
-		ClientID:     "65ff8fc8b7ea4b409f61a465790f80b1",
-		ClientSecret: "f289ba761b31475380765fa7f5244108",
-		RedirectURI:  "https://odo24.ru/book/profile/login/oauth?service=mail.ru",
-	}
-	token, err := oauth.GetToken(code)
-	return token.AccessToken, err
 }
 
 func (m OAuthMailRuUser) getUser(token string) (string, error) {

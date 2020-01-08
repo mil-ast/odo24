@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"odo24/server/api/constants"
 	"odo24/server/api/models"
+	"odo24/server/config"
 	"odo24/server/oauth"
 	"odo24/server/sendmail"
 	"odo24/server/sessions"
@@ -17,14 +18,19 @@ import (
 func (ProfileController) OAuth(c *gin.Context) {
 	queryParams := c.MustGet(constants.BindOAuthQuery).(models.OAuthQueryParams)
 
+	cfg := config.GetInstance()
+
 	var serviceType oauth.OAuthUserInfo
 	switch queryParams.Service {
 	case "yandex.ru":
-		serviceType = oauth.OAuthYandexRuUser{}
+		c := cfg.Oauth.Yandex
+		serviceType = oauth.NewOAuthYandexRuUser(c.TokenURL, c.GrantType, c.ClientID, c.ClientSecret, c.RedirectURI)
 	case "mail.ru":
-		serviceType = oauth.OAuthMailRuUser{}
+		c := cfg.Oauth.MailRu
+		serviceType = oauth.NewOAuthMailRuUser(c.TokenURL, c.GrantType, c.ClientID, c.ClientSecret, c.RedirectURI)
 	case "google":
-		serviceType = oauth.OAuthGoogleComUser{}
+		c := cfg.Oauth.Google
+		serviceType = oauth.NewOAuthGoogleCom(c.TokenURL, c.GrantType, c.ClientID, c.ClientSecret, c.RedirectURI)
 	default:
 		c.AbortWithError(http.StatusBadRequest, fmt.Errorf("Uncnown query param '%s'", queryParams.Service))
 		return

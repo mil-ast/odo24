@@ -5,18 +5,24 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"time"
 )
 
+// ClientTimeout таймаут
 const ClientTimeout = 5 * time.Second
+
+// ErrAuthError ошибка авторизации
 const ErrAuthError = "Auth error"
 
+// OAuthUserInfo интерфейс авторизации
 type OAuthUserInfo interface {
 	Auth(code string) (email string, err error)
 }
 
+// OAuthToken модель токена
 type OAuthToken struct {
 	TokenType    string `json:"token_type"`
 	AccessToken  string `json:"access_token"`
@@ -24,6 +30,7 @@ type OAuthToken struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
+// OAuthParams параметры запроса токена
 type OAuthParams struct {
 	TokenURL     string
 	GrantType    string
@@ -32,6 +39,7 @@ type OAuthParams struct {
 	RedirectURI  string
 }
 
+// GetToken запрос токена
 func (p OAuthParams) GetToken(code string) (OAuthToken, error) {
 	token := OAuthToken{}
 
@@ -44,6 +52,7 @@ func (p OAuthParams) GetToken(code string) (OAuthToken, error) {
 
 	req, err := http.NewRequest("POST", p.TokenURL, bytes.NewBufferString(params.Encode()))
 	if err != nil {
+		log.Println(err)
 		return token, err
 	}
 
@@ -55,6 +64,7 @@ func (p OAuthParams) GetToken(code string) (OAuthToken, error) {
 
 	resp, err := client.Do(req)
 	if err != nil {
+		log.Println(err)
 		return token, err
 	}
 
@@ -62,11 +72,13 @@ func (p OAuthParams) GetToken(code string) (OAuthToken, error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		log.Println(err)
 		return token, err
 	}
 
 	err = json.Unmarshal(body, &token)
 	if err != nil {
+		log.Println(err)
 		return token, err
 	}
 

@@ -10,42 +10,46 @@ import (
 	"time"
 )
 
+// OAuthYandexRuUserInfo ответ
 type OAuthYandexRuUserInfo struct {
 	Login        string `json:"login"`
 	DefaultEmail string `json:"default_email"`
 	ClientID     string `json:"client_id"`
 }
 
+// OAuthYandexRuUser клиент
 type OAuthYandexRuUser struct {
-	token string
+	params OAuthParams
 }
 
+// NewOAuthYandexRuUser новый клиент
+func NewOAuthYandexRuUser(tokenURL, grantType, clientID, clientSecret, redirectURI string) OAuthYandexRuUser {
+	params := OAuthParams{
+		TokenURL:     tokenURL,
+		GrantType:    grantType,
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		RedirectURI:  redirectURI,
+	}
+	return OAuthYandexRuUser{
+		params: params,
+	}
+}
+
+// Auth выполнение авторизации
 func (y OAuthYandexRuUser) Auth(code string) (string, error) {
-	token, err := y.getToken(code)
+	token, err := y.params.GetToken(code)
 	if err != nil {
-		log.Println(err)
 		return "", err
 	}
 
-	email, err := y.getUser(token)
+	email, err := y.getUser(token.AccessToken)
 	if err != nil {
 		log.Println(err)
 		return "", err
 	}
 
 	return email, nil
-}
-
-func (y OAuthYandexRuUser) getToken(code string) (string, error) {
-	oauth := OAuthParams{
-		TokenURL:     "https://oauth.yandex.ru/token",
-		GrantType:    "authorization_code",
-		ClientID:     "591440f4698d49158536afd3e276b829",
-		ClientSecret: "9fca96127b324a68a1edcf16de351080",
-		RedirectURI:  "https://odo24.ru/book/profile/login/oauth?service=yandex.ru",
-	}
-	token, err := oauth.GetToken(code)
-	return token.AccessToken, err
 }
 
 func (y OAuthYandexRuUser) getUser(token string) (string, error) {

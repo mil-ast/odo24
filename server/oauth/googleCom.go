@@ -10,42 +10,46 @@ import (
 	"time"
 )
 
+// OAuthGoogleComUserInfo ответ
 type OAuthGoogleComUserInfo struct {
 	Login string `json:"login"`
 	Email string `json:"email"`
 	Name  string `json:"name"`
 }
 
+// OAuthGoogleComUser клиент
 type OAuthGoogleComUser struct {
-	token string
+	params OAuthParams
 }
 
+// NewOAuthGoogleCom новый клиент
+func NewOAuthGoogleCom(tokenURL, grantType, clientID, clientSecret, redirectURI string) OAuthGoogleComUser {
+	params := OAuthParams{
+		TokenURL:     tokenURL,
+		GrantType:    grantType,
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		RedirectURI:  redirectURI,
+	}
+	return OAuthGoogleComUser{
+		params: params,
+	}
+}
+
+// Auth выполнение авторизации
 func (g OAuthGoogleComUser) Auth(code string) (string, error) {
-	token, err := g.getToken(code)
+	token, err := g.params.GetToken(code)
 	if err != nil {
-		log.Println(err)
 		return "", err
 	}
 
-	email, err := g.getUser(token)
+	email, err := g.getUser(token.AccessToken)
 	if err != nil {
 		log.Println(err)
 		return "", err
 	}
 
 	return email, nil
-}
-
-func (g OAuthGoogleComUser) getToken(code string) (string, error) {
-	oauth := OAuthParams{
-		TokenURL:     "https://accounts.google.com/o/oauth2/token",
-		GrantType:    "authorization_code",
-		ClientID:     "195955516861.apps.googleusercontent.com",
-		ClientSecret: "AfJ0ysuTZm-F-qWBbjkm6dPm",
-		RedirectURI:  "https://odo24.ru/book/profile/login/oauth?service=google",
-	}
-	token, err := oauth.GetToken(code)
-	return token.AccessToken, err
 }
 
 func (g OAuthGoogleComUser) getUser(token string) (string, error) {
