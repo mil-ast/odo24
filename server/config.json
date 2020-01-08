@@ -14,5 +14,28 @@
 		"connection_string" : "host=localhost port=5432 dbname=odo24 user=login password=pwd sslmode=disable",
 		"max_idle_conns" : 50,
 		"max_open_conns" : 50
+	},
+	"oauth": {
+		"google": {
+			"TokenURL":     "https://accounts.google.com/o/oauth2/token",
+			"GrantType":    "authorization_code",
+			"ClientID":     "client.id.apps.googleusercontent.com",
+			"ClientSecret": "client.sercet",
+			"RedirectURI":  "https://odo24.ru/book/profile/login/oauth?service=google"
+		},
+		"mailru": {
+			"TokenURL":     "https://oauth.mail.ru/token",
+			"GrantType":    "authorization_code",
+			"ClientID":     "client.id.ea4b409f61a465790f80b1",
+			"ClientSecret": "client.sercet",
+			"RedirectURI":  "https://odo24.ru/book/profile/login/oauth?service=mail.ru"
+		},
+		"yandex": {
+			"TokenURL":     "https://oauth.yandex.ru/token",
+			"GrantType":    "authorization_code",
+			"ClientID":     "client.id.8d49158536afd3e276b829",
+			"ClientSecret": "client.sercet",
+			"RedirectURI":  "https://odo24.ru/book/profile/login/oauth?service=yandex.ru"
+		}
 	}
 }

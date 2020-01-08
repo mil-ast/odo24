@@ -7,4 +7,5 @@ links.html
 server/fileuploads/
 server/server
 server/server.exe
+server/config.prod.json
 *.sql

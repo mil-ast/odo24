@@ -7,6 +7,14 @@ import (
 
 const configFilName string = "config.json"
 
+type Oauth struct {
+	TokenURL     string `json:"TokenURL"`
+	GrantType    string `json:"GrantType"`
+	ClientID     string `json:"ClientID"`
+	ClientSecret string `json:"ClientSecret"`
+	RedirectURI  string `json:"RedirectURI"`
+}
+
 // Configuration структура конфига
 type Configuration struct {
 	Production bool `json:"production"`
@@ -25,6 +33,11 @@ type Configuration struct {
 		MaxIdleConns     int    `json:"max_idle_conns"`
 		MaxOpenConns     int    `json:"max_open_conns"`
 	} `json:"db"`
+	Oauth struct {
+		Google Oauth `json:"google"`
+		MailRu Oauth `json:"mailru"`
+		Yandex Oauth `json:"yandex"`
+	} `json:"oauth"`
 }
 
 var cfg *Configuration
