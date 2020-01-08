@@ -19,14 +19,16 @@ type Oauth struct {
 type Configuration struct {
 	Production bool `json:"production"`
 	App        struct {
-		ServerAddr   string `json:"server_addr"`
-		ImageMagick  string `json:"imageMagick"`
-		SMTPHost     string `json:"smtp_host"`
-		SMTPPort     uint16 `json:"smtp_port"`
-		SMTPFrom     string `json:"smtp_from"`
-		SMTPPassword string `json:"smtp_password"`
-		SessionKey   string `json:"session_key"`
+		ServerAddr  string `json:"server_addr"`
+		ImageMagick string `json:"imageMagick"`
+		SessionKey  string `json:"session_key"`
 	} `json:"app"`
+	SMTP struct {
+		Host     string `json:"host"`
+		Port     uint16 `json:"port"`
+		From     string `json:"from"`
+		Password string `json:"password"`
+	} `json:"smtp"`
 	Db struct {
 		DriverName       string `json:"driver_name"`
 		ConnectionString string `json:"connection_string"`

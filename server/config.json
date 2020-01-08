@@ -2,12 +2,14 @@
 	"production": false,
 	"app" : {
 		"server_addr" : "127.0.0.1:8000",
-		"imageMagick" : "magick",
-		"smtp_host" : "smtp.yandex.ru",
-		"smtp_port" : 465,
-		"smtp_from" : "info@odo24.ru",
-		"smtp_password" : "password",
-		"session_key": "0xDeadBeef"
+		"imageMagick" : "convert",
+		"session_key": "DEADBEEF"
+	},
+	"smtp" : {
+		"host" : "smtp.yandex.ru",
+		"port" : 465,
+		"from" : "info@odo24.ru",
+		"password" : "password"
 	},
 	"db" : {
 		"driver_name" : "postgres",

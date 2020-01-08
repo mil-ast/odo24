@@ -53,16 +53,16 @@ func SendEmail(to string, tplID uint8, params map[string]interface{}) error {
 	options := config.GetInstance()
 
 	client, err := email.NewClient(email.Host{
-		Host:     options.App.SMTPHost,
-		Port:     options.App.SMTPPort,
-		Login:    options.App.SMTPFrom,
-		Password: options.App.SMTPPassword,
+		Host:     options.SMTP.Host,
+		Port:     options.SMTP.Port,
+		Login:    options.SMTP.From,
+		Password: options.SMTP.Password,
 	})
 	if err != nil {
 		return err
 	}
 
-	templateBody = fmt.Sprintf(templateBody, options.App.SMTPFrom, to)
+	templateBody = fmt.Sprintf(templateBody, options.SMTP.From, to)
 
 	buffer := new(bytes.Buffer)
 	t := template.Must(template.New("letter").Parse(templateBody))
@@ -71,7 +71,7 @@ func SendEmail(to string, tplID uint8, params map[string]interface{}) error {
 		return err
 	}
 
-	err = client.Send(options.App.SMTPFrom, to, buffer.String())
+	err = client.Send(options.SMTP.From, to, buffer.String())
 	if err != nil {
 		return err
 	}
