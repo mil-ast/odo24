@@ -1,5 +1,9 @@
 #oauth {
   position: relative;
+  padding: 120px 0px;
+  p {
+    line-height:20px;
+  }
 }
 #progress_bar {
   position: absolute;
@@ -9,5 +13,5 @@
 }
 
 #error {
-  margin-top:-20px;
+  margin-top: 70px;
 }

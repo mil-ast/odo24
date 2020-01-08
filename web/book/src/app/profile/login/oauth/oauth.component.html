@@ -5,7 +5,11 @@
   </div>
 </div>
 <ng-template #tplError>
-  <div id="error" class="mat-error">
-    <p>Ошибка при входе через OAuth</p>
+  <div id="error">
+    <div class="mat-error">
+      <p>Ошибка при входе через OAuth</p>
+    </div>
+    <p>Не удалось войти через сервис OAuth.</p>
+    <p>Попробуйте позже или <a routerLink="/profile/login">вернитесь</a> на страницу авторизации и войтиде с помощью Email и пароля</p>
   </div>
 </ng-template>
