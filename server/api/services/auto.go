@@ -31,6 +31,7 @@ func (s AutoService) GetAll() ([]models.Auto, error) {
 	querySQL := `SELECT auto_id,name,odo,avatar FROM cars.get_all($1)`
 	rows, err := conn.Query(querySQL, s.UserID)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -41,6 +42,7 @@ func (s AutoService) GetAll() ([]models.Auto, error) {
 		auto = models.Auto{}
 		err = rows.Scan(&auto.AutoID, &auto.Name, &auto.Odo, &auto.Avatar)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		result = append(result, auto)
@@ -62,6 +64,7 @@ func (s AutoService) Create(name string, odo uint32) (*models.Auto, error) {
 	row := conn.QueryRow(querySQL, name, odo, s.UserID)
 	err := row.Scan(&auto.AutoID, &auto.Avatar)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
@@ -74,6 +77,7 @@ func (s AutoService) Update(autoID uint64, name string, odo uint32, avatar *bool
 
 	querySQL := `CALL cars.updateauto($1,$2,$3,$4,$5)`
 	_, err := conn.Exec(querySQL, autoID, s.UserID, odo, name, avatar)
+	log.Println(err)
 	return err
 }
 
@@ -83,6 +87,7 @@ func (s AutoService) UpdateODO(autoID uint64, odo uint32) error {
 
 	querySQL := `CALL cars.updateodo($1,$2,$3)`
 	_, err := conn.Exec(querySQL, autoID, s.UserID, odo)
+	log.Println(err)
 	return err
 }
 
@@ -92,12 +97,17 @@ func (s AutoService) Delete(autoID uint64) error {
 
 	querySQL := `CALL cars.deleteauto($1,$2)`
 	_, err := conn.Exec(querySQL, autoID, s.UserID)
+	if err != nil {
+		log.Println(err)
+	}
 	return err
 }
 
+// FileUpload загрузка аватарки авто
 func (s AutoService) FileUpload(autoID uint64, fileHeder *multipart.FileHeader) error {
 	src, err := fileHeder.Open()
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	defer src.Close()
@@ -106,12 +116,14 @@ func (s AutoService) FileUpload(autoID uint64, fileHeder *multipart.FileHeader) 
 
 	out, err := os.Create(dst)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	defer out.Close()
 
 	_, err = io.Copy(out, src)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 

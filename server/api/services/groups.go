@@ -1,6 +1,7 @@
 package services
 
 import (
+	"log"
 	"odo24/server/api/models"
 	"odo24/server/db"
 
@@ -26,6 +27,7 @@ func (g GroupsService) GetAll() ([]models.Group, error) {
 	querySQL := `SELECT group_id,group_name,sort FROM service_groups.getforuser($1)`
 	rows, err := conn.Query(querySQL, g.UserID)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -36,6 +38,7 @@ func (g GroupsService) GetAll() ([]models.Group, error) {
 		group = models.Group{}
 		err = rows.Scan(&group.GroupID, &group.Name, &group.Sort)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		result = append(result, group)
@@ -57,6 +60,7 @@ func (g GroupsService) Create(groupName string) (*models.Group, error) {
 
 	err := row.Scan(&model.GroupID, &model.Sort)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
@@ -78,6 +82,9 @@ func (g GroupsService) Delete(groupID uint64) error {
 
 	querySQL := `CALL service_groups.delete_group($1,$2)`
 	_, err := conn.Exec(querySQL, groupID, g.UserID)
+	if err != nil {
+		log.Println(err)
+	}
 	return err
 }
 
@@ -96,5 +103,8 @@ func (g GroupsService) SortUpdate(sortedGroups []uint64) error {
 
 	querySQL := `CALL Service_Groups.Update_Sort($1,$2)`
 	_, err := conn.Exec(querySQL, g.UserID, arr)
+	if err != nil {
+		log.Println(err)
+	}
 	return err
 }
