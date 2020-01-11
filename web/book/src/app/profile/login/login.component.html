@@ -13,8 +13,7 @@
 				<button type="submit" mat-raised-button color="primary">Войти</button>
 			</div>
 			<div *ngIf="loginError" id="incorrect">
-				<mat-icon>error_outline</mat-icon>
-				<span class="error__message">Неправильный логин или пароль!</span>
+				<mat-error><mat-icon>error_outline</mat-icon> Неправильный логин или пароль!</mat-error>
 			</div>
 		</form>
 	</div>

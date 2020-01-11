@@ -57,6 +57,16 @@
       }
     }
   }
+
+  #incorrect {
+    margin-top: 20px;
+    display: flex;
+
+    .mat-icon {
+      position: relative;
+      top: 7px;
+    }
+  }
 }
 
 @media (max-width: 660px) {
