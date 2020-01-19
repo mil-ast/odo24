@@ -42,6 +42,14 @@ p {
   line-height: 30px;
 }
 
+hr {
+  margin: -30px auto 40px auto;
+  padding: 0;
+  height: 50px;
+  border: none;
+  border-bottom: 1px solid #dcdcdc;
+}
+
 .data {
   padding: 60px;
 }

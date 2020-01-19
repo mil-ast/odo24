@@ -13,6 +13,19 @@ article {
   padding:0px 60px;
 }
 
+a .material-icons {
+  position: relative;
+  top: 6px;
+}
+
+#inform {
+  padding: 20px;
+  display: inline-block;
+  background-color: #f7f7f7;
+  border-radius: 6px;
+  margin: 40px auto;
+}
+
 @media (max-width: 650px) {
   article {
     padding: 0px 40px;

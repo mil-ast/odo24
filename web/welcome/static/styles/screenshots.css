@@ -13,30 +13,34 @@ article {
   padding:0px 60px;
   margin-bottom: 40px;
 }
+article h1, article h2 {
+  margin-bottom: 20px;
+}
 
 .screen {
-  background-position: 0% 0%;
+  background-position: 0px 0px;
   background-repeat: no-repeat;
-  background-size: contain;
-  width:870px;
-  height: 913px;
-}
-.screen.right {
-  background-position: top right;
+  width: 850px;
+  height: 780px;
+  border: 20px solid #494d50;
+  border-radius: 6px;
 }
 
-#screen-main {
-  background-image: url("/static/images/screens/screen1_850.jpg");
+#screen1 {
+  background-image: url("/static/images/screens/screen1.850.jpg");
 }
 
-#screen-groups {
-  background-image: url("/static/images/screens/screen2_850.jpg");
+#screen2 {
+  background-image: url("/static/images/screens/screen2.850.jpg");
 }
 
-#screen-service {
-  background-image: url("/static/images/screens/screen3_850.jpg");
+#screen3 {
+  background-image: url("/static/images/screens/screen3.850.jpg");
 }
 
+#screen4 {
+  background-image: url("/static/images/screens/screen4.850.jpg");
+}
 
 #oauth {
   display: flex;
@@ -84,38 +88,46 @@ article {
 @media (max-width: 980px) {
   .screen {
     width:600px;
-    height: 630px;
+    height: 600px;
   }
 
-  #screen-main {
-    background-image: url("/static/images/screens/screen1_600.jpg");
+  #screen1 {
+    background-image: url("/static/images/screens/screen1.600.jpg");
   }
   
-  #screen-groups {
-    background-image: url("/static/images/screens/screen2_600.jpg");
+  #screen2 {
+    background-image: url("/static/images/screens/screen2.600.jpg");
   }
   
-  #screen-service {
-    background-image: url("/static/images/screens/screen3_600.jpg");
+  #screen3 {
+    background-image: url("/static/images/screens/screen3.600.jpg");
+  }
+
+  #screen4 {
+    background-image: url("/static/images/screens/screen4.600.jpg");
   }
 }
 
 @media (max-width: 700px) {
   .screen {
-    width:300px;
-    height: 315px;
+    width:320px;
+    height: 520px;
   }
 
-  #screen-main {
-    background-image: url("/static/images/screens/screen1_300.jpg");
+  #screen1 {
+    background-image: url("/static/images/screens/screen1.300.jpg");
   }
   
-  #screen-groups {
-    background-image: url("/static/images/screens/screen2_300.jpg");
+  #screen2 {
+    background-image: url("/static/images/screens/screen2.300.jpg");
   }
   
-  #screen-service {
-    background-image: url("/static/images/screens/screen3_300.jpg");
+  #screen3 {
+    background-image: url("/static/images/screens/screen3.300.jpg");
+  }
+  
+  #screen4 {
+    background-image: url("/static/images/screens/screen4.300.jpg");
   }
 }
 
@@ -135,5 +147,17 @@ article {
 @media (max-width: 520px) {
   article {
     padding: 0px 20px;
+  }
+}
+
+@media (max-width: 390px) {
+  .screen {
+    border-left: none;
+    border-right: none;
+    margin-left: -20px;
+    border-radius: 0px;
+    width: calc(100% + 40px);
+    background-position: center;
+    background-color: #494d50;
   }
 }
