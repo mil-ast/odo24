@@ -38,6 +38,8 @@ func (ProfileController) Login(c *gin.Context) {
 		return
 	}
 
+	log.Println(body.Login, body.Password)
+
 	profileService := services.NewProfileService()
 	profile, err := profileService.Login(body.Login, body.Password)
 	if err != nil {
@@ -45,19 +47,19 @@ func (ProfileController) Login(c *gin.Context) {
 		case "pq: login is empty":
 			c.Status(http.StatusBadRequest)
 		default:
-			c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
+			c.AbortWithError(http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		}
 
 		return
 	}
 
-	err = sessions.NewSession(c, profile.UserID)
+	tokenInfo, err := sessions.NewSession(c, profile.UserID)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
-	c.JSON(200, *profile)
+	c.JSON(200, *tokenInfo)
 }
 
 // Logout выход из профиля
@@ -139,6 +141,7 @@ func (ProfileController) PasswordRecovery(c *gin.Context) {
 		}
 		return
 	}
+
 	c.Status(http.StatusNoContent)
 }
 

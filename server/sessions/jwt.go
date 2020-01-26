@@ -12,6 +12,7 @@ import (
 	"log"
 	"odo24/server/api/models"
 	"strings"
+	"time"
 )
 
 const (
@@ -59,7 +60,7 @@ func (t *Token) Verify(secret []byte) bool {
 }
 
 // NewToken создание нового токена
-func NewToken(algorithm string, secret []byte, claims models.SessionValue) (*string, error) {
+func NewToken(algorithm string, secret []byte, userID uint64) (*TokenInfo, error) {
 	header := make(map[string]interface{}, 2)
 	header["typ"] = "JWT"
 	header["alg"] = algorithm
@@ -70,6 +71,12 @@ func NewToken(algorithm string, secret []byte, claims models.SessionValue) (*str
 	}
 
 	b64Header := base64.RawURLEncoding.EncodeToString(headerEncoded)
+
+	jwtExp := time.Now().Add(CookieTimeout)
+	claims := models.SessionValue{
+		UserID:     userID,
+		Expiration: uint64(jwtExp.UTC().Unix()),
+	}
 
 	claimsEncoded, err := json.Marshal(claims)
 	if err != nil {
@@ -97,8 +104,16 @@ func NewToken(algorithm string, secret []byte, claims models.SessionValue) (*str
 	macSig := h.Sum(nil)
 	b64Sig := base64.RawURLEncoding.EncodeToString(macSig)
 
-	token := fmt.Sprintf("%s.%s", jwtStr, string(b64Sig))
-	return &token, nil
+	jwt := fmt.Sprintf("%s.%s", jwtStr, string(b64Sig))
+
+	rt := newRefreshToken()
+	result := TokenInfo{
+		Jwt:           jwt,
+		RT:            rt.Token,
+		RtExpiration:  rt.Expiration,
+		JwtExpiration: jwtExp,
+	}
+	return &result, nil
 }
 
 // ParseToken парсинг строки токена

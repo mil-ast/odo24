@@ -11,13 +11,22 @@ import (
 
 const (
 	sessionID string = "Authorization"
-	// SessionTimeout время актуальности токена
-	SessionTimeout time.Duration = time.Hour * time.Duration(24*31)
+	// CookieTimeout время актуальности Access токена и cookie
+	CookieTimeout time.Duration = time.Minute * 30
+	// RTTimeout время жизни Refresh токена
+	RTTimeout time.Duration = time.Hour * time.Duration(24*31)
 )
 
 const (
 	errExpired = "expired"
 )
+
+type TokenInfo struct {
+	Jwt           string    `json:"jwt"`
+	RT            string    `json:"rt"`
+	RtExpiration  time.Time `json:"rt_exp"`
+	JwtExpiration time.Time `json:"jwt_exp"`
+}
 
 var secretKey []byte
 
@@ -27,24 +36,19 @@ func SetSecretKey(key string) {
 }
 
 // NewSession создание новой сессии
-func NewSession(c *gin.Context, userID uint64) error {
+func NewSession(c *gin.Context, userID uint64) (*TokenInfo, error) {
 	if userID == 0 {
-		return errors.New("profile is empty")
+		return nil, errors.New("profile is empty")
 	}
 
-	sess := models.SessionValue{
-		UserID:     userID,
-		Expiration: uint64(time.Now().Add(SessionTimeout).UTC().Unix()),
-	}
-
-	token, err := NewToken(HS256, secretKey, sess)
+	tokenInfo, err := NewToken(HS256, secretKey, userID)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	c.SetCookie(sessionID, *token, int(SessionTimeout.Seconds()), "/", "", false, true)
+	c.SetCookie(sessionID, tokenInfo.Jwt, int(CookieTimeout.Seconds()), "/", "", false, true)
 
-	return nil
+	return tokenInfo, nil
 }
 
 // GetSession получение и валидация сессии

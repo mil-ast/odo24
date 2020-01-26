@@ -52,7 +52,7 @@ func (ProfileController) OAuth(c *gin.Context) {
 		return
 	}
 
-	err = sessions.NewSession(c, profile.UserID)
+	tokenInfo, err := sessions.NewSession(c, profile.UserID)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
@@ -72,5 +72,5 @@ func (ProfileController) OAuth(c *gin.Context) {
 		}(profile.Login, *passwd)
 	}
 
-	c.JSON(http.StatusOK, profile)
+	c.JSON(http.StatusOK, tokenInfo)
 }

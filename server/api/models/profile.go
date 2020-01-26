@@ -2,7 +2,6 @@ package models
 
 import (
 	"regexp"
-	"time"
 )
 
 const regExpEmail = `^[\w\-\.]+@[\w\-\.]+$`
@@ -45,10 +44,9 @@ type RegisterResetPasswordFromBody struct {
 }
 
 type Profile struct {
-	UserID    uint64    `json:"user_id"`
-	Login     Email     `json:"login"`
-	Confirmed bool      `json:"confirmed,omitempty"`
-	LastTime  time.Time `json:"-"`
+	UserID    uint64 `json:"user_id"`
+	Login     Email  `json:"login"`
+	Confirmed bool   `json:"confirmed,omitempty"`
 }
 
 type PasswordFromBody struct {
