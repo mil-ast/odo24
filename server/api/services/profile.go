@@ -147,3 +147,23 @@ func (ProfileService) ResetPassword(login models.Email, password models.Password
 	}
 	return nil
 }
+
+// GetRefreshToken получить текущий рефреш токен
+func (ProfileService) GetRefreshToken(userID uint64) (*string, error) {
+	conn := db.Conn()
+	sqlQuery := "SELECT get_refresh_token rt FROM profiles.get_refresh_token($1)"
+
+	var rt *string
+	row := conn.QueryRow(sqlQuery, userID)
+	err := row.Scan(&rt)
+
+	return rt, err
+}
+
+// SetRefreshToken сохранить токен рефреша
+func (ProfileService) SetRefreshToken(userID uint64, rt string) error {
+	conn := db.Conn()
+	sqlQuery := "CALL profiles.set_refresh_token($1,$2)"
+	_, err := conn.Exec(sqlQuery, userID, rt)
+	return err
+}

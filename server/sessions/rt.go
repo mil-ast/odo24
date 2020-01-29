@@ -11,6 +11,19 @@ type RT struct {
 	Expiration time.Time
 }
 
+// CheckRefreshToken валидация и проверка актуальности рефреш токена
+func CheckRefreshToken(rt string) bool {
+	if len(rt) < 7 {
+		return false
+	}
+
+	asciiTime := rt[0:6]
+	expTime := fromASCIIToTime(asciiTime)
+	now := time.Now()
+
+	return now.Before(expTime)
+}
+
 func newRefreshToken() RT {
 	expRTTime := time.Now().Add(RTTimeout)
 	asciiTimeEncode := timeToASCII(expRTTime.UTC())
@@ -73,9 +86,7 @@ func fromASCIIToTime(str string) time.Time {
 	hour := int((timeBitArray >> 6) & 0x1f)
 	minute := int((timeBitArray) & 0x3f)
 
-	t := time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.Now().Location())
-
-	return t
+	return time.Date(year, time.Month(month), day, hour, minute, 0, 0, time.Now().Location())
 }
 
 func byte8bitToASCII(char byte) byte {

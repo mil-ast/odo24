@@ -59,6 +59,12 @@ func (ProfileController) Login(c *gin.Context) {
 		return
 	}
 
+	err = profileService.SetRefreshToken(profile.UserID, tokenInfo.RT)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
 	c.JSON(200, *tokenInfo)
 }
 
@@ -66,6 +72,39 @@ func (ProfileController) Login(c *gin.Context) {
 func (ProfileController) Logout(c *gin.Context) {
 	sessions.DeleteSession(c)
 	c.Status(http.StatusNoContent)
+}
+
+// RefreshToken получить новые токены по рефреш токену
+func (ProfileController) RefreshToken(c *gin.Context) {
+	rt := c.MustGet(constants.BindRT).(string)
+	userID := c.MustGet(constants.BindUserID).(uint64)
+
+	profileService := services.NewProfileService()
+	currRt, err := profileService.GetRefreshToken(userID)
+	if err != nil {
+		log.Println(err)
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	if currRt == nil || *currRt != rt {
+		c.AbortWithError(http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	tokenInfo, err := sessions.NewSession(c, userID)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	err = profileService.SetRefreshToken(userID, tokenInfo.RT)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.JSON(200, *tokenInfo)
 }
 
 // ProfileGet получение текущего профиля

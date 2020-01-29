@@ -25,3 +25,25 @@ func GetSession(c *gin.Context) {
 
 	c.Set(constants.BindProfile, session)
 }
+
+//GetRefreshTokenFromBody получить токен рефреша с тела запроса
+func GetRefreshTokenFromBody(c *gin.Context) {
+	body := struct {
+		RT     string `json:"rt" binding:"required"`
+		UserID uint64 `json:"user_id" binding:"required"`
+	}{}
+
+	err := c.BindJSON(&body)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	if !sessions.CheckRefreshToken(body.RT) {
+		c.AbortWithError(http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	c.Set(constants.BindRT, body.RT)
+	c.Set(constants.BindUserID, body.UserID)
+}

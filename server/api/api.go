@@ -27,6 +27,7 @@ func InitHandlers(production bool) *gin.Engine {
 		profileGroup.POST("/login", handlers.CheckUserAgent, profileCtrl.Login)
 		profileGroup.GET("/oauth", binders.GetOauthParamsFromQuery, profileCtrl.OAuth)
 		profileGroup.GET("/logout", profileCtrl.Logout)
+		profileGroup.PUT("/refresh_token", binders.GetRefreshTokenFromBody, profileCtrl.RefreshToken)
 		profileGroup.POST("/register", handlers.CheckUserAgent, profileCtrl.Register)
 		profileGroup.POST("/reset_password", handlers.CheckUserAgent, profileCtrl.ResetPassword)
 		profileGroup.POST("/password_recovery", handlers.CheckUserAgent, profileCtrl.PasswordRecovery)
