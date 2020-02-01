@@ -23,7 +23,7 @@ export class AppUpdateService {
     console.log(header, message, action, caller);
 
     this.snackbar.open('Доступна новая версия', 'Обновить', {
-      duration: 10000
+      duration: 60000
     }).onAction().subscribe(() => {
       window.location.reload();
     });
@@ -31,5 +31,11 @@ export class AppUpdateService {
   
   doAppUpdate() {
     this.updates.activateUpdate().then(() => document.location.reload());
+  }
+
+  checkForUpdate() {
+    if (this.updates.isEnabled) {
+      this.updates.checkForUpdate();
+    }
   }
 }

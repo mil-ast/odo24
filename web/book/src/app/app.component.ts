@@ -16,11 +16,11 @@ import { AppUpdateService } from './_services/app-update.service';
 export class AppComponent implements OnInit {
   constructor(
     public asideService: AsideService,
-    private appUpdate: AppUpdateService,
     private dialog: MatDialog,
     private profileService: ProfileService,
     private autoService: AutoService,
     private groupService: GroupService,
+    private appUpdateService: AppUpdateService,
   ) { }
 
   smallScreen = false;
@@ -28,11 +28,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.profileService.profile$.subscribe((p: Profile) => {
-      console.log(777, p);
       this.profile = p;
     }, () => {
       this.profile = null;
     });
+
+    this.appUpdateService.checkForUpdate();
   }
 
   clickShowChangePasswordDialog() {
