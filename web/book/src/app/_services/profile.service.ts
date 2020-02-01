@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Profile } from '../_classes/profile';
 import { map, catchError, finalize, mergeMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { TokenManager, Token } from '../_classes/token_manager';
 
 interface ProfileModel {
   user_id: number;
@@ -11,15 +12,8 @@ interface ProfileModel {
   login: string;
 }
 
-interface Token {
-  jwt: string;
-  jwt_exp: string;
-  rt: string;
-  rt_exp: string;
-}
-
 @Injectable()
-export class ProfileService {
+export class ProfileService extends TokenManager {
   profile$: Observable<Profile>;
   private baseURL = '/api/profile';
   private profile: BehaviorSubject<Profile> = new BehaviorSubject<Profile>(null);
@@ -28,6 +22,7 @@ export class ProfileService {
     private http: HttpClient,
     private router: Router,
   ) {
+    super();
     this.profile$ = this.profile.asObservable();
   }
 
@@ -105,15 +100,5 @@ export class ProfileService {
     this.router.navigate(['/login']);
   }
 
-  private setTokenInfo(token: Token) {
-    window.localStorage.setItem('rt', token.rt);
-    window.localStorage.setItem('rt_exp', token.rt_exp);
-    window.localStorage.setItem('jwt_exp', token.jwt_exp);
-  }
 
-  private clearTokenInfo() {
-    window.localStorage.removeItem('rt');
-    window.localStorage.removeItem('rt_exp');
-    window.localStorage.removeItem('jwt_exp');
-  }
 }

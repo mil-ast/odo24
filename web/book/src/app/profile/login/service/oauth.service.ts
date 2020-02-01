@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, throwError, of } from 'rxjs';
+import { Subject, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { TokenManager, Token } from 'src/app/_classes/token_manager';
+import { mapTo, tap } from 'rxjs/operators';
+import { Profile } from 'src/app/_classes/profile';
 
 export interface OauthQuery {
   service: string;
@@ -8,13 +11,15 @@ export interface OauthQuery {
 }
 
 @Injectable()
-export class OauthService {
+export class OauthService extends TokenManager {
   onLogin: Subject<boolean> = new Subject();
   private baseURL = '/api/profile';
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {
+    super();
+  }
 
   getParams(): OauthQuery {
     const urlParams = new URLSearchParams(window.location.search);
@@ -41,11 +46,16 @@ export class OauthService {
   }
 
   private authByCode(service: string, code: string): Observable<void> {
-    return this.http.get<void>(`${this.baseURL}/oauth`, {
+    return this.http.get<Token>(`${this.baseURL}/oauth`, {
       params: {
         service: service,
         code: code,
       }
-    });
+    }).pipe(
+      tap((token: Token) => {
+        this.setTokenInfo(token);
+      }),
+      mapTo(null),
+    );
   }
 }
