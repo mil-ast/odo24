@@ -81,3 +81,10 @@
     }
   }
 }
+
+@media (max-width: 600px) {
+  .toolbar_title_button {
+    height: 80px;
+    padding: 20px;
+  }
+}

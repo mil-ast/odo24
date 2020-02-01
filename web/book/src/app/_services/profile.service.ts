@@ -15,7 +15,7 @@ interface ProfileModel {
 @Injectable()
 export class ProfileService extends TokenManager {
   profile$: Observable<Profile>;
-  private baseURL = '/api/profile';
+  private readonly baseURL = '/api/profile';
   private profile: BehaviorSubject<Profile> = new BehaviorSubject<Profile>(null);
 
   constructor(
@@ -99,6 +99,4 @@ export class ProfileService extends TokenManager {
     this.clearTokenInfo();
     this.router.navigate(['/login']);
   }
-
-
 }

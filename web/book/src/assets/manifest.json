@@ -1,12 +1,12 @@
 {
-  "lang": "ru",
+  "manifest_version": 2,
   "name": "Сервисная книжка",
   "short_name": "ODO24",
   "description": "Сервисная книжка онлайн!",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "/book/",
-  "theme_color": "#1976d2",
+  "theme_color": "#242b30",
   "icons": [
     {
       "src": "/assets/icons/white/logo_36.png",

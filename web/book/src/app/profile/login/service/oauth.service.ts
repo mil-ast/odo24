@@ -3,7 +3,6 @@ import { Subject, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TokenManager, Token } from 'src/app/_classes/token_manager';
 import { mapTo, tap } from 'rxjs/operators';
-import { Profile } from 'src/app/_classes/profile';
 
 export interface OauthQuery {
   service: string;
@@ -13,7 +12,7 @@ export interface OauthQuery {
 @Injectable()
 export class OauthService extends TokenManager {
   onLogin: Subject<boolean> = new Subject();
-  private baseURL = '/api/profile';
+  private readonly baseURL = '/api/profile';
 
   constructor(
     private http: HttpClient,
