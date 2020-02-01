@@ -1,6 +1,7 @@
 package sessions
 
 import (
+	"encoding/base64"
 	"odo24/server/utils"
 	"strings"
 	"time"
@@ -18,11 +19,7 @@ func CheckRefreshToken(rt string, accessToken *Token) bool {
 		return false
 	}
 
-	if !accessToken.Verify(secretKey) {
-		return false
-	}
-
-	sig := string(accessToken.Signature)
+	sig := base64.RawURLEncoding.EncodeToString(accessToken.Signature)
 	rightSig := sig[len(sig)-6:]
 	rightRt := rt[len(rt)-6:]
 

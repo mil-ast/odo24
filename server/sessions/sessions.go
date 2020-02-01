@@ -101,3 +101,8 @@ func DeleteSession(c *gin.Context) {
 
 	http.SetCookie(c.Writer, cookie)
 }
+
+// VerifyToken проверка токена
+func VerifyToken(token *Token) bool {
+	return token.Verify(secretKey)
+}

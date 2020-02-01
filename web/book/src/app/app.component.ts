@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.profileService.profile$.subscribe((p: Profile) => {
+      console.log(777, p);
       this.profile = p;
     }, () => {
       this.profile = null;

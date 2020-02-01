@@ -37,7 +37,7 @@ export class ProfileService extends TokenManager {
         this.profile.next(p || null);
         return true;
       }),
-      catchError(() => {
+      catchError((e) => {
         this.profile.next(null);
         return of(false);
       })
@@ -77,9 +77,7 @@ export class ProfileService extends TokenManager {
   }
 
   refreshToken(rt: string): Observable<Token> {
-    const profile = this.profile.getValue();
     const body = {
-      user_id: profile.user_id,
       rt: rt,
     };
 
