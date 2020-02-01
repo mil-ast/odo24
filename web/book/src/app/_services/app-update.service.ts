@@ -17,13 +17,11 @@ export class AppUpdateService {
 
   showAppUpdateAlert(value: UpdateAvailableEvent) {
     const header = 'App Update available';
-    const message = `Type: ${value.type}, current: ${value.current.hash}, available: ${value.available.hash}`;
-    const action = this.doAppUpdate;
-    const caller = this;
-    console.log(header, message, action, caller);
+    const message = `Type: ${value.type}.\r\nCurrent: ${value.current.hash}, available: ${value.available.hash}`;
+    console.info(header, message);
 
     this.snackbar.open('Доступна новая версия', 'Обновить', {
-      duration: 10000
+      duration: 60000
     }).onAction().subscribe(() => {
       window.location.reload();
     });
@@ -31,5 +29,11 @@ export class AppUpdateService {
   
   doAppUpdate() {
     this.updates.activateUpdate().then(() => document.location.reload());
+  }
+
+  checkForUpdate() {
+    if (this.updates.isEnabled) {
+      this.updates.checkForUpdate();
+    }
   }
 }

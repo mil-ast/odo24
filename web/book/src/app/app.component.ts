@@ -16,11 +16,11 @@ import { AppUpdateService } from './_services/app-update.service';
 export class AppComponent implements OnInit {
   constructor(
     public asideService: AsideService,
-    private appUpdate: AppUpdateService,
     private dialog: MatDialog,
     private profileService: ProfileService,
     private autoService: AutoService,
     private groupService: GroupService,
+    private appUpdateService: AppUpdateService,
   ) { }
 
   smallScreen = false;
@@ -32,6 +32,8 @@ export class AppComponent implements OnInit {
     }, () => {
       this.profile = null;
     });
+
+    this.appUpdateService.checkForUpdate();
   }
 
   clickShowChangePasswordDialog() {
