@@ -83,6 +83,7 @@ func (ProfileService) Register(login models.Email) error {
 			log.Println(err)
 		}
 	}(login, code)
+
 	return nil
 }
 
@@ -97,7 +98,21 @@ func (ProfileService) PasswordRecovery(login models.Email) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 	_, err := conn.ExecContext(ctx, sqlQuery, login, code, linkKey)
-	return err
+	if err != nil {
+		return err
+	}
+
+	go func(l models.Email, c uint32) {
+		letter := make(map[string]interface{}, 1)
+		letter["code"] = c
+
+		err := sendmail.SendEmail(string(l), sendmail.TypeRepairConfirmCode, letter)
+		if err != nil {
+			log.Println(err)
+		}
+	}(login, code)
+
+	return nil
 }
 
 // PasswordUpdate изменение пароля из личного кабинета
@@ -131,4 +146,24 @@ func (ProfileService) ResetPassword(login models.Email, password models.Password
 		return errors.New("incorrect")
 	}
 	return nil
+}
+
+// GetRefreshToken получить текущий рефреш токен
+func (ProfileService) GetRefreshToken(userID uint64) (*string, error) {
+	conn := db.Conn()
+	sqlQuery := "SELECT get_refresh_token rt FROM profiles.get_refresh_token($1)"
+
+	var rt *string
+	row := conn.QueryRow(sqlQuery, userID)
+	err := row.Scan(&rt)
+
+	return rt, err
+}
+
+// SetRefreshToken сохранить токен рефреша
+func (ProfileService) SetRefreshToken(userID uint64, rt string) error {
+	conn := db.Conn()
+	sqlQuery := "CALL profiles.set_refresh_token($1,$2)"
+	_, err := conn.Exec(sqlQuery, userID, rt)
+	return err
 }

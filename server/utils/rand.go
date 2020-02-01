@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const charts string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+const charts string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()=-.,"
 
 // GenerateRandomNumber случайное число в диапазоне
 func GenerateRandomNumber(min, max uint32) uint32 {
@@ -29,10 +29,10 @@ func GenerateRandomString(size int) string {
 	if err != nil {
 		return ""
 	}
-	l := len(charts)
+	l := uint8(len(charts))
 	for pos := range output {
 		random := uint8(randomness[pos])
-		randomPos := random % uint8(l)
+		randomPos := random % l
 		output[pos] = charts[randomPos]
 	}
 	return string(output)

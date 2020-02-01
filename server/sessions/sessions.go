@@ -11,13 +11,22 @@ import (
 
 const (
 	sessionID string = "Authorization"
-	// SessionTimeout время актуальности токена
-	SessionTimeout time.Duration = time.Hour * time.Duration(24*31)
+	// CookieTimeout время актуальности Access токена и cookie
+	CookieTimeout time.Duration = time.Minute * 30
+	// RTTimeout время жизни Refresh токена
+	RTTimeout time.Duration = time.Hour * time.Duration(24*360)
 )
 
 const (
 	errExpired = "expired"
 )
+
+type TokenInfo struct {
+	Jwt           string    `json:"jwt"`
+	RT            string    `json:"rt"`
+	RtExpiration  time.Time `json:"rt_exp"`
+	JwtExpiration time.Time `json:"jwt_exp"`
+}
 
 var secretKey []byte
 
@@ -27,41 +36,27 @@ func SetSecretKey(key string) {
 }
 
 // NewSession создание новой сессии
-func NewSession(c *gin.Context, userID uint64) error {
+func NewSession(c *gin.Context, userID uint64) (*TokenInfo, error) {
 	if userID == 0 {
-		return errors.New("profile is empty")
+		return nil, errors.New("profile is empty")
 	}
 
-	sess := models.SessionValue{
-		UserID:     userID,
-		Expiration: uint64(time.Now().Add(SessionTimeout).UTC().Unix()),
-	}
-
-	token, err := NewToken(HS256, secretKey, sess)
-	if err != nil {
-		return err
-	}
-
-	c.SetCookie(sessionID, *token, int(SessionTimeout.Seconds()), "/", "", false, true)
-
-	return nil
-}
-
-// GetSession получение и валидация сессии
-func GetSession(c *gin.Context) (*models.SessionValue, error) {
-	cookie, err := c.Request.Cookie(sessionID)
+	tokenInfo, err := NewToken(HS256, secretKey, userID)
 	if err != nil {
 		return nil, err
 	}
 
-	if cookie.Value == "" {
-		return nil, errors.New(errExpired)
-	}
+	c.SetCookie(sessionID, tokenInfo.Jwt, int(RTTimeout.Seconds()), "/", "", false, true)
 
-	token, err := ParseToken(cookie.Value)
+	return tokenInfo, nil
+}
+
+// GetSession получение и валидация сессии
+func GetSession(c *gin.Context) (*models.SessionValue, error) {
+	token, err := GetToken(c)
 	if err != nil {
 		DeleteSession(c)
-		return nil, errors.New(errExpired)
+		return nil, err
 	}
 
 	if !token.Verify(secretKey) {
@@ -78,6 +73,20 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 	}
 
 	return &claims, nil
+}
+
+// GetToken получить токен без валидации
+func GetToken(c *gin.Context) (*Token, error) {
+	cookie, err := c.Request.Cookie(sessionID)
+	if err != nil {
+		return nil, err
+	}
+
+	if cookie.Value == "" {
+		return nil, errors.New(errExpired)
+	}
+
+	return ParseToken(cookie.Value)
 }
 
 // DeleteSession удаление сессии

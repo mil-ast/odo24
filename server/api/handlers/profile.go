@@ -45,25 +45,64 @@ func (ProfileController) Login(c *gin.Context) {
 		case "pq: login is empty":
 			c.Status(http.StatusBadRequest)
 		default:
-			c.AbortWithError(http.StatusForbidden, errors.New(http.StatusText(http.StatusForbidden)))
+			c.AbortWithError(http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		}
 
 		return
 	}
 
-	err = sessions.NewSession(c, profile.UserID)
+	tokenInfo, err := sessions.NewSession(c, profile.UserID)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
-	c.JSON(200, *profile)
+	err = profileService.SetRefreshToken(profile.UserID, tokenInfo.RT)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.JSON(200, *tokenInfo)
 }
 
 // Logout выход из профиля
 func (ProfileController) Logout(c *gin.Context) {
 	sessions.DeleteSession(c)
 	c.Status(http.StatusNoContent)
+}
+
+// RefreshToken получить новые токены по рефреш токену
+func (ProfileController) RefreshToken(c *gin.Context) {
+	rt := c.MustGet(constants.BindRT).(string)
+	userID := c.MustGet(constants.BindUserID).(uint64)
+
+	profileService := services.NewProfileService()
+	currRt, err := profileService.GetRefreshToken(userID)
+	if err != nil {
+		log.Println(err)
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	if currRt == nil || *currRt != rt {
+		c.AbortWithError(http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	tokenInfo, err := sessions.NewSession(c, userID)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	err = profileService.SetRefreshToken(userID, tokenInfo.RT)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.JSON(200, *tokenInfo)
 }
 
 // ProfileGet получение текущего профиля
@@ -139,6 +178,7 @@ func (ProfileController) PasswordRecovery(c *gin.Context) {
 		}
 		return
 	}
+
 	c.Status(http.StatusNoContent)
 }
 

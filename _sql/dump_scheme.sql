@@ -248,14 +248,36 @@ ALTER FUNCTION profiles.confirm(_login character varying, _code bigint, _link_ke
 CREATE FUNCTION profiles.get_profile(_user_id bigint) RETURNS TABLE(user_id bigint, login character varying, confirmed boolean)
     LANGUAGE sql
     AS $$
-	select  u.user_id,
+	SELECT u.user_id,
 			u.login,
 			u.confirmed
-	from profiles.users u where u.user_id = _user_id;
+	FROM profiles.users u WHERE u.user_id = _user_id;
 $$;
 
 
 ALTER FUNCTION profiles.get_profile(_user_id bigint) OWNER TO pavel;
+
+--
+-- Name: get_refresh_token(bigint); Type: FUNCTION; Schema: profiles; Owner: pavel
+--
+
+CREATE FUNCTION profiles.get_refresh_token(_user_id bigint) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+	_rt varchar(24);
+BEGIN
+	SELECT u.refresh_token
+	INTO _rt
+	FROM profiles.users u
+	WHERE u.user_id = _user_id;
+
+	RETURN _rt;
+END
+$$;
+
+
+ALTER FUNCTION profiles.get_refresh_token(_user_id bigint) OWNER TO pavel;
 
 --
 -- Name: login(character varying, bytea); Type: FUNCTION; Schema: profiles; Owner: pavel
@@ -514,6 +536,21 @@ $$;
 
 
 ALTER FUNCTION profiles.reset_password(_login character varying, _passwd bytea, _code bigint, _link_key character varying) OWNER TO pavel;
+
+--
+-- Name: set_refresh_token(bigint, character varying); Type: PROCEDURE; Schema: profiles; Owner: pavel
+--
+
+CREATE PROCEDURE profiles.set_refresh_token(_user_id bigint, _rt character varying)
+    LANGUAGE sql
+    AS $$
+	UPDATE profiles.users
+	SET refresh_token = _rt
+	WHERE user_id = _user_id;
+$$;
+
+
+ALTER PROCEDURE profiles.set_refresh_token(_user_id bigint, _rt character varying) OWNER TO pavel;
 
 --
 -- Name: create_for_new_user(bigint); Type: PROCEDURE; Schema: service_groups; Owner: pavel
@@ -823,7 +860,8 @@ CREATE TABLE profiles.users (
     password_hash bytea,
     confirmed boolean NOT NULL,
     oauth boolean DEFAULT false NOT NULL,
-    last_login_dt timestamp without time zone DEFAULT (now())::timestamp without time zone
+    last_login_dt timestamp without time zone DEFAULT (now())::timestamp without time zone,
+    refresh_token character varying(24) DEFAULT NULL::character varying
 );
 
 
