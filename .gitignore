@@ -9,3 +9,5 @@ server/server
 server/server.exe
 server/config.prod.json
 *.sql
+.vscode
+__debug_bin

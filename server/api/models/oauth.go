@@ -13,11 +13,13 @@ type OAuthQueryParams struct {
 	Service string `form:"service" binding:"required"`
 }
 
+// OAuth аторизация/регистрация через сторонние сервисы
 type OAuth struct {
 	Type oauth.OAuthUserInfo
 	Code string
 }
 
+// GetUser получение пользователя через сторонние сервисы
 func (a OAuth) GetUser() (Profile, *Password, error) {
 	profile := Profile{
 		Confirmed: true,

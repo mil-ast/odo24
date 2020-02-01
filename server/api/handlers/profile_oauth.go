@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"odo24/server/api/constants"
 	"odo24/server/api/models"
+	"odo24/server/api/services"
 	"odo24/server/config"
 	"odo24/server/oauth"
 	"odo24/server/sendmail"
@@ -44,7 +45,7 @@ func (ProfileController) OAuth(c *gin.Context) {
 	profile, passwd, err := token.GetUser()
 	if err != nil {
 		if err.Error() == oauth.ErrAuthError {
-			c.AbortWithError(http.StatusBadRequest, err)
+			c.AbortWithError(http.StatusUnauthorized, err)
 		} else {
 			log.Println(err)
 			c.AbortWithError(http.StatusInternalServerError, err)
@@ -53,6 +54,13 @@ func (ProfileController) OAuth(c *gin.Context) {
 	}
 
 	tokenInfo, err := sessions.NewSession(c, profile.UserID)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	profileService := services.NewProfileService()
+	err = profileService.SetRefreshToken(profile.UserID, tokenInfo.RT)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
