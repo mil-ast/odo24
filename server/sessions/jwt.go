@@ -106,7 +106,7 @@ func NewToken(algorithm string, secret []byte, userID uint64) (*TokenInfo, error
 
 	jwt := fmt.Sprintf("%s.%s", jwtStr, string(b64Sig))
 
-	rt := newRefreshToken()
+	rt := newRefreshToken(jwt)
 	result := TokenInfo{
 		Jwt:           jwt,
 		RT:            rt.Token,

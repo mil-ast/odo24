@@ -39,7 +39,13 @@ func GetRefreshTokenFromBody(c *gin.Context) {
 		return
 	}
 
-	if !sessions.CheckRefreshToken(body.RT) {
+	accessToken, err := sessions.GetToken(c)
+	if err != nil {
+		c.AbortWithError(http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		return
+	}
+
+	if !sessions.CheckRefreshToken(body.RT, accessToken) {
 		c.AbortWithError(http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}

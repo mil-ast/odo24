@@ -38,8 +38,6 @@ func (ProfileController) Login(c *gin.Context) {
 		return
 	}
 
-	log.Println(body.Login, body.Password)
-
 	profileService := services.NewProfileService()
 	profile, err := profileService.Login(body.Login, body.Password)
 	if err != nil {

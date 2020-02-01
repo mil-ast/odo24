@@ -6,14 +6,27 @@ import (
 	"time"
 )
 
+// RT Refresh token
 type RT struct {
 	Token      string
 	Expiration time.Time
 }
 
 // CheckRefreshToken валидация и проверка актуальности рефреш токена
-func CheckRefreshToken(rt string) bool {
+func CheckRefreshToken(rt string, accessToken *Token) bool {
 	if len(rt) < 7 {
+		return false
+	}
+
+	if !accessToken.Verify(secretKey) {
+		return false
+	}
+
+	sig := string(accessToken.Signature)
+	rightSig := sig[len(sig)-6:]
+	rightRt := rt[len(rt)-6:]
+
+	if rightSig != rightRt {
 		return false
 	}
 
@@ -24,13 +37,15 @@ func CheckRefreshToken(rt string) bool {
 	return now.Before(expTime)
 }
 
-func newRefreshToken() RT {
+func newRefreshToken(jwt string) RT {
 	expRTTime := time.Now().Add(RTTimeout)
 	asciiTimeEncode := timeToASCII(expRTTime.UTC())
-	randStr := utils.GenerateRandomString(18)
+	randStr := utils.GenerateRandomString(12)
+
+	rightJwt := jwt[len(jwt)-6:]
 
 	return RT{
-		Token:      asciiTimeEncode + randStr,
+		Token:      asciiTimeEncode + randStr + rightJwt,
 		Expiration: expRTTime,
 	}
 }
