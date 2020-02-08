@@ -26,7 +26,6 @@
     "@angular/service-worker": "^9.0.0",
     "@manekinekko/angular-web-bluetooth": "^7.0.0",
     "core-js": "^3.6.4",
-    "g": "^2.0.1",
     "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
     "ngx-toastr": "^10.2.0",
