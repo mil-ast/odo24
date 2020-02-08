@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Auto } from 'src/app/_classes/auto';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { AutoService } from 'src/app/_services/avto.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-update-avto-odo',
