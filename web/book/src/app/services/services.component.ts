@@ -9,9 +9,10 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { AsideService } from '../_services/aside.service';
 import { ToastrService } from 'ngx-toastr';
-import { MatSelectChange, MatSidenav } from '@angular/material';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { DialogConfigGroupsComponent } from './dialogs/dialog-config-groups/dialog-config-groups.component';
+import { MatSidenav } from '@angular/material/sidenav';
+import { MatSelectChange } from '@angular/material/select'
 
 @Component({
   selector: 'app-services',

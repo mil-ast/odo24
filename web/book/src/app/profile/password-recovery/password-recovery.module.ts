@@ -5,9 +5,11 @@ import { PasswordRecoveryRoutingModule } from './password-recovery.router';
 import { PasswordRecoveryComponent } from './password-recovery.component';
 import { EnterLoginComponent } from './enter-login/enter-login.component';
 import { RecoveryService } from './services/recovery.service';
-import { MatIconModule, MatInputModule, MatButtonModule } from '@angular/material';
 import { ConfirmCodeComponent } from './confirm-code/confirm-code.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [

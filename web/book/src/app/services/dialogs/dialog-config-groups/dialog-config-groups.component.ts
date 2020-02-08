@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GroupService, GroupStruct } from 'src/app/_services/groups.service';
 import { DialogUpdateGroupComponent } from 'src/app/services/dialogs/dialog-update-group/dialog-update-group.component';
 import { ToastrService } from 'ngx-toastr';
 import { DialogCreateGroupComponent } from '../dialog-create-group/dialog-create-group.component';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-config-groups',

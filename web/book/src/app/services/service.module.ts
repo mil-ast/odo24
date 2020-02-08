@@ -1,22 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ServicesComponent } from './services.component';
-import {
-  MatButtonModule,
-  MatSidenavModule,
-  MatSnackBarModule,
-  MatProgressSpinnerModule,
-  MatProgressBarModule,
-  MatDialogModule,
-  MatInputModule,
-  MatIconModule,
-  MatMenuModule,
-  MatDatepickerModule,
-  MatToolbarModule,
-  MatSelectModule,
-  MatDividerModule,
-  MatListModule,
-} from '@angular/material';
 import { AutoService } from '../_services/avto.service';
 import { GroupService } from '../_services/groups.service';
 import { ItemServiceComponent } from './item-service/item-service.component';
@@ -35,6 +19,20 @@ import { DistanceLevelPipe } from './pipes/distance-level.pipe';
 import { DialogUpdateGroupComponent } from './dialogs/dialog-update-group/dialog-update-group.component';
 import { DialogCreateGroupComponent } from './dialogs/dialog-create-group/dialog-create-group.component';
 import { DialogConfigGroupsComponent } from './dialogs/dialog-config-groups/dialog-config-groups.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
