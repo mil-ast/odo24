@@ -14,7 +14,7 @@
       </mat-form-field>
     </div>
     <div class="update-form__select-file">
-      <input class="update-form__input-file" id="input-file" (change)="selectedFileUpload($event)" accept="image/*" type="file" name="image" />
+      <input class="update-form__input-file" id="input-file" (change)="selectedFileUpload($event)" accept="image/*" capture="camera" type="file" name="image" />
       <label for="input-file">Изменить фото</label>
       <div class="update-form__selected-file" *ngIf="uploaded_file != null">
         <div class="selected-file__column">

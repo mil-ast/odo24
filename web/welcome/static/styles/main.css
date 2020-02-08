@@ -106,20 +106,40 @@ footer {
 }
 
 footer > div {
-  font-size:14px;
   background-color: #1f2326;
   z-index: 2;
   display: block;
   width: 100%;
-  height: 200px;
   position: relative;
   color: #777;
   margin-top: 100px;
   display: grid;
   gap: 40px;
-  grid-template-columns: repeat(2,200px) 1fr;
-  padding: 40px;
+  grid-template-columns: repeat(2,220px) 1fr;
+  padding: 40px 0px 40px 20px;
   box-sizing: border-box;
+}
+
+footer div.icon {
+  display: flex;
+}
+footer .value {
+  padding-top:2px;
+}
+
+footer div.icon > i {
+  width: 24px;
+  height: 24px;
+  padding-right: 10px;
+}
+
+footer a {
+  border-bottom: 1px solid currentColor;
+  color:#82878a;
+}
+
+footer a:hover, footer a:focus {
+  color:#eee;
 }
 
 footer .column > div {
@@ -127,48 +147,20 @@ footer .column > div {
   position: relative;
 }
 
-footer .column {
-  display: flex;
-  flex-direction: column;
-}
-
-footer a {
-  border-bottom: 1px solid currentColor;
-}
-
-footer a, footer span {
-  padding: 4px;
-  color: inherit;
-}
-
-footer > div .column > div #vk_icon,
-footer > div .column > div .material-icons {
-  position: absolute;
-  top:22px;
-  left: 0;
-}
-
 footer > div .column > div #vk_icon,
 footer #github {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  background-size: 100%;
+  background-size: 70%;
   background-repeat: no-repeat;
 }
 
-footer > div .column > div #vk_icon {
+footer #vk_icon {
   background-image: url("/static/images/vk.svg");
 }
-
-footer a:hover {
-  color:#eee;
-}
-
 footer #github {
   background-image: url("/static/images/github.svg");
-  position: relative;
-  top:8px;
+}
+footer #twitter {
+  background-image: url("/static/images/twitter.svg");
 }
 
 @media (max-width: 1400px) {
@@ -187,8 +179,8 @@ footer #github {
   }
 
   footer > div {
-    grid-template-columns: repeat(2,140px) 1fr;
-    gap: 20px;
+    grid-template-columns: 240px 180px 1fr;
+    gap: 0px;
   }
 }
 
@@ -206,6 +198,11 @@ footer #github {
   header nav a .material-icons {
     left:0px;
   }
+
+  footer > div {
+    grid-template-columns: auto 1fr;
+    gap: 0px;
+  }
 }
 
 @media (max-width: 650px) {
@@ -217,6 +214,7 @@ footer #github {
     grid-template-columns: auto;
     height: auto;
     gap: 0px;
+    padding-left: 0px;
   }
 }
 
