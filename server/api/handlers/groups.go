@@ -40,7 +40,7 @@ func (GroupsController) Create(c *gin.Context) {
 
 	err := c.BindJSON(&body)
 	if err != nil {
-		c.AbortWithError(http.StatusUnavailableForLegalReasons, err)
+		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 

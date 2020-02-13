@@ -9,11 +9,26 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// DocumentsController контроллер
 type DocumentsController struct{}
 
 // NewDocumentsController экземпляр контроллера документов
 func NewDocumentsController() DocumentsController {
 	return DocumentsController{}
+}
+
+// GetAll получение всех документов пользователя
+func (DocumentsController) GetAll(c *gin.Context) {
+	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
+
+	docService := services.NewDocumentsService(sess.UserID)
+	result, err := docService.Get()
+	if err != nil {
+		c.AbortWithError(http.StatusUnavailableForLegalReasons, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
 }
 
 // Create все группы пользователя

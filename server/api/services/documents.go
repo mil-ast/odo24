@@ -1,6 +1,7 @@
 package services
 
 import (
+	"odo24/server/api/models"
 	"odo24/server/db"
 )
 
@@ -14,6 +15,32 @@ func NewDocumentsService(userID uint64) DocumentsService {
 	return DocumentsService{
 		UserID: userID,
 	}
+}
+
+// Get получение документов
+func (d DocumentsService) Get() ([]models.Document, error) {
+	conn := db.Conn()
+
+	querySQL := `SELECT doc_id,auto_id,date_start,date_end,description,is_closed,doc_type_id FROM documents.get_all($1);`
+	rows, err := conn.Query(querySQL, d.UserID)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var result []models.Document
+	for rows.Next() {
+		doc := models.Document{}
+		e := rows.Scan(&doc.DocID, &doc.AutoID, &doc.DateStart, &doc.DateEnd, &doc.Descript, &doc.IsClosed, &doc.DocTypeID)
+		if e != nil {
+			return nil, err
+		}
+
+		result = append(result, doc)
+	}
+
+	return result, nil
 }
 
 // Create создание документа

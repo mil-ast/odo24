@@ -83,6 +83,7 @@ func InitHandlers(production bool) *gin.Engine {
 	docGroup := r.Group("/").Use(binders.GetSession)
 	docCtrl := handlers.NewDocumentsController()
 	{
+		docGroup.GET("/", docCtrl.GetAll)
 		docGroup.POST("/", docCtrl.Create)
 	}
 
