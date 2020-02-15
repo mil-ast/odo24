@@ -57,7 +57,6 @@ export class ListAvtoComponent implements OnInit, OnDestroy {
       autoFocus: false,
       disableClose: disableClose,
     }).afterClosed().subscribe((data: AutoStruct) => {
-      console.log(data);
       if (data) {
         const avto = new Auto(data);
         this.avtoList.push(avto);

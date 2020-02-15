@@ -4,6 +4,10 @@
       <mat-icon>build</mat-icon>
       <span>Обслуживание</span>
     </a>
+    <a routerLink="/documents" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <mat-icon>file_copy</mat-icon>
+      <span>Документы</span>
+    </a>
   </nav>
   <div id="profile">
     <button mat-raised-button color="primary" [matMenuTriggerFor]="profileMenu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">

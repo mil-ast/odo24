@@ -54,7 +54,7 @@ export class GroupService {
     return this.http.delete<void>(`${this.urlGroup}/${groupID}`);
   }
 
-  setSelected(group: GroupStruct) {
+  setSelected(group: GroupStruct | null) {
     this.selectedGroup.next(group);
   }
 }
