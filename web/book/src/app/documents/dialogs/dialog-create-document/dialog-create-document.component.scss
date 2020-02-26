@@ -1,0 +1,15 @@
+form {
+  display: grid;
+}
+
+#doc_type_id {
+  display: flex;
+
+  > div {
+    margin-left: 20px;
+
+    .mat-radio-button {
+      margin-left: 20px;
+    }
+  }
+}

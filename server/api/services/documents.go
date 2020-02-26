@@ -34,9 +34,8 @@ func (d DocumentsService) Get() ([]models.Document, error) {
 		doc := models.Document{}
 		e := rows.Scan(&doc.DocID, &doc.AutoID, &doc.DateStart, &doc.DateEnd, &doc.Descript, &doc.IsClosed, &doc.DocTypeID)
 		if e != nil {
-			return nil, err
+			return nil, e
 		}
-
 		result = append(result, doc)
 	}
 

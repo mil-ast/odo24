@@ -1,0 +1,67 @@
+:host {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.page-name {
+  margin-left:10px;
+}
+
+#content {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  #filters {
+    padding: 25px;
+    background-color: #fdfdfd;
+    
+    form {
+      display: flex;
+
+      > div {
+        position: relative;
+        padding-left:50px;
+
+        &:not(:first-child) {
+          margin-left: 40px;
+        }
+
+        .mat-icon.checkbox {
+          position: absolute;
+          top: -9px;
+          color: #e4e4e4;
+          font-size: 3em;
+          left:0px;
+        }
+
+        &.checked {
+          .mat-icon.checkbox {
+            color: #bfde9c;
+          }
+        }
+      }
+
+      #add_document {
+        margin-left:auto;
+
+        button {
+          position: absolute;
+          top:-5px;
+          right:0px;
+        }
+      }
+    }
+  }
+
+  app-scroll-container {
+    background-color: #fff;
+  }
+
+  #doc_list {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="doc_type" [ngClass]="[doc.doc_type_id | docTypeIcon]">
+    <mat-icon>{{doc.doc_type_id | docTypeIcon}}</mat-icon>
+  </div>
+  <div class="date_start">
+    <ng-container *ngIf="doc.date_start; else emptyDate">
+      {{doc.date_start | date:'dd MMMM yyyy'}}
+    </ng-container>
+  </div>
+  <div class="date_end">{{doc.date_end | date:'dd MMMM yyyy'}}</div>
+  <div *ngIf="doc.descript" class="descript">{{doc.descript}}</div>
+  <div class="menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="clickEdit()">
+        <mat-icon>edit</mat-icon>
+        <span>Изменить</span>
+      </button>
+      <button mat-menu-item (click)="clickDelete()">
+        <mat-icon>delete_outline</mat-icon>
+        <span>Удалить</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<ng-template #emptyDate><span>Не указана</span></ng-template>

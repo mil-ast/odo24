@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Добавить документ</h1>
+<mat-dialog-content>
+  <form [formGroup]="form" id="form_create" class="columns">
+    <div id="doc_type_id" class="full_rows">
+      <label id="doc_type">Какой документ добавить:</label>
+      <div>
+        <mat-radio-group aria-labelledby="doc_type" formControlName="doc_type_id">
+          <mat-radio-button [value]="2">Страховку</mat-radio-button>
+          <mat-radio-button [value]="1">Водительское</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div>
+      <mat-form-field class="full_width">
+        <mat-label>Действует с</mat-label>
+        <input matInput [matDatepicker]="picker_from" formControlname="date_start">
+        <mat-datepicker-toggle matSuffix [for]="picker_from"></mat-datepicker-toggle>
+        <mat-datepicker #picker_from startView="multi-year" [startAt]="startDate"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="full_width">
+        <mat-label>Действует по</mat-label>
+        <input matInput [matDatepicker]="picker_to" formControlname="date_start">
+        <mat-datepicker-toggle matSuffix [for]="picker_to"></mat-datepicker-toggle>
+        <mat-datepicker #picker_to startView="multi-year" [startAt]="startDate"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="comment full_rows">
+      <mat-form-field class="full_width">
+        <mat-label>Примечание</mat-label>
+        <textarea #formComment matInput formControlName="description" maxlength="1000"></textarea>
+        <mat-hint align="end">{{formComment.value.length}} / 1000</mat-hint>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button form="form_create" mat-raised-button color="primary">Добавить</button>
+  <button mat-raised-button mat-dialog-close>Закрыть</button>
+</mat-dialog-actions>

@@ -80,7 +80,7 @@ func InitHandlers(production bool) *gin.Engine {
 	}
 
 	// Документы
-	docGroup := r.Group("/").Use(binders.GetSession)
+	docGroup := r.Group("/api/documents").Use(binders.GetSession)
 	docCtrl := handlers.NewDocumentsController()
 	{
 		docGroup.GET("/", docCtrl.GetAll)
