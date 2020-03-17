@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Добавить документ</h1>
 <mat-dialog-content>
-  <form [formGroup]="form" id="form_create" class="columns">
+  <form [formGroup]="form" id="form_create" class="columns" (ngSubmit)="submit()">
     <div id="doc_type_id" class="full_rows">
       <label id="doc_type">Какой документ добавить:</label>
       <div>
@@ -10,18 +10,27 @@
         </mat-radio-group>
       </div>
     </div>
+    <div class="full_rows" *ngIf="form.value.doc_type_id === 2">
+      <mat-form-field class="full_width">
+        <mat-label>Авто</mat-label>
+        <mat-select formControlName="auto_id">
+          <mat-option [value]="null">Нет</mat-option>
+          <mat-option *ngFor="let car of cars$ | async" [value]="car.auto_id">{{car.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <div>
       <mat-form-field class="full_width">
         <mat-label>Действует с</mat-label>
-        <input matInput [matDatepicker]="picker_from" formControlname="date_start">
-        <mat-datepicker-toggle matSuffix [for]="picker_from"></mat-datepicker-toggle>
-        <mat-datepicker #picker_from startView="multi-year" [startAt]="startDate"></mat-datepicker>
+        <input matInput [matDatepicker]="picker" formControlName="date_start">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="multi-year" [startAt]="startDate"></mat-datepicker>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="full_width">
         <mat-label>Действует по</mat-label>
-        <input matInput [matDatepicker]="picker_to" formControlname="date_start">
+        <input matInput [matDatepicker]="picker_to" formControlName="date_end" required>
         <mat-datepicker-toggle matSuffix [for]="picker_to"></mat-datepicker-toggle>
         <mat-datepicker #picker_to startView="multi-year" [startAt]="startDate"></mat-datepicker>
       </mat-form-field>
@@ -36,6 +45,6 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button form="form_create" mat-raised-button color="primary">Добавить</button>
+  <button [disabled]="form.invalid || form.disabled" form="form_create" mat-raised-button color="primary">Добавить</button>
   <button mat-raised-button mat-dialog-close>Закрыть</button>
 </mat-dialog-actions>

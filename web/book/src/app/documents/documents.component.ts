@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AsideService } from '../_services/aside.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { ReplaySubject, Observable, of } from 'rxjs';
-import { startWith, catchError, switchMap, filter, map } from 'rxjs/operators';
+import { startWith, catchError, switchMap, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { DocumentsService, Document } from './services/documents.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,8 +16,8 @@ import { DialogCreateDocumentComponent } from './dialogs/dialog-create-document/
 export class DocumentsComponent implements OnInit, OnDestroy {
   isMobile = false;
   formFilter: FormGroup;
-  filteredDocuments: Observable<Document[]>;
-  private documents: Document[];
+  filteredDocuments$: Observable<Document[]>;
+  documents: Document[];
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
@@ -36,7 +36,7 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.filteredDocuments = this.getDocuments().pipe(
+    this.filteredDocuments$ = this.documentsService.getAll().pipe(
       switchMap((result: Document[]) => {
         this.documents = result || [];
         return this.formFilter.valueChanges.pipe(
@@ -45,7 +45,8 @@ export class DocumentsComponent implements OnInit, OnDestroy {
       }),
       map((filter: {insurance: boolean, drivers_license: boolean}) => {
         return this.documents.filter(this.filterDocuments(filter));
-      })
+      }),
+      takeUntil(this.destroy$)
     );
   }
 
@@ -54,19 +55,13 @@ export class DocumentsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  clickAddDocument() {
-    this.dialog.open(DialogCreateDocumentComponent).afterClosed().subscribe(() => {
-      
+  clickAddDocument(): void {
+    this.dialog.open(DialogCreateDocumentComponent).afterClosed().subscribe((doc: Document) => {
+      if (doc) {
+        this.documents.unshift(doc);
+        this.formFilter.updateValueAndValidity();
+      }
     });
-  }
-
-  private getDocuments(): Observable<Document[]> {
-    return this.documentsService.getAll().pipe(
-      catchError((e) => {
-        this.toastr.error('Ошибка при получении документов');
-        return of([]);
-      })
-    );
   }
 
   private filterDocuments(filter: {insurance: boolean, drivers_license: boolean}): (doc: Document) => boolean {

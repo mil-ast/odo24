@@ -22,7 +22,7 @@
 	</div>
 	<app-scroll-container>
 		<div id="doc_list">
-			<app-item-document *ngFor="let doc of filteredDocuments | async" [doc]="doc"></app-item-document>
+			<app-item-document *ngFor="let doc of filteredDocuments$ | async" [doc]="doc"></app-item-document>
 		</div>
 	</app-scroll-container>
 </div>

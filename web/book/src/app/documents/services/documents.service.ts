@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as moment from 'moment';
 
 export interface Document {
 	doc_id: number;
@@ -34,5 +35,15 @@ export class DocumentsService {
         });
       })
     );
+  }
+
+  create(autoID: number, dtStart: string, dtEnd: string, descript: string, docTypeID: number): Observable<{doc_id: number}> {
+    return this.http.post<{doc_id: number}>(`${this.baseURL}/`, {
+      auto_id: autoID ? autoID : null,
+      date_start: dtStart,
+      date_end: dtEnd,
+      descript: descript ? descript : null,
+      doc_type_id: docTypeID,
+    });
   }
 }
