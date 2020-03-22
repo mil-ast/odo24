@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as moment from 'moment';
 
 export interface Document {
 	doc_id: number;
@@ -54,5 +53,9 @@ export class DocumentsService {
       date_end: dtEnd,
       descript: descript ? descript : null
     });
+  }
+
+  delete(docID: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseURL}/${docID}`);
   }
 }

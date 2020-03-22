@@ -85,3 +85,24 @@ func (DocumentsController) Update(c *gin.Context) {
 
 	c.Status(http.StatusNoContent)
 }
+
+// Delete удалить документ
+func (DocumentsController) Delete(c *gin.Context) {
+	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
+
+	docIDParam := c.Param("doc_id")
+	docID, err := strconv.ParseUint(docIDParam, 10, 64)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	docService := services.NewDocumentsService(sess.UserID)
+	err = docService.Delete(docID)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}

@@ -146,6 +146,10 @@ input:active, textarea:active {outline:none;}
   padding-bottom: 20px;
 }
 
+.toast-success {
+  background-color: mat-color($accent, 600);
+}
+
 @media (max-width: 420px) {
   .sidenav .mat-sidenav-content {
     padding-right:0px;

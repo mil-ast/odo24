@@ -62,6 +62,14 @@ export class DocumentsComponent implements OnInit, OnDestroy {
     });
   }
 
+  onDeleteDocument(doc: Document): void {
+    const index = this.documents.findIndex((docItem: Document) => docItem === doc);
+    if (index !== -1) {
+      this.documents.splice(index, 1);
+      this.formFilter.updateValueAndValidity();
+    }
+  }
+
   private filterDocuments(filter: {insurance: boolean, drivers_license: boolean}): (doc: Document) => boolean {
     return (doc: Document) => {
       switch (doc.doc_type_id) {
