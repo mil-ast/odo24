@@ -2,9 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AsideService } from '../_services/aside.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { ReplaySubject, Observable, of } from 'rxjs';
-import { startWith, catchError, switchMap, filter, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { startWith, switchMap, map, takeUntil } from 'rxjs/operators';
 import { DocumentsService, Document } from './services/documents.service';
-import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCreateDocumentComponent } from './dialogs/dialog-create-document/dialog-create-document.component';
 
@@ -23,7 +22,6 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   constructor(
     private asideService: AsideService,
     private fb: FormBuilder,
-    private toastr: ToastrService,
     private documentsService: DocumentsService,
     private dialog: MatDialog,
   ) {

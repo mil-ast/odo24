@@ -8,7 +8,9 @@
     </ng-container>
   </div>
   <div class="date_end">{{doc.date_end | date:'dd MMMM yyyy'}}</div>
-  <div *ngIf="doc.descript" class="descript">{{doc.descript}}</div>
+  <div class="descript">
+    <span *ngIf="doc.descript">{{doc.descript}}</span>
+  </div>
   <div class="menu">
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>

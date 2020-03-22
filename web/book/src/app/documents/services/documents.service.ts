@@ -46,4 +46,13 @@ export class DocumentsService {
       doc_type_id: docTypeID,
     });
   }
+
+  update(docID: number, autoID: number, dtStart: string, dtEnd: string, descript: string): Observable<void> {
+    return this.http.put<void>(`${this.baseURL}/${docID}`, {
+      auto_id: autoID ? autoID : null,
+      date_start: dtStart,
+      date_end: dtEnd,
+      descript: descript ? descript : null
+    });
+  }
 }

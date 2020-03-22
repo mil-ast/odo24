@@ -21,6 +21,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { DialogUpdateDocumentComponent } from './dialogs/dialog-update-document/dialog-update-document.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
     ItemDocumentComponent,
     DocTypeIconPipe,
     DialogCreateDocumentComponent,
+    DialogUpdateDocumentComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +55,7 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   entryComponents: [
     DialogCreateDocumentComponent,
+    DialogUpdateDocumentComponent,
   ]
 })
 export class DocumentsModule { }

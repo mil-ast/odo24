@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DocumentsService, Document } from '../services/documents.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogUpdateDocumentComponent } from '../dialogs/dialog-update-document/dialog-update-document.component';
 
 @Component({
   selector: 'app-item-document',
@@ -8,13 +10,17 @@ import { DocumentsService, Document } from '../services/documents.service';
 })
 export class ItemDocumentComponent implements OnInit {
   @Input() doc: Document;
-  constructor() { }
+  constructor(
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
   }
 
-  clickEdit() {
-
+  clickEdit(): void {
+    this.dialog.open(DialogUpdateDocumentComponent, {
+      data: this.doc,
+    });
   }
 
   clickDelete() {

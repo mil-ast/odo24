@@ -85,6 +85,7 @@ func InitHandlers(production bool) *gin.Engine {
 	{
 		docGroup.GET("/", docCtrl.GetAll)
 		docGroup.POST("/", docCtrl.Create)
+		docGroup.PUT("/:doc_id", docCtrl.Update)
 	}
 
 	return r

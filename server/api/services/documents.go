@@ -53,3 +53,13 @@ func (d DocumentsService) Create(autoID *uint64, dateStart *string, dateEnd stri
 	err := row.Scan(&docID)
 	return &docID, err
 }
+
+// Update изменение документа
+func (d DocumentsService) Update(docID uint64, autoID *uint64, dateStart *string, dateEnd string, descript *string) error {
+	conn := db.Conn()
+
+	// documents.doc_update(_doc_id bigint, _user_id bigint, _auto_id bigint, _date_start date, _date_end date, _descript character varying)
+	querySQL := `CALL documents.doc_update($1,$2,$3,$4,$5,$6);`
+	_, err := conn.Exec(querySQL, docID, d.UserID, autoID, dateStart, dateEnd, descript)
+	return err
+}

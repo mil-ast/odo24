@@ -5,6 +5,7 @@ import (
 	"odo24/server/api/constants"
 	"odo24/server/api/models"
 	"odo24/server/api/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,7 +32,7 @@ func (DocumentsController) GetAll(c *gin.Context) {
 	c.JSON(http.StatusOK, result)
 }
 
-// Create все группы пользователя
+// Create создать документ
 func (DocumentsController) Create(c *gin.Context) {
 	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
 
@@ -55,4 +56,32 @@ func (DocumentsController) Create(c *gin.Context) {
 		DocID: docID,
 	}
 	c.JSON(http.StatusCreated, res)
+}
+
+// Update изменить документ
+func (DocumentsController) Update(c *gin.Context) {
+	sess := c.MustGet(constants.BindProfile).(*models.SessionValue)
+
+	var model models.DocumentUpdateBody
+	err := c.BindJSON(&model)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	docIDParam := c.Param("doc_id")
+	docID, err := strconv.ParseUint(docIDParam, 10, 64)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	docService := services.NewDocumentsService(sess.UserID)
+	err = docService.Update(docID, model.AutoID, model.DateStart, model.DateEnd, model.Descript)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	c.Status(http.StatusNoContent)
 }

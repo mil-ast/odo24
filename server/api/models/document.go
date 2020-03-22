@@ -19,3 +19,10 @@ type DocumentCreateBody struct {
 	Descript  *string `json:"descript"`
 	DocTypeID uint16  `json:"doc_type_id" binding:"required"`
 }
+
+type DocumentUpdateBody struct {
+	AutoID    *uint64 `json:"auto_id"`
+	DateStart *string `json:"date_start"`
+	DateEnd   string  `json:"date_end" binding:"required"`
+	Descript  *string `json:"descript"`
+}
