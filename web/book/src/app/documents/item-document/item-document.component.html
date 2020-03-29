@@ -1,6 +1,18 @@
 <div class="row">
   <div class="doc_type" [ngClass]="[doc.doc_type_id | docTypeIcon]">
-    <mat-icon>{{doc.doc_type_id | docTypeIcon}}</mat-icon>
+    <ng-container [ngSwitch]="doc.doc_type_id">
+      <ng-container *ngSwitchCase="1">
+        <mat-icon>assignment_ind</mat-icon>
+        <div class="doc_name">ВУ</div>
+      </ng-container>
+      <ng-container *ngSwitchCase="2">
+        <mat-icon>verified_user</mat-icon>
+        <div class="doc_name">Страховка</div>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <mat-icon>assignment</mat-icon>
+      </ng-container>
+    </ng-container>
   </div>
   <div class="date_start">
     <ng-container *ngIf="doc.date_start; else emptyDate">

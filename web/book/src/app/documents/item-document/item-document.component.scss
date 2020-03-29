@@ -1,10 +1,11 @@
 .row {
   display: grid;
-  grid-template-columns: 60px 160px 160px 1fr 50px;
+  grid-template-columns: 90px 160px 160px 1fr 50px;
   margin: 20px 0px;
 
   .doc_type {
     position: relative;
+    text-align: center;
 
     &.assignment_ind {
       color:#b49cde;
@@ -17,6 +18,14 @@
       position: absolute;
       top: -5px;
       font-size: 2em;
+      left: 50%;
+      margin-left: -12px;
+    }
+
+    .doc_name {
+      padding-top:25px;
+      font-size:0.9em;
+      color:#777;
     }
   }
 }

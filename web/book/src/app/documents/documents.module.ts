@@ -12,7 +12,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ItemDocumentComponent } from './item-document/item-document.component';
 import { DocumentsService } from './services/documents.service';
 import { MatDividerModule } from '@angular/material/divider';
-import { DocTypeIconPipe } from './pipes/doc-type-icon.pipe';
 import { MatMenuModule } from '@angular/material/menu';
 import { DialogCreateDocumentComponent } from './dialogs/dialog-create-document/dialog-create-document.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -22,6 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { DialogUpdateDocumentComponent } from './dialogs/dialog-update-document/dialog-update-document.component';
+import { DocTypeIconPipe } from './pipes/doc-type-icon.pipe';
 
 @NgModule({
   declarations: [
