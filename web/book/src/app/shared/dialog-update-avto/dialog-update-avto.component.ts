@@ -5,14 +5,13 @@ import { AutoService } from 'src/app/_services/avto.service';
 import { Auto } from 'src/app/_classes/auto';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
-import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dialog-update-avto',
   templateUrl: './dialog-update-avto.component.html',
   styleUrls: ['./dialog-update-avto.component.css'],
-  providers: [ BluetoothCore ]
+  providers: [ ]
 })
 export class DialogUpdateAvtoComponent implements OnDestroy {
   error: any;
@@ -90,14 +89,6 @@ export class DialogUpdateAvtoComponent implements OnDestroy {
   }
 
   clickSyncODO(ev: MouseEvent) {
-    navigator.bluetooth.requestDevice({
-      acceptAllDevices: false,
-      filters: [
-        {services: [0x1802, 0x1803]},
-        {services: ['c48e6067-5295-48d3-8d5c-0395f61792b1']},
-      ]
-    }).then((e) => {
-      console.log(e);
-    });
+    
   }
 }

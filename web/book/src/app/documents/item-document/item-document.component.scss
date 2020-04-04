@@ -1,11 +1,10 @@
 .row {
   display: grid;
-  grid-template-columns: 90px 160px 160px 1fr 50px;
+  grid-template-columns: 130px 160px 160px 1fr 50px;
   margin: 20px 0px;
 
   .doc_type {
     position: relative;
-    text-align: center;
 
     &.assignment_ind {
       color:#b49cde;
@@ -16,15 +15,14 @@
 
     .mat-icon {
       position: absolute;
-      top: -5px;
+      top: -8px;
       font-size: 2em;
-      left: 50%;
+      left: 10px;
       margin-left: -12px;
     }
 
     .doc_name {
-      padding-top:25px;
-      font-size:0.9em;
+      padding-left:35px;
       color:#777;
     }
   }
