@@ -5,7 +5,7 @@ import { ReplaySubject, combineLatest } from 'rxjs';
 import { GroupService, GroupStruct } from '../_services/groups.service';
 import { ServiceService, ServiceStruct } from './services/service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil, filter } from 'rxjs/operators';
 import { DialogCreateServiceComponent } from './dialogs/dialog-create-service/dialog-create-service.component';
 import { AsideService } from '../_services/aside.service';
 import { ToastrService } from 'ngx-toastr';
@@ -57,23 +57,19 @@ export class ServicesComponent implements OnInit, OnDestroy {
       this.toastr.error('Не удалось получить список групп');
     });
 
+    this.autoService.selected.subscribe(() => console.log);
+
     combineLatest(
       this.autoService.selected,
       this.groupService.selected
     ).pipe(
+      filter(([auto, group]) => auto !== null && group !== null),
       takeUntil(this.destroy)
     ).subscribe(([auto, group]) => {
-      if (auto) {
-        this.selectedAuto = auto;
-      }
+      this.selectedAuto = auto;
+      this.selectedGroup = group;
 
-      if (group) {
-        this.selectedGroup = group;
-      }
-
-      if (auto !== null && group !== null) {
-        this.loadServices();
-      }
+      this.loadServices();
     });
   }
 
@@ -85,6 +81,9 @@ export class ServicesComponent implements OnInit, OnDestroy {
     this.selectedAuto = null;
     this.selectedGroup = null;
     this.serviceList = [];
+
+    this.autoService.setSelected(null);
+    this.groupService.setSelected(null);
 
     this.asideService.setSidenav(null);
   }

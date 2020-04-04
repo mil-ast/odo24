@@ -50,12 +50,16 @@ export class AutoService {
     return this.http.delete<void>(`${this.urlItem}/${id}/`);
   }
 
-  setSelected(auto: Auto) {
-    const selectedAuto = this.selectedAuto.getValue();
-    const selectedAutoID = selectedAuto ? selectedAuto.auto_id : null;
-    const newAutoID = auto ? auto.auto_id : null;
-    if (selectedAutoID !== newAutoID) {
-      this.selectedAuto.next(auto);
+  setSelected(auto: Auto | null) {
+    if (auto === null) {
+      this.selectedAuto.next(null);
+    } else {
+      const selectedAuto = this.selectedAuto.getValue();
+      const selectedAutoID = selectedAuto ? selectedAuto.auto_id : null;
+      const newAutoID = auto ? auto.auto_id : null;
+      if (selectedAutoID !== newAutoID) {
+        this.selectedAuto.next(auto);
+      }
     }
   }
 }

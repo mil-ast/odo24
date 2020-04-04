@@ -30,8 +30,7 @@ header {
   nav {
     grid-column: auto;
     grid-row: auto;
-    margin-top: 10px;
-    margin-left: 40px;
+    margin: 10px 0px 0px 5px;
     z-index:2;
     font-size:1.2em;
   }
@@ -52,8 +51,18 @@ header {
     grid-template-columns: auto 1fr;
     padding: 20px;
     nav {
-      margin-left: 20px;
-      margin-top: 20px;
+      margin-top: 0px;
+
+      a {
+        display: block;
+        margin-left: 0px;
+        border-bottom:none;
+        font-size: 0.9em;
+
+        &:not(:first-child) {
+          margin-top:10px;
+        }
+      }
     }
 
     #profile {

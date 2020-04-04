@@ -79,5 +79,15 @@ func InitHandlers(production bool) *gin.Engine {
 		servicesGroup.DELETE("/:service_id", serviceCtrl.Delete)
 	}
 
+	// Документы
+	docGroup := r.Group("/api/documents").Use(binders.GetSession)
+	docCtrl := handlers.NewDocumentsController()
+	{
+		docGroup.GET("/", docCtrl.GetAll)
+		docGroup.POST("/", docCtrl.Create)
+		docGroup.PUT("/:doc_id", docCtrl.Update)
+		docGroup.DELETE("/:doc_id", docCtrl.Delete)
+	}
+
 	return r
 }

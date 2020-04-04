@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="doc_type" [ngClass]="[doc.doc_type_id | docTypeIcon]">
+    <ng-container [ngSwitch]="doc.doc_type_id">
+      <ng-container *ngSwitchCase="1">
+        <mat-icon>assignment_ind</mat-icon>
+        <div class="doc_name">ВУ</div>
+      </ng-container>
+      <ng-container *ngSwitchCase="2">
+        <mat-icon>verified_user</mat-icon>
+        <div class="doc_name">Страховка</div>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <mat-icon>assignment</mat-icon>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div class="date_start">
+    <ng-container *ngIf="doc.date_start; else emptyDate">
+      {{doc.date_start | date:'dd MMMM yyyy'}}
+    </ng-container>
+  </div>
+  <div class="date_end">{{doc.date_end | date:'dd MMMM yyyy'}}</div>
+  <div class="descript">
+    <span *ngIf="doc.descript">{{doc.descript}}</span>
+  </div>
+  <div class="menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="clickEdit()">
+        <mat-icon>edit</mat-icon>
+        <span>Изменить</span>
+      </button>
+      <button mat-menu-item (click)="clickDelete()">
+        <mat-icon>delete_outline</mat-icon>
+        <span>Удалить</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<ng-template #emptyDate><span>Не указана</span></ng-template>

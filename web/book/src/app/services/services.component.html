@@ -9,38 +9,40 @@
 	</mat-sidenav>
 
 	<mat-sidenav-content>
-		<div id="title_header">
-			<div id="select_group">
-				<div>
-					<mat-form-field class="full_width">
-						<mat-label>Группа</mat-label>
-						<mat-select [value]="selectedGroup.group_id" (selectionChange)="onGroupChange($event)">
-							<mat-option *ngFor="let g of groups" [value]="g.group_id">{{g.group_name}}</mat-option>
-						</mat-select>
-					</mat-form-field>
-				</div>
-				<div>
-					<button id="group_config_btn" mat-icon-button (click)="toggleGroupConfig()">
-						<mat-icon>build</mat-icon>
-					</button>
-				</div>
-				<div>
-					<button [disabled]="!selectedAuto" mat-mini-fab color="primary" class="mat-elevation-z0" (click)="clickShowFormCreateService()">
-						<mat-icon>add</mat-icon>
-					</button>
+		<app-scroll-container>
+			<div id="title_header">
+				<div id="select_group">
+					<div>
+						<mat-form-field class="full_width">
+							<mat-label>Группа</mat-label>
+							<mat-select [value]="selectedGroup.group_id" (selectionChange)="onGroupChange($event)">
+								<mat-option *ngFor="let g of groups" [value]="g.group_id">{{g.group_name}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div>
+						<button id="group_config_btn" mat-icon-button (click)="toggleGroupConfig()">
+							<mat-icon>build</mat-icon>
+						</button>
+					</div>
+					<div>
+						<button [disabled]="!selectedAuto" mat-mini-fab color="primary" class="mat-elevation-z0" (click)="clickShowFormCreateService()">
+							<mat-icon>add</mat-icon>
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div id="list_services">
-			<app-scroll-container>
-				<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-				<ng-container *ngIf="serviceList.length > 0; else emptyServices">
-					<app-service-expiration *ngIf="lastService && lastService.next_distance" [selectedAuto]="selectedAuto" [lastService]="lastService"></app-service-expiration>
-					<app-item-service *ngFor="let service of serviceList" [model]="service" (eventOnDelete)="onDeleteService($event)"></app-item-service>
-				</ng-container>
-			</app-scroll-container>
-		</div>
+			<div id="list_services">
+				
+					<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+					<ng-container *ngIf="serviceList.length > 0; else emptyServices">
+						<app-service-expiration *ngIf="lastService && lastService.next_distance" [selectedAuto]="selectedAuto" [lastService]="lastService"></app-service-expiration>
+						<app-item-service *ngFor="let service of serviceList" [model]="service" (eventOnDelete)="onDeleteService($event)"></app-item-service>
+					</ng-container>
+				
+			</div>
+		</app-scroll-container>
 	</mat-sidenav-content>
 </mat-sidenav-container>
 
