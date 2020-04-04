@@ -22,8 +22,20 @@
 			</form>
 		</div>
 	
-		<div id="doc_list">
+		<div id="doc_list" *ngIf="(filteredDocuments$ | async).length > 0; else empty">
 			<app-item-document *ngFor="let doc of filteredDocuments$ | async" [doc]="doc" (deleteDocument)="onDeleteDocument($event)"></app-item-document>
 		</div>
 	</app-scroll-container>
 </div>
+<ng-template #empty>
+	<div id="doc_list">
+		<div><p>Документы ещё не добавлены.</p></div>
+		<div>
+			<button mat-raised-button color="primary" (click)="clickAddDocument()">
+				<mat-icon>add</mat-icon>
+				<span>Добавить</span>
+			</button>
+		</div>
+	</div>
+	
+</ng-template>
