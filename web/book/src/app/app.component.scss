@@ -51,8 +51,18 @@ header {
     grid-template-columns: auto 1fr;
     padding: 20px;
     nav {
-      margin-left: 20px;
-      margin-top: 20px;
+      margin-top: 0px;
+
+      a {
+        display: block;
+        margin-left: 0px;
+        border-bottom:none;
+        font-size: 0.9em;
+
+        &:not(:first-child) {
+          margin-top:10px;
+        }
+      }
     }
 
     #profile {

@@ -3,24 +3,25 @@
 	<h1 class="page-name">Документы</h1>
 </mat-toolbar>
 <div id="content">
-	<div id="filters">
-		<form [formGroup]="formFilter">
-			<div [class.checked]="formFilter.controls.insurance.value">
-				<mat-icon class="checkbox">verified_user</mat-icon>
-				<mat-slide-toggle formControlName="insurance">Страховки</mat-slide-toggle>
-			</div>
-			<div [class.checked]="formFilter.controls.drivers_license.value">
-				<mat-icon class="checkbox">assignment_ind</mat-icon>
-				<mat-slide-toggle formControlName="drivers_license">Водительское удостоверение</mat-slide-toggle>
-			</div>
-			<div id="add_document">
-				<button mat-mini-fab color="primary" class="mat-elevation-z0" (click)="clickAddDocument()" title="Добавить документ">
-					<mat-icon>add</mat-icon>
-				</button>
-			</div>
-		</form>
-	</div>
 	<app-scroll-container>
+		<div id="filters">
+			<form [formGroup]="formFilter">
+				<div [class.checked]="formFilter.controls.insurance.value">
+					<mat-icon class="checkbox">verified_user</mat-icon>
+					<mat-slide-toggle formControlName="insurance">Страховки</mat-slide-toggle>
+				</div>
+				<div [class.checked]="formFilter.controls.drivers_license.value">
+					<mat-icon class="checkbox">assignment_ind</mat-icon>
+					<mat-slide-toggle formControlName="drivers_license">Водительское удостоверение</mat-slide-toggle>
+				</div>
+				<div id="add_document">
+					<button mat-mini-fab color="primary" class="mat-elevation-z0" (click)="clickAddDocument()" title="Добавить документ">
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
+			</form>
+		</div>
+	
 		<div id="doc_list">
 			<app-item-document *ngFor="let doc of filteredDocuments$ | async" [doc]="doc" (deleteDocument)="onDeleteDocument($event)"></app-item-document>
 		</div>
