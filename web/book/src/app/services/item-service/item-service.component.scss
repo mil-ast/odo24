@@ -31,6 +31,12 @@
   grid-column: 4 / 5;
   grid-row: 1 / 3;
   text-align: right;
+  position: relative;
+
+  button {
+    position: relative;
+    top:-12px;
+  }
 }
 
 .price {
