@@ -55,12 +55,13 @@ func (ProfileController) OAuth(c *gin.Context) {
 
 	tokenInfo, err := sessions.NewSession(c, profile.UserID)
 	if err != nil {
+		log.Println(err)
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
 	profileService := services.NewProfileService()
-	err = profileService.CheckRefreshToken(profile.UserID, tokenInfo.RT)
+	err = profileService.SetRefreshToken(profile.UserID, tokenInfo)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
