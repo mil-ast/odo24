@@ -60,7 +60,7 @@ func (ProfileController) OAuth(c *gin.Context) {
 	}
 
 	profileService := services.NewProfileService()
-	err = profileService.SetRefreshToken(profile.UserID, tokenInfo.RT)
+	err = profileService.CheckRefreshToken(profile.UserID, tokenInfo.RT)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return

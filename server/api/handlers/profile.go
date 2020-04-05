@@ -56,8 +56,7 @@ func (ProfileController) Login(c *gin.Context) {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
-
-	err = profileService.SetRefreshToken(profile.UserID, tokenInfo.RT)
+	err = profileService.SetRefreshToken(profile.UserID, tokenInfo)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
@@ -78,14 +77,9 @@ func (ProfileController) RefreshToken(c *gin.Context) {
 	userID := c.MustGet(constants.BindUserID).(uint64)
 
 	profileService := services.NewProfileService()
-	currRt, err := profileService.GetRefreshToken(userID)
+	err := profileService.CheckRefreshToken(userID, rt)
 	if err != nil {
 		log.Println(err)
-		c.AbortWithError(http.StatusInternalServerError, err)
-		return
-	}
-
-	if currRt == nil || *currRt != rt {
 		c.AbortWithError(http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}
@@ -96,7 +90,7 @@ func (ProfileController) RefreshToken(c *gin.Context) {
 		return
 	}
 
-	err = profileService.SetRefreshToken(userID, tokenInfo.RT)
+	err = profileService.SetRefreshToken(userID, tokenInfo)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return

@@ -7,6 +7,7 @@ import (
 	"odo24/server/api/models"
 	"odo24/server/db"
 	"odo24/server/sendmail"
+	"odo24/server/sessions"
 	"odo24/server/utils"
 	"time"
 )
@@ -148,22 +149,23 @@ func (ProfileService) ResetPassword(login models.Email, password models.Password
 	return nil
 }
 
-// GetRefreshToken получить текущий рефреш токен
-func (ProfileService) GetRefreshToken(userID uint64) (*string, error) {
+// CheckRefreshToken проверка текущего рефреш токена
+func (ProfileService) CheckRefreshToken(userID uint64, rt string) error {
 	conn := db.Conn()
-	sqlQuery := "SELECT get_refresh_token rt FROM profiles.get_refresh_token($1)"
+	sqlQuery := "SELECT * FROM profiles.refresh_token_check($1,$2)"
 
-	var rt *string
-	row := conn.QueryRow(sqlQuery, userID)
-	err := row.Scan(&rt)
+	_, err := conn.Exec(sqlQuery, userID, rt)
+	if err != nil {
+		return err
+	}
 
-	return rt, err
+	return nil
 }
 
 // SetRefreshToken сохранить токен рефреша
-func (ProfileService) SetRefreshToken(userID uint64, rt string) error {
+func (ProfileService) SetRefreshToken(userID uint64, token *sessions.TokenInfo) error {
 	conn := db.Conn()
-	sqlQuery := "CALL profiles.set_refresh_token($1,$2)"
-	_, err := conn.Exec(sqlQuery, userID, rt)
+	sqlQuery := "CALL profiles.set_refresh_token($1,$2,$3)"
+	_, err := conn.Exec(sqlQuery, userID, token.RT, token.RtExpiration)
 	return err
 }
