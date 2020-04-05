@@ -57,8 +57,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
       this.toastr.error('Не удалось получить список групп');
     });
 
-    this.autoService.selected.subscribe(() => console.log);
-
     combineLatest(
       this.autoService.selected,
       this.groupService.selected
