@@ -23,6 +23,8 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: ./src/github.com/mil-ast/odo24/server
+      script:
+        - ls
 
     - name: Get dependencies
       run: |
