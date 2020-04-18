@@ -1,7 +1,7 @@
 <div id="cars">
   <div class="toolbar_title_button">
     <h1 class="mat-h1">Мои машины</h1>
-    <button title="Добавить авто" color="primary" mat-mini-fab class="mat-elevation-z0" (click)="clickShowAddAvto()">
+    <button title="Добавить авто" color="primary" mat-mini-fab class="mat-elevation-z0 btn_add" (click)="clickShowAddAvto()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -16,7 +16,10 @@
         <div>
           <div class="avto_name">{{selectedAvto?.name}}</div>
           <div class="odo" *ngIf="selectedAvto">
-            <span>Пробег <a href="/" (click)="clickEditOdo($event)" class="value">{{ selectedAvto.odo|number }} км</a></span>
+            <span>Пробег <a href="/" (click)="clickEditOdo($event)" class="value">
+              {{ selectedAvto.odo|number }} км
+              <mat-icon>edit</mat-icon>
+            </a></span>
             <button mat-icon-button [matMenuTriggerFor]="menu">
               <mat-icon>menu</mat-icon>
             </button>

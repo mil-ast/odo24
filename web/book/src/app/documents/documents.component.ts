@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { ReplaySubject, Observable, of } from 'rxjs';
 import { startWith, switchMap, map, takeUntil } from 'rxjs/operators';
 import { DocumentsService, Document } from './services/documents.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogCreateDocumentComponent } from './dialogs/dialog-create-document/dialog-create-document.component';
 
 @Component({
@@ -54,7 +54,17 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   }
 
   clickAddDocument(): void {
-    this.dialog.open(DialogCreateDocumentComponent).afterClosed().subscribe((doc: Document) => {
+    let config: MatDialogConfig = {};
+    if (this.isMobile) {
+      config = {
+        position: {
+          top: '10px',
+        },
+        maxWidth: '98vw'
+      };
+    }
+
+    this.dialog.open(DialogCreateDocumentComponent, config).afterClosed().subscribe((doc: Document) => {
       if (doc) {
         this.documents.unshift(doc);
         this.formFilter.updateValueAndValidity();

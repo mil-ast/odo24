@@ -6,8 +6,8 @@
   <span>{{model.dt | date:'dd MMMM yyyy'}}</span>
 </div>
 <div class="comment">{{model.description }}</div>
-<div class="price">
-  <div *ngIf="model.price">
+<div class="price" *ngIf="model.price">
+  <div>
     <span>{{ model.price | number }}</span>
     <span>&#8381;</span>
   </div>

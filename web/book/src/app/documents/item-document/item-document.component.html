@@ -20,7 +20,7 @@
     </ng-container>
   </div>
   <div class="date_end">{{doc.date_end | date:'dd MMMM yyyy'}}</div>
-  <div class="descript">
+  <div class="descript" *ngIf="doc.descript">
     <span *ngIf="doc.descript">{{doc.descript}}</span>
   </div>
   <div class="menu">

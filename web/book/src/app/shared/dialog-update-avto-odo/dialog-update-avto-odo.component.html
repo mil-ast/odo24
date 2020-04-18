@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Изменить пробег</h1>
 <mat-dialog-content>
   <mat-form-field class="full-width">
-    <input id="input_odo" type="number" matInput placeholder="Пробег" min="0" [(ngModel)]="odo">
+    <input id="input_odo" type="number" step="10" matInput placeholder="Пробег" min="0" [(ngModel)]="odo">
     <span matSuffix>км</span>
   </mat-form-field>
 </mat-dialog-content>

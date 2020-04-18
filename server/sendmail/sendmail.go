@@ -52,7 +52,7 @@ func SendEmail(to string, tplID uint8, params map[string]interface{}) error {
 
 	options := config.GetInstance()
 
-	client, err := email.NewClient(email.Host{
+	client, err := email.NewClient(email.Options{
 		Host:     options.SMTP.Host,
 		Port:     options.SMTP.Port,
 		Login:    options.SMTP.From,
