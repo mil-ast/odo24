@@ -24,10 +24,13 @@ jobs:
 
     - name: Get dependencies
       working-directory: ./server
-      run: |
-        go get
+      run: go get
 
     - name: Build
       working-directory: ./server
       run: go build -v .
-
+    - uses: actions/upload-artifact@v2
+      with:
+        name: server
+        path: ./server
+    
