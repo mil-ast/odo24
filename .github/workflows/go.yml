@@ -29,7 +29,9 @@ jobs:
     - name: Build
       working-directory: ./server
       run: go build -v .
-    - uses: actions/upload-artifact@v2
+
+    - name: Artifact
+      uses: actions/upload-artifact@v1
       with:
         name: server
         path: ./server
