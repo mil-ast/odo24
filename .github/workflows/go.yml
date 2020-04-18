@@ -23,7 +23,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Get dependencies
-      run: bash ls
+      run: ls
       #run: |
       #  go get
 
