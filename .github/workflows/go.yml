@@ -20,9 +20,10 @@ jobs:
     #  id: go
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v2/server
+      uses: actions/checkout@v2
 
     - name: Get dependencies
+      working-directory: ./
       run: ls
       #run: |
       #  go get
