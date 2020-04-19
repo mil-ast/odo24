@@ -36,15 +36,15 @@ jobs:
     #    name: server
     #    path: ./server
     
-    - name: Upload to prod
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        #password: ${{ secrets.PASSWORD }}
-        KEY: ${{ secrets.KEY }}
-        port: ${{ secrets.PORT }}
-        rm: true
-        source: ./server/server
-        target: "/home/pavel"
+    #- name: Upload to prod
+    #  uses: appleboy/scp-action@master
+    #  with:
+    #    host: ${{ secrets.HOST }}
+    #    username: ${{ secrets.USERNAME }}
+    #    #password: ${{ secrets.PASSWORD }}
+    #    KEY: ${{ secrets.KEY }}
+    #    port: ${{ secrets.PORT }}
+    #    rm: true
+    #    source: ./server/server
+    #    target: "/home/pavel"
     
