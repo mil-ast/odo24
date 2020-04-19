@@ -30,11 +30,11 @@ jobs:
       working-directory: ./server
       run: go build -v .
 
-    - name: Artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: server
-        path: ./server
+    #- name: Artifact
+    #  uses: actions/upload-artifact@v1
+    #  with:
+    #    name: server
+    #    path: ./server
     
     - name: Upload to prod
       uses: appleboy/scp-action@master
@@ -43,6 +43,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        source: ./server
-        target: server
+        source: ./server/server
+        target: ./server
     
