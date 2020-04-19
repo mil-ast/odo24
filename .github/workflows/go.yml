@@ -36,3 +36,12 @@ jobs:
         name: server
         path: ./server
     
+    - name: Upload to prod
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: whoami
+    
