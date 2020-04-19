@@ -44,5 +44,5 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         source: ./server/server
-        target: ./
+        target: ""
     
