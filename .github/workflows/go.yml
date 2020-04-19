@@ -39,10 +39,11 @@ jobs:
     - name: Upload to prod
       uses: appleboy/scp-action@master
       with:
+        working-directory: ./server
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        source: ./server/server
-        target: ./server
+        source: ./server
+        target: ./
     
