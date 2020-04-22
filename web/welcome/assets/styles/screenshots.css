@@ -27,19 +27,19 @@ article h1, article h2 {
 }
 
 #screen1 {
-  background-image: url("/static/images/screens/screen1.850.jpg");
+  background-image: url("/assets/images/screens/screen1.850.jpg");
 }
 
 #screen2 {
-  background-image: url("/static/images/screens/screen2.850.jpg");
+  background-image: url("/assets/images/screens/screen2.850.jpg");
 }
 
 #screen3 {
-  background-image: url("/static/images/screens/screen3.850.jpg");
+  background-image: url("/assets/images/screens/screen3.850.jpg");
 }
 
 #screen4 {
-  background-image: url("/static/images/screens/screen4.850.jpg");
+  background-image: url("/assets/images/screens/screen4.850.jpg");
 }
 
 #oauth {
@@ -71,13 +71,13 @@ article h1, article h2 {
 }
 
 #oauth .oauth-btn#oauth-yandex .icon {
-  background-image: url(/static/images/oauth/yandex.png);
+  background-image: url(/assets/images/oauth/yandex.png);
 }
 #oauth .oauth-btn#oauth-google .icon {
-  background-image: url(/static/images/oauth/google.png);
+  background-image: url(/assets/images/oauth/google.png);
 }
 #oauth .oauth-btn#oauth-mail .icon {
-  background-image: url(/static/images/oauth/mailru.png);
+  background-image: url(/assets/images/oauth/mailru.png);
 }
 
 #oauth .oauth-btn span {
@@ -92,19 +92,19 @@ article h1, article h2 {
   }
 
   #screen1 {
-    background-image: url("/static/images/screens/screen1.600.jpg");
+    background-image: url("/assets/images/screens/screen1.600.jpg");
   }
   
   #screen2 {
-    background-image: url("/static/images/screens/screen2.600.jpg");
+    background-image: url("/assets/images/screens/screen2.600.jpg");
   }
   
   #screen3 {
-    background-image: url("/static/images/screens/screen3.600.jpg");
+    background-image: url("/assets/images/screens/screen3.600.jpg");
   }
 
   #screen4 {
-    background-image: url("/static/images/screens/screen4.600.jpg");
+    background-image: url("/assets/images/screens/screen4.600.jpg");
   }
 }
 
@@ -115,19 +115,19 @@ article h1, article h2 {
   }
 
   #screen1 {
-    background-image: url("/static/images/screens/screen1.300.jpg");
+    background-image: url("/assets/images/screens/screen1.300.jpg");
   }
   
   #screen2 {
-    background-image: url("/static/images/screens/screen2.300.jpg");
+    background-image: url("/assets/images/screens/screen2.300.jpg");
   }
   
   #screen3 {
-    background-image: url("/static/images/screens/screen3.300.jpg");
+    background-image: url("/assets/images/screens/screen3.300.jpg");
   }
   
   #screen4 {
-    background-image: url("/static/images/screens/screen4.300.jpg");
+    background-image: url("/assets/images/screens/screen4.300.jpg");
   }
 }
 

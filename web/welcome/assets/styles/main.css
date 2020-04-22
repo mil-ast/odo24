@@ -154,13 +154,13 @@ footer #github {
 }
 
 footer #vk_icon {
-  background-image: url("/static/images/vk.svg");
+  background-image: url("/assets/images/vk.svg");
 }
 footer #github {
-  background-image: url("/static/images/github.svg");
+  background-image: url("/assets/images/github.svg");
 }
 footer #twitter {
-  background-image: url("/static/images/twitter.svg");
+  background-image: url("/assets/images/twitter.svg");
 }
 
 @media (max-width: 1400px) {

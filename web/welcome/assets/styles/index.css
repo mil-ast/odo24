@@ -15,10 +15,10 @@ article.gray {
 }
 
 #img_header {
-  background-image: url('/static/images/header_800.jpg');
+  background-image: url('/assets/images/header_800.jpg');
 }
 #img_about {
-  background-image: url('/static/images/about_800.jpg');
+  background-image: url('/assets/images/about_800.jpg');
 }
 
 #title, #services {
@@ -136,13 +136,13 @@ article#register > div:last-child {
 }
 
 #register .oauth-btn#oauth-yandex .icon {
-  background-image: url(/static/images/oauth/yandex.png);
+  background-image: url(/assets/images/oauth/yandex.png);
 }
 #register .oauth-btn#oauth-google .icon {
-  background-image: url(/static/images/oauth/google.png);
+  background-image: url(/assets/images/oauth/google.png);
 }
 #register .oauth-btn#oauth-mail .icon {
-  background-image: url(/static/images/oauth/mailru.png);
+  background-image: url(/assets/images/oauth/mailru.png);
 }
 
 #register .oauth-btn span {
@@ -167,10 +167,10 @@ article#register > div:last-child {
   }
 
   #img_header {
-    background-image: url('/static/images/header_500.jpg');
+    background-image: url('/assets/images/header_500.jpg');
   }
   #img_about {
-    background-image: url('/static/images/about_500.jpg');
+    background-image: url('/assets/images/about_500.jpg');
   }
 
   #title h1 {
@@ -215,10 +215,10 @@ article#register > div:last-child {
   }
 
   #img_header {
-    background-image: url('/static/images/header_300.jpg');
+    background-image: url('/assets/images/header_300.jpg');
   }
   #img_about {
-    background-image: url('/static/images/about_300.jpg');
+    background-image: url('/assets/images/about_300.jpg');
   }
 
   #img_header, #img_about {
