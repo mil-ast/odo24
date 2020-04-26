@@ -2,11 +2,12 @@ package handlers
 
 import (
 	"encoding/json"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"path/filepath"
-	"text/template"
+	"time"
 )
 
 var pages map[string]map[string]interface{}
@@ -21,6 +22,10 @@ func NewHandler() (func(w http.ResponseWriter, r *http.Request), error) {
 
 	pages = make(map[string]map[string]interface{})
 	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+
 		name := file.Name()
 		extension := filepath.Ext(name)
 		htmlName := name[0:len(name)-len(extension)] + ".html"
@@ -41,10 +46,9 @@ func NewHandler() (func(w http.ResponseWriter, r *http.Request), error) {
 		}
 	}
 
-	t, err = template.ParseGlob("./templates/*")
-	if err != nil {
-		panic(err)
-	}
+	funcMap := getCustomFunc()
+	t = template.Must(template.New("main").Funcs(funcMap).ParseGlob("./templates/*"))
+
 	return servePage, nil
 }
 
@@ -76,4 +80,13 @@ func readJSON(fileName string) (map[string]interface{}, error) {
 	err = json.Unmarshal(body, &model)
 
 	return model, err
+}
+
+func getCustomFunc() template.FuncMap {
+	return template.FuncMap{
+		"now": time.Now,
+		"unescape": func(s string) template.HTML {
+			return template.HTML(s)
+		},
+	}
 }

@@ -10,7 +10,7 @@ html,body {
 body {
   max-width: 1440px;
   margin: 40px auto;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 20px rgba(0,0,0,0.05);
   background-color: #fff;
   color:#333;
 }
