@@ -1,5 +1,6 @@
 dist
 build
+nginx
 node_modules
 *_old
 links.html
