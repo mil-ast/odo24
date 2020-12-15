@@ -18,7 +18,7 @@ const (
 )
 
 const (
-	errExpired = "expired"
+	errExpired = errors.New("expired")
 )
 
 type TokenInfo struct {
@@ -61,7 +61,7 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 
 	if !token.Verify(secretKey) {
 		DeleteSession(c)
-		return nil, errors.New(errExpired)
+		return nil, errExpired
 	}
 
 	claims := token.Claims
@@ -69,7 +69,7 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 	now := time.Now().UTC().Unix()
 	if claims.Expiration < uint64(now) {
 		DeleteSession(c)
-		return nil, errors.New(errExpired)
+		return nil, errExpired
 	}
 
 	return &claims, nil
@@ -83,7 +83,7 @@ func GetToken(c *gin.Context) (*Token, error) {
 	}
 
 	if cookie.Value == "" {
-		return nil, errors.New(errExpired)
+		return nil, errExpired
 	}
 
 	return ParseToken(cookie.Value)
