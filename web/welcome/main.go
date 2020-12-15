@@ -12,9 +12,6 @@ func main() {
 		panic(err)
 	}
 
-	fs := http.FileServer(http.Dir("./assets"))
-	http.Handle("/assets/", http.StripPrefix("/assets", fs))
-
 	http.HandleFunc("/", serverHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
