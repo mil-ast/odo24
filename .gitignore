@@ -12,3 +12,4 @@ server/config.prod.json
 *.sql
 .vscode
 __debug_bin
+vendor

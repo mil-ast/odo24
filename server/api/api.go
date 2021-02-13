@@ -24,13 +24,13 @@ func InitHandlers(production bool) *gin.Engine {
 	profileCtrl := handlers.NewProfileController()
 	{
 		profileGroup.GET("", binders.GetSession, profileCtrl.ProfileGet)
-		profileGroup.POST("/login", handlers.CheckUserAgent, profileCtrl.Login)
+		profileGroup.POST("/login", profileCtrl.Login)
 		profileGroup.GET("/oauth", binders.GetOauthParamsFromQuery, profileCtrl.OAuth)
 		profileGroup.GET("/logout", profileCtrl.Logout)
 		profileGroup.PUT("/refresh_token", binders.GetRefreshTokenFromBody, profileCtrl.RefreshToken)
-		profileGroup.POST("/register", handlers.CheckUserAgent, profileCtrl.Register)
-		profileGroup.POST("/reset_password", handlers.CheckUserAgent, profileCtrl.ResetPassword)
-		profileGroup.POST("/password_recovery", handlers.CheckUserAgent, profileCtrl.PasswordRecovery)
+		profileGroup.POST("/register", profileCtrl.Register)
+		profileGroup.POST("/reset_password", profileCtrl.ResetPassword)
+		profileGroup.POST("/password_recovery", profileCtrl.PasswordRecovery)
 		profileGroup.POST("/update_password", binders.GetSession, profileCtrl.PasswordUpdate)
 	}
 

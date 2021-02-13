@@ -2,8 +2,10 @@ package sessions
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"odo24/server/api/models"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -14,11 +16,13 @@ const (
 	// CookieTimeout время актуальности Access токена и cookie
 	CookieTimeout time.Duration = time.Minute * 30
 	// RTTimeout время жизни Refresh токена
-	RTTimeout time.Duration = time.Hour * time.Duration(24*360)
+	RTTimeout         time.Duration = time.Hour * time.Duration(24*360)
+	bearerTokenPrefix               = "Bearer"
 )
 
-const (
-	errExpired = "expired"
+var (
+	errExpired        = errors.New("expired")
+	errIncorrectToken = errors.New("incorrect token")
 )
 
 type TokenInfo struct {
@@ -46,7 +50,8 @@ func NewSession(c *gin.Context, userID uint64) (*TokenInfo, error) {
 		return nil, err
 	}
 
-	c.SetCookie(sessionID, tokenInfo.Jwt, int(RTTimeout.Seconds()), "/", "", false, true)
+	token := fmt.Sprintf("%s %s", bearerTokenPrefix, tokenInfo.Jwt)
+	c.SetCookie(sessionID, token, int(RTTimeout.Seconds()), "/", "", false, true)
 
 	return tokenInfo, nil
 }
@@ -61,7 +66,7 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 
 	if !token.Verify(secretKey) {
 		DeleteSession(c)
-		return nil, errors.New(errExpired)
+		return nil, errExpired
 	}
 
 	claims := token.Claims
@@ -69,7 +74,7 @@ func GetSession(c *gin.Context) (*models.SessionValue, error) {
 	now := time.Now().UTC().Unix()
 	if claims.Expiration < uint64(now) {
 		DeleteSession(c)
-		return nil, errors.New(errExpired)
+		return nil, errExpired
 	}
 
 	return &claims, nil
@@ -83,10 +88,15 @@ func GetToken(c *gin.Context) (*Token, error) {
 	}
 
 	if cookie.Value == "" {
-		return nil, errors.New(errExpired)
+		return nil, errExpired
 	}
 
-	return ParseToken(cookie.Value)
+	if !strings.HasPrefix(cookie.Value, bearerTokenPrefix) || len(cookie.Value) < len(bearerTokenPrefix)+1 {
+		return nil, errIncorrectToken
+	}
+
+	bearerToken := cookie.Value[len(bearerTokenPrefix)+1:]
+	return ParseToken(bearerToken)
 }
 
 // DeleteSession удаление сессии
