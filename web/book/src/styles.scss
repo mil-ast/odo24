@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 @import '~ngx-toastr/toastr';
 @import 'theme.scss';
@@ -149,7 +149,7 @@ input:active, textarea:active {outline:none;}
 }
 
 .toast-success {
-  background-color: mat.get-color-from-palette($accent, 600);
+  /* background-color: mat.get-color-from-palette($accent, 600); */
 }
 
 @media (max-width: 420px) {
