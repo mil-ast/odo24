@@ -4,7 +4,7 @@
 
 ---
 
-Стек: Golang, Postgres 11, Angular 9
+Стек: Golang, Postgres 11, Angular 13
 
 ---
 
