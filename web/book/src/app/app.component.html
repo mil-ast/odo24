@@ -10,7 +10,7 @@
     </a>
   </nav>
   <div id="profile">
-    <button mat-raised-button color="primary" [matMenuTriggerFor]="profileMenu" [routerLink]="" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">
+    <button mat-raised-button color="primary" [matMenuTriggerFor]="profileMenu" [routerLink]="[]" matBadge="1" [matBadgeHidden]="!profile.is_no_confirmed" matBadgeColor="warn">
       <mat-icon>account_circle</mat-icon>
       <span class="title">{{ profile.login }}</span>
       <mat-icon class="icon_more">more_horiz</mat-icon>
