@@ -7,6 +7,7 @@ import (
 	"odo24/server/api"
 	"odo24/server/config"
 	"odo24/server/db"
+	"odo24/server/logging"
 	"odo24/server/sendmail"
 	"odo24/server/sessions"
 	"runtime"
@@ -16,6 +17,11 @@ import (
 var VERSION string = "2.1.0"
 
 func main() {
+	// logger
+	logger := logging.GetLogger()
+	logger.Info("create router")
+	logger.Info("register user handler")
+
 	defer func() {
 		if err := recover(); err != nil {
 			log.Println(err)
